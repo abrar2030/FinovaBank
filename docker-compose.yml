@@ -1,0 +1,92 @@
+---
+services:
+  eureka-server:
+    build:
+      context: ./backend/eureka-server
+      dockerfile: Dockerfile
+    image: abrar2030/backend:eureka-server
+    container_name: eureka-server
+    ports:
+      - "8001:8001"
+    networks:
+      - fintech-network
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    image: abrar2030/backend:api-gateway
+    container_name: api-gateway
+    ports:
+      - "8002:8002"
+    depends_on:
+      - eureka-server
+      - user-service
+      - payment-service
+      - notification-service
+    networks:
+      - fintech-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
+      - JWT_SECRET=your_jwt_secret_here
+  user-service:
+    build:
+      context: ./backend/user-service
+      dockerfile: Dockerfile
+    image: abrar2030/backend:user-service
+    container_name: user-service
+    ports:
+      - "8003:8003"
+    depends_on:
+      - eureka-server
+    networks:
+      - fintech-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
+  payment-service:
+    build:
+      context: ./backend/payment-service
+      dockerfile: Dockerfile
+    image: abrar2030/backend:payment-service
+    container_name: payment-service
+    ports:
+      - "8004:8004"
+    depends_on:
+      - eureka-server
+      - user-service
+    networks:
+      - fintech-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
+      - JWT_SECRET=your_jwt_secret_here
+  notification-service:
+    build:
+      context: ./backend/notification-service
+      dockerfile: Dockerfile
+    image: abrar2030/backend:notification-service
+    container_name: notification-service
+    ports:
+      - "8005:8005"
+    depends_on:
+      - eureka-server
+    networks:
+      - fintech-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
+      - JWT_SECRET=your_jwt_secret_here
+  fintech-payment-frontend:
+    build:
+      context: ./frontend/fintech-payment-frontend
+      dockerfile: Dockerfile
+    image: abrar2030/frontend:fintech-payment-frontend
+    container_name: fintech-payment-frontend
+    ports:
+      - "3001:80" 
+    depends_on:
+      - api-gateway
+    networks:
+      - fintech-network
+    environment:
+      - REACT_APP_API_BASE_URL=http://api-gateway:8002
+networks:
+  fintech-network:
+    driver: bridge

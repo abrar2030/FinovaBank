@@ -1,0 +1,1 @@
+Sample content for /mnt/data/FinTech_Digital_Banking_Project/infrastructure/terraform/main.tf
