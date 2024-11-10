@@ -11,11 +11,11 @@ BACKEND_DIR="$PROJECT_ROOT/backend"
 FRONTEND_DIR="$PROJECT_ROOT/frontend"
 
 # Define frontend subdirectories
-FINTECH_PAYMENT_FRONTEND_DIR="$FRONTEND_DIR/fintech-payment-frontend"
+FINOVABANK_FRONTEND_DIR="$FRONTEND_DIR/finovabank-frontend"
 
 # Define backend and frontend services
-BACKEND_SERVICES=("eureka-server" "api-gateway" "user-service" "payment-service" "notification-service")
-FRONTEND_SERVICES=("frontend" "fintech-payment-frontend")
+BACKEND_SERVICES=("eureka-server" "api-gateway" "account-management" "transaction" "notification" "user-profile")
+FRONTEND_SERVICES=("frontend" "finovabank-frontend")
 
 # Function to display usage information
 usage() {
@@ -37,9 +37,9 @@ usage() {
     done
     echo ""
     echo "Examples:"
-    echo "  $0 clean user-service"
+    echo "  $0 clean user-profile"
     echo "  $0 build frontend"
-    echo "  $0 run fintech-payment-frontend"
+    echo "  $0 run finovabank-frontend"
     echo "  $0 build all"
     exit 1
 }
@@ -117,8 +117,8 @@ clean_frontend() {
     SERVICE=$1
     if [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FRONTEND_DIR"
-    elif [ "$SERVICE" == "fintech-payment-frontend" ]; then
-        SERVICE_DIR="$FINTECH_PAYMENT_FRONTEND_DIR"
+    elif [ "$SERVICE" == "finovabank-frontend" ]; then
+        SERVICE_DIR="$FINOVABANK_FRONTEND_DIR"
     else
         echo "Error: Invalid frontend service '$SERVICE'."
         exit 1
@@ -143,8 +143,8 @@ build_frontend() {
     SERVICE=$1
     if [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FRONTEND_DIR"
-    elif [ "$SERVICE" == "fintech-payment-frontend" ]; then
-        SERVICE_DIR="$FINTECH_PAYMENT_FRONTEND_DIR"
+    elif [ "$SERVICE" == "finovabank-frontend" ]; then
+        SERVICE_DIR="$FINOVABANK_FRONTEND_DIR"
     else
         echo "Error: Invalid frontend service '$SERVICE'."
         exit 1
@@ -168,8 +168,8 @@ run_frontend() {
     SERVICE=$1
     if [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FRONTEND_DIR"
-    elif [ "$SERVICE" == "fintech-payment-frontend" ]; then
-        SERVICE_DIR="$FINTECH_PAYMENT_FRONTEND_DIR"
+    elif [ "$SERVICE" == "finovabank-frontend" ]; then
+        SERVICE_DIR="$FINOVABANK_FRONTEND_DIR"
     else
         echo "Error: Invalid frontend service '$SERVICE'."
         exit 1

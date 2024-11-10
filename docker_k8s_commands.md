@@ -1,6 +1,6 @@
-# Docker and Kubernetes Commands for PayNext Services
+# Docker and Kubernetes Commands for FinovaBank Services
 
-This guide provides commands to build, tag, push Docker images, and deploy Kubernetes resources for each service in the **PayNext** project.
+This guide provides commands to build, tag, push Docker images, and deploy Kubernetes resources for each service in the **FinovaBank** project.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ This guide provides commands to build, tag, push Docker images, and deploy Kuber
 docker build -t eureka-server ./backend/eureka-server
 docker tag eureka-server abrar2030/backend:eureka-server
 docker push abrar2030/backend:eureka-server
-kubectl apply -f paynext-chart/templates/deployment-eureka-server.yaml -f paynext-chart/templates/service-eureka-server.yaml
+kubectl apply -f finovabank-chart/templates/deployment-eureka-server.yaml -f finovabank-chart/templates/service-eureka-server.yaml
 ```
 
 ### API Gateway
@@ -27,7 +27,7 @@ kubectl apply -f paynext-chart/templates/deployment-eureka-server.yaml -f paynex
 docker build -t api-gateway ./backend/api-gateway
 docker tag api-gateway abrar2030/backend:api-gateway
 docker push abrar2030/backend:api-gateway
-kubectl apply -f paynext-chart/templates/deployment-api-gateway.yaml -f paynext-chart/templates/service-api-gateway.yaml
+kubectl apply -f finovabank-chart/templates/deployment-api-gateway.yaml -f finovabank-chart/templates/service-api-gateway.yaml
 ```
 
 ### User Service
@@ -35,7 +35,7 @@ kubectl apply -f paynext-chart/templates/deployment-api-gateway.yaml -f paynext-
 docker build -t user-service ./backend/user-service
 docker tag user-service abrar2030/backend:user-service
 docker push abrar2030/backend:user-service
-kubectl apply -f paynext-chart/templates/deployment-user-service.yaml -f paynext-chart/templates/service-user-service.yaml
+kubectl apply -f finovabank-chart/templates/deployment-user-service.yaml -f finovabank-chart/templates/service-user-service.yaml
 ```
 
 ### Payment Service
@@ -43,7 +43,7 @@ kubectl apply -f paynext-chart/templates/deployment-user-service.yaml -f paynext
 docker build -t payment-service ./backend/payment-service
 docker tag payment-service abrar2030/backend:payment-service
 docker push abrar2030/backend:payment-service
-kubectl apply -f paynext-chart/templates/deployment-payment-service.yaml -f paynext-chart/templates/service-payment-service.yaml
+kubectl apply -f finovabank-chart/templates/deployment-payment-service.yaml -f finovabank-chart/templates/service-payment-service.yaml
 ```
 
 ### Notification Service
@@ -51,15 +51,15 @@ kubectl apply -f paynext-chart/templates/deployment-payment-service.yaml -f payn
 docker build -t notification-service ./backend/notification-service
 docker tag notification-service abrar2030/backend:notification-service
 docker push abrar2030/backend:notification-service
-kubectl apply -f paynext-chart/templates/deployment-notification-service.yaml -f paynext-chart/templates/service-notification-service.yaml
+kubectl apply -f finovabank-chart/templates/deployment-notification-service.yaml -f finovabank-chart/templates/service-notification-service.yaml
 ```
 
 ### Fintech Payment Frontend
 ```bash
-docker build -t fintech-payment-frontend ./frontend/fintech-payment-frontend
-docker tag fintech-payment-frontend abrar2030/frontend:fintech-payment-frontend
-docker push abrar2030/frontend:fintech-payment-frontend
-kubectl apply -f paynext-chart/templates/deployment-fintech-payment-frontend.yaml -f paynext-chart/templates/service-fintech-payment-frontend.yaml
+docker build -t finovabank-frontend ./frontend/finovabank-frontend
+docker tag finovabank-frontend abrar2030/frontend:finovabank-frontend
+docker push abrar2030/frontend:finovabank-frontend
+kubectl apply -f finovabank-chart/templates/deployment-finovabank-frontend.yaml -f finovabank-chart/templates/service-finovabank-frontend.yaml
 ```
 
 ---
@@ -72,4 +72,4 @@ kubectl apply -f paynext-chart/templates/deployment-fintech-payment-frontend.yam
 
 ## Summary
 
-Follow these commands to build, tag, and push Docker images for the **PayNext** services and deploy them to Kubernetes, facilitating easy deployment via Docker Hub and Kubernetes.
+Follow these commands to build, tag, and push Docker images for the **FinovaBank** services and deploy them to Kubernetes, facilitating easy deployment via Docker Hub and Kubernetes.

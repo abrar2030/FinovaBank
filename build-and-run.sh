@@ -8,10 +8,10 @@ PROJECT_ROOT=$(pwd)
 
 # Define backend and frontend directories
 BACKEND_DIR="$PROJECT_ROOT/backend"
-FRONTEND_DIR="$PROJECT_ROOT/frontend"
+FRONTEND_DIR="$PROJECT_ROOT/frontend/finovabank-frontend"
 
 # Define backend services
-BACKEND_SERVICES=("eureka-server" "api-gateway" "user-service" "payment-service" "notification-service")
+BACKEND_SERVICES=("eureka-server" "api-gateway" "account-management" "transaction" "notification" "user-profile")
 
 # Function to build backend services
 build_backend_services() {
@@ -74,7 +74,7 @@ build_docker_images() {
 
         if [ -d "$SERVICE_PATH" ]; then
             cd "$SERVICE_PATH"
-            docker build -t fintech/$SERVICE:1.0 .
+            docker build -t finovabank/$SERVICE:1.0 .
             echo "Docker image for $SERVICE built successfully."
             cd "$PROJECT_ROOT"
         else
@@ -90,7 +90,7 @@ build_docker_images() {
 
     if [ -d "$FRONTEND_DIR" ]; then
         cd "$FRONTEND_DIR"
-        docker build -t fintech/frontend:1.0 .
+        docker build -t finovabank/frontend:1.0 .
         echo "Docker image for frontend built successfully."
         cd "$PROJECT_ROOT"
     else

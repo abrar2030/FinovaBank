@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =====================================================
-# Docker Auto Build & Push Script
+# Docker Auto Build & Push Script for FinovaBank
 # =====================================================
 # This script automates the process of building, tagging,
 # and pushing Docker images for changed services to Docker Hub.
@@ -51,14 +51,14 @@ if ! echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --passwo
 fi
 
 # Services to build and push
-SERVICES=("eureka-server" "api-gateway" "user-service" "payment-service" "notification-service" "fintech-payment-frontend")
+SERVICES=("eureka-server" "api-gateway" "account-management" "transaction" "notification" "user-profile" "finovabank-frontend")
 
 # Iterate over each service to check for changes
 for SERVICE in "${SERVICES[@]}"
 do
     SERVICE_PATH="./backend/$SERVICE"
-    if [ "$SERVICE" == "fintech-payment-frontend" ]; then
-        SERVICE_PATH="./frontend/fintech-payment-frontend"
+    if [ "$SERVICE" == "finovabank-frontend" ]; then
+        SERVICE_PATH="./frontend/finovabank-frontend"
     fi
 
     # Check if there are any changes in the service directory
