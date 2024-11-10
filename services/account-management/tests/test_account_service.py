@@ -1,1 +1,0 @@
-Sample content for /mnt/data/FinTech_Digital_Banking_Project/services/account-management/tests/test_account_service.py

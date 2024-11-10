@@ -1,1 +1,15 @@
-Sample content for /mnt/data/FinTech_Digital_Banking_Project/services/notification/config/notification_config.yml
+spring:
+  application:
+    name: transaction-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transactiondb
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka/
