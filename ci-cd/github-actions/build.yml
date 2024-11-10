@@ -1,0 +1,60 @@
+# ci-cd/github-actions/build.yml
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Build Docker Images
+        run: |
+          docker build -t your-docker-registry/api-gateway:latest -f api-gateway/Dockerfile .
+          docker build -t your-docker-registry/account-service:latest -f account-service/Dockerfile .
+          docker build -t your-docker-registry/transaction-service:latest -f transaction-service/Dockerfile .
+          docker build -t your-docker-registry/loan-service:latest -f loan-service/Dockerfile .
+          docker build -t your-docker-registry/savings-goals-service:latest -f savings-goals-service/Dockerfile .
+          docker build -t your-docker-registry/risk-assessment-service:latest -f risk-assessment-service/Dockerfile .
+          docker build -t your-docker-registry/compliance-service:latest -f compliance-service/Dockerfile .
+          docker build -t your-docker-registry/notification-service:latest -f notification-service/Dockerfile .
+          docker build -t your-docker-registry/reporting-service:latest -f reporting-service/Dockerfile .
+
+      - name: Push Docker Images
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push your-docker-registry/api-gateway:latest
+          docker push your-docker-registry/account-service:latest
+          docker push your-docker-registry/transaction-service:latest
+          docker push your-docker-registry/loan-service:latest
+          docker push your-docker-registry/savings-goals-service:latest
+          docker push your-docker-registry/risk-assessment-service:latest
+          docker push your-docker-registry/compliance-service:latest
+          docker push your-docker-registry/notification-service:latest
+          docker push your-docker-registry/reporting-service:latest
+
+      - name: Deploy to Kubernetes
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        run: |
+          echo "$KUBE_CONFIG_DATA" | base64 --decode > ~/.kube/config
+          kubectl apply -f infrastructure/kubernetes/namespace.yaml
+          kubectl apply -f infrastructure/kubernetes/deployment.yaml
+          kubectl apply -f infrastructure/kubernetes/service.yaml

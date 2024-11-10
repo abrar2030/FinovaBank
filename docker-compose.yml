@@ -1,114 +1,185 @@
----
+version: '3.8'
+
 services:
   eureka-server:
     build:
-      context: ./backend/eureka-server
+      context: ./account-management
       dockerfile: Dockerfile
-    image: abrar2030/backend:eureka-server
+    image: abrar2030/finovabank:eureka-server
     container_name: eureka-server
     ports:
-      - "8001:8001"
+      - "8761:8761"
     networks:
-      - fintech-network
+      - finovabank-network
+    environment:
+      - EUREKA_SERVER_PORT=8761
 
   api-gateway:
     build:
-      context: ./backend/api-gateway
+      context: ./api-gateway
       dockerfile: Dockerfile
-    image: abrar2030/backend:api-gateway
+    image: abrar2030/finovabank:api-gateway
     container_name: api-gateway
     ports:
-      - "8002:8002"
+      - "8080:8080"
     depends_on:
       - eureka-server
       - account-management
-      - transaction
-      - notification
-      - user-profile
+      - transaction-service
+      - notification-service
+      - loan-management
+      - risk-assessment
+      - savings-goals
     networks:
-      - fintech-network
+      - finovabank-network
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
-      - JWT_SECRET=your_jwt_secret_here
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - API_GATEWAY_PORT=8080
 
   account-management:
     build:
-      context: ./backend/account-management
+      context: ./account-management
       dockerfile: Dockerfile
-    image: abrar2030/backend:account-management
+    image: abrar2030/finovabank:account-management
     container_name: account-management
     ports:
-      - "8003:8003"
+      - "8081:8081"
     depends_on:
       - eureka-server
     networks:
-      - fintech-network
+      - finovabank-network
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - ACCOUNT_MANAGEMENT_PORT=8081
 
-  transaction:
+  transaction-service:
     build:
-      context: ./backend/transaction
+      context: ./transaction-service
       dockerfile: Dockerfile
-    image: abrar2030/backend:transaction
-    container_name: transaction
+    image: abrar2030/finovabank:transaction-service
+    container_name: transaction-service
     ports:
-      - "8004:8004"
+      - "8082:8082"
     depends_on:
       - eureka-server
       - account-management
     networks:
-      - fintech-network
+      - finovabank-network
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
-      - JWT_SECRET=your_jwt_secret_here
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - TRANSACTION_SERVICE_PORT=8082
 
-  notification:
+  notification-service:
     build:
-      context: ./backend/notification
+      context: ./notification-service
       dockerfile: Dockerfile
-    image: abrar2030/backend:notification
-    container_name: notification
+    image: abrar2030/finovabank:notification-service
+    container_name: notification-service
     ports:
-      - "8005:8005"
+      - "8083:8083"
     depends_on:
       - eureka-server
     networks:
-      - fintech-network
+      - finovabank-network
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
-      - JWT_SECRET=your_jwt_secret_here
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - NOTIFICATION_SERVICE_PORT=8083
 
-  user-profile:
+  loan-management:
     build:
-      context: ./backend/user-profile
+      context: ./loan-management
       dockerfile: Dockerfile
-    image: abrar2030/backend:user-profile
-    container_name: user-profile
+    image: abrar2030/finovabank:loan-management
+    container_name: loan-management
     ports:
-      - "8006:8006"
+      - "8084:8084"
     depends_on:
       - eureka-server
     networks:
-      - fintech-network
+      - finovabank-network
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8001/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - LOAN_MANAGEMENT_PORT=8084
+
+  compliance:
+    build:
+      context: ./compliance
+      dockerfile: Dockerfile
+    image: abrar2030/finovabank:compliance
+    container_name: compliance-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-server
+    networks:
+      - finovabank-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - COMPLIANCE_SERVICE_PORT=8085
+
+  reporting:
+    build:
+      context: ./reporting
+      dockerfile: Dockerfile
+    image: abrar2030/finovabank:reporting
+    container_name: reporting-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - eureka-server
+    networks:
+      - finovabank-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - REPORTING_SERVICE_PORT=8086
+
+  risk-assessment:
+    build:
+      context: ./risk-assessment
+      dockerfile: Dockerfile
+    image: abrar2030/finovabank:risk-assessment
+    container_name: risk-assessment-service
+    ports:
+      - "8087:8087"
+    depends_on:
+      - eureka-server
+    networks:
+      - finovabank-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - RISK_ASSESSMENT_SERVICE_PORT=8087
+
+  savings-goals:
+    build:
+      context: ./savings-goals
+      dockerfile: Dockerfile
+    image: abrar2030/finovabank:savings-goals
+    container_name: savings-goals-service
+    ports:
+      - "8088:8088"
+    depends_on:
+      - eureka-server
+    networks:
+      - finovabank-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - SAVINGS_GOALS_SERVICE_PORT=8088
 
   finovabank-frontend:
     build:
       context: ./frontend/finovabank-frontend
       dockerfile: Dockerfile
-    image: abrar2030/frontend:finovabank-frontend
+    image: abrar2030/finovabank:frontend
     container_name: finovabank-frontend
     ports:
-      - "3001:80"
+      - "3000:80"
     depends_on:
       - api-gateway
     networks:
-      - fintech-network
+      - finovabank-network
     environment:
-      - REACT_APP_API_BASE_URL=http://api-gateway:8002
+      - REACT_APP_API_BASE_URL=http://api-gateway:8080
 
 networks:
-  fintech-network:
+  finovabank-network:
     driver: bridge

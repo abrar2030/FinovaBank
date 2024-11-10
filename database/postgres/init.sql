@@ -1,1 +1,0 @@
-Sample content for /mnt/data/FinTech_Digital_Banking_Project/database/postgres/init.sql

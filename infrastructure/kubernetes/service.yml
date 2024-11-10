@@ -1,1 +1,13 @@
-Sample content for /mnt/data/FinTech_Digital_Banking_Project/infrastructure/kubernetes/service.yml
+---
+# infrastructure/kubernetes/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: finova-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: finova
+  ports:
+    - port: 80
+      targetPort: 8080

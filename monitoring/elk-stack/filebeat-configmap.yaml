@@ -1,0 +1,14 @@
+# monitoring/elk-stack/filebeat-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: default
+data:
+  filebeat.yml: |
+    filebeat.inputs:
+      - type: container
+        paths:
+          - /var/log/containers/*.log
+    output.logstash:
+      hosts: ["logstash:5044"]

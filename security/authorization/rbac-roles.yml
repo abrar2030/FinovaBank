@@ -1,0 +1,15 @@
+# security/authorization/rbac-roles.yml
+roles:
+  - name: ROLE_ADMIN
+    permissions:
+      - ACCOUNT_MANAGEMENT
+      - TRANSACTION_MANAGEMENT
+      - LOAN_MANAGEMENT
+      - USER_MANAGEMENT
+
+  - name: ROLE_USER
+    permissions:
+      - ACCOUNT_VIEW
+      - TRANSACTION_VIEW
+      - LOAN_VIEW
+      - PROFILE_VIEW
