@@ -1,0 +1,165 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.finova</groupId>
+    <artifactId>finovabank-solution</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>FinovaBank Comprehensive Financial Solution</name>
+    <description>A multi-module Spring Boot application for FinovaBank Financial Services</description>
+
+    <modules>
+        <module>eureka-server</module>
+        <module>api-gateway</module>
+        <module>notification-service</module>
+        <module>loan-management</module>
+        <module>compliance-service</module>
+        <module>risk-assessment</module>
+        <module>reporting-service</module>
+        <module>savings-goals</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <spring.boot.version>2.6.7</spring.boot.version>
+        <spring.cloud.version>2021.0.1</spring.cloud.version>
+        <version.spotless-plugin>2.30.0</version.spotless-plugin>
+        <jjwt.version>0.9.1</jjwt.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- Dependency Management to enforce consistent versions across all modules -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Dependencies common to all modules -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+    </dependencies>
+
+    <!-- Build Plugins -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Spring Boot Maven Plugin -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Maven Surefire Plugin for Unit Testing -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                </plugin>
+
+                <!-- Spotless Plugin for Code Formatting -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>${version.spotless-plugin}</version>
+                    <configuration>
+                        <formats>
+                            <format>
+                                <includes>
+                                    <include>*.md</include>
+                                    <include>*.adoc</include>
+                                    <include>*.xml</include>
+                                    <include>*.yml</include>
+                                    <include>*.yaml</include>
+                                    <include>*.properties</include>
+                                    <include>*.json</include>
+                                    <include>.gitignore</include>
+                                </includes>
+                                <endWithNewline />
+                                <indent>
+                                    <spaces>true</spaces>
+                                    <spacesPerTab>2</spacesPerTab>
+                                </indent>
+                            </format>
+                        </formats>
+                        <java>
+                            <googleJavaFormat>
+                                <version>1.17.0</version>
+                                <style>GOOGLE</style>
+                            </googleJavaFormat>
+                        </java>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
