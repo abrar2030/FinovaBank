@@ -1,4 +1,3 @@
-# ci-cd/github-actions/build.yml
 name: Build and Deploy
 
 on:

@@ -1,7 +1,6 @@
-# security/secret-management/vault-config.yml
 vault:
   uri: http://localhost:8200
-  token: s.1234567890abcdef # Example token for Vault
+  token: s.1234567890abcdef
   secrets:
     db-username: postgres
     db-password: password

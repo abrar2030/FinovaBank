@@ -1,4 +1,3 @@
-# infrastructure/ansible/playbook.yml
 - hosts: finova_servers
   become: yes
   tasks:

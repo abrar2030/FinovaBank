@@ -1,4 +1,3 @@
-// security/authorization/RBACConfig.java
 package com.finova.security.authorization;
 
 import org.springframework.context.annotation.Configuration;

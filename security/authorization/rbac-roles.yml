@@ -1,4 +1,3 @@
-# security/authorization/rbac-roles.yml
 roles:
   - name: ROLE_ADMIN
     permissions:

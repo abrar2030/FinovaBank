@@ -1,4 +1,3 @@
-# security/authentication/oauth2-config.yml
 oauth2:
   client:
     clientId: finova-client

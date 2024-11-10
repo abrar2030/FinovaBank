@@ -1,4 +1,3 @@
-// security/secret-management/VaultConfig.java
 package com.finova.security.secretmanagement;
 
 import org.springframework.context.annotation.Configuration;

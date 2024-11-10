@@ -24,9 +24,9 @@
         <module>api-gateway</module>
         <module>notification-service</module>
         <module>loan-management</module>
-        <module>compliance-service</module>
+        <module>compliance</module>
         <module>risk-assessment</module>
-        <module>reporting-service</module>
+        <module>reporting</module>
         <module>savings-goals</module>
     </modules>
 
@@ -58,6 +58,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <!-- Other dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -75,91 +76,100 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <!-- Build Plugins -->
     <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Spring Boot Maven Plugin -->
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring.boot.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+        <plugins>
+            <!-- Spring Boot Maven Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-                <!-- Maven Surefire Plugin for Unit Testing -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
-                </plugin>
+            <!-- Maven Surefire Plugin for Unit Testing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
 
-                <!-- Spotless Plugin for Code Formatting -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                    <version>${version.spotless-plugin}</version>
-                    <configuration>
-                        <formats>
-                            <format>
-                                <includes>
-                                    <include>*.md</include>
-                                    <include>*.adoc</include>
-                                    <include>*.xml</include>
-                                    <include>*.yml</include>
-                                    <include>*.yaml</include>
-                                    <include>*.properties</include>
-                                    <include>*.json</include>
-                                    <include>.gitignore</include>
-                                </includes>
-                                <endWithNewline />
-                                <indent>
-                                    <spaces>true</spaces>
-                                    <spacesPerTab>2</spacesPerTab>
-                                </indent>
-                            </format>
-                        </formats>
-                        <java>
-                            <googleJavaFormat>
-                                <version>1.17.0</version>
-                                <style>GOOGLE</style>
-                            </googleJavaFormat>
-                        </java>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Spotless Plugin for Code Formatting -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${version.spotless-plugin}</version>
+                <extensions>true</extensions> <!-- Added this line -->
+                <configuration>
+                    <formats>
+                        <format>
+                            <includes>
+                                <include>*.md</include>
+                                <include>*.adoc</include>
+                                <include>*.xml</include>
+                                <include>*.yml</include>
+                                <include>*.yaml</include>
+                                <include>*.properties</include>
+                                <include>*.json</include>
+                                <include>.gitignore</include>
+                            </includes>
+                            <endWithNewline/>
+                            <indent>
+                                <spaces>true</spaces>
+                                <spacesPerTab>2</spacesPerTab>
+                            </indent>
+                        </format>
+                    </formats>
+                    <java>
+                        <googleJavaFormat>
+                            <version>1.17.0</version>
+                            <style>GOOGLE</style>
+                        </googleJavaFormat>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>apply</goal> <!-- Added 'apply' goal -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

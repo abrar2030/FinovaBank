@@ -1,4 +1,3 @@
-# ci-cd/scripts/deploy.sh
 #!/bin/bash
 
 # Set Docker registry

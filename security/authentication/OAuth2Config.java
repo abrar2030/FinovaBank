@@ -1,4 +1,3 @@
-// security/authentication/OAuth2Config.java
 package com.finova.security.authentication;
 
 import org.springframework.context.annotation.Bean;

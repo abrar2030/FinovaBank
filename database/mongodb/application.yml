@@ -1,5 +1,3 @@
-# Sample MongoDB connection URI for application.yml in each service
-
 spring:
   data:
     mongodb:

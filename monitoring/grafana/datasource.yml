@@ -1,4 +1,3 @@
-# monitoring/grafana/datasource.yml
 apiVersion: 1
 datasources:
   - name: Prometheus
