@@ -1,0 +1,5 @@
+com/fintech/notificationservice/service/EmailNotificationService.class
+com/fintech/notificationservice/controller/NotificationController.class
+com/fintech/notificationservice/NotificationServiceApplication.class
+com/fintech/notificationservice/model/NotificationRequest.class
+com/fintech/notificationservice/service/NotificationService.class

@@ -1,14 +1,11 @@
-# Use an official OpenJDK image as a parent image
-FROM openjdk:17-jdk-alpine
+# Use a lightweight base image with OpenJDK
+FROM openjdk:11
 
-# Set the working directory inside the container
-WORKDIR /app
+# Copy the built JAR file from the host into the Docker image
+ADD target/api-gateway-1.0.0.jar api-gateway.jar
 
-# Copy the API Gateway JAR file into the container
-COPY target/api-gateway.jar api-gateway.jar
+# Expose the Eureka Server port (default: 8761)
+EXPOSE 8002
 
-# Expose the port for the API Gateway
-EXPOSE 8080
-
-# Run the API Gateway JAR file
+# Define the entrypoint to run the Eureka Server
 ENTRYPOINT ["java", "-jar", "api-gateway.jar"]
