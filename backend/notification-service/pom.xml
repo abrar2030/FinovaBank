@@ -1,4 +1,4 @@
-<!-- notification-service/pom.xml -->
+<!-- Notification Service POM (notification-service/pom.xml) -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -8,8 +8,8 @@
 
     <!-- Inherit from the root POM -->
     <parent>
-        <groupId>com.fintech</groupId>
-        <artifactId>fintech-payment-solution</artifactId>
+        <groupId>com.finova</groupId>
+        <artifactId>finovabank-solution</artifactId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -35,17 +35,17 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <!-- Thymeleaf Dependency with Version Specified -->
+        <!-- Thymeleaf Dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
 
         <!-- Lombok (Optional) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
 
@@ -62,7 +62,21 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- MySQL Connector (if needed for persistence) -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- PostgreSQL Database (if needed for persistence) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.8</version>
+        </dependency>
     </dependencies>
 
-    <!-- Build plugins are inherited from the parent POM -->
 </project>

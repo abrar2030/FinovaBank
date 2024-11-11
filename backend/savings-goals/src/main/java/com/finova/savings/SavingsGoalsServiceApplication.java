@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SavingsGoalsServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SavingsGoalsServiceApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(SavingsGoalsServiceApplication.class, args);
+  }
 }

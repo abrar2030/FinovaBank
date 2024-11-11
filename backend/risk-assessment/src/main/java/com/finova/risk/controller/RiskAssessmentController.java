@@ -2,30 +2,28 @@ package com.finova.risk.controller;
 
 import com.finova.risk.model.RiskAssessment;
 import com.finova.risk.service.RiskAssessmentService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/risk")
 public class RiskAssessmentController {
 
-    @Autowired
-    private RiskAssessmentService riskAssessmentService;
+  @Autowired private RiskAssessmentService riskAssessmentService;
 
-    @GetMapping("/{id}")
-    public RiskAssessment getRiskAssessmentById(@PathVariable Long id) {
-        return riskAssessmentService.getRiskAssessmentById(id);
-    }
+  @GetMapping("/{id}")
+  public RiskAssessment getRiskAssessmentById(@PathVariable Long id) {
+    return riskAssessmentService.getRiskAssessmentById(id);
+  }
 
-    @GetMapping
-    public List<RiskAssessment> getAllRiskAssessments() {
-        return riskAssessmentService.getAllRiskAssessments();
-    }
+  @GetMapping
+  public List<RiskAssessment> getAllRiskAssessments() {
+    return riskAssessmentService.getAllRiskAssessments();
+  }
 
-    @PostMapping
-    public RiskAssessment createRiskAssessment(@RequestBody RiskAssessment riskAssessment) {
-        return riskAssessmentService.createRiskAssessment(riskAssessment);
-    }
+  @PostMapping
+  public RiskAssessment createRiskAssessment(@RequestBody RiskAssessment riskAssessment) {
+    return riskAssessmentService.createRiskAssessment(riskAssessment);
+  }
 }

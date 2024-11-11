@@ -1,3 +1,4 @@
+<!-- Parent POM -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -24,6 +25,8 @@
         <module>api-gateway</module>
         <module>notification-service</module>
         <module>loan-management</module>
+        <module>account-management</module>
+        <module>transaction-service</module>
         <module>compliance</module>
         <module>risk-assessment</module>
         <module>reporting</module>
@@ -127,13 +130,12 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-
             <!-- Spotless Plugin for Code Formatting -->
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>${version.spotless-plugin}</version>
-                <extensions>true</extensions> <!-- Added this line -->
+                <extensions>true</extensions>
                 <configuration>
                     <formats>
                         <format>
@@ -165,7 +167,7 @@
                     <execution>
                         <goals>
                             <goal>check</goal>
-                            <goal>apply</goal> <!-- Added 'apply' goal -->
+                            <goal>apply</goal>
                         </goals>
                     </execution>
                 </executions>
