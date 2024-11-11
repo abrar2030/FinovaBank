@@ -1,0 +1,16 @@
+---
+
+# templates/service-risk-assessment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: risk-assessment-service
+  labels:
+    app: risk-assessment-service
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8092
+      targetPort: 8092
+  selector:
+    app: risk-assessment-service

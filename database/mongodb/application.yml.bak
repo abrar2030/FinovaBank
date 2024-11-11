@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27018/accountdb
+
+# Example for other services
+# Replace the port accordingly
+# account-mongodb: 27018
+# transaction-mongodb: 27019
+# loan-mongodb: 27020
+# savings-goals-mongodb: 27021
+# risk-assessment-mongodb: 27022
+# compliance-mongodb: 27023
+# notification-mongodb: 27024
+# reporting-mongodb: 27025

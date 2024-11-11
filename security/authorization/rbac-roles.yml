@@ -1,3 +1,4 @@
+---
 roles:
   - name: ROLE_ADMIN
     permissions:
@@ -5,7 +6,6 @@ roles:
       - TRANSACTION_MANAGEMENT
       - LOAN_MANAGEMENT
       - USER_MANAGEMENT
-
   - name: ROLE_USER
     permissions:
       - ACCOUNT_VIEW

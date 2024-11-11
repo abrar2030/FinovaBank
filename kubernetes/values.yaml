@@ -1,6 +1,5 @@
 ---
 
-# values.yaml
 replicaCount: 1
 image:
   repository: abrar2030/finovabank

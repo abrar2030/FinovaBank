@@ -1,0 +1,35 @@
+- hosts: finova_servers
+  become: yes
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+    - name: Pull images
+      docker_image:
+        name: "{{ item }}"
+        source: pull
+      with_items:
+        - finova/api-gateway
+        - finova/account-service
+        - finova/transaction-service
+        - finova/loan-service
+        - finova/savings-goals-service
+        - finova/risk-assessment-service
+        - finova/compliance-service
+        - finova/notification-service
+        - finova/reporting-service
+    - name: Start services with Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: /opt/finova

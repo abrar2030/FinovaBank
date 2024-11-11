@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: risk-assessment-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/riskdb
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka/

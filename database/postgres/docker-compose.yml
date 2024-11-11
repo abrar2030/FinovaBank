@@ -1,5 +1,5 @@
+---
 version: '3.8'
-
 services:
   account-db:
     image: postgres:13
@@ -11,7 +11,6 @@ services:
       - "5433:5432"
     volumes:
       - account-data:/var/lib/postgresql/data
-
   transaction-db:
     image: postgres:13
     environment:
@@ -22,7 +21,6 @@ services:
       - "5434:5432"
     volumes:
       - transaction-data:/var/lib/postgresql/data
-
   loan-db:
     image: postgres:13
     environment:
@@ -33,7 +31,6 @@ services:
       - "5435:5432"
     volumes:
       - loan-data:/var/lib/postgresql/data
-
   savings-goals-db:
     image: postgres:13
     environment:
@@ -44,7 +41,6 @@ services:
       - "5436:5432"
     volumes:
       - savings-goals-data:/var/lib/postgresql/data
-
   risk-assessment-db:
     image: postgres:13
     environment:
@@ -55,7 +51,6 @@ services:
       - "5437:5432"
     volumes:
       - risk-assessment-data:/var/lib/postgresql/data
-
   compliance-db:
     image: postgres:13
     environment:
@@ -66,7 +61,6 @@ services:
       - "5438:5432"
     volumes:
       - compliance-data:/var/lib/postgresql/data
-
   notification-db:
     image: postgres:13
     environment:
@@ -77,7 +71,6 @@ services:
       - "5439:5432"
     volumes:
       - notification-data:/var/lib/postgresql/data
-
   reporting-db:
     image: postgres:13
     environment:
@@ -88,7 +81,6 @@ services:
       - "5440:5432"
     volumes:
       - reporting-data:/var/lib/postgresql/data
-
 volumes:
   account-data:
   transaction-data:

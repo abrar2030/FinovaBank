@@ -1,0 +1,29 @@
+---
+
+# templates/deployment-api-gateway.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    {{- include "finovabank.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: {{ .Values.image.repository }}/api-gateway:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: EUREKA_SERVER
+              value: "http://eureka-server:8761/eureka/"
+            - name: JWT_SECRET
+              value: "your_jwt_secret_here"

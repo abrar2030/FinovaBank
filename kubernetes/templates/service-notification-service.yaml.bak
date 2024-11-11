@@ -1,0 +1,16 @@
+---
+
+# templates/service-notification-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  labels:
+    app: notification-service
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8085
+      targetPort: 8085
+  selector:
+    app: notification-service

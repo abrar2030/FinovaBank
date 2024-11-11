@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'kubernetes-nodes'
+    kubernetes_sd_configs:
+      - role: node
+
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: keep
+        regex: finova
+
+  - job_name: 'finova-services'
+    static_configs:
+      - targets:
+          - api-gateway:8080
+          - account-service:8081
+          - transaction-service:8082
+          - loan-service:8083
+          - savings-goals-service:8084
+          - risk-assessment-service:8085
+          - compliance-service:8086
+          - notification-service:8087
+          - reporting-service:8088

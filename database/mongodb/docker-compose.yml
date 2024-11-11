@@ -1,5 +1,5 @@
+---
 version: '3.8'
-
 services:
   account-mongodb:
     image: mongo:4.4
@@ -13,7 +13,6 @@ services:
       - account-mongo-data:/data/db
     networks:
       - finova-network
-
   transaction-mongodb:
     image: mongo:4.4
     container_name: transaction-mongodb
@@ -26,7 +25,6 @@ services:
       - transaction-mongo-data:/data/db
     networks:
       - finova-network
-
   loan-mongodb:
     image: mongo:4.4
     container_name: loan-mongodb
@@ -39,7 +37,6 @@ services:
       - loan-mongo-data:/data/db
     networks:
       - finova-network
-
   savings-goals-mongodb:
     image: mongo:4.4
     container_name: savings-goals-mongodb
@@ -52,7 +49,6 @@ services:
       - savings-goals-mongo-data:/data/db
     networks:
       - finova-network
-
   risk-assessment-mongodb:
     image: mongo:4.4
     container_name: risk-assessment-mongodb
@@ -65,7 +61,6 @@ services:
       - risk-assessment-mongo-data:/data/db
     networks:
       - finova-network
-
   compliance-mongodb:
     image: mongo:4.4
     container_name: compliance-mongodb
@@ -78,7 +73,6 @@ services:
       - compliance-mongo-data:/data/db
     networks:
       - finova-network
-
   notification-mongodb:
     image: mongo:4.4
     container_name: notification-mongodb
@@ -91,7 +85,6 @@ services:
       - notification-mongo-data:/data/db
     networks:
       - finova-network
-
   reporting-mongodb:
     image: mongo:4.4
     container_name: reporting-mongodb
@@ -104,10 +97,8 @@ services:
       - reporting-mongo-data:/data/db
     networks:
       - finova-network
-
 networks:
   finova-network:
-
 volumes:
   account-mongo-data:
   transaction-mongo-data:

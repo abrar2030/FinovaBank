@@ -1,0 +1,16 @@
+---
+
+# templates/service-reporting.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: reporting-service
+  labels:
+    app: reporting-service
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8093
+      targetPort: 8093
+  selector:
+    app: reporting-service

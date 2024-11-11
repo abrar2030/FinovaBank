@@ -1,3 +1,4 @@
+---
 - hosts: finova_servers
   become: yes
   tasks:

@@ -1,6 +1,5 @@
 ---
 
-# templates/service-compliance.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,7 +7,7 @@ metadata:
   labels:
     app: compliance-service
 spec:
-  type: {{ .Values.service.type }}
+  type: {? {.Values.service.type: ''} : ''}
   ports:
     - port: 8091
       targetPort: 8091

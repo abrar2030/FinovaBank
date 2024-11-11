@@ -1,0 +1,16 @@
+---
+
+# templates/service-loan-management.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan-management
+  labels:
+    app: loan-management
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8090
+      targetPort: 8090
+  selector:
+    app: loan-management

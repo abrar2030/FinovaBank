@@ -1,6 +1,5 @@
 ---
 
-# templates/service-loan-management.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,7 +7,7 @@ metadata:
   labels:
     app: loan-management
 spec:
-  type: {{ .Values.service.type }}
+  type: {? {.Values.service.type: ''} : ''}
   ports:
     - port: 8090
       targetPort: 8090

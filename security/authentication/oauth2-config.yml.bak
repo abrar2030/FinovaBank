@@ -1,0 +1,9 @@
+oauth2:
+  client:
+    clientId: finova-client
+    clientSecret: finova-secret
+    accessTokenUri: http://auth-server/oauth/token
+    userAuthorizationUri: http://auth-server/oauth/authorize
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: http://auth-server/user

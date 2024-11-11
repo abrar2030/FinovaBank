@@ -1,0 +1,8 @@
+vault:
+  uri: http://localhost:8200
+  token: s.1234567890abcdef
+  secrets:
+    db-username: postgres
+    db-password: password
+    mongo-username: root
+    mongo-password: example

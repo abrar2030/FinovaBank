@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  account-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: accountdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - account-data:/var/lib/postgresql/data
+
+  transaction-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: transactiondb
+    ports:
+      - "5434:5432"
+    volumes:
+      - transaction-data:/var/lib/postgresql/data
+
+  loan-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: loandb
+    ports:
+      - "5435:5432"
+    volumes:
+      - loan-data:/var/lib/postgresql/data
+
+  savings-goals-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: savingsdb
+    ports:
+      - "5436:5432"
+    volumes:
+      - savings-goals-data:/var/lib/postgresql/data
+
+  risk-assessment-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: riskdb
+    ports:
+      - "5437:5432"
+    volumes:
+      - risk-assessment-data:/var/lib/postgresql/data
+
+  compliance-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: compliancedb
+    ports:
+      - "5438:5432"
+    volumes:
+      - compliance-data:/var/lib/postgresql/data
+
+  notification-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notificationdb
+    ports:
+      - "5439:5432"
+    volumes:
+      - notification-data:/var/lib/postgresql/data
+
+  reporting-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: reportingdb
+    ports:
+      - "5440:5432"
+    volumes:
+      - reporting-data:/var/lib/postgresql/data
+
+volumes:
+  account-data:
+  transaction-data:
+  loan-data:
+  savings-goals-data:
+  risk-assessment-data:
+  compliance-data:
+  notification-data:
+  reporting-data:
