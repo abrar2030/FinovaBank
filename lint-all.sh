@@ -207,3 +207,4 @@ cleanup_backup_files
 echo "----------------------------------------"
 echo "Linting and fixing process completed!"
 echo "----------------------------------------"
+
