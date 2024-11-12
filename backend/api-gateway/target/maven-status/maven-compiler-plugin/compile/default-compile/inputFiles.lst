@@ -1,5 +1,5 @@
-/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/fintech/apigateway/security/SecurityConfig.java
-/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/fintech/apigateway/security/JwtAuthenticationEntryPoint.java
-/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/fintech/apigateway/security/JwtAuthenticationFilter.java
-/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/fintech/apigateway/security/JwtUtil.java
+/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/finova/apigateway/security/JwtAuthenticationFilter.java
+/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/finova/apigateway/security/JwtAuthenticationEntryPoint.java
+/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/finova/apigateway/security/SecurityConfig.java
 /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/ApiGatewayApplication.java
+/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/src/main/java/com/finova/apigateway/security/JwtUtil.java

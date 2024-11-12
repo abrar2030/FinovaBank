@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>account-management-service</artifactId>
+    <artifactId>account-management</artifactId>
 
     <dependencies>
         <!-- Spring Boot Starter Web -->

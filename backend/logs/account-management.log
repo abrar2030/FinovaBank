@@ -1,0 +1,50 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-------------------< [0;36mcom.finova:account-management[0;1m >--------------------[m
+[[1;34mINFO[m] [1mBuilding account-management 1.0.0[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m>>> [0;32mspring-boot-maven-plugin:2.6.7:run[m [1m(default-cli)[0;1m > [0;1mtest-compile[m @ [36maccount-management[0;1m >>>[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.2.0:resources[m [1m(default-resources)[m @ [36maccount-management[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered properties files.
+[[1;34mINFO[m] skip non existing resourceDirectory /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/resources
+[[1;34mINFO[m] skip non existing resourceDirectory /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:compile[m [1m(default-compile)[m @ [36maccount-management[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 6 source files to /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/target/classes
+[[1;34mINFO[m] -------------------------------------------------------------
+[[1;31mERROR[m] COMPILATION ERROR : 
+[[1;34mINFO[m] -------------------------------------------------------------
+[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/AccountManagementApplication.java:[7,8] class AccountServiceApplication is public, should be declared in a file named AccountServiceApplication.java
+[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[34,38] cannot find symbol
+  symbol:   method getName()
+  location: variable account of type com.finova.account.model.Account
+[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[35,41] cannot find symbol
+  symbol:   method getBalance()
+  location: variable account of type com.finova.account.model.Account
+[[1;34mINFO[m] 3 errors 
+[[1;34mINFO[m] -------------------------------------------------------------
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  4.867 s
+[[1;34mINFO[m] Finished at: 2024-11-12T20:42:34+01:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile[m [1m(default-compile)[m on project [36maccount-management[m: [1;31mCompilation failure[m: Compilation failure: 
+[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/AccountManagementApplication.java:[7,8] class AccountServiceApplication is public, should be declared in a file named AccountServiceApplication.java
+[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[34,38] cannot find symbol
+[[1;31mERROR[m]   symbol:   method getName()
+[[1;31mERROR[m]   location: variable account of type com.finova.account.model.Account
+[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[35,41] cannot find symbol
+[[1;31mERROR[m]   symbol:   method getBalance()
+[[1;31mERROR[m]   location: variable account of type com.finova.account.model.Account
+[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

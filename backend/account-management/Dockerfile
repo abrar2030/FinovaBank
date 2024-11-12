@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-alpine
 WORKDIR /app
-COPY target/account-management-service.jar account-management-service.jar
+COPY target/account-management.jar account-management.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "account-management-service.jar"]
+ENTRYPOINT ["java", "-jar", "account-management.jar"]
