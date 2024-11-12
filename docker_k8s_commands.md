@@ -19,7 +19,7 @@ This guide provides commands to build, tag, push Docker images, and deploy Kuber
 docker build -t eureka-server ./backend/eureka-server
 docker tag eureka-server abrar2030/backend:eureka-server
 docker push abrar2030/backend:eureka-server
-kubectl apply -f finovabank-chart/templates/deployment-eureka-server.yaml -f finovabank-chart/templates/service-eureka-server.yaml
+kubectl apply -f kubernetes/templates/deployment-eureka-server.yaml -f kubernetes/templates/service-eureka-server.yaml
 ```
 
 ### API Gateway
@@ -27,7 +27,7 @@ kubectl apply -f finovabank-chart/templates/deployment-eureka-server.yaml -f fin
 docker build -t api-gateway ./backend/api-gateway
 docker tag api-gateway abrar2030/backend:api-gateway
 docker push abrar2030/backend:api-gateway
-kubectl apply -f finovabank-chart/templates/deployment-api-gateway.yaml -f finovabank-chart/templates/service-api-gateway.yaml
+kubectl apply -f kubernetes/templates/deployment-api-gateway.yaml -f kubernetes/templates/service-api-gateway.yaml
 ```
 
 ### User Service
@@ -35,7 +35,7 @@ kubectl apply -f finovabank-chart/templates/deployment-api-gateway.yaml -f finov
 docker build -t user-service ./backend/user-service
 docker tag user-service abrar2030/backend:user-service
 docker push abrar2030/backend:user-service
-kubectl apply -f finovabank-chart/templates/deployment-user-service.yaml -f finovabank-chart/templates/service-user-service.yaml
+kubectl apply -f kubernetes/templates/deployment-user-service.yaml -f kubernetes/templates/service-user-service.yaml
 ```
 
 ### Payment Service
@@ -43,7 +43,7 @@ kubectl apply -f finovabank-chart/templates/deployment-user-service.yaml -f fino
 docker build -t payment-service ./backend/payment-service
 docker tag payment-service abrar2030/backend:payment-service
 docker push abrar2030/backend:payment-service
-kubectl apply -f finovabank-chart/templates/deployment-payment-service.yaml -f finovabank-chart/templates/service-payment-service.yaml
+kubectl apply -f kubernetes/templates/deployment-payment-service.yaml -f kubernetes/templates/service-payment-service.yaml
 ```
 
 ### Notification Service
@@ -51,7 +51,7 @@ kubectl apply -f finovabank-chart/templates/deployment-payment-service.yaml -f f
 docker build -t notification-service ./backend/notification-service
 docker tag notification-service abrar2030/backend:notification-service
 docker push abrar2030/backend:notification-service
-kubectl apply -f finovabank-chart/templates/deployment-notification-service.yaml -f finovabank-chart/templates/service-notification-service.yaml
+kubectl apply -f kubernetes/templates/deployment-notification-service.yaml -f kubernetes/templates/service-notification-service.yaml
 ```
 
 ### Fintech Payment Frontend
@@ -59,7 +59,7 @@ kubectl apply -f finovabank-chart/templates/deployment-notification-service.yaml
 docker build -t finovabank-frontend ./frontend/finovabank-frontend
 docker tag finovabank-frontend abrar2030/frontend:finovabank-frontend
 docker push abrar2030/frontend:finovabank-frontend
-kubectl apply -f finovabank-chart/templates/deployment-finovabank-frontend.yaml -f finovabank-chart/templates/service-finovabank-frontend.yaml
+kubectl apply -f kubernetes/templates/deployment-finovabank-frontend.yaml -f kubernetes/templates/service-finovabank-frontend.yaml
 ```
 
 ---

@@ -62,12 +62,12 @@ fix_yaml_files() {
   echo "----------------------------------------"
 
   # Define directories to process YAML files
-  yaml_directories=("." "k8s")
+  yaml_directories=("." "kubernetes")
 
   for dir in "${yaml_directories[@]}"; do
     echo "Processing YAML files in directory: $dir"
-    # Find all YAML files in the directory and subdirectories, excluding .bak and .tmp files
-    yaml_files=$(find "$dir" -type f \( -name '*.yaml' -o -name '*.yml' \) ! -name '*.bak' ! -name '*.tmp')
+    # Find all YAML files in the directory and subdirectories, excluding .tmp files
+    yaml_files=$(find "$dir" -type f \( -name '*.yaml' -o -name '*.yml' \) ! -name '*.tmp')
 
     for file in $yaml_files; do
       echo "Processing $file"
@@ -191,13 +191,13 @@ cleanup_backup_files() {
   echo "----------------------------------------"
 
   # Define directories to clean up
-  cleanup_directories=("." "k8s")
+  cleanup_directories=("." "kubernetes")
 
   for dir in "${cleanup_directories[@]}"; do
     echo "Cleaning up in directory: $dir"
     # Find and delete all .bak and .tmp files
     find "$dir" -type f \( -name '*.bak' -o -name '*.tmp' \) -exec rm -f {} +
-    echo "Removed .bak and .tmp files in $dir"
+    echo "Removed .tmp files in $dir"
     echo "----------------------------------------"
   done
 }
@@ -207,4 +207,3 @@ cleanup_backup_files
 echo "----------------------------------------"
 echo "Linting and fixing process completed!"
 echo "----------------------------------------"
-

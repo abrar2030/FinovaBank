@@ -54,7 +54,7 @@ This directory contains Kubernetes resources for deploying the **FinovaBank** se
 
 ```sh
 git clone https://github.com/abrar2030/FinovaBank.git
-cd FinovaBank/k8s
+cd FinovaBank/kubernetes
 ```
 
 ### 2. Install Helm Chart

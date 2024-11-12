@@ -1,20 +1,30 @@
 #!/bin/bash
 
 # =====================================================
-# Docker Auto Build & Push Script for FinovaBank
+# Docker Auto Build & Push Script
 # =====================================================
 # This script automates the process of building, tagging,
-# and pushing Docker images for changed services to Docker Hub.
+# and pushing Docker images for frontend and backend services
+# to their respective Docker Hub repositories.
+#
+# Frontend Service:
+#   - Image pushed to abrar2030/frontend:latest
+#
+# Backend Services:
+#   - Images pushed to abrar2030/backend-<service>:latest
 #
 # Usage:
 #   ./docker-auto-build-push.sh
 # =====================================================
 
+# Exit immediately if a command exits with a non-zero status
+set -e
+
 # Function to display usage information
 usage() {
     echo "Usage: $0"
     echo ""
-    echo "This script detects changes, builds, tags, and pushes Docker images to Docker Hub."
+    echo "This script builds, tags, and pushes Docker images to Docker Hub for frontend and backend services."
     exit 1
 }
 
@@ -39,56 +49,66 @@ then
     exit 1
 fi
 
-# Prompt for Docker Hub credentials
-read -p "Docker Hub Username: " DOCKERHUB_USERNAME
-read -s -p "Docker Hub Password: " DOCKERHUB_PASSWORD
-echo ""
-
-# Log in to Docker Hub
-if ! echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin; then
-    echo "Error: Docker login failed. Please check your credentials."
+# Use Docker credentials from environment variables
+if [ -z "$DOCKER_USERNAME" ] || [ -z "$DOCKER_PASSWORD" ]; then
+    echo "Error: Docker credentials are not set. Please set DOCKER_USERNAME and DOCKER_PASSWORD in your environment variables."
     exit 1
 fi
 
-# Services to build and push
-SERVICES=("eureka-server" "api-gateway" "account-management" "transaction" "notification" "user-profile" "finovabank-frontend")
+# Log in to Docker Hub, suppressing only the warning message
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 2>/dev/null
+echo "Successfully logged in to Docker Hub."
 
-# Iterate over each service to check for changes
-for SERVICE in "${SERVICES[@]}"
+# Define Docker Hub repositories
+FRONTEND_REPO="$DOCKER_USERNAME/frontend"
+BACKEND_PREFIX="$DOCKER_USERNAME/backend"
+
+# Services to build and push
+BACKEND_SERVICES=("account-management" "api-gateway" "compliance" "eureka-server" "loan-management" "notification-service" "reporting" "risk-assessment" "savings-goals" "transaction-service")
+# shellcheck disable=SC2034
+FRONTEND_SERVICE="frontend"
+
+# Function to build and push a Docker image
+build_and_push() {
+    local IMAGE_NAME=$1
+    local SERVICE_PATH=$2
+
+    echo "----------------------------------------"
+    echo "Building Docker image: $IMAGE_NAME"
+    echo "Service path: $SERVICE_PATH"
+
+    # Check if service directory exists
+    if [ ! -d "$SERVICE_PATH" ]; then
+        echo "Warning: Directory $SERVICE_PATH does not exist. Skipping."
+        return
+    fi
+
+    # Build Docker image
+    echo "Building Docker image for $IMAGE_NAME..."
+    docker build -t "$IMAGE_NAME" "$SERVICE_PATH"
+    echo "Successfully built $IMAGE_NAME."
+
+    # Push Docker image to Docker Hub
+    echo "Pushing Docker image $IMAGE_NAME to Docker Hub..."
+    docker push "$IMAGE_NAME"
+    echo "Successfully pushed $IMAGE_NAME to Docker Hub."
+}
+
+# Build and push backend services
+for SERVICE in "${BACKEND_SERVICES[@]}"
 do
     SERVICE_PATH="./backend/$SERVICE"
-    if [ "$SERVICE" == "finovabank-frontend" ]; then
-        SERVICE_PATH="./frontend/finovabank-frontend"
-    fi
-
-    # Check if there are any changes in the service directory
-    if git diff --quiet HEAD -- "$SERVICE_PATH"; then
-        echo "No changes detected in $SERVICE. Skipping build and push."
-    else
-        echo "Changes detected in $SERVICE. Proceeding with build and push."
-
-        # Build Docker image
-        IMAGE_NAME="abrar2030/$SERVICE"
-        echo "Building Docker image for $SERVICE..."
-        if docker build -t "$IMAGE_NAME" "$SERVICE_PATH"; then
-            echo "Successfully built $IMAGE_NAME."
-        else
-            echo "Error: Failed to build Docker image for $SERVICE."
-            exit 1
-        fi
-
-        # Tag and push Docker image
-        echo "Tagging and pushing Docker image for $SERVICE..."
-        if docker push "$IMAGE_NAME"; then
-            echo "Successfully pushed $IMAGE_NAME to Docker Hub."
-        else
-            echo "Error: Failed to push Docker image for $SERVICE."
-            exit 1
-        fi
-    fi
+    IMAGE_NAME="$BACKEND_PREFIX-$SERVICE:latest"
+    build_and_push "$IMAGE_NAME" "$SERVICE_PATH"
 done
+
+# Build and push frontend service
+FRONTEND_PATH="./frontend"
+FRONTEND_IMAGE="$FRONTEND_REPO:latest"
+build_and_push "$FRONTEND_IMAGE" "$FRONTEND_PATH"
 
 # Logout from Docker Hub
 docker logout
+echo "Logged out from Docker Hub."
 
-echo "All done!"
+echo "All Docker images have been built and pushed successfully!"
