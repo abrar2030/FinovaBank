@@ -60,7 +60,7 @@ To get started with FinovaBank locally, follow these steps:
 
 2. **Build Docker images** for all services:
    ```sh
-   ./build-and-run.sh
+   ./docker-build-and-compose.sh
    ```
 
 3. **Start services using Docker Compose**:
