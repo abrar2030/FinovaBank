@@ -1,0 +1,6 @@
+com/finova/compliance/controller/ComplianceController.class
+com/finova/compliance/repository/ComplianceRepository.class
+com/finova/compliance/service/ComplianceService.class
+com/finova/compliance/ComplianceApplication.class
+com/finova/compliance/model/ComplianceCheck.class
+com/finova/compliance/service/impl/ComplianceServiceImpl.class

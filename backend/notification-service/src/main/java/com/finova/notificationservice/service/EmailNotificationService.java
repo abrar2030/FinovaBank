@@ -1,6 +1,6 @@
-package com.fintech.notificationservice.service;
+package com.finova.notificationservice.service;
 
-import com.fintech.notificationservice.model.NotificationRequest;
+import com.finova.notificationservice.model.NotificationRequest;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;

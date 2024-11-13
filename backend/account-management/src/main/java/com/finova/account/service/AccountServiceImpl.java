@@ -31,6 +31,7 @@ public class AccountServiceImpl implements AccountService {
   public Account updateAccount(Long id, Account account) {
     Account existingAccount = accountRepository.findById(id).orElse(null);
     if (existingAccount != null) {
+      // Use Lombok's generated methods to set name and balance
       existingAccount.setName(account.getName());
       existingAccount.setBalance(account.getBalance());
       return accountRepository.save(existingAccount);

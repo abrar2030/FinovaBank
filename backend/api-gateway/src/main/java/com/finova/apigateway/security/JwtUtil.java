@@ -1,4 +1,4 @@
-package com.fintech.apigateway.security;
+package com.finova.apigateway.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

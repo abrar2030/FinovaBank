@@ -2,7 +2,13 @@ package com.finova.account.model;
 
 import java.math.BigDecimal;
 import javax.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "account")
 public class Account {

@@ -1,0 +1,6 @@
+com/finova/risk/service/RiskAssessmentService.class
+com/finova/risk/repository/RiskAssessmentRepository.class
+com/finova/risk/model/RiskAssessment.class
+com/finova/risk/RiskAssessmentServiceApplication.class
+com/finova/risk/controller/RiskAssessmentController.class
+com/finova/risk/service/impl/RiskAssessmentServiceImpl.class

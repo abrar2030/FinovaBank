@@ -1,6 +1,6 @@
-package com.fintech.notificationservice.service;
+package com.finova.notificationservice.service;
 
-import com.fintech.notificationservice.model.NotificationRequest;
+import com.finova.notificationservice.model.NotificationRequest;
 
 public interface NotificationService {
   void sendNotification(NotificationRequest notificationRequest);

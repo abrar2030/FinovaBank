@@ -1,4 +1,4 @@
-package com.fintech.notificationservice;
+package com.finova.notificationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

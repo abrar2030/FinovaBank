@@ -1,7 +1,7 @@
-package com.fintech.notificationservice.controller;
+package com.finova.notificationservice.controller;
 
-import com.fintech.notificationservice.model.NotificationRequest;
-import com.fintech.notificationservice.service.NotificationService;
+import com.finova.notificationservice.model.NotificationRequest;
+import com.finova.notificationservice.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

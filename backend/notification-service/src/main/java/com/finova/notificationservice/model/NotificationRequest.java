@@ -1,4 +1,4 @@
-package com.fintech.notificationservice.model;
+package com.finova.notificationservice.model;
 
 import java.util.Map;
 import lombok.Data;

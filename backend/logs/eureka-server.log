@@ -38,61 +38,55 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.7)
 
-2024-11-12 20:52:48.541  INFO 10651 --- [           main] c.f.e.EurekaServerApplication            : Starting EurekaServerApplication using Java 21.0.5 on RW50 with PID 10651 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server)
-2024-11-12 20:52:48.550  INFO 10651 --- [           main] c.f.e.EurekaServerApplication            : No active profile set, falling back to 1 default profile: "default"
-2024-11-12 20:52:52.069  INFO 10651 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-11-12 20:52:52.141  INFO 10651 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 0 JPA repository interfaces.
-2024-11-12 20:52:53.191  INFO 10651 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=874114e1-42b3-3e47-99a8-faf90ccf3bbe
-2024-11-12 20:52:55.195  INFO 10651 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8001 (http)
-2024-11-12 20:52:55.228  INFO 10651 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-11-12 20:52:55.229  INFO 10651 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
-2024-11-12 20:52:55.509  INFO 10651 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-11-12 20:52:55.509  INFO 10651 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6827 ms
-2024-11-12 20:52:56.929  INFO 10651 --- [           main] c.s.j.s.i.a.WebApplicationImpl           : Initiating Jersey application, version 'Jersey: 1.19.4 05/24/2017 03:20 PM'
-2024-11-12 21:05:11.239  INFO 10142 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
-2024-11-12 21:05:11.247  INFO 10142 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
-2024-11-12 21:05:12.208  INFO 10142 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
-2024-11-12 21:05:12.208  INFO 10142 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
-2024-11-12 21:05:15.013  INFO 10142 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-11-12 21:05:16.218  INFO 10142 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-11-12 21:05:16.498  INFO 10142 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-11-12 21:05:16.953  INFO 10142 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
-2024-11-12 21:05:18.196  INFO 10142 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2024-11-12 21:05:20.793  INFO 10142 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2024-11-12 21:05:22.348  INFO 10142 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-11-12 21:05:22.397  INFO 10142 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-11-12 21:05:22.576  WARN 10142 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-11-12 21:05:24.466  WARN 10142 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: 1353980f-316a-43a8-8c1f-d3bd4fc17ace
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2024-11-12 21:05:25.135  INFO 10142 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2024-11-12 21:05:25.168  INFO 10142 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1147ab09, org.springframework.security.web.context.SecurityContextPersistenceFilter@25865fca, org.springframework.security.web.header.HeaderWriterFilter@5f67ff3e, org.springframework.web.filter.CorsFilter@503b5337, org.springframework.security.web.csrf.CsrfFilter@45b37003, org.springframework.security.web.authentication.logout.LogoutFilter@3a4d0ca2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6dae5562, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@2ecb87b2, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@265361a, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@67d6bb59, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c11ec9b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@fd8513b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@136480b, org.springframework.security.web.session.SessionManagementFilter@4ac1544f, org.springframework.security.web.access.ExceptionTranslationFilter@cbd9494, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@57d8d8e2]
-2024-11-12 21:05:25.853  INFO 10142 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
-2024-11-12 21:05:26.069  WARN 10142 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2024-11-12 21:05:26.176  INFO 10142 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2024-11-12 21:05:26.416  INFO 10142 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2024-11-12 21:05:26.416  INFO 10142 --- [           main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
-2024-11-12 21:05:26.475  INFO 10142 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731441926474 with initial instances count: 0
-2024-11-12 21:05:26.673  INFO 10142 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
-2024-11-12 21:05:26.680  WARN 10142 --- [           main] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2024-11-12 21:05:26.855  INFO 10142 --- [           main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
-2024-11-12 21:05:26.857  INFO 10142 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initialized
-2024-11-12 21:05:26.907  INFO 10142 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EUREKA-SERVER with eureka with status UP
-2024-11-12 21:05:26.912  INFO 10142 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..
-2024-11-12 21:05:26.922  WARN 10142 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8001 is already in use
-2024-11-12 21:05:26.923  INFO 10142 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Shutting down ...
-2024-11-12 21:05:26.944  INFO 10142 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
-2024-11-12 21:05:26.948  INFO 10142 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
-2024-11-12 21:05:26.948  INFO 10142 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
-2024-11-12 21:05:26.949  INFO 10142 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
-2024-11-12 21:05:26.950  INFO 10142 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
-2024-11-12 21:05:26.954  INFO 10142 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Shut down
-2024-11-12 21:05:26.967  INFO 10142 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-11-12 21:05:26.968  INFO 10142 --- [           main] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
-2024-11-12 21:05:26.968 ERROR 10142 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Cannot bootstrap eureka server :
+2024-11-13 02:04:44.513  INFO 6749 --- [           main] c.f.e.EurekaServerApplication            : Starting EurekaServerApplication using Java 21.0.5 on RW50 with PID 6749 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server)
+2024-11-13 02:04:44.523  INFO 6749 --- [           main] c.f.e.EurekaServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-13 02:04:49.352  INFO 6749 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-13 02:04:49.443  INFO 6749 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 0 JPA repository interfaces.
+2024-11-13 02:04:51.622  INFO 6749 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=874114e1-42b3-3e47-99a8-faf90ccf3bbe
+2024-11-13 02:04:54.038  INFO 6749 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8001 (http)
+2024-11-13 02:04:54.082  INFO 6749 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-13 02:04:54.083  INFO 6749 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2024-11-13 02:04:54.387  INFO 6749 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-13 02:04:54.388  INFO 6749 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 9629 ms
+2024-11-13 02:04:56.005  INFO 6749 --- [           main] c.s.j.s.i.a.WebApplicationImpl           : Initiating Jersey application, version 'Jersey: 1.19.4 05/24/2017 03:20 PM'
+2024-11-13 02:04:56.567  INFO 6749 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2024-11-13 02:04:56.572  INFO 6749 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2024-11-13 02:04:57.428  INFO 6749 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2024-11-13 02:04:57.429  INFO 6749 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2024-11-13 02:04:59.733  INFO 6749 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-13 02:05:00.764  INFO 6749 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-13 02:05:00.975  INFO 6749 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-13 02:05:01.375  INFO 6749 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2024-11-13 02:05:02.537  INFO 6749 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-11-13 02:05:03.692  INFO 6749 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-11-13 02:05:05.446  INFO 6749 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-11-13 02:05:05.528  INFO 6749 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-13 02:05:05.759  WARN 6749 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-13 02:05:08.248  INFO 6749 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2024-11-13 02:05:08.505  WARN 6749 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-11-13 02:05:08.625  INFO 6749 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2024-11-13 02:05:08.843  INFO 6749 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2024-11-13 02:05:08.843  INFO 6749 --- [           main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
+2024-11-13 02:05:08.901  INFO 6749 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731459908900 with initial instances count: 0
+2024-11-13 02:05:09.107  INFO 6749 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
+2024-11-13 02:05:09.115  WARN 6749 --- [           main] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2024-11-13 02:05:09.293  INFO 6749 --- [           main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
+2024-11-13 02:05:09.296  INFO 6749 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initialized
+2024-11-13 02:05:09.315  INFO 6749 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-11-13 02:05:09.368  INFO 6749 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EUREKA-SERVER with eureka with status UP
+2024-11-13 02:05:09.373  INFO 6749 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..
+2024-11-13 02:05:09.387  WARN 6749 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8001 is already in use
+2024-11-13 02:05:09.388  INFO 6749 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Shutting down ...
+2024-11-13 02:05:09.418  INFO 6749 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
+2024-11-13 02:05:09.421  INFO 6749 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Shut down
+2024-11-13 02:05:09.422  INFO 6749 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
+2024-11-13 02:05:09.422  INFO 6749 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
+2024-11-13 02:05:09.422  INFO 6749 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
+2024-11-13 02:05:09.423  INFO 6749 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2024-11-13 02:05:09.431  INFO 6749 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-13 02:05:09.432  INFO 6749 --- [           main] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2024-11-13 02:05:09.441  INFO 6749 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-13 02:05:09.441 ERROR 6749 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Cannot bootstrap eureka server :
 
 java.lang.IllegalStateException: Timer already cancelled.
 	at java.base/java.util.Timer.sched(Timer.java:409) ~[na:na]
@@ -105,7 +99,7 @@ java.lang.IllegalStateException: Timer already cancelled.
 	at org.springframework.cloud.netflix.eureka.server.EurekaServerInitializerConfiguration.lambda$start$0(EurekaServerInitializerConfiguration.java:68) ~[spring-cloud-netflix-eureka-server-3.1.1.jar:3.1.1]
 	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
 
-2024-11-12 21:05:26.969 ERROR 10142 --- [       Thread-9] e.s.EurekaServerInitializerConfiguration : Could not initialize Eureka servlet context
+2024-11-13 02:05:09.442 ERROR 6749 --- [       Thread-9] e.s.EurekaServerInitializerConfiguration : Could not initialize Eureka servlet context
 
 java.lang.RuntimeException: Cannot bootstrap eureka server :
 	at org.springframework.cloud.netflix.eureka.server.EurekaServerBootstrap.contextInitialized(EurekaServerBootstrap.java:77) ~[spring-cloud-netflix-eureka-server-3.1.1.jar:3.1.1]
@@ -121,7 +115,37 @@ Caused by: java.lang.IllegalStateException: Timer already cancelled.
 	at org.springframework.cloud.netflix.eureka.server.EurekaServerBootstrap.contextInitialized(EurekaServerBootstrap.java:71) ~[spring-cloud-netflix-eureka-server-3.1.1.jar:3.1.1]
 	... 2 common frames omitted
 
-2024-11-12 21:05:26.975  INFO 10142 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2024-11-12 21:05:26.978  INFO 10142 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2024-11-12 21:05:26.981  INFO 10142 --- [           main] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2024-11-12 21:05:26.982  INFO 10142 --- [           main] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2024-11-13 02:05:09.444  INFO 6749 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-13 02:05:09.446  INFO 6749 --- [           main] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2024-11-13 02:05:09.447  INFO 6749 --- [           main] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2024-11-13 02:05:09.450  INFO 6749 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-11-13 02:05:09.474  INFO 6749 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-11-13 02:05:09.610 ERROR 6749 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8001 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8001 or configure this application to listen on another port.
+
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  35.900 s
+[[1;34mINFO[m] Finished at: 2024-11-13T02:05:09+01:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.springframework.boot:spring-boot-maven-plugin:2.6.7:run[m [1m(default-cli)[m on project [36meureka-server[m: [1;31mApplication finished with exit code: 1[m -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

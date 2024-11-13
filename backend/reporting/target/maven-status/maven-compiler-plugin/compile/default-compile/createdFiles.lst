@@ -1,0 +1,6 @@
+com/finova/reporting/model/Report.class
+com/finova/reporting/service/ReportService.class
+com/finova/reporting/ReportingApplication.class
+com/finova/reporting/controller/ReportController.class
+com/finova/reporting/repository/ReportRepository.class
+com/finova/reporting/service/impl/ReportServiceImpl.class

@@ -1,4 +1,4 @@
-package com.fintech.apigateway.security;
+package com.finova.apigateway.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

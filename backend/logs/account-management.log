@@ -15,36 +15,73 @@
 [[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:compile[m [1m(default-compile)[m @ [36maccount-management[0;1m ---[m
 [[1;34mINFO[m] Changes detected - recompiling the module!
 [[1;34mINFO[m] Compiling 6 source files to /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/target/classes
-[[1;34mINFO[m] -------------------------------------------------------------
-[[1;31mERROR[m] COMPILATION ERROR : 
-[[1;34mINFO[m] -------------------------------------------------------------
-[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/AccountManagementApplication.java:[7,8] class AccountServiceApplication is public, should be declared in a file named AccountServiceApplication.java
-[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[34,38] cannot find symbol
-  symbol:   method getName()
-  location: variable account of type com.finova.account.model.Account
-[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[35,41] cannot find symbol
-  symbol:   method getBalance()
-  location: variable account of type com.finova.account.model.Account
-[[1;34mINFO[m] 3 errors 
-[[1;34mINFO[m] -------------------------------------------------------------
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.2.0:testResources[m [1m(default-testResources)[m @ [36maccount-management[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered properties files.
+[[1;34mINFO[m] skip non existing resourceDirectory /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.8.1:testCompile[m [1m(default-testCompile)[m @ [36maccount-management[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m<<< [0;32mspring-boot-maven-plugin:2.6.7:run[m [1m(default-cli)[0;1m < [0;1mtest-compile[m @ [36maccount-management[0;1m <<<[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:2.6.7:run[m [1m(default-cli)[m @ [36maccount-management[0;1m ---[m
+[[1;34mINFO[m] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.6.7)
+
+2024-11-13 02:04:56.440  INFO 6929 --- [           main] c.f.a.AccountManagementApplication       : Starting AccountManagementApplication using Java 21.0.5 on RW50 with PID 6929 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management)
+2024-11-13 02:04:56.449  INFO 6929 --- [           main] c.f.a.AccountManagementApplication       : No active profile set, falling back to 1 default profile: "default"
+2024-11-13 02:05:00.454  INFO 6929 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-13 02:05:01.577  INFO 6929 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1086 ms. Found 1 JPA repository interfaces.
+2024-11-13 02:05:02.752  INFO 6929 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=0f3d2c96-dbd7-3cf3-a881-84f1bc7ccb33
+2024-11-13 02:05:04.702  INFO 6929 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8003 (http)
+2024-11-13 02:05:04.734  INFO 6929 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-13 02:05:04.734  INFO 6929 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2024-11-13 02:05:04.983  INFO 6929 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-13 02:05:04.984  INFO 6929 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8372 ms
+2024-11-13 02:05:05.800  WARN 6929 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
+2024-11-13 02:05:05.806  INFO 6929 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-11-13 02:05:05.871  INFO 6929 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-11-13 02:05:05.996 ERROR 6929 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
 [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
 [[1;34mINFO[m] [1;31mBUILD FAILURE[m
 [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-[[1;34mINFO[m] Total time:  4.867 s
-[[1;34mINFO[m] Finished at: 2024-11-12T20:42:34+01:00
+[[1;34mINFO[m] Total time:  22.311 s
+[[1;34mINFO[m] Finished at: 2024-11-13T02:05:06+01:00
 [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile[m [1m(default-compile)[m on project [36maccount-management[m: [1;31mCompilation failure[m: Compilation failure: 
-[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/AccountManagementApplication.java:[7,8] class AccountServiceApplication is public, should be declared in a file named AccountServiceApplication.java
-[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[34,38] cannot find symbol
-[[1;31mERROR[m]   symbol:   method getName()
-[[1;31mERROR[m]   location: variable account of type com.finova.account.model.Account
-[[1;31mERROR[m] /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/account-management/src/main/java/com/finova/account/service/AccountServiceImpl.java:[35,41] cannot find symbol
-[[1;31mERROR[m]   symbol:   method getBalance()
-[[1;31mERROR[m]   location: variable account of type com.finova.account.model.Account
-[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] Failed to execute goal [32morg.springframework.boot:spring-boot-maven-plugin:2.6.7:run[m [1m(default-cli)[m on project [36maccount-management[m: [1;31mApplication finished with exit code: 1[m -> [1m[Help 1][m
 [[1;31mERROR[m] 
 [[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
 [[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
 [[1;31mERROR[m] 
 [[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
-[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

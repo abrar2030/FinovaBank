@@ -2,7 +2,13 @@ package com.finova.reporting.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "report")
 public class Report {

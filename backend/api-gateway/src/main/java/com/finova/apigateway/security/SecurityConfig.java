@@ -1,4 +1,4 @@
-package com.fintech.apigateway.security;
+package com.finova.apigateway.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
