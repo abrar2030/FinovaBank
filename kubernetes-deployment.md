@@ -44,7 +44,7 @@ The script supports deploying the following services:
 - `transaction`
 - `notification`
 - `user-profile`
-- `finovabank-frontend`
+- `frontend`
 
 Each service has corresponding Kubernetes deployment and service YAML files located in the `kubernetes/templates/` directory.
 

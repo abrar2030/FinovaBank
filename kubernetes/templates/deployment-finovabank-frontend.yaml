@@ -1,25 +1,25 @@
 ---
 
-# templates/deployment-finovabank-frontend.yaml
+# templates/deployment-frontend.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: finovabank-frontend
+  name: frontend
   labels:
     {{- include "finovabank.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: finovabank-frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: finovabank-frontend
+        app: frontend
     spec:
       containers:
-        - name: finovabank-frontend
-          image: {{ .Values.image.repository }}/finovabank-frontend:{{ .Values.image.tag }}
+        - name: frontend
+          image: {{ .Values.image.repository }}/frontend:{{ .Values.image.tag }}
           ports:
             - containerPort: 80
           env:

@@ -11,11 +11,22 @@ BACKEND_DIR="$PROJECT_ROOT/backend"
 FRONTEND_DIR="$PROJECT_ROOT/frontend"
 
 # Define frontend subdirectories
-FINOVABANK_FRONTEND_DIR="$FRONTEND_DIR/finovabank-frontend"
+FINOVABANK_FRONTEND_DIR="$FRONTEND_DIR/frontend"
 
 # Define backend and frontend services
-BACKEND_SERVICES=("eureka-server" "api-gateway" "account-management" "transaction" "notification" "user-profile")
-FRONTEND_SERVICES=("frontend" "finovabank-frontend")
+BACKEND_SERVICES=(
+    "eureka-server"
+    "api-gateway"
+    "account-management"
+    "compliance"
+    "loan-management"
+    "notification-service"
+    "reporting"
+    "risk-assessment"
+    "savings-goals"
+    "transaction-service"
+)
+FRONTEND_SERVICES=("frontend" "frontend")
 
 # Function to display usage information
 usage() {
@@ -39,7 +50,7 @@ usage() {
     echo "Examples:"
     echo "  $0 clean user-profile"
     echo "  $0 build frontend"
-    echo "  $0 run finovabank-frontend"
+    echo "  $0 run frontend"
     echo "  $0 build all"
     exit 1
 }
@@ -117,7 +128,7 @@ clean_frontend() {
     SERVICE=$1
     if [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FRONTEND_DIR"
-    elif [ "$SERVICE" == "finovabank-frontend" ]; then
+    elif [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FINOVABANK_FRONTEND_DIR"
     else
         echo "Error: Invalid frontend service '$SERVICE'."
@@ -143,7 +154,7 @@ build_frontend() {
     SERVICE=$1
     if [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FRONTEND_DIR"
-    elif [ "$SERVICE" == "finovabank-frontend" ]; then
+    elif [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FINOVABANK_FRONTEND_DIR"
     else
         echo "Error: Invalid frontend service '$SERVICE'."
@@ -168,7 +179,7 @@ run_frontend() {
     SERVICE=$1
     if [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FRONTEND_DIR"
-    elif [ "$SERVICE" == "finovabank-frontend" ]; then
+    elif [ "$SERVICE" == "frontend" ]; then
         SERVICE_DIR="$FINOVABANK_FRONTEND_DIR"
     else
         echo "Error: Invalid frontend service '$SERVICE'."

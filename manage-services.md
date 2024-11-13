@@ -17,19 +17,44 @@ cd FinovaBank && ./manage-services.sh clean api-gateway
 cd FinovaBank && ./manage-services.sh clean account-management
 ```
 
-### Clean a Specific Backend Service (`transaction`)
+### Clean a Specific Backend Service (`compliance`)
 ```bash
-cd FinovaBank && ./manage-services.sh clean transaction
+cd FinovaBank && ./manage-services.sh clean compliance
 ```
 
-### Clean a Specific Backend Service (`notification`)
+### Clean a Specific Backend Service (`loan-management`)
 ```bash
-cd FinovaBank && ./manage-services.sh clean notification
+cd FinovaBank && ./manage-services.sh clean loan-management
 ```
 
-### Clean a Specific Frontend Service (`finovabank-frontend`)
+### Clean a Specific Backend Service (`notification-service`)
 ```bash
-cd FinovaBank && ./manage-services.sh clean finovabank-frontend
+cd FinovaBank && ./manage-services.sh clean notification-service
+```
+
+### Clean a Specific Backend Service (`reporting`)
+```bash
+cd FinovaBank && ./manage-services.sh clean reporting
+```
+
+### Clean a Specific Backend Service (`risk-assessment`)
+```bash
+cd FinovaBank && ./manage-services.sh clean risk-assessment
+```
+
+### Clean a Specific Backend Service (`savings-goals`)
+```bash
+cd FinovaBank && ./manage-services.sh clean savings-goals
+```
+
+### Clean a Specific Backend Service (`transaction-service`)
+```bash
+cd FinovaBank && ./manage-services.sh clean transaction-service
+```
+
+### Clean a Specific Frontend Service (`frontend`)
+```bash
+cd FinovaBank && ./manage-services.sh clean frontend
 ```
 
 ### Clean All Backend and Frontend Services
@@ -56,19 +81,44 @@ cd FinovaBank && ./manage-services.sh build api-gateway
 cd FinovaBank && ./manage-services.sh build account-management
 ```
 
-### Build a Specific Backend Service (`transaction`)
+### Build a Specific Backend Service (`compliance`)
 ```bash
-cd FinovaBank && ./manage-services.sh build transaction
+cd FinovaBank && ./manage-services.sh build compliance
 ```
 
-### Build a Specific Backend Service (`notification`)
+### Build a Specific Backend Service (`loan-management`)
 ```bash
-cd FinovaBank && ./manage-services.sh build notification
+cd FinovaBank && ./manage-services.sh build loan-management
 ```
 
-### Build a Specific Frontend Service (`finovabank-frontend`)
+### Build a Specific Backend Service (`notification-service`)
 ```bash
-cd FinovaBank && ./manage-services.sh build finovabank-frontend
+cd FinovaBank && ./manage-services.sh build notification-service
+```
+
+### Build a Specific Backend Service (`reporting`)
+```bash
+cd FinovaBank && ./manage-services.sh build reporting
+```
+
+### Build a Specific Backend Service (`risk-assessment`)
+```bash
+cd FinovaBank && ./manage-services.sh build risk-assessment
+```
+
+### Build a Specific Backend Service (`savings-goals`)
+```bash
+cd FinovaBank && ./manage-services.sh build savings-goals
+```
+
+### Build a Specific Backend Service (`transaction-service`)
+```bash
+cd FinovaBank && ./manage-services.sh build transaction-service
+```
+
+### Build a Specific Frontend Service (`frontend`)
+```bash
+cd FinovaBank && ./manage-services.sh build frontend
 ```
 
 ### Build All Backend and Frontend Services
@@ -95,19 +145,44 @@ cd FinovaBank && ./manage-services.sh run api-gateway
 cd FinovaBank && ./manage-services.sh run account-management
 ```
 
-### Run a Specific Backend Service (`transaction`)
+### Run a Specific Backend Service (`compliance`)
 ```bash
-cd FinovaBank && ./manage-services.sh run transaction
+cd FinovaBank && ./manage-services.sh run compliance
 ```
 
-### Run a Specific Backend Service (`notification`)
+### Run a Specific Backend Service (`loan-management`)
 ```bash
-cd FinovaBank && ./manage-services.sh run notification
+cd FinovaBank && ./manage-services.sh run loan-management
 ```
 
-### Run a Specific Frontend Service (`finovabank-frontend`)
+### Run a Specific Backend Service (`notification-service`)
 ```bash
-cd FinovaBank && ./manage-services.sh run finovabank-frontend
+cd FinovaBank && ./manage-services.sh run notification-service
+```
+
+### Run a Specific Backend Service (`reporting`)
+```bash
+cd FinovaBank && ./manage-services.sh run reporting
+```
+
+### Run a Specific Backend Service (`risk-assessment`)
+```bash
+cd FinovaBank && ./manage-services.sh run risk-assessment
+```
+
+### Run a Specific Backend Service (`savings-goals`)
+```bash
+cd FinovaBank && ./manage-services.sh run savings-goals
+```
+
+### Run a Specific Backend Service (`transaction-service`)
+```bash
+cd FinovaBank && ./manage-services.sh run transaction-service
+```
+
+### Run a Specific Frontend Service (`frontend`)
+```bash
+cd FinovaBank && ./manage-services.sh run frontend
 ```
 
 ### Run All Backend and Frontend Services
@@ -149,25 +224,60 @@ cd FinovaBank && ./manage-services.sh build account-management
 cd FinovaBank && ./manage-services.sh run account-management
 ```
 
-### Clean, Build, and Run the `transaction` Backend
+### Clean, Build, and Run the `compliance` Backend
 ```bash
-cd FinovaBank && ./manage-services.sh clean transaction
-cd FinovaBank && ./manage-services.sh build transaction
-cd FinovaBank && ./manage-services.sh run transaction
+cd FinovaBank && ./manage-services.sh clean compliance
+cd FinovaBank && ./manage-services.sh build compliance
+cd FinovaBank && ./manage-services.sh run compliance
 ```
 
-### Clean, Build, and Run the `notification` Backend
+### Clean, Build, and Run the `loan-management` Backend
 ```bash
-cd FinovaBank && ./manage-services.sh clean notification
-cd FinovaBank && ./manage-services.sh build notification
-cd FinovaBank && ./manage-services.sh run notification
+cd FinovaBank && ./manage-services.sh clean loan-management
+cd FinovaBank && ./manage-services.sh build loan-management
+cd FinovaBank && ./manage-services.sh run loan-management
 ```
 
-### Clean, Build, and Run the `finovabank-frontend`
+### Clean, Build, and Run the `notification-service` Backend
 ```bash
-cd FinovaBank && ./manage-services.sh clean finovabank-frontend
-cd FinovaBank && ./manage-services.sh build finovabank-frontend
-cd FinovaBank && ./manage-services.sh run finovabank-frontend
+cd FinovaBank && ./manage-services.sh clean notification-service
+cd FinovaBank && ./manage-services.sh build notification-service
+cd FinovaBank && ./manage-services.sh run notification-service
+```
+
+### Clean, Build, and Run the `reporting` Backend
+```bash
+cd FinovaBank && ./manage-services.sh clean reporting
+cd FinovaBank && ./manage-services.sh build reporting
+cd FinovaBank && ./manage-services.sh run reporting
+```
+
+### Clean, Build, and Run the `risk-assessment` Backend
+```bash
+cd FinovaBank && ./manage-services.sh clean risk-assessment
+cd FinovaBank && ./manage-services.sh build risk-assessment
+cd FinovaBank && ./manage-services.sh run risk-assessment
+```
+
+### Clean, Build, and Run the `savings-goals` Backend
+```bash
+cd FinovaBank && ./manage-services.sh clean savings-goals
+cd FinovaBank && ./manage-services.sh build savings-goals
+cd FinovaBank && ./manage-services.sh run savings-goals
+```
+
+### Clean, Build, and Run the `transaction-service` Backend
+```bash
+cd FinovaBank && ./manage-services.sh clean transaction-service
+cd FinovaBank && ./manage-services.sh build transaction-service
+cd FinovaBank && ./manage-services.sh run transaction-service
+```
+
+### Clean, Build, and Run the `frontend`
+```bash
+cd FinovaBank && ./manage-services.sh clean frontend
+cd FinovaBank && ./manage-services.sh build frontend
+cd FinovaBank && ./manage-services.sh run frontend
 ```
 
 ### Clean, Build, and Run All Services in One Go
@@ -195,4 +305,5 @@ The `manage-services.sh` script provides a streamlined way to manage your backen
 - **Run Services:** `./manage-services.sh run <service-name|all>`
 - **Setup All Services:** `./manage-services.sh setup all`
 
-Replace `<service-name>` with the specific service you intend to manage, such as `eureka-server`, `finovabank-frontend`, `api-gateway`,
+Replace `<service-name>` with the specific service you intend to manage, such as `eureka-server`, `frontend`, `api-gateway`, `account-management`, etc.
+

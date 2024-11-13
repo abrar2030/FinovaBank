@@ -1,10 +1,10 @@
 ---
 
-# templates/service-finovabank-frontend.yaml
+# templates/service-frontend.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: finovabank-frontend
+  name: frontend
   labels:
     {{- include "finovabank.labels" . | nindent 4 }}
 spec:
@@ -13,4 +13,4 @@ spec:
     - port: 80
       targetPort: 80
   selector:
-    app: finovabank-frontend
+    app: frontend

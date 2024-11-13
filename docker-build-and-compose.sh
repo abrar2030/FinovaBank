@@ -8,7 +8,7 @@ PROJECT_ROOT=$(pwd)
 
 # Define backend and frontend directories
 BACKEND_DIR="$PROJECT_ROOT/backend"
-FRONTEND_DIR="$PROJECT_ROOT/frontend/finovabank-frontend"
+FRONTEND_DIR="$PROJECT_ROOT/frontend/frontend"
 
 # Define backend services
 BACKEND_SERVICES=("eureka-server" "api-gateway" "account-management" "transaction" "notification" "user-profile")

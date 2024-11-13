@@ -12,7 +12,7 @@ This directory contains Kubernetes resources for deploying the **FinovaBank** se
 │   ├── _helpers.tpl
 │   ├── deployment-api-gateway.yaml
 │   ├── deployment-eureka-server.yaml
-│   ├── deployment-finovabank-frontend.yaml
+│   ├── deployment-frontend.yaml
 │   ├── deployment-notification-service.yaml
 │   ├── deployment-loan-management.yaml
 │   ├── deployment-compliance.yaml
@@ -21,7 +21,7 @@ This directory contains Kubernetes resources for deploying the **FinovaBank** se
 │   ├── deployment-savings-goals.yaml
 │   ├── service-api-gateway.yaml
 │   ├── service-eureka-server.yaml
-│   ├── service-finovabank-frontend.yaml
+│   ├── service-frontend.yaml
 │   ├── service-notification-service.yaml
 │   ├── service-loan-management.yaml
 │   ├── service-compliance.yaml

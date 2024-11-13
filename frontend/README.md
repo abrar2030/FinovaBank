@@ -29,7 +29,7 @@ This is the frontend of the **FinovaBank** digital banking platform, built using
 
    ```bash
    git clone https://github.com/abrar2030/FinovaBank.git
-   cd finovabank-frontend
+   cd frontend
    ```
 
 2. Install dependencies:
@@ -53,13 +53,13 @@ To build the Docker image for the FinovaBank frontend:
 2. Build the Docker image:
 
    ```bash
-   docker build -t finovabank-frontend .
+   docker build -t frontend .
    ```
 
 3. Run the Docker container:
 
    ```bash
-   docker run -p 80:80 finovabank-frontend
+   docker run -p 80:80 frontend
    ```
 
 ## Environment Variables

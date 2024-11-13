@@ -10,5 +10,5 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['sh', '-c', 'wget -q --spider http://finovabank-frontend && echo "Connection successful"']
+      command: ['sh', '-c', 'wget -q --spider http://frontend && echo "Connection successful"']
   restartPolicy: Never

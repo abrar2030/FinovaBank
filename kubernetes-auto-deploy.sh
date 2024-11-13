@@ -57,9 +57,9 @@ case $SERVICE_NAME in
     kubectl apply -f kubernetes/templates/deployment-user-profile.yaml
     kubectl apply -f kubernetes/templates/service-user-profile.yaml
     ;;
-  finovabank-frontend)
-    kubectl apply -f kubernetes/templates/deployment-finovabank-frontend.yaml
-    kubectl apply -f kubernetes/templates/service-finovabank-frontend.yaml
+  frontend)
+    kubectl apply -f kubernetes/templates/deployment-frontend.yaml
+    kubectl apply -f kubernetes/templates/service-frontend.yaml
     ;;
   *)
     echo "Service not recognized: $SERVICE_NAME"
