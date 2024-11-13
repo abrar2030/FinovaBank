@@ -73,7 +73,7 @@ To get started with FinovaBank locally, follow these steps:
 
 ## Usage
 
-- **API Documentation**: For detailed API endpoints and examples, refer to [API_DOCS.md](documentation/API_DOCS.md).
+- **API Documentation**: For detailed API endpoints and examples, refer to [API_DOCS.md](documentation/api-doc).
 - **Managing Services**: Run `./manage-services.sh` to start, stop, or restart any of the microservices.
 - **Testing**: To run unit tests, execute:
   ```sh
