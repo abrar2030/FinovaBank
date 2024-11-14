@@ -38,38 +38,86 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.7)
 
-2024-11-14 19:20:23.482  INFO 2358 --- [           main] c.f.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 21.0.5 on RW50 with PID 2358 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway)
-2024-11-14 19:20:23.488  INFO 2358 --- [           main] c.f.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
-2024-11-14 19:20:26.518  INFO 2358 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-11-14 19:20:26.589  INFO 2358 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 0 JPA repository interfaces.
-2024-11-14 19:20:26.656  WARN 2358 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.support.BeanDefinitionOverrideException: Invalid bean definition with name 'conversionServicePostProcessor' defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class]: Cannot register bean definition [Root bean: class [org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=conversionServicePostProcessor; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class]] for bean 'conversionServicePostProcessor': There is already [Root bean: class [org.springframework.security.config.annotation.web.reactive.WebFluxSecurityConfiguration]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=conversionServicePostProcessor; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/security/config/annotation/web/reactive/WebFluxSecurityConfiguration.class]] bound.
-2024-11-14 19:20:26.686  INFO 2358 --- [           main] ConditionEvaluationReportLoggingListener : 
+2024-11-14 23:53:35.225  INFO 53891 --- [           main] c.f.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication using Java 21.0.5 on RW50 with PID 53891 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/api-gateway)
+2024-11-14 23:53:35.232  INFO 53891 --- [           main] c.f.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-14 23:53:37.926  INFO 53891 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14 23:53:37.995  INFO 53891 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 0 JPA repository interfaces.
+2024-11-14 23:53:38.709  INFO 53891 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=a8a2699c-371b-361b-81f9-5e845d4d806d
+2024-11-14 23:53:39.495  INFO 53891 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.ReactiveMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.ReactiveMethodSecurityConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-11-14 23:53:39.559  INFO 53891 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-11-14 23:53:39.561  INFO 53891 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-11-14 23:53:39.564  INFO 53891 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-11-14 23:53:40.040  INFO 53891 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8002 (http)
+2024-11-14 23:53:40.063  INFO 53891 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-14 23:53:40.064  INFO 53891 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2024-11-14 23:53:40.509  INFO 53891 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-14 23:53:41.510  INFO 53891 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-14 23:53:41.671  INFO 53891 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14 23:53:41.870  INFO 53891 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2024-11-14 23:53:42.446  INFO 53891 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-11-14 23:53:43.014  INFO 53891 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-11-14 23:53:43.860  INFO 53891 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-11-14 23:53:43.902  INFO 53891 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14 23:53:44.001  INFO 53891 --- [           main] ctiveUserDetailsServiceAutoConfiguration : 
 
-Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2024-11-14 19:20:26.762 ERROR 2358 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+Using generated security password: 376c5ec1-e319-4473-8978-f710d9e4519b
 
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-The bean 'conversionServicePostProcessor', defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class], could not be registered. A bean with that name has already been defined in class path resource [org/springframework/security/config/annotation/web/reactive/WebFluxSecurityConfiguration.class] and overriding is disabled.
-
-Action:
-
-Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
-
-[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-[[1;34mINFO[m] [1;31mBUILD FAILURE[m
-[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-[[1;34mINFO[m] Total time:  9.677 s
-[[1;34mINFO[m] Finished at: 2024-11-14T19:20:26+01:00
-[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-[[1;31mERROR[m] Failed to execute goal [32morg.springframework.boot:spring-boot-maven-plugin:2.6.7:run[m [1m(default-cli)[m on project [36mapi-gateway[m: [1;31mApplication finished with exit code: 1[m -> [1m[Help 1][m
-[[1;31mERROR[m] 
-[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
-[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
-[[1;31mERROR[m] 
-[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
-[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+2024-11-14 23:53:45.713  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2024-11-14 23:53:45.713  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2024-11-14 23:53:45.714  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2024-11-14 23:53:45.714  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2024-11-14 23:53:45.714  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2024-11-14 23:53:45.715  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2024-11-14 23:53:45.715  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2024-11-14 23:53:45.715  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2024-11-14 23:53:45.715  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2024-11-14 23:53:45.715  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2024-11-14 23:53:45.716  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2024-11-14 23:53:45.716  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-11-14 23:53:45.716  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2024-11-14 23:53:45.716  INFO 53891 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-11-14 23:53:46.458  INFO 53891 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-11-14 23:53:47.030  INFO 53891 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2024-11-14 23:53:47.238  WARN 53891 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-11-14 23:53:47.293  INFO 53891 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2024-11-14 23:53:47.546  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2024-11-14 23:53:47.571  INFO 53891 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2024-11-14 23:53:47.673  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2024-11-14 23:53:47.673  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2024-11-14 23:53:47.673  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2024-11-14 23:53:47.674  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2024-11-14 23:53:47.674  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2024-11-14 23:53:47.674  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2024-11-14 23:53:47.674  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2024-11-14 23:53:48.931  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2024-11-14 23:53:48.939  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2024-11-14 23:53:48.948  INFO 53891 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-11-14 23:53:48.960  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731624828959 with initial instances count: 0
+2024-11-14 23:53:48.964  INFO 53891 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application API-GATEWAY with eureka with status UP
+2024-11-14 23:53:48.967  INFO 53891 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1731624828967, current=UP, previous=STARTING]
+2024-11-14 23:53:48.975  INFO 53891 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/10.255.255.254:api-gateway:8002: registering service...
+2024-11-14 23:53:49.041  INFO 53891 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8002 (http) with context path ''
+2024-11-14 23:53:49.042  INFO 53891 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8002
+2024-11-14 23:53:49.087  INFO 53891 --- [           main] c.f.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 14.852 seconds (JVM running for 15.576)
+2024-11-14 23:53:49.343  INFO 53891 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/10.255.255.254:api-gateway:8002 - registration status: 204
+2024-11-14 23:54:19.369  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2024-11-14 23:54:19.370  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2024-11-14 23:54:19.371  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2024-11-14 23:54:19.372  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2024-11-14 23:54:19.372  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2024-11-14 23:54:19.373  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2024-11-14 23:54:19.374  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2024-11-14 23:54:19.418  INFO 53891 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2024-11-14 23:58:51.739  INFO 53891 --- [trap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2024-11-15 00:03:08.657  INFO 53891 --- [ionShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application API-GATEWAY with eureka with status DOWN
+2024-11-15 00:03:08.657  INFO 53891 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1731625388657, current=DOWN, previous=UP]
+2024-11-15 00:03:08.658  INFO 53891 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/10.255.255.254:api-gateway:8002: registering service...
+2024-11-15 00:03:08.668  INFO 53891 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/10.255.255.254:api-gateway:8002 - registration status: 204
+2024-11-15 00:03:08.702  INFO 53891 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-15 00:03:08.703  INFO 53891 --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2024-11-15 00:03:08.708  INFO 53891 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-15 00:03:08.711  INFO 53891 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-15 00:03:08.712  INFO 53891 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2024-11-15 00:03:11.715  INFO 53891 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2024-11-15 00:03:11.728  INFO 53891 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/10.255.255.254:api-gateway:8002 - deregister  status: 200
+2024-11-15 00:03:11.733  INFO 53891 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
