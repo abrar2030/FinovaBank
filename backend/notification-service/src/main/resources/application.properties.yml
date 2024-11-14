@@ -1,7 +1,6 @@
 ---
 server:
   port: 8006
-
 spring:
   application:
     name: notification-service
@@ -23,12 +22,10 @@ spring:
     url: jdbc:mysql://localhost:3306/paymentdb
     username: payment_user
     password: payment_password
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8001/eureka/
-
 logging:
   level:
     com.finova: INFO

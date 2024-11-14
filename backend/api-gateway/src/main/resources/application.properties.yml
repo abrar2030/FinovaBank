@@ -1,7 +1,6 @@
 ---
 server:
   port: 8002
-
 spring:
   application:
     name: api-gateway
@@ -10,18 +9,15 @@ spring:
     web-application-type: reactive
   security:
     enabled: false
-
 eureka:
   client:
     service-url:
       defaultZone: http://abrar2030:abrar2030@localhost:8001/eureka/
   instance:
     prefer-ip-address: true
-
 management:
   security:
     enabled: false
-
 jwt:
-  secret: mySuperSecretKey1234567890  # Exact match with @Value("${jwt.secret}") in your code
-  expiration-time: 3600000  # Expiration time in milliseconds (1 hour here)
+  secret: mySuperSecretKey1234567890 
+  expiration-time: 3600000 
