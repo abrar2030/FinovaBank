@@ -19,5 +19,5 @@ management:
   security:
     enabled: false
 jwt:
-  secret: mySuperSecretKey1234567890 
-  expiration-time: 3600000 
+  secret: mySuperSecretKey1234567890
+  expiration-time: 3600000

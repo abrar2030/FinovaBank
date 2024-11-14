@@ -5,17 +5,17 @@ spring:
   application:
     name: account-management-service
   datasource:
-    url: jdbc:h2:mem:accountdb 
+    url: jdbc:h2:mem:accountdb
     driver-class-name: org.h2.Driver
     username: sa
-    password: 
+    password:
   jpa:
     hibernate:
-      ddl-auto: update 
+      ddl-auto: update
     show-sql: true
   h2:
     console:
-      enabled: true 
+      enabled: true
   eureka:
     client:
       service-url:
