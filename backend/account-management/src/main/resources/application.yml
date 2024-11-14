@@ -1,7 +1,6 @@
 ---
 server:
   port: 8003
-
 spring:
   application:
     name: account-management-service
@@ -24,7 +23,6 @@ eureka:
       defaultZone: http://abrar2030:abrar2030@localhost:8001/eureka/
   instance:
     prefer-ip-address: true
-
 management:
   endpoints:
     web:
@@ -33,7 +31,6 @@ management:
   endpoint:
     health:
       show-details: "always"
-
 jwt:
   secret: ${JWT_SECRET:mySuperSecretKey1234567890}
   expiration-time: 3600000
