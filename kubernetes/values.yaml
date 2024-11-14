@@ -7,9 +7,9 @@ image:
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
-  port: 8080
+  port: 8002
 environment:
-  API_BASE_URL: "http://api-gateway:8080"
+  API_BASE_URL: "http://api-gateway:8002"
 resources:
   limits:
     cpu: 500m

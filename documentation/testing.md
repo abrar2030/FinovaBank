@@ -88,7 +88,7 @@ import io.gatling.javaapi.http.*;
 
 public class TransactionServicePerformanceTest extends Simulation {
 
-    HttpProtocolBuilder httpProtocol = http.baseUrl("http://localhost:8080");
+    HttpProtocolBuilder httpProtocol = http.baseUrl("http://localhost:8002");
 
     ScenarioBuilder scn = scenario("Transaction Load Test")
             .exec(http("Create Transaction")

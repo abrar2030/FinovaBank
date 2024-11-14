@@ -69,7 +69,7 @@ To get started with FinovaBank locally, follow these steps:
    ```
 
 4. **Access the platform**:
-   The API Gateway will be available at `http://localhost:8080`.
+   The API Gateway will be available at `http://localhost:8002`.
 
 ## Usage
 

@@ -21,7 +21,7 @@ spec:
         - name: api-gateway
           image: {{ .Values.image.repository }}/api-gateway:{{ .Values.image.tag }}
           ports:
-            - containerPort: 8080
+            - containerPort: 8002
           env:
             - name: EUREKA_SERVER
               value: "http://eureka-server:8001/eureka/"

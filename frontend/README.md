@@ -67,7 +67,7 @@ To build the Docker image for the FinovaBank frontend:
 Create a `.env` file in the root directory and add the following:
 
 ```plaintext
-REACT_APP_API_BASE_URL=http://localhost:8080
+REACT_APP_API_BASE_URL=http://localhost:8002
 ```
 
 This variable points to the backend API URL.

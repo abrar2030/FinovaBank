@@ -15,7 +15,7 @@ scrape_configs:
   - job_name: 'finova-services'
     static_configs:
       - targets:
-          - api-gateway:8080
+          - api-gateway:8002
           - account-service:8081
           - transaction-service:8082
           - loan-service:8083
