@@ -21,4 +21,4 @@ spec:
         - name: eureka-server
           image: {{ .Values.image.repository }}/eureka-server:{{ .Values.image.tag }}
           ports:
-            - containerPort: 8761
+            - containerPort: 8001

@@ -1,0 +1,23 @@
+---
+server:
+  port: 8003
+
+spring:
+  application:
+    name: account-management-service
+  datasource:
+    url: jdbc:h2:mem:accountdb  # Use H2 in-memory database
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:  # no password for H2 by default
+  jpa:
+    hibernate:
+      ddl-auto: update  # Auto-create/update tables
+    show-sql: true
+  h2:
+    console:
+      enabled: true  # Enable H2 console if needed
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8001/eureka/

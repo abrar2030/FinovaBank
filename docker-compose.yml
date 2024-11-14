@@ -8,11 +8,11 @@ services:
     image: abrar2030/finovabank:eureka-server
     container_name: eureka-server
     ports:
-      - "8761:8761"
+      - "8001:8001"
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_PORT=8761
+      - EUREKA_SERVER_PORT=8001
   api-gateway:
     build:
       context: ./api-gateway
@@ -32,7 +32,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - API_GATEWAY_PORT=8080
   account-management:
     build:
@@ -47,7 +47,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - ACCOUNT_MANAGEMENT_PORT=8081
   transaction-service:
     build:
@@ -63,7 +63,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - TRANSACTION_SERVICE_PORT=8082
   notification-service:
     build:
@@ -78,7 +78,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - NOTIFICATION_SERVICE_PORT=8083
   loan-management:
     build:
@@ -93,7 +93,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - LOAN_MANAGEMENT_PORT=8084
   compliance:
     build:
@@ -108,7 +108,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - COMPLIANCE_SERVICE_PORT=8085
   reporting:
     build:
@@ -123,7 +123,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - REPORTING_SERVICE_PORT=8086
   risk-assessment:
     build:
@@ -138,7 +138,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - RISK_ASSESSMENT_SERVICE_PORT=8087
   savings-goals:
     build:
@@ -153,7 +153,7 @@ services:
     networks:
       - finovabank-network
     environment:
-      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - SAVINGS_GOALS_SERVICE_PORT=8088
   frontend:
     build:

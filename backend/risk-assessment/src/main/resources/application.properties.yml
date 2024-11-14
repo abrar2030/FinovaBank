@@ -1,0 +1,23 @@
+---
+server:
+  port: 8008
+
+spring:
+  application:
+    name: risk-assessment-service
+  datasource:
+    url: jdbc:h2:mem:riskdb  # Use H2 in-memory database
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:  # no password for H2 by default
+  jpa:
+    hibernate:
+      ddl-auto: update  # Auto-create/update tables
+    show-sql: true
+  h2:
+    console:
+      enabled: true  # Enable H2 console if needed
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8001/eureka/

@@ -1,6 +1,6 @@
 com/finova/transaction/controller/TransactionController.class
 com/finova/transaction/repository/TransactionRepository.class
-com/finova/transaction/service/impl/TransactionServiceImpl.class
 com/finova/transaction/service/TransactionService.class
-com/finova/transaction/model/Transaction.class
 com/finova/transaction/TransactionServiceApplication.class
+com/finova/transaction/service/impl/TransactionServiceImpl.class
+com/finova/transaction/model/Transaction.class

@@ -1,0 +1,19 @@
+---
+server:
+  port: 8001
+
+spring:
+  application:
+    name: eureka-server
+  # Uncomment the lines below if you need basic authentication
+  # security:
+  #   user:
+  #     name: abrar2030
+  #     password: abrar2030
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false

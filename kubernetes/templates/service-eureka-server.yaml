@@ -10,7 +10,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 8761
-      targetPort: 8761
+    - port: 8001
+      targetPort: 8001
   selector:
     app: eureka-server
