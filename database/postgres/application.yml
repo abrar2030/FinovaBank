@@ -1,24 +1,47 @@
----
 # For Account Management Service
-spring.datasource.url=jdbc:postgresql://localhost:5433/accountdb
-  
-  # For Transaction Service
-spring.datasource.url=jdbc:postgresql://localhost:5434/transactiondb
-  
-  # For Loan Management Service
-spring.datasource.url=jdbc:postgresql://localhost:5435/loandb
-  
-  # For Savings Goals Service
-spring.datasource.url=jdbc:postgresql://localhost:5436/savingsdb
-  
-  # For Risk Assessment Service
-spring.datasource.url=jdbc:postgresql://localhost:5437/riskdb
-  
-  # For Compliance Service
-spring.datasource.url=jdbc:postgresql://localhost:5438/compliancedb
-  
-  # For Notification Service
-spring.datasource.url=jdbc:postgresql://localhost:5439/notificationdb
-  
-  # For Reporting Service
-spring.datasource.url=jdbc:postgresql://localhost:5440/reportingdb
+account:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5433/accountdb
+
+# For Transaction Service
+transaction:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5434/transactiondb
+
+# For Loan Management Service
+loan:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5435/loandb
+
+# For Savings Goals Service
+savings:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5436/savingsdb
+
+# For Risk Assessment Service
+risk:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5437/riskdb
+
+# For Compliance Service
+compliance:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5438/compliancedb
+
+# For Notification Service
+notification:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5439/notificationdb
+
+# For Reporting Service
+reporting:
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5440/reportingdb
