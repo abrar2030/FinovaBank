@@ -3,7 +3,7 @@ version: '3.8'
 services:
   eureka-server:
     build:
-      context: ./account-management
+      context: ./eureka-server
       dockerfile: Dockerfile
     image: abrar2030/finovabank:eureka-server
     container_name: eureka-server
@@ -157,7 +157,7 @@ services:
       - SAVINGS_GOALS_SERVICE_PORT=8088
   frontend:
     build:
-      context: ./frontend/frontend
+      context: ./frontend
       dockerfile: Dockerfile
     image: abrar2030/finovabank:frontend
     container_name: frontend

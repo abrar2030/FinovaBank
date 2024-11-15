@@ -38,87 +38,85 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.7)
 
-2024-11-14 23:53:08.985  INFO 53540 --- [           main] c.f.e.EurekaServerApplication            : Starting EurekaServerApplication using Java 21.0.5 on RW50 with PID 53540 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server)
-2024-11-14 23:53:08.992  INFO 53540 --- [           main] c.f.e.EurekaServerApplication            : No active profile set, falling back to 1 default profile: "default"
-2024-11-14 23:53:11.251  INFO 53540 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-11-14 23:53:11.304  INFO 53540 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25 ms. Found 0 JPA repository interfaces.
-2024-11-14 23:53:12.019  INFO 53540 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=874114e1-42b3-3e47-99a8-faf90ccf3bbe
-2024-11-14 23:53:13.362  INFO 53540 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8001 (http)
-2024-11-14 23:53:13.393  INFO 53540 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-11-14 23:53:13.394  INFO 53540 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
-2024-11-14 23:53:13.598  INFO 53540 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-11-14 23:53:13.599  INFO 53540 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4502 ms
-2024-11-14 23:53:14.581  INFO 53540 --- [           main] c.s.j.s.i.a.WebApplicationImpl           : Initiating Jersey application, version 'Jersey: 1.19.4 05/24/2017 03:20 PM'
-2024-11-14 23:53:14.869  INFO 53540 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
-2024-11-14 23:53:14.872  INFO 53540 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
-2024-11-14 23:53:15.338  INFO 53540 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
-2024-11-14 23:53:15.339  INFO 53540 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
-2024-11-14 23:53:16.812  INFO 53540 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-11-14 23:53:17.371  INFO 53540 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-11-14 23:53:17.515  INFO 53540 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-11-14 23:53:17.730  INFO 53540 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
-2024-11-14 23:53:18.315  INFO 53540 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2024-11-14 23:53:18.897  INFO 53540 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2024-11-14 23:53:19.732  INFO 53540 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-11-14 23:53:19.767  INFO 53540 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-11-14 23:53:19.875  WARN 53540 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-11-14 23:53:21.436  INFO 53540 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
-2024-11-14 23:53:21.607  WARN 53540 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2024-11-14 23:53:21.685  INFO 53540 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2024-11-14 23:53:21.826  INFO 53540 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2024-11-14 23:53:21.827  INFO 53540 --- [           main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
-2024-11-14 23:53:21.866  INFO 53540 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731624801865 with initial instances count: 0
-2024-11-14 23:53:22.004  INFO 53540 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
-2024-11-14 23:53:22.009  WARN 53540 --- [           main] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2024-11-14 23:53:22.118  INFO 53540 --- [           main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
-2024-11-14 23:53:22.120  INFO 53540 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initialized
-2024-11-14 23:53:22.132  INFO 53540 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2024-11-14 23:53:22.183  INFO 53540 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EUREKA-SERVER with eureka with status UP
-2024-11-14 23:53:22.188  INFO 53540 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..
-2024-11-14 23:53:22.217  INFO 53540 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8001 (http) with context path ''
-2024-11-14 23:53:22.218  INFO 53540 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8001
-2024-11-14 23:53:22.218  INFO 53540 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
-2024-11-14 23:53:22.221  INFO 53540 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
-2024-11-14 23:53:22.222  INFO 53540 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
-2024-11-14 23:53:22.222  INFO 53540 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
-2024-11-14 23:53:22.222  INFO 53540 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
-2024-11-14 23:53:22.233  INFO 53540 --- [       Thread-9] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
-2024-11-14 23:53:22.248  INFO 53540 --- [           main] c.f.e.EurekaServerApplication            : Started EurekaServerApplication in 14.598 seconds (JVM running for 15.254)
-2024-11-14 23:53:48.705  INFO 53540 --- [nio-8001-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-11-14 23:53:48.705  INFO 53540 --- [nio-8001-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-11-14 23:53:48.706  INFO 53540 --- [nio-8001-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2024-11-14 23:53:49.341  INFO 53540 --- [nio-8001-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/10.255.255.254:api-gateway:8002 with status UP (replication=false)
-2024-11-14 23:54:15.090  INFO 53540 --- [nio-8001-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance ACCOUNT-MANAGEMENT-SERVICE/10.255.255.254:account-management-service:8003 with status UP (replication=false)
-2024-11-14 23:54:23.083  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-14 23:54:39.874  INFO 53540 --- [nio-8001-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance COMPLIANCE-SERVICE/10.255.255.254:compliance-service:8004 with status UP (replication=false)
-2024-11-14 23:55:05.669  INFO 53540 --- [nio-8001-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance LOAN-SERVICE/10.255.255.254:loan-service:8005 with status UP (replication=false)
-2024-11-14 23:55:23.942  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-14 23:55:28.580  INFO 53540 --- [nio-8001-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance NOTIFICATION-SERVICE/10.255.255.254:notification-service:8006 with status UP (replication=false)
-2024-11-14 23:55:50.846  INFO 53540 --- [nio-8001-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance REPORTING-SERVICE/10.255.255.254:reporting-service:8007 with status UP (replication=false)
-2024-11-14 23:56:16.698  INFO 53540 --- [nio-8001-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance RISK-ASSESSMENT-SERVICE/10.255.255.254:risk-assessment-service:8008 with status UP (replication=false)
-2024-11-14 23:56:24.800  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-14 23:56:44.008  INFO 53540 --- [nio-8001-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 with status UP (replication=false)
-2024-11-14 23:57:08.998  INFO 53540 --- [nio-8001-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TRANSACTION-SERVICE/10.255.255.254:transaction-service:8010 with status UP (replication=false)
-2024-11-14 23:57:25.244  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-14 23:58:26.283  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-14 23:59:27.120  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-15 00:00:27.599  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-15 00:01:28.001  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-15 00:02:28.002  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-15 00:03:08.667  INFO 53540 --- [nio-8001-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/10.255.255.254:api-gateway:8002 with status DOWN (replication=false)
-2024-11-15 00:03:11.726  INFO 53540 --- [io-8001-exec-10] c.n.e.registry.AbstractInstanceRegistry  : Cancelled instance API-GATEWAY/10.255.255.254:api-gateway:8002 (replication=false)
-2024-11-15 00:03:27.788  WARN 53540 --- [eerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
-2024-11-15 00:03:28.002  INFO 53540 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
-2024-11-15 00:03:39.107  INFO 53540 --- [ionShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application EUREKA-SERVER with eureka with status DOWN
-2024-11-15 00:03:39.141  INFO 53540 --- [ionShutdownHook] o.s.c.n.e.server.EurekaServerBootstrap   : Shutting down Eureka Server..
-2024-11-15 00:03:39.147  INFO 53540 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shutting down ...
-2024-11-15 00:03:39.165  INFO 53540 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shut down
-2024-11-15 00:03:39.166  INFO 53540 --- [ionShutdownHook] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka Service is now shutdown...
-2024-11-15 00:03:39.166  INFO 53540 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shutting down ...
-2024-11-15 00:03:39.172  INFO 53540 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shut down
-2024-11-15 00:03:39.184  INFO 53540 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-11-15 00:03:39.185  INFO 53540 --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
-2024-11-15 00:03:39.191  INFO 53540 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2024-11-15 00:03:39.194  INFO 53540 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2024-11-15 00:03:39.196  INFO 53540 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2024-11-15 00:03:39.198  INFO 53540 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2024-11-15 00:31:23.408  INFO 78663 --- [           main] c.f.e.EurekaServerApplication            : Starting EurekaServerApplication using Java 21.0.5 on RW50 with PID 78663 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/eureka-server)
+2024-11-15 00:31:23.416  INFO 78663 --- [           main] c.f.e.EurekaServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2024-11-15 00:31:26.188  INFO 78663 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-15 00:31:26.249  INFO 78663 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30 ms. Found 0 JPA repository interfaces.
+2024-11-15 00:31:27.149  INFO 78663 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=874114e1-42b3-3e47-99a8-faf90ccf3bbe
+2024-11-15 00:31:28.715  INFO 78663 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8001 (http)
+2024-11-15 00:31:28.745  INFO 78663 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-15 00:31:28.745  INFO 78663 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2024-11-15 00:31:28.984  INFO 78663 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-15 00:31:28.985  INFO 78663 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5456 ms
+2024-11-15 00:31:30.120  INFO 78663 --- [           main] c.s.j.s.i.a.WebApplicationImpl           : Initiating Jersey application, version 'Jersey: 1.19.4 05/24/2017 03:20 PM'
+2024-11-15 00:31:30.492  INFO 78663 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2024-11-15 00:31:30.496  INFO 78663 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2024-11-15 00:31:31.094  INFO 78663 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2024-11-15 00:31:31.094  INFO 78663 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2024-11-15 00:31:32.940  INFO 78663 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-15 00:31:33.750  INFO 78663 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-15 00:31:33.897  INFO 78663 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-15 00:31:34.142  INFO 78663 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2024-11-15 00:31:35.242  INFO 78663 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-11-15 00:31:36.050  INFO 78663 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-11-15 00:31:37.202  INFO 78663 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-11-15 00:31:37.254  INFO 78663 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-15 00:31:37.397  WARN 78663 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-15 00:31:39.308  INFO 78663 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses Jersey
+2024-11-15 00:31:39.501  WARN 78663 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-11-15 00:31:39.606  INFO 78663 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2024-11-15 00:31:39.784  INFO 78663 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2024-11-15 00:31:39.784  INFO 78663 --- [           main] com.netflix.discovery.DiscoveryClient    : Client configured to neither register nor query for data.
+2024-11-15 00:31:39.831  INFO 78663 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731627099830 with initial instances count: 0
+2024-11-15 00:31:39.995  INFO 78663 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initializing ...
+2024-11-15 00:31:40.002  WARN 78663 --- [           main] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2024-11-15 00:31:40.127  INFO 78663 --- [           main] c.n.e.registry.AbstractInstanceRegistry  : Finished initializing remote region registries. All known remote regions: []
+2024-11-15 00:31:40.128  INFO 78663 --- [           main] c.n.eureka.DefaultEurekaServerContext    : Initialized
+2024-11-15 00:31:40.141  INFO 78663 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-11-15 00:31:40.188  INFO 78663 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application EUREKA-SERVER with eureka with status UP
+2024-11-15 00:31:40.193  INFO 78663 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Setting the eureka configuration..
+2024-11-15 00:31:40.223  INFO 78663 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8001 (http) with context path ''
+2024-11-15 00:31:40.225  INFO 78663 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8001
+2024-11-15 00:31:40.227  INFO 78663 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : isAws returned false
+2024-11-15 00:31:40.230  INFO 78663 --- [       Thread-9] o.s.c.n.e.server.EurekaServerBootstrap   : Initialized server context
+2024-11-15 00:31:40.231  INFO 78663 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Got 1 instances from neighboring DS node
+2024-11-15 00:31:40.231  INFO 78663 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Renew threshold is: 1
+2024-11-15 00:31:40.232  INFO 78663 --- [       Thread-9] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2024-11-15 00:31:40.252  INFO 78663 --- [       Thread-9] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
+2024-11-15 00:31:40.265  INFO 78663 --- [           main] c.f.e.EurekaServerApplication            : Started EurekaServerApplication in 18.48 seconds (JVM running for 19.259)
+2024-11-15 00:32:05.305  INFO 78663 --- [nio-8001-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-15 00:32:05.305  INFO 78663 --- [nio-8001-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-15 00:32:05.308  INFO 78663 --- [nio-8001-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2024-11-15 00:32:06.308  INFO 78663 --- [nio-8001-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance API-GATEWAY/10.255.255.254:api-gateway:8002 with status UP (replication=false)
+2024-11-15 00:32:38.488  INFO 78663 --- [nio-8001-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance ACCOUNT-MANAGEMENT-SERVICE/10.255.255.254:account-management-service:8003 with status UP (replication=false)
+2024-11-15 00:32:40.235  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:33:06.747  INFO 78663 --- [nio-8001-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance COMPLIANCE-SERVICE/10.255.255.254:compliance-service:8004 with status UP (replication=false)
+2024-11-15 00:33:37.440  INFO 78663 --- [nio-8001-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance LOAN-SERVICE/10.255.255.254:loan-service:8005 with status UP (replication=false)
+2024-11-15 00:33:40.235  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:34:05.759  INFO 78663 --- [nio-8001-exec-5] c.n.e.registry.AbstractInstanceRegistry  : Registered instance NOTIFICATION-SERVICE/10.255.255.254:notification-service:8006 with status UP (replication=false)
+2024-11-15 00:34:36.956  INFO 78663 --- [nio-8001-exec-9] c.n.e.registry.AbstractInstanceRegistry  : Registered instance REPORTING-SERVICE/10.255.255.254:reporting-service:8007 with status UP (replication=false)
+2024-11-15 00:34:40.236  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:35:09.743  INFO 78663 --- [nio-8001-exec-7] c.n.e.registry.AbstractInstanceRegistry  : Registered instance RISK-ASSESSMENT-SERVICE/10.255.255.254:risk-assessment-service:8008 with status UP (replication=false)
+2024-11-15 00:35:39.680  INFO 78663 --- [nio-8001-exec-3] c.n.e.registry.AbstractInstanceRegistry  : Registered instance SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 with status UP (replication=false)
+2024-11-15 00:35:40.236  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:36:09.766  INFO 78663 --- [nio-8001-exec-1] c.n.e.registry.AbstractInstanceRegistry  : Registered instance TRANSACTION-SERVICE/10.255.255.254:transaction-service:8010 with status UP (replication=false)
+2024-11-15 00:36:40.236  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:37:40.237  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:38:40.236  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:39:40.236  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:40:40.236  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:41:40.007  WARN 78663 --- [eerNodesUpdater] c.n.eureka.cluster.PeerEurekaNodes       : The replica size seems to be empty. Check the route 53 DNS Registry
+2024-11-15 00:41:40.237  INFO 78663 --- [a-EvictionTimer] c.n.e.registry.AbstractInstanceRegistry  : Running the evict task with compensationTime 0ms
+2024-11-15 00:41:56.451  INFO 78663 --- [ionShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application EUREKA-SERVER with eureka with status DOWN
+2024-11-15 00:41:56.508  INFO 78663 --- [ionShutdownHook] o.s.c.n.e.server.EurekaServerBootstrap   : Shutting down Eureka Server..
+2024-11-15 00:41:56.526  INFO 78663 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shutting down ...
+2024-11-15 00:41:56.547  INFO 78663 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shut down
+2024-11-15 00:41:56.548  INFO 78663 --- [ionShutdownHook] o.s.c.n.e.server.EurekaServerBootstrap   : Eureka Service is now shutdown...
+2024-11-15 00:41:56.549  INFO 78663 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shutting down ...
+2024-11-15 00:41:56.560  INFO 78663 --- [ionShutdownHook] c.n.eureka.DefaultEurekaServerContext    : Shut down
+2024-11-15 00:41:56.571  INFO 78663 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-15 00:41:56.573  INFO 78663 --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2024-11-15 00:41:56.581  INFO 78663 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-15 00:41:56.586  INFO 78663 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-15 00:41:56.588  INFO 78663 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2024-11-15 00:41:56.590  INFO 78663 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient

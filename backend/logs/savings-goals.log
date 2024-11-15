@@ -38,56 +38,56 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v2.6.7)
 
-2024-11-14 23:56:28.954  INFO 56340 --- [           main] c.f.s.SavingsGoalsServiceApplication     : Starting SavingsGoalsServiceApplication using Java 21.0.5 on RW50 with PID 56340 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/savings-goals/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/savings-goals)
-2024-11-14 23:56:28.960  INFO 56340 --- [           main] c.f.s.SavingsGoalsServiceApplication     : No active profile set, falling back to 1 default profile: "default"
-2024-11-14 23:56:31.684  INFO 56340 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-11-14 23:56:32.410  INFO 56340 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 697 ms. Found 1 JPA repository interfaces.
-2024-11-14 23:56:33.184  INFO 56340 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=0c5985a0-cdc8-3815-8728-ccaa3b28bb37
-2024-11-14 23:56:34.242  INFO 56340 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8009 (http)
-2024-11-14 23:56:34.271  INFO 56340 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-11-14 23:56:34.272  INFO 56340 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
-2024-11-14 23:56:34.531  INFO 56340 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2024-11-14 23:56:34.532  INFO 56340 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5479 ms
-2024-11-14 23:56:34.837  INFO 56340 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-11-14 23:56:35.451  INFO 56340 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-11-14 23:56:35.474  INFO 56340 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:savingsdb'
-2024-11-14 23:56:36.022  INFO 56340 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-11-14 23:56:36.245  INFO 56340 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
-2024-11-14 23:56:36.881  INFO 56340 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2024-11-14 23:56:37.499  INFO 56340 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-11-15 00:35:21.549  INFO 82017 --- [           main] c.f.s.SavingsGoalsServiceApplication     : Starting SavingsGoalsServiceApplication using Java 21.0.5 on RW50 with PID 82017 (/mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/savings-goals/target/classes started by abrarahmed in /mnt/c/Users/36202/OneDrive/Desktop/FinovaBank/backend/savings-goals)
+2024-11-15 00:35:21.556  INFO 82017 --- [           main] c.f.s.SavingsGoalsServiceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-15 00:35:24.790  INFO 82017 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-15 00:35:25.633  INFO 82017 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 812 ms. Found 1 JPA repository interfaces.
+2024-11-15 00:35:26.532  INFO 82017 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=0c5985a0-cdc8-3815-8728-ccaa3b28bb37
+2024-11-15 00:35:27.792  INFO 82017 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8009 (http)
+2024-11-15 00:35:27.823  INFO 82017 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-15 00:35:27.824  INFO 82017 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2024-11-15 00:35:28.082  INFO 82017 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-15 00:35:28.083  INFO 82017 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6415 ms
+2024-11-15 00:35:28.369  INFO 82017 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-15 00:35:29.114  INFO 82017 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-15 00:35:29.143  INFO 82017 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:savingsdb'
+2024-11-15 00:35:29.807  INFO 82017 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-15 00:35:30.089  INFO 82017 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2024-11-15 00:35:30.909  INFO 82017 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-11-15 00:35:31.655  INFO 82017 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
 Hibernate: create table savings_goal (id bigint generated by default as identity, account_id bigint, current_amount decimal(19,2), goal_name varchar(255), target_amount decimal(19,2), primary key (id))
-2024-11-14 23:56:39.798  INFO 56340 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-11-14 23:56:39.834  INFO 56340 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-11-14 23:56:40.632  WARN 56340 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-11-14 23:56:42.078  INFO 56340 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
-2024-11-14 23:56:42.300  WARN 56340 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2024-11-14 23:56:42.310  INFO 56340 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
-2024-11-14 23:56:42.377  INFO 56340 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2024-11-14 23:56:42.602  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2024-11-14 23:56:42.625  INFO 56340 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2024-11-14 23:56:42.728  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2024-11-14 23:56:42.729  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2024-11-14 23:56:42.729  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2024-11-14 23:56:42.729  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2024-11-14 23:56:42.730  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2024-11-14 23:56:42.730  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2024-11-14 23:56:42.731  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2024-11-14 23:56:43.845  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2024-11-14 23:56:43.851  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2024-11-14 23:56:43.859  INFO 56340 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2024-11-14 23:56:43.871  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731625003870 with initial instances count: 7
-2024-11-14 23:56:43.874  INFO 56340 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application SAVINGS-GOALS-SERVICE with eureka with status UP
-2024-11-14 23:56:43.877  INFO 56340 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1731625003877, current=UP, previous=STARTING]
-2024-11-14 23:56:43.885  INFO 56340 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009: registering service...
-2024-11-14 23:56:43.903  INFO 56340 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8009 (http) with context path ''
-2024-11-14 23:56:43.904  INFO 56340 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8009
-2024-11-14 23:56:43.931  INFO 56340 --- [           main] c.f.s.SavingsGoalsServiceApplication     : Started SavingsGoalsServiceApplication in 16.491 seconds (JVM running for 17.41)
-2024-11-14 23:56:44.009  INFO 56340 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 - registration status: 204
-2024-11-15 00:01:45.939  INFO 56340 --- [trap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2024-11-15 00:03:46.465  INFO 56340 --- [ionShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application SAVINGS-GOALS-SERVICE with eureka with status DOWN
-2024-11-15 00:03:46.466  INFO 56340 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1731625426466, current=DOWN, previous=UP]
-2024-11-15 00:03:46.467  INFO 56340 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009: registering service...
-2024-11-15 00:03:46.480  INFO 56340 --- [nfoReplicator-0] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://abrar2030:abrar2030@localhost:8001/eureka/} exception=I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
+2024-11-15 00:35:34.602  INFO 82017 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-11-15 00:35:34.647  INFO 82017 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-15 00:35:35.436  WARN 82017 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-15 00:35:37.104  INFO 82017 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2024-11-15 00:35:37.398  WARN 82017 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-11-15 00:35:37.421  INFO 82017 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2024-11-15 00:35:37.505  INFO 82017 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2024-11-15 00:35:37.870  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2024-11-15 00:35:37.898  INFO 82017 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2024-11-15 00:35:38.040  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2024-11-15 00:35:38.041  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2024-11-15 00:35:38.041  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2024-11-15 00:35:38.041  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2024-11-15 00:35:38.042  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2024-11-15 00:35:38.042  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2024-11-15 00:35:38.042  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2024-11-15 00:35:39.456  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2024-11-15 00:35:39.468  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2024-11-15 00:35:39.479  INFO 82017 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-11-15 00:35:39.495  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1731627339494 with initial instances count: 7
+2024-11-15 00:35:39.499  INFO 82017 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application SAVINGS-GOALS-SERVICE with eureka with status UP
+2024-11-15 00:35:39.502  INFO 82017 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1731627339502, current=UP, previous=STARTING]
+2024-11-15 00:35:39.511  INFO 82017 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009: registering service...
+2024-11-15 00:35:39.541  INFO 82017 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8009 (http) with context path ''
+2024-11-15 00:35:39.542  INFO 82017 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8009
+2024-11-15 00:35:39.584  INFO 82017 --- [           main] c.f.s.SavingsGoalsServiceApplication     : Started SavingsGoalsServiceApplication in 19.739 seconds (JVM running for 20.711)
+2024-11-15 00:35:39.682  INFO 82017 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 - registration status: 204
+2024-11-15 00:40:38.050  INFO 82017 --- [trap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2024-11-15 00:42:07.991  INFO 82017 --- [ionShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application SAVINGS-GOALS-SERVICE with eureka with status DOWN
+2024-11-15 00:42:07.992  INFO 82017 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1731627727992, current=DOWN, previous=UP]
+2024-11-15 00:42:07.993  INFO 82017 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009: registering service...
+2024-11-15 00:42:08.004  INFO 82017 --- [nfoReplicator-0] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://abrar2030:abrar2030@localhost:8001/eureka/} exception=I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:785)
 	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:711)
 	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:602)
@@ -143,12 +143,12 @@ Caused by: java.net.ConnectException: Connection refused
 	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
 	... 40 more
 
-2024-11-15 00:03:46.480  WARN 56340 --- [nfoReplicator-0] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
-2024-11-15 00:03:46.496  INFO 56340 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-11-15 00:03:46.499  INFO 56340 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2024-11-15 00:03:46.503  INFO 56340 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2024-11-15 00:03:46.506  INFO 56340 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2024-11-15 00:03:46.515  INFO 56340 --- [nfoReplicator-0] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://abrar2030:abrar2030@localhost:8001/eureka/}, exception=I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
+2024-11-15 00:42:08.005  WARN 82017 --- [nfoReplicator-0] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
+2024-11-15 00:42:08.025  INFO 82017 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-15 00:42:08.029  INFO 82017 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-15 00:42:08.033  INFO 82017 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-15 00:42:08.036  INFO 82017 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2024-11-15 00:42:08.043  INFO 82017 --- [nfoReplicator-0] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://abrar2030:abrar2030@localhost:8001/eureka/}, exception=I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:785)
 	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:711)
 	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:602)
@@ -205,8 +205,8 @@ Caused by: java.net.ConnectException: Connection refused
 	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
 	... 41 more
 
-2024-11-15 00:03:46.515  WARN 56340 --- [nfoReplicator-0] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
-2024-11-15 00:03:46.527  WARN 56340 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 - registration failed Cannot execute request on any known server
+2024-11-15 00:42:08.043  WARN 82017 --- [nfoReplicator-0] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
+2024-11-15 00:42:08.058  WARN 82017 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 - registration failed Cannot execute request on any known server
 
 com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
 	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-1.10.17.jar:1.10.17]
@@ -224,7 +224,7 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
 
-2024-11-15 00:03:46.527  WARN 56340 --- [nfoReplicator-0] c.n.discovery.InstanceInfoReplicator     : There was a problem with the instance info replicator
+2024-11-15 00:42:08.059  WARN 82017 --- [nfoReplicator-0] c.n.discovery.InstanceInfoReplicator     : There was a problem with the instance info replicator
 
 com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
 	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-1.10.17.jar:1.10.17]
@@ -242,8 +242,8 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
 
-2024-11-15 00:03:46.530  INFO 56340 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
-2024-11-15 00:03:46.555  INFO 56340 --- [ionShutdownHook] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://abrar2030:abrar2030@localhost:8001/eureka/}, exception=I/O error on DELETE request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on DELETE request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
+2024-11-15 00:42:08.062  INFO 82017 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2024-11-15 00:42:08.094  INFO 82017 --- [ionShutdownHook] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://abrar2030:abrar2030@localhost:8001/eureka/}, exception=I/O error on DELETE request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on DELETE request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
 	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:785)
 	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:711)
 	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:602)
@@ -316,8 +316,8 @@ Caused by: java.net.ConnectException: Connection refused
 	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
 	... 57 more
 
-2024-11-15 00:03:46.555  WARN 56340 --- [ionShutdownHook] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on DELETE request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
-2024-11-15 00:03:46.556 ERROR 56340 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 - de-registration failedCannot execute request on any known server
+2024-11-15 00:42:08.095  WARN 82017 --- [ionShutdownHook] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on DELETE request for "http://abrar2030:abrar2030@localhost:8001/eureka/apps/SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009": Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused; nested exception is org.apache.http.conn.HttpHostConnectException: Connect to localhost:8001 [localhost/127.0.0.1] failed: Connection refused
+2024-11-15 00:42:08.096 ERROR 82017 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_SAVINGS-GOALS-SERVICE/10.255.255.254:savings-goals-service:8009 - de-registration failedCannot execute request on any known server
 
 com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
 	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-1.10.17.jar:1.10.17]
@@ -351,4 +351,4 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:114) ~[spring-boot-2.6.7.jar:2.6.7]
 	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
 
-2024-11-15 00:03:46.563  INFO 56340 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2024-11-15 00:42:08.104  INFO 82017 --- [ionShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
