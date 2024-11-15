@@ -1,14 +1,12 @@
 ---
-
-# templates/deployment-eureka-server.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eureka-server
   labels:
-    {{- include "finovabank.labels" . | nindent 4 }}
+    app: eureka-server
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: eureka-server
@@ -19,6 +17,6 @@ spec:
     spec:
       containers:
         - name: eureka-server
-          image: {{ .Values.image.repository }}/eureka-server:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:eureka-server
           ports:
             - containerPort: 8001

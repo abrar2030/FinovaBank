@@ -1,6 +1,4 @@
 ---
-
-# templates/deployment-notification-service.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +6,7 @@ metadata:
   labels:
     app: notification-service
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: notification-service
@@ -19,6 +17,6 @@ spec:
     spec:
       containers:
         - name: notification-service
-          image: {{ .Values.image.repository }}/notification-service:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:notification-service
           ports:
             - containerPort: 8085

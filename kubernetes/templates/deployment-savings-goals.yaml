@@ -1,6 +1,4 @@
 ---
-
-# templates/deployment-savings-goals.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +6,7 @@ metadata:
   labels:
     app: savings-goals-service
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: savings-goals-service
@@ -19,6 +17,6 @@ spec:
     spec:
       containers:
         - name: savings-goals-service
-          image: {{ .Values.image.repository }}/savings-goals-service:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:savings-goals
           ports:
             - containerPort: 8094

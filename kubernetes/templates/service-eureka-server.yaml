@@ -1,14 +1,12 @@
 ---
-
-# templates/service-eureka-server.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: eureka-server
   labels:
-    {{- include "finovabank.labels" . | nindent 4 }}
+    app: eureka-server
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
     - port: 8001
       targetPort: 8001

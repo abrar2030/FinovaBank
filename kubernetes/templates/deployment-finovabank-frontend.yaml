@@ -1,14 +1,12 @@
 ---
-
-# templates/deployment-frontend.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
   labels:
-    {{- include "finovabank.labels" . | nindent 4 }}
+    app: frontend
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -19,9 +17,9 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: {{ .Values.image.repository }}/frontend:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:frontend
           ports:
             - containerPort: 80
           env:
             - name: API_BASE_URL
-              value: {{ .Values.environment.API_BASE_URL }}
+              value: "http://api-gateway:8002"

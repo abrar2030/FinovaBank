@@ -5,7 +5,7 @@ This script is designed to automate the process of building Docker images and de
 
 ## Usage
 ```bash
-./docker-minikube-deploy.sh [service-name]
+./kubernetes-auto-deploy.sh [service-name]
 ```
 - `[service-name]`: The name of the service to build and deploy. This is a required argument.
 
@@ -51,7 +51,7 @@ Each service has corresponding Kubernetes deployment and service YAML files loca
 ## Example Usage
 To deploy the `api-gateway` service:
 ```bash
-./docker-minikube-deploy.sh api-gateway
+./kubernetes-auto-deploy.sh api-gateway
 ```
 
 ## Error Handling

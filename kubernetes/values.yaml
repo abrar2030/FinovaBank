@@ -2,7 +2,7 @@
 
 replicaCount: 1
 image:
-  repository: abrar2030/finovabank
+  repository: abrar2030/finovabackend
   tag: "latest"
   pullPolicy: IfNotPresent
 service:
@@ -17,3 +17,4 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
+

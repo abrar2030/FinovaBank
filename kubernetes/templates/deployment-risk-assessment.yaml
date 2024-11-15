@@ -1,6 +1,4 @@
 ---
-
-# templates/deployment-risk-assessment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +6,7 @@ metadata:
   labels:
     app: risk-assessment-service
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: risk-assessment-service
@@ -19,6 +17,6 @@ spec:
     spec:
       containers:
         - name: risk-assessment-service
-          image: {{ .Values.image.repository }}/risk-assessment-service:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:risk-assessment
           ports:
             - containerPort: 8092

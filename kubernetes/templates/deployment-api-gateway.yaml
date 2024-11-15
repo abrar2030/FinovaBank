@@ -1,14 +1,12 @@
 ---
-
-# templates/deployment-api-gateway.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-gateway
   labels:
-    {{- include "finovabank.labels" . | nindent 4 }}
+    app: api-gateway
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: api-gateway
@@ -19,11 +17,14 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: {{ .Values.image.repository }}/api-gateway:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:api-gateway
           ports:
             - containerPort: 8002
           env:
-            - name: EUREKA_SERVER
-              value: "http://eureka-server:8001/eureka/"
             - name: JWT_SECRET
-              value: "your_jwt_secret_here"
+              valueFrom:
+                secretKeyRef:
+                  name: paynext-secrets
+                  key: jwt_secret
+            - name: EUREKA_SERVER_URL
+              value: "http://eureka-server:8001/eureka"

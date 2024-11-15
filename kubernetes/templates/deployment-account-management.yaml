@@ -1,0 +1,23 @@
+# deployment-account-management.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-management
+  labels:
+    app: account-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-management
+  template:
+    metadata:
+      labels:
+        app: account-management
+    spec:
+      containers:
+        - name: account-management
+          image: abrar2030/finovabackend:account-management
+          ports:
+            - containerPort: 8095

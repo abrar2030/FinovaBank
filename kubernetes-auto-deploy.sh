@@ -2,7 +2,7 @@
 
 # Check if a service name is provided
 if [ -z "$1" ]; then
-  echo "Usage: ./docker-minikube-deploy.sh [service-name]"
+  echo "Usage: ./docker-minikube-deploy.sh [service-name|all]"
   exit 1
 fi
 
@@ -22,49 +22,102 @@ echo "Using Minikube's Docker environment..."
 # shellcheck disable=SC2046
 eval $(minikube -p $MINIKUBE_PROFILE docker-env)
 
-echo "Building Docker image for $SERVICE_NAME..."
-# Set build context to the 'backend' directory and specify the Dockerfile path
-docker buildx build -t finovabank-"$SERVICE_NAME" -f backend/"$SERVICE_NAME"/Dockerfile backend/
+build_java_project() {
+  local svc=$1
+  echo "Building Java project for $svc..."
+  cd backend/"$svc" || { echo "Directory backend/$svc not found."; exit 1; }
 
-if [ $? -ne 0 ]; then
-  echo "Error building Docker image for $SERVICE_NAME."
-  exit 1
-fi
+  if [ -f "pom.xml" ]; then
+    mvn clean package
+  elif [ -f "build.gradle" ]; then
+    ./gradlew build
+  else
+    echo "No recognized build file found for $svc."
+    exit 1
+  fi
+
+  cd ../../
+}
+
+deploy_service() {
+  local svc=$1
+  build_java_project "$svc"
+
+  echo "Building Docker image for $svc..."
+  docker buildx build -t finovabackend-"$svc" -f backend/"$svc"/Dockerfile backend/"$svc"/
+
+  if [ $? -ne 0 ]; then
+    echo "Error building Docker image for $svc."
+    exit 1
+  fi
+
+  echo "Deploying $svc on Minikube..."
+  kubectl apply -f kubernetes/templates/deployment-"$svc".yaml
+  kubectl apply -f kubernetes/templates/service-"$svc".yaml
+
+  if [ $? -ne 0 ]; then
+    echo "Error deploying $svc."
+    exit 1
+  fi
+
+  echo "$svc deployed successfully on Minikube."
+}
 
 echo "Deploying $SERVICE_NAME on Minikube..."
 case $SERVICE_NAME in
   eureka-server)
-    kubectl apply -f kubernetes/templates/deployment-eureka-server.yaml
-    kubectl apply -f kubernetes/templates/service-eureka-server.yaml
+    deploy_service "eureka-server"
     ;;
   api-gateway)
-    kubectl apply -f kubernetes/templates/deployment-api-gateway.yaml
-    kubectl apply -f kubernetes/templates/service-api-gateway.yaml
+    deploy_service "api-gateway"
     ;;
   account-management)
-    kubectl apply -f kubernetes/templates/deployment-account-management.yaml
-    kubectl apply -f kubernetes/templates/service-account-management.yaml
+    deploy_service "account-management"
     ;;
-  transaction)
-    kubectl apply -f kubernetes/templates/deployment-transaction.yaml
-    kubectl apply -f kubernetes/templates/service-transaction.yaml
+  transaction-service)
+    deploy_service "transaction-service"
     ;;
-  notification)
-    kubectl apply -f kubernetes/templates/deployment-notification.yaml
-    kubectl apply -f kubernetes/templates/service-notification.yaml
+  notification-service)
+    deploy_service "notification-service"
     ;;
-  user-profile)
-    kubectl apply -f kubernetes/templates/deployment-user-profile.yaml
-    kubectl apply -f kubernetes/templates/service-user-profile.yaml
+  loan-management)
+    deploy_service "loan-management"
+    ;;
+  compliance-service)
+    deploy_service "compliance-service"
+    ;;
+  reporting-service)
+    deploy_service "reporting-service"
+    ;;
+  risk-assessment-service)
+    deploy_service "risk-assessment-service"
+    ;;
+  savings-goals-service)
+    deploy_service "savings-goals-service"
     ;;
   frontend)
-    kubectl apply -f kubernetes/templates/deployment-frontend.yaml
-    kubectl apply -f kubernetes/templates/service-frontend.yaml
+    deploy_service "frontend"
+    ;;
+  all)
+    services=(
+      "eureka-server"
+      "api-gateway"
+      "account-management"
+      "transaction-service"
+      "notification-service"
+      "loan-management"
+      "compliance-service"
+      "reporting-service"
+      "risk-assessment-service"
+      "savings-goals-service"
+      "frontend"
+    )
+    for svc in "${services[@]}"; do
+      deploy_service "$svc"
+    done
     ;;
   *)
     echo "Service not recognized: $SERVICE_NAME"
     exit 1
     ;;
 esac
-
-echo "$SERVICE_NAME deployed successfully on Minikube."

@@ -1,14 +1,12 @@
 ---
-
-# templates/service-frontend.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend
   labels:
-    {{- include "finovabank.labels" . | nindent 4 }}
+    app: frontend
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: 80

@@ -1,6 +1,4 @@
 ---
-
-# templates/deployment-loan-management.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +6,7 @@ metadata:
   labels:
     app: loan-management
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: loan-management
@@ -19,6 +17,6 @@ spec:
     spec:
       containers:
         - name: loan-management
-          image: {{ .Values.image.repository }}/loan-management:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:loan-management
           ports:
             - containerPort: 8090

@@ -1,6 +1,4 @@
 ---
-
-# templates/deployment-compliance.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +6,7 @@ metadata:
   labels:
     app: compliance-service
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: compliance-service
@@ -19,6 +17,6 @@ spec:
     spec:
       containers:
         - name: compliance-service
-          image: {{ .Values.image.repository }}/compliance-service:{{ .Values.image.tag }}
+          image: abrar2030/finovabackend:compliance
           ports:
             - containerPort: 8091
