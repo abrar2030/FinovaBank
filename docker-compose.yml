@@ -4,7 +4,7 @@ services:
     build:
       context: .backend/eureka-server
       dockerfile: Dockerfile
-    image: abrar2030/backend:eureka-server
+    image: abrar2030/finovabackend:eureka-server
     container_name: eureka-server
     ports:
       - "8001:8001"
@@ -16,7 +16,7 @@ services:
     build:
       context: .backend/api-gateway
       dockerfile: Dockerfile
-    image: abrar2030/backend:api-gateway
+    image: abrar2030/finovabackend:api-gateway
     container_name: api-gateway
     ports:
       - "8002:8002"
@@ -37,7 +37,7 @@ services:
     build:
       context: .backend/account-management
       dockerfile: Dockerfile
-    image: abrar2030/backend:account-management
+    image: abrar2030/finovabackend:account-management
     container_name: account-management
     ports:
       - "8081:8081"
@@ -52,7 +52,7 @@ services:
     build:
       context: .backend/transaction-service
       dockerfile: Dockerfile
-    image: abrar2030/backend:transaction-service
+    image: abrar2030/finovabackend:transaction-service
     container_name: transaction-service
     ports:
       - "8082:8082"
@@ -68,7 +68,7 @@ services:
     build:
       context: .backend/notification-service
       dockerfile: Dockerfile
-    image: abrar2030/backend:notification-service
+    image: abrar2030/finovabackend:notification-service
     container_name: notification-service
     ports:
       - "8083:8083"
@@ -83,7 +83,7 @@ services:
     build:
       context: .backend/loan-management
       dockerfile: Dockerfile
-    image: abrar2030/backend:loan-management
+    image: abrar2030/finovabackend:loan-management
     container_name: loan-management
     ports:
       - "8084:8084"
@@ -98,7 +98,7 @@ services:
     build:
       context: .backend/compliance
       dockerfile: Dockerfile
-    image: abrar2030/backend:compliance
+    image: abrar2030/finovabackend:compliance
     container_name: compliance-service
     ports:
       - "8085:8085"
@@ -113,7 +113,7 @@ services:
     build:
       context: .backend/reporting
       dockerfile: Dockerfile
-    image: abrar2030/backend:reporting
+    image: abrar2030/finovabackend:reporting
     container_name: reporting-service
     ports:
       - "8086:8086"
@@ -128,7 +128,7 @@ services:
     build:
       context: .backend/risk-assessment
       dockerfile: Dockerfile
-    image: abrar2030/backend:risk-assessment
+    image: abrar2030/finovabackend:risk-assessment
     container_name: risk-assessment-service
     ports:
       - "8087:8087"
@@ -143,7 +143,7 @@ services:
     build:
       context: .backend/savings-goals
       dockerfile: Dockerfile
-    image: abrar2030/backend:savings-goals
+    image: abrar2030/finovabackend:savings-goals
     container_name: savings-goals-service
     ports:
       - "8088:8088"
@@ -158,7 +158,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: abrar2030/backend:frontend
+    image: abrar2030/finovabackend:frontend
     container_name: frontend
     ports:
       - "3000:80"

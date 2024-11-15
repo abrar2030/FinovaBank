@@ -60,8 +60,8 @@ echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 2>
 echo "Successfully logged in to Docker Hub."
 
 # Define Docker Hub repositories
-FRONTEND_REPO="$DOCKER_USERNAME/frontend"
-BACKEND_PREFIX="$DOCKER_USERNAME/backend"
+FRONTEND_REPO="$DOCKER_USERNAME/finovafrontend"
+BACKEND_PREFIX="$DOCKER_USERNAME/finovabackend"
 
 # Services to build and push
 BACKEND_SERVICES=("account-management" "api-gateway" "compliance" "eureka-server" "loan-management" "notification-service" "reporting" "risk-assessment" "savings-goals" "transaction-service")
