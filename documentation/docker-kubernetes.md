@@ -16,7 +16,7 @@ This guide provides commands to build, tag, push Docker images, and deploy Kuber
 
 ### Eureka Server
 ```bash
-docker build -t eureka-server ./backend/eureka-server
+docker buildx build -t eureka-server ./backend/eureka-server
 docker tag eureka-server abrar2030/backend:eureka-server
 docker push abrar2030/backend:eureka-server
 kubectl apply -f kubernetes/templates/deployment-eureka-server.yaml -f kubernetes/templates/service-eureka-server.yaml
@@ -24,7 +24,7 @@ kubectl apply -f kubernetes/templates/deployment-eureka-server.yaml -f kubernete
 
 ### API Gateway
 ```bash
-docker build -t api-gateway ./backend/api-gateway
+docker buildx build -t api-gateway ./backend/api-gateway
 docker tag api-gateway abrar2030/backend:api-gateway
 docker push abrar2030/backend:api-gateway
 kubectl apply -f kubernetes/templates/deployment-api-gateway.yaml -f kubernetes/templates/service-api-gateway.yaml
@@ -32,7 +32,7 @@ kubectl apply -f kubernetes/templates/deployment-api-gateway.yaml -f kubernetes/
 
 ### Account Management
 ```bash
-docker build -t account-management ./backend/account-management
+docker buildx build -t account-management ./backend/account-management
 docker tag account-management abrar2030/backend:account-management
 docker push abrar2030/backend:account-management
 kubectl apply -f kubernetes/templates/deployment-account-management.yaml -f kubernetes/templates/service-account-management.yaml
@@ -40,7 +40,7 @@ kubectl apply -f kubernetes/templates/deployment-account-management.yaml -f kube
 
 ### Compliance Service
 ```bash
-docker build -t compliance ./backend/compliance
+docker buildx build -t compliance ./backend/compliance
 docker tag compliance abrar2030/backend:compliance
 docker push abrar2030/backend:compliance
 kubectl apply -f kubernetes/templates/deployment-compliance.yaml -f kubernetes/templates/service-compliance.yaml
@@ -48,7 +48,7 @@ kubectl apply -f kubernetes/templates/deployment-compliance.yaml -f kubernetes/t
 
 ### Loan Management
 ```bash
-docker build -t loan-management ./backend/loan-management
+docker buildx build -t loan-management ./backend/loan-management
 docker tag loan-management abrar2030/backend:loan-management
 docker push abrar2030/backend:loan-management
 kubectl apply -f kubernetes/templates/deployment-loan-management.yaml -f kubernetes/templates/service-loan-management.yaml
@@ -56,7 +56,7 @@ kubectl apply -f kubernetes/templates/deployment-loan-management.yaml -f kuberne
 
 ### Notification Service
 ```bash
-docker build -t notification-service ./backend/notification-service
+docker buildx build -t notification-service ./backend/notification-service
 docker tag notification-service abrar2030/backend:notification-service
 docker push abrar2030/backend:notification-service
 kubectl apply -f kubernetes/templates/deployment-notification-service.yaml -f kubernetes/templates/service-notification-service.yaml
@@ -64,7 +64,7 @@ kubectl apply -f kubernetes/templates/deployment-notification-service.yaml -f ku
 
 ### Reporting Service
 ```bash
-docker build -t reporting ./backend/reporting
+docker buildx build -t reporting ./backend/reporting
 docker tag reporting abrar2030/backend:reporting
 docker push abrar2030/backend:reporting
 kubectl apply -f kubernetes/templates/deployment-reporting.yaml -f kubernetes/templates/service-reporting.yaml
@@ -72,7 +72,7 @@ kubectl apply -f kubernetes/templates/deployment-reporting.yaml -f kubernetes/te
 
 ### Risk Assessment
 ```bash
-docker build -t risk-assessment ./backend/risk-assessment
+docker buildx build -t risk-assessment ./backend/risk-assessment
 docker tag risk-assessment abrar2030/backend:risk-assessment
 docker push abrar2030/backend:risk-assessment
 kubectl apply -f kubernetes/templates/deployment-risk-assessment.yaml -f kubernetes/templates/service-risk-assessment.yaml
@@ -80,7 +80,7 @@ kubectl apply -f kubernetes/templates/deployment-risk-assessment.yaml -f kuberne
 
 ### Savings Goals
 ```bash
-docker build -t savings-goals ./backend/savings-goals
+docker buildx build -t savings-goals ./backend/savings-goals
 docker tag savings-goals abrar2030/backend:savings-goals
 docker push abrar2030/backend:savings-goals
 kubectl apply -f kubernetes/templates/deployment-savings-goals.yaml -f kubernetes/templates/service-savings-goals.yaml
@@ -88,7 +88,7 @@ kubectl apply -f kubernetes/templates/deployment-savings-goals.yaml -f kubernete
 
 ### Transaction Service
 ```bash
-docker build -t transaction-service ./backend/transaction-service
+docker buildx build -t transaction-service ./backend/transaction-service
 docker tag transaction-service abrar2030/backend:transaction-service
 docker push abrar2030/backend:transaction-service
 kubectl apply -f kubernetes/templates/deployment-transaction-service.yaml -f kubernetes/templates/service-transaction-service.yaml

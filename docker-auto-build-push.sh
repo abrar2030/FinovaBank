@@ -85,7 +85,7 @@ build_and_push() {
 
     # Build Docker image
     echo "Building Docker image for $IMAGE_NAME..."
-    docker build -t "$IMAGE_NAME" "$SERVICE_PATH"
+    docker buildx build -t "$IMAGE_NAME" "$SERVICE_PATH"
     echo "Successfully built $IMAGE_NAME."
 
     # Push Docker image to Docker Hub

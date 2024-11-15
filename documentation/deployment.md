@@ -27,12 +27,12 @@ $ git clone https://github.com/abrar2030/FinovaBank.git
 $ cd finovabank
 ```
 
-#### Step 1.2: Docker Build
+#### Step 1.2: docker buildx build
 Build Docker images for each microservice.
 ```sh
-$ docker build -t finova/api-gateway:latest -f api-gateway/Dockerfile .
-$ docker build -t finova/account-service:latest -f account-service/Dockerfile .
-$ docker build -t finova/transaction-service:latest -f transaction-service/Dockerfile .
+$ docker buildx build -t finova/api-gateway:latest -f api-gateway/Dockerfile .
+$ docker buildx build -t finova/account-service:latest -f account-service/Dockerfile .
+$ docker buildx build -t finova/transaction-service:latest -f transaction-service/Dockerfile .
 ...
 ```
 
@@ -133,9 +133,9 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage('Docker Build') {
+        stage('docker buildx build') {
             steps {
-                sh 'docker build -t finova/account-service:latest .'
+                sh 'docker buildx build -t finova/account-service:latest .'
             }
         }
         stage('Push to Registry') {

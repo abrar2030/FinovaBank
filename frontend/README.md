@@ -53,7 +53,7 @@ To build the Docker image for the FinovaBank frontend:
 2. Build the Docker image:
 
    ```bash
-   docker build -t frontend .
+   docker buildx build -t frontend .
    ```
 
 3. Run the Docker container:

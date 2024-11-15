@@ -78,7 +78,7 @@ project-root/
 
 ## Common Issues
 - **Minikube Not Starting**: If Minikube fails to start, make sure virtualization is enabled on your system and that you have sufficient resources allocated.
-- **Docker Build Errors**: Verify that the Dockerfile exists in the specified path and that all necessary dependencies are available.
+- **docker buildx build Errors**: Verify that the Dockerfile exists in the specified path and that all necessary dependencies are available.
 - **Kubernetes Deployment Errors**: Check that the YAML files for deployments and services are correctly defined and that the Kubernetes cluster has sufficient resources.
 
 ## License

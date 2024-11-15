@@ -74,7 +74,7 @@ build_docker_images() {
 
         if [ -d "$SERVICE_PATH" ]; then
             cd "$SERVICE_PATH"
-            docker build -t finovabank/$SERVICE:1.0 .
+            docker buildx build -t finovabank/$SERVICE:1.0 .
             echo "Docker image for $SERVICE built successfully."
             cd "$PROJECT_ROOT"
         else
@@ -90,7 +90,7 @@ build_docker_images() {
 
     if [ -d "$FRONTEND_DIR" ]; then
         cd "$FRONTEND_DIR"
-        docker build -t finovabank/frontend:1.0 .
+        docker buildx build -t finovabank/frontend:1.0 .
         echo "Docker image for frontend built successfully."
         cd "$PROJECT_ROOT"
     else

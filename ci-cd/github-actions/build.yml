@@ -18,15 +18,15 @@ jobs:
         run: mvn clean install
       - name: Build Docker Images
         run: |
-          docker build -t your-docker-registry/api-gateway:latest -f api-gateway/Dockerfile .
-          docker build -t your-docker-registry/account-service:latest -f account-service/Dockerfile .
-          docker build -t your-docker-registry/transaction-service:latest -f transaction-service/Dockerfile .
-          docker build -t your-docker-registry/loan-service:latest -f loan-service/Dockerfile .
-          docker build -t your-docker-registry/savings-goals-service:latest -f savings-goals-service/Dockerfile .
-          docker build -t your-docker-registry/risk-assessment-service:latest -f risk-assessment-service/Dockerfile .
-          docker build -t your-docker-registry/compliance-service:latest -f compliance-service/Dockerfile .
-          docker build -t your-docker-registry/notification-service:latest -f notification-service/Dockerfile .
-          docker build -t your-docker-registry/reporting-service:latest -f reporting-service/Dockerfile .
+          docker buildx build -t your-docker-registry/api-gateway:latest -f api-gateway/Dockerfile .
+          docker buildx build -t your-docker-registry/account-service:latest -f account-service/Dockerfile .
+          docker buildx build -t your-docker-registry/transaction-service:latest -f transaction-service/Dockerfile .
+          docker buildx build -t your-docker-registry/loan-service:latest -f loan-service/Dockerfile .
+          docker buildx build -t your-docker-registry/savings-goals-service:latest -f savings-goals-service/Dockerfile .
+          docker buildx build -t your-docker-registry/risk-assessment-service:latest -f risk-assessment-service/Dockerfile .
+          docker buildx build -t your-docker-registry/compliance-service:latest -f compliance-service/Dockerfile .
+          docker buildx build -t your-docker-registry/notification-service:latest -f notification-service/Dockerfile .
+          docker buildx build -t your-docker-registry/reporting-service:latest -f reporting-service/Dockerfile .
       - name: Push Docker Images
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}

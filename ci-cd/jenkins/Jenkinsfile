@@ -16,7 +16,7 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push') {
+        stage('docker buildx build & Push') {
             environment {
                 DOCKER_REGISTRY = 'your-docker-registry'
             }
