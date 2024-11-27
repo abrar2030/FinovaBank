@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f8;
+}
+
+.homepage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 24px;
+  color: #2d3436;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav li {
+  margin-left: 20px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #2d3436;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: #0984e3;
+}
+
+.login-button,
+.register-button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #0984e3;
+}
+
+.login-button {
+  background-color: #ffffff;
+  color: #0984e3;
+}
+
+.register-button {
+  background-color: #0984e3;
+  color: #ffffff;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0984e3, #74b9ff);
+  color: #ffffff;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.cta-button {
+  background-color: #ffffff;
+  color: #0984e3;
+  padding: 15px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-decoration: none;
+}
+
+.cta-button:hover {
+  background-color: #74b9ff;
+  color: #ffffff;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 60px 20px;
+  background-color: #ffffff;
+}
+
+.feature {
+  max-width: 300px;
+  text-align: center;
+}
+
+.feature h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #2d3436;
+}
+
+.feature p {
+  font-size: 16px;
+  color: #636e72;
+}
+
+.footer {
+  background-color: #2d3436;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+  .feature {
+    margin-bottom: 40px;
+  }
+}
