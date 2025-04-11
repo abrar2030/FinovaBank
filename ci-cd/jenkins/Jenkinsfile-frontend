@@ -1,0 +1,123 @@
+pipeline {
+    agent any
+    
+    tools {
+        nodejs 'Node 18'
+    }
+    
+    environment {
+        DOCKER_REGISTRY = credentials('docker-registry-url')
+        DOCKER_CREDENTIALS = credentials('docker-credentials')
+        KUBE_CONFIG = credentials('kubernetes-config')
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Frontend Install Dependencies') {
+            steps {
+                dir('frontend') {
+                    sh 'npm ci'
+                }
+            }
+        }
+        
+        stage('Frontend Lint') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run lint'
+                }
+            }
+        }
+        
+        stage('Frontend Test') {
+            steps {
+                dir('frontend') {
+                    sh 'npm test -- --coverage'
+                }
+            }
+            post {
+                always {
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'frontend/coverage',
+                        reportFiles: 'index.html',
+                        reportName: 'Frontend Test Coverage'
+                    ])
+                }
+            }
+        }
+        
+        stage('Frontend Build') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run build'
+                }
+            }
+        }
+        
+        stage('Frontend Docker Build & Push') {
+            steps {
+                script {
+                    // Login to Docker registry
+                    sh 'echo ${DOCKER_CREDENTIALS_PSW} | docker login ${DOCKER_REGISTRY} -u ${DOCKER_CREDENTIALS_USR} --password-stdin'
+                    
+                    // Build and push frontend
+                    dir('frontend') {
+                        def imageTag = "${DOCKER_REGISTRY}/frontend:${env.BUILD_NUMBER}"
+                        sh "docker build -t ${imageTag} ."
+                        sh "docker push ${imageTag}"
+                        
+                        // Also tag as latest if on main branch
+                        if (env.BRANCH_NAME == 'main') {
+                            sh "docker tag ${imageTag} ${DOCKER_REGISTRY}/frontend:latest"
+                            sh "docker push ${DOCKER_REGISTRY}/frontend:latest"
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy Frontend to Kubernetes') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    // Configure kubectl
+                    sh 'mkdir -p ~/.kube'
+                    sh 'echo "${KUBE_CONFIG}" > ~/.kube/config'
+                    
+                    // Apply Kubernetes manifests
+                    sh 'kubectl apply -f infrastructure/kubernetes/namespace.yaml'
+                    sh 'kubectl apply -f infrastructure/kubernetes/frontend-deployment.yaml'
+                    sh 'kubectl apply -f infrastructure/kubernetes/frontend-service.yaml'
+                    
+                    // Update image tag
+                    sh "kubectl set image deployment/frontend frontend=${DOCKER_REGISTRY}/frontend:${env.BUILD_NUMBER} -n finovabank-frontend"
+                    
+                    // Verify deployment
+                    sh 'kubectl rollout status deployment/frontend -n finovabank-frontend --timeout=300s'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'Frontend pipeline completed successfully!'
+        }
+        failure {
+            echo 'Frontend pipeline failed!'
+        }
+    }
+}

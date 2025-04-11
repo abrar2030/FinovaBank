@@ -2,7 +2,7 @@
 services:
   eureka-server:
     build:
-      context: .backend/eureka-server
+      context: ./backend/eureka-server
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:eureka-server
     container_name: eureka-server
@@ -14,7 +14,7 @@ services:
       - EUREKA_SERVER_PORT=8001
   api-gateway:
     build:
-      context: .backend/api-gateway
+      context: ./backend/api-gateway
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:api-gateway
     container_name: api-gateway
@@ -35,7 +35,7 @@ services:
       - API_GATEWAY_PORT=8002
   account-management:
     build:
-      context: .backend/account-management
+      context: ./backend/account-management
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:account-management
     container_name: account-management
@@ -50,7 +50,7 @@ services:
       - ACCOUNT_MANAGEMENT_PORT=8081
   transaction-service:
     build:
-      context: .backend/transaction-service
+      context: ./backend/transaction-service
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:transaction-service
     container_name: transaction-service
@@ -66,7 +66,7 @@ services:
       - TRANSACTION_SERVICE_PORT=8082
   notification-service:
     build:
-      context: .backend/notification-service
+      context: ./backend/notification-service
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:notification-service
     container_name: notification-service
@@ -81,7 +81,7 @@ services:
       - NOTIFICATION_SERVICE_PORT=8083
   loan-management:
     build:
-      context: .backend/loan-management
+      context: ./backend/loan-management
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:loan-management
     container_name: loan-management
@@ -96,7 +96,7 @@ services:
       - LOAN_MANAGEMENT_PORT=8084
   compliance:
     build:
-      context: .backend/compliance
+      context: ./backend/compliance
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:compliance
     container_name: compliance-service
@@ -111,7 +111,7 @@ services:
       - COMPLIANCE_SERVICE_PORT=8085
   reporting:
     build:
-      context: .backend/reporting
+      context: ./backend/reporting
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:reporting
     container_name: reporting-service
@@ -126,7 +126,7 @@ services:
       - REPORTING_SERVICE_PORT=8086
   risk-assessment:
     build:
-      context: .backend/risk-assessment
+      context: ./backend/risk-assessment
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:risk-assessment
     container_name: risk-assessment-service
@@ -141,7 +141,7 @@ services:
       - RISK_ASSESSMENT_SERVICE_PORT=8087
   savings-goals:
     build:
-      context: .backend/savings-goals
+      context: ./backend/savings-goals
       dockerfile: Dockerfile
     image: abrar2030/finovabackend:savings-goals
     container_name: savings-goals-service

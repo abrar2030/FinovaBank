@@ -14,34 +14,37 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
+          distribution: 'adopt'
       - name: Build with Maven
         run: mvn clean install
       - name: Build Docker Images
         run: |
-          docker buildx build -t your-docker-registry/api-gateway:latest -f api-gateway/Dockerfile .
-          docker buildx build -t your-docker-registry/account-service:latest -f account-service/Dockerfile .
-          docker buildx build -t your-docker-registry/transaction-service:latest -f transaction-service/Dockerfile .
-          docker buildx build -t your-docker-registry/loan-service:latest -f loan-service/Dockerfile .
-          docker buildx build -t your-docker-registry/savings-goals-service:latest -f savings-goals-service/Dockerfile .
-          docker buildx build -t your-docker-registry/risk-assessment-service:latest -f risk-assessment-service/Dockerfile .
-          docker buildx build -t your-docker-registry/compliance-service:latest -f compliance-service/Dockerfile .
-          docker buildx build -t your-docker-registry/notification-service:latest -f notification-service/Dockerfile .
-          docker buildx build -t your-docker-registry/reporting-service:latest -f reporting-service/Dockerfile .
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:api-gateway -f backend/api-gateway/Dockerfile backend/api-gateway
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:account-management -f backend/account-management/Dockerfile backend/account-management
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:transaction-service -f backend/transaction-service/Dockerfile backend/transaction-service
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:loan-management -f backend/loan-management/Dockerfile backend/loan-management
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:savings-goals -f backend/savings-goals/Dockerfile backend/savings-goals
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:risk-assessment -f backend/risk-assessment/Dockerfile backend/risk-assessment
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:compliance -f backend/compliance/Dockerfile backend/compliance
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:notification-service -f backend/notification-service/Dockerfile backend/notification-service
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:reporting -f backend/reporting/Dockerfile backend/reporting
+          docker buildx build -t ${DOCKER_USERNAME:-abrar2030}/finovabackend:frontend -f frontend/Dockerfile frontend
       - name: Push Docker Images
         env:
-          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push your-docker-registry/api-gateway:latest
-          docker push your-docker-registry/account-service:latest
-          docker push your-docker-registry/transaction-service:latest
-          docker push your-docker-registry/loan-service:latest
-          docker push your-docker-registry/savings-goals-service:latest
-          docker push your-docker-registry/risk-assessment-service:latest
-          docker push your-docker-registry/compliance-service:latest
-          docker push your-docker-registry/notification-service:latest
-          docker push your-docker-registry/reporting-service:latest
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:api-gateway
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:account-management
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:transaction-service
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:loan-management
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:savings-goals
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:risk-assessment
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:compliance
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:notification-service
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:reporting
+          docker push ${DOCKER_USERNAME:-abrar2030}/finovabackend:frontend
       - name: Deploy to Kubernetes
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}

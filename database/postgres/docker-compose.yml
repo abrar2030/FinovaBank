@@ -4,8 +4,8 @@ services:
   account-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: accountdb
     ports:
       - "5433:5432"
@@ -14,8 +14,8 @@ services:
   transaction-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: transactiondb
     ports:
       - "5434:5432"
@@ -24,8 +24,8 @@ services:
   loan-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: loandb
     ports:
       - "5435:5432"
@@ -34,8 +34,8 @@ services:
   savings-goals-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: savingsdb
     ports:
       - "5436:5432"
@@ -44,8 +44,8 @@ services:
   risk-assessment-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: riskdb
     ports:
       - "5437:5432"
@@ -54,8 +54,8 @@ services:
   compliance-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: compliancedb
     ports:
       - "5438:5432"
@@ -64,8 +64,8 @@ services:
   notification-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: notificationdb
     ports:
       - "5439:5432"
@@ -74,8 +74,8 @@ services:
   reporting-db:
     image: postgres:13
     environment:
-      POSTGRES_USER: abrar2030
-      POSTGRES_PASSWORD: abrar2030
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
       POSTGRES_DB: reportingdb
     ports:
       - "5440:5432"
