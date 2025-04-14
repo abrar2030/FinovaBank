@@ -4,16 +4,14 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#3366FF', // Vibrant blue
-      light: '#6690FF',
-      dark: '#1939B7',
-      contrastText: '#FFFFFF',
+      main: '#1976d2',
+      light: '#42a5f5',
+      dark: '#1565c0',
     },
     secondary: {
-      main: '#7B61FF', // Modern purple
-      light: '#9F8BFF',
-      dark: '#5A3FD6',
-      contrastText: '#FFFFFF',
+      main: '#9c27b0',
+      light: '#ba68c8',
+      dark: '#7b1fa2',
     },
     success: {
       main: '#00C853',
@@ -36,8 +34,8 @@ const theme = createTheme({
       dark: '#0288D1',
     },
     background: {
-      default: '#F8FAFC',
-      paper: '#FFFFFF',
+      default: '#f5f5f5',
+      paper: '#ffffff',
     },
     text: {
       primary: '#1E293B',
@@ -46,36 +44,41 @@ const theme = createTheme({
     divider: '#E2E8F0',
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
     h1: {
-      fontWeight: 700,
       fontSize: '2.5rem',
-      lineHeight: 1.2,
+      fontWeight: 500,
     },
     h2: {
-      fontWeight: 700,
       fontSize: '2rem',
-      lineHeight: 1.2,
+      fontWeight: 500,
     },
     h3: {
-      fontWeight: 600,
       fontSize: '1.75rem',
-      lineHeight: 1.3,
+      fontWeight: 500,
     },
     h4: {
-      fontWeight: 600,
       fontSize: '1.5rem',
-      lineHeight: 1.3,
+      fontWeight: 500,
     },
     h5: {
-      fontWeight: 600,
       fontSize: '1.25rem',
-      lineHeight: 1.4,
+      fontWeight: 500,
     },
     h6: {
-      fontWeight: 600,
       fontSize: '1rem',
-      lineHeight: 1.4,
+      fontWeight: 500,
     },
     subtitle1: {
       fontSize: '1rem',
@@ -134,32 +137,16 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          textTransform: 'none',
           borderRadius: 8,
-          padding: '10px 20px',
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-          },
-        },
-        contained: {
-          '&:hover': {
-            boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.1)',
-          },
-        },
-        outlined: {
-          borderWidth: 2,
-          '&:hover': {
-            borderWidth: 2,
-          },
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
-          boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-          overflow: 'hidden',
+          borderRadius: 12,
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         },
       },
     },

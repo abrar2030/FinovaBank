@@ -35,7 +35,7 @@ import {
   Person as PersonIcon,
   Help as HelpIcon
 } from '@mui/icons-material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const drawerWidth = 260;
@@ -86,16 +86,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
   
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
     { text: 'Accounts', icon: <AccountBalanceIcon />, path: '/accounts' },
     { text: 'Transactions', icon: <PaymentIcon />, path: '/transactions' },
-    { text: 'Cards', icon: <CreditCardIcon />, path: '/cards' },
     { text: 'Savings Goals', icon: <SavingsIcon />, path: '/savings' },
     { text: 'Loans', icon: <CreditCardIcon />, path: '/loans' },
   ];
   
   const secondaryMenuItems = [
-    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
     { text: 'Help & Support', icon: <HelpIcon />, path: '/support' },
   ];
 
@@ -315,23 +313,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${open ? drawerWidth : 0}px)` },
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-          ml: 0,
-          ...(open && {
-            transition: theme.transitions.create('margin', {
-              easing: theme.transitions.easing.easeOut,
-              duration: theme.transitions.duration.enteringScreen,
-            }),
-            ml: 0,
-          }),
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          mt: '64px', // Height of AppBar
         }}
       >
-        <Toolbar />
-        {children}
+        <Outlet />
       </Box>
       
       {/* Profile Menu */}

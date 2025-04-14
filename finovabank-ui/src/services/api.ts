@@ -1,5 +1,72 @@
 import axios from 'axios';
 
+// Type definitions
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'USER' | 'ADMIN';
+  createdAt: string;
+}
+
+interface Account {
+  id: string;
+  type: string;
+  balance: number;
+  currency: string;
+  createdAt: string;
+}
+
+interface Transaction {
+  id: string;
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER';
+  amount: number;
+  description: string;
+  date: string;
+  accountId: string;
+}
+
+interface Loan {
+  id: string;
+  amount: number;
+  interestRate: number;
+  term: number;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'PAID';
+  createdAt: string;
+}
+
+interface SavingsGoal {
+  id: number;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  targetDate: string;
+  createdAt: string;
+}
+
+interface CreateAccountData {
+  type: string;
+  currency: string;
+}
+
+interface CreateTransactionData {
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER';
+  amount: number;
+  description: string;
+  accountId: string;
+}
+
+interface CreateLoanData {
+  amount: number;
+  term: number;
+}
+
+interface CreateSavingsGoalData {
+  name: string;
+  targetAmount: number;
+  targetDate: string;
+}
+
 // Create axios instance
 const api = axios.create({
   baseURL: 'http://localhost:8080/api',
@@ -41,61 +108,64 @@ api.interceptors.response.use(
 // Account API
 export const accountAPI = {
   getAccounts: () => 
-    api.get('/accounts'),
+    api.get<Account[]>('/accounts'),
   
-  getAccountDetails: (accountId: string | undefined) => 
-    api.get(`/accounts/${accountId}`),
+  getAccountDetails: (accountId: string) => 
+    api.get<Account>(`/accounts/${accountId}`),
   
-  createAccount: (data: any) => 
-    api.post('/accounts', data),
+  createAccount: (data: CreateAccountData) => 
+    api.post<Account>('/accounts', data),
 };
 
 // Transaction API
 export const transactionAPI = {
-  getTransactions: (params?: any) => 
-    api.get('/transactions', { params }),
+  getTransactions: (params?: { accountId?: string; startDate?: string; endDate?: string }) => 
+    api.get<Transaction[]>('/transactions', { params }),
   
-  createTransaction: (data: any) => 
-    api.post('/transactions', data),
+  createTransaction: (data: CreateTransactionData) => 
+    api.post<Transaction>('/transactions', data),
 };
 
 // Auth API
 export const authAPI = {
   login: (email: string, password: string) => 
-    api.post('/auth/login', { email, password }),
+    api.post<{ token: string; user: User }>('/auth/login', { email, password }),
   
   register: (name: string, email: string, password: string) => 
-    api.post('/auth/register', { name, email, password }),
+    api.post<{ token: string; user: User }>('/auth/register', { name, email, password }),
+
+  verifyToken: (token: string) =>
+    api.post<{ valid: boolean }>('/auth/verify', { token }),
 };
 
 // Loan API
 export const loanAPI = {
   getLoans: () => 
-    api.get('/loans'),
+    api.get<Loan[]>('/loans'),
   
   getLoanDetails: (loanId: string) => 
-    api.get(`/loans/${loanId}`),
+    api.get<Loan>(`/loans/${loanId}`),
   
-  applyForLoan: (data: any) => 
-    api.post('/loans', data),
+  applyForLoan: (data: CreateLoanData) => 
+    api.post<Loan>('/loans', data),
 };
 
 // Savings API
 export const savingsAPI = {
   getSavingsGoals: () => 
-    api.get('/savings'),
+    api.get<SavingsGoal[]>('/savings'),
   
   getSavingsGoalDetails: (goalId: string) => 
-    api.get(`/savings/${goalId}`),
+    api.get<SavingsGoal>(`/savings/${goalId}`),
   
-  createSavingsGoal: (data: any) => 
-    api.post('/savings', data),
+  createSavingsGoal: (data: CreateSavingsGoalData) => 
+    api.post<SavingsGoal>('/savings', data),
   
-  updateSavingsGoal: (goalId: number, data: any) => 
-    api.put(`/savings/${goalId}`, data),
+  updateSavingsGoal: (goalId: number, data: Partial<CreateSavingsGoalData>) => 
+    api.put<SavingsGoal>(`/savings/${goalId}`, data),
   
   deleteSavingsGoal: (goalId: number) => 
-    api.delete(`/savings/${goalId}`),
+    api.delete<void>(`/savings/${goalId}`),
 };
 
 export default api;
