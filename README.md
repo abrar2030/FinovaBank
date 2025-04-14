@@ -4,6 +4,11 @@
 
 **FinovaBank** is a comprehensive digital banking platform designed to provide core banking services such as account management, transaction processing, and user notifications. This project utilizes a modern tech stack with a microservices architecture, enabling scalability, security, and high availability. The platform aims to meet the needs of users by offering flexible, efficient, and secure banking solutions.
 
+
+<div align="center">
+  <img src="FinovaBank.bmp" alt="A comprehensive digital banking platform" width="100%">
+</div>
+
 > **Note**: FinovaBank is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
 
 ## Table of Contents
