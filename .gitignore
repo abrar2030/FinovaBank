@@ -82,12 +82,12 @@ yarn-error.log
 # yarn.lock
 
 # Frontend build artifacts
-/code/frontend/build/
-/code/frontend/dist/
+/frontend/build/
+/frontend/dist/
 .cache/
 
 # Jest cache
-/code/frontend/.jest-cache
+/frontend/.jest-cache
 
 # Webpack cache
 .webpack/
@@ -149,4 +149,3 @@ CarbonXchange.bmp
 
 # Scripts output/temp files (if any)
 # Add specific patterns if lint-all.sh or git-auto-commit.sh create temp files
-
