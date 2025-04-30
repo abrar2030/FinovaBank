@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { commonStyles, responsiveWidth } from '../styles/commonStyles'; // Import common styles
+import { commonStyles, colors, responsiveWidth } from '../styles/commonStyles'; // Import common styles and colors
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
@@ -25,18 +25,18 @@ const DashboardScreen = () => {
   ];
 
   return (
-    <ScrollView style={commonStyles.container}> // Use ScrollView for potentially long content
+    <ScrollView style={commonStyles.container}> {/* Use ScrollView for potentially long content */}
       <Text style={commonStyles.titleText}>Welcome Back!</Text>
 
       {/* Account Summary Section */}
-      <View style={styles.sectionContainer}>
+      <View style={[commonStyles.card, styles.sectionContainer]}> {/* Use card style */}
         <Text style={styles.sectionTitle}>Account Summary</Text>
-        <Text style={styles.balanceText}>Balance: ${accountSummary.balance.toFixed(2)}</Text>
+        <Text style={styles.balanceText}>${accountSummary.balance.toFixed(2)}</Text>
         <Text style={styles.accountNumberText}>Account: {accountSummary.accountNumber}</Text>
       </View>
 
       {/* Quick Actions Section */}
-      <View style={styles.sectionContainer}>
+      <View style={[commonStyles.card, styles.sectionContainer]}> {/* Use card style */}
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         {quickActions.map((action, index) => (
           <TouchableOpacity
@@ -58,36 +58,31 @@ const DashboardScreen = () => {
 // Add specific styles for DashboardScreen
 const styles = StyleSheet.create({
   sectionContainer: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: responsiveWidth(4), // Responsive padding
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    marginBottom: 20, // Increased margin between cards
+    // Removed background color, shadow etc. as it's handled by commonStyles.card
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
+    fontWeight: '600', // Semibold
+    marginBottom: 12,
+    color: colors.textPrimary,
   },
   balanceText: {
-    fontSize: 22,
+    fontSize: 28, // Larger balance font size
     fontWeight: 'bold',
-    color: '#28a745', // Green color for balance
-    marginBottom: 5,
+    color: colors.primary, // Use primary color for balance
+    marginBottom: 8,
   },
   accountNumberText: {
-    fontSize: 14,
-    color: '#6c757d',
+    fontSize: 15,
+    color: colors.textSecondary,
   },
   actionButton: {
-    backgroundColor: '#17a2b8', // Different color for action buttons
-    marginBottom: 10, // Add margin between buttons
+    marginBottom: 12, // Add margin between buttons
+    width: '100%', // Make buttons full width within the card
+    alignSelf: 'auto', // Reset alignSelf from commonStyles.button
   },
 });
 
 export default DashboardScreen;
+

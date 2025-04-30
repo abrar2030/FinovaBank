@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { commonStyles } from '../styles/commonStyles'; // Import common styles
-import { loginUser } from '../services/api'; // Import API service
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
+import { commonStyles, colors } from '../styles/commonStyles'; // Import common styles and colors
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
+import { useAuth } from '../context/AuthContext'; // Import useAuth hook
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State for login error message
+  const { login, isLoading } = useAuth(); // Get login function and loading state from context
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleLogin = async () => {
+    setError(''); // Clear previous errors
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password.');
+      setError('Please enter both email and password.');
       return;
     }
     try {
-      // TODO: Replace with actual API call and response handling
-      // const response = await loginUser({ email, password });
-      // console.log('Login successful:', response.data);
-      // Assume login is successful for now
-      Alert.alert('Success', 'Login successful (simulated)!');
-      // Navigate to Dashboard after successful login
-      navigation.replace('Dashboard'); // Use replace to prevent going back to Login
-    } catch (error: any) { // Specify 'any' or a more specific error type
-      console.error('Login failed:', error);
-      const errorMessage = error.response?.data?.error?.message || 'Login failed. Please try again.';
-      Alert.alert('Login Failed', errorMessage);
+      await login({ email, password });
+      // Navigation is handled by AppNavigator based on userToken change
+    } catch (apiError: any) { // Specify 'any' or a more specific error type
+      console.error('Login failed:', apiError);
+      const errorMessage = apiError.response?.data?.error?.message || apiError.message || 'Login failed. Please check your credentials and try again.';
+      setError(errorMessage);
     }
   };
 
@@ -38,49 +36,75 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={commonStyles.container}> // Use common container style
-      <Text style={commonStyles.titleText}>Finovabank Login</Text> // Use common title style
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TouchableOpacity style={commonStyles.button} onPress={handleLogin}> // Use common button style
-        <Text style={commonStyles.buttonText}>Login</Text> // Use common button text style
-      </TouchableOpacity>
-      <TouchableOpacity style={[commonStyles.button, styles.registerButton]} onPress={navigateToRegister}> // Use common button style
-        <Text style={commonStyles.buttonText}>Register</Text>
-      </TouchableOpacity>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={commonStyles.container}
+    >
+      <View style={styles.innerContainer}>
+        <Text style={commonStyles.titleText}>Welcome Back!</Text>
+        <Text style={commonStyles.subtitleText}>Login to your FinovaBank account</Text>
+
+        {error ? <Text style={commonStyles.errorText}>{error}</Text> : null}
+
+        <TextInput
+          style={commonStyles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor={colors.textSecondary}
+          editable={!isLoading} // Disable input during loading
+        />
+        <TextInput
+          style={commonStyles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          placeholderTextColor={colors.textSecondary}
+          editable={!isLoading} // Disable input during loading
+        />
+        <TouchableOpacity
+          style={[commonStyles.button, isLoading && styles.buttonDisabled]} // Apply disabled style if loading
+          onPress={handleLogin}
+          disabled={isLoading} // Disable button during loading
+        >
+          {isLoading ? (
+            <ActivityIndicator color={colors.background} />
+          ) : (
+            <Text style={commonStyles.buttonText}>Login</Text>
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[commonStyles.button, commonStyles.buttonSecondary, styles.registerButton, isLoading && styles.buttonDisabled]} // Use secondary button style
+          onPress={navigateToRegister}
+          disabled={isLoading} // Disable button during loading
+        >
+          <Text style={[commonStyles.buttonText, commonStyles.buttonTextSecondary]}>Don't have an account? Register</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 // Add specific styles for LoginScreen if needed
 const styles = StyleSheet.create({
-  input: {
-    height: 45,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    backgroundColor: '#ffffff',
-    width: '90%', // Example responsive width
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center', // Center content vertically
+    alignItems: 'center', // Center content horizontally
+    width: '100%',
   },
   registerButton: {
-    backgroundColor: '#6c757d', // Different color for register button
-    marginTop: 10,
+    marginTop: 10, // Keep specific margin if needed
+    borderWidth: 0, // Remove border if using surface background for secondary
+    backgroundColor: 'transparent', // Make background transparent for text-like button
+  },
+  buttonDisabled: {
+    opacity: 0.6, // Reduce opacity for disabled buttons
   },
 });
 
 export default LoginScreen;
+

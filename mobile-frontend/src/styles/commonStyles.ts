@@ -2,31 +2,92 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
+// Define modern color palette
+const colors = {
+  primary: '#0A7AFF', // Modern Blue
+  secondary: '#34C759', // Green
+  background: '#FFFFFF', // White
+  surface: '#F2F2F7', // Light Gray for cards/surfaces
+  textPrimary: '#1C1C1E', // Dark Gray
+  textSecondary: '#8E8E93', // Medium Gray
+  border: '#E5E5EA', // Subtle Gray
+  error: '#FF3B30', // Red
+};
+
 // Define common styles and responsive utilities
 export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16, // Add some padding
-    backgroundColor: '#f5f5f5', // Example background color
+    padding: 20, // Increased padding
+    backgroundColor: colors.background,
   },
   titleText: {
-    fontSize: width > 360 ? 24 : 20, // Adjust font size based on width
+    fontSize: width > 360 ? 28 : 24, // Slightly larger font size
     fontWeight: 'bold',
+    color: colors.textPrimary,
+    marginBottom: 24, // Increased margin
+    textAlign: 'center',
+  },
+  subtitleText: {
+    fontSize: width > 360 ? 18 : 16,
+    color: colors.textSecondary,
     marginBottom: 16,
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#007bff',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    paddingVertical: 14, // Increased padding
+    paddingHorizontal: 24,
+    borderRadius: 12, // More rounded corners
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 16,
+    minWidth: '80%', // Ensure buttons have a good width
+    alignSelf: 'center',
+  },
+  buttonSecondary: {
+    backgroundColor: colors.surface,
+    borderColor: colors.primary,
+    borderWidth: 1,
   },
   buttonText: {
-    color: '#ffffff',
+    color: colors.background, // White text for primary button
+    fontSize: 17,
+    fontWeight: '600', // Semibold
+  },
+  buttonTextSecondary: {
+    color: colors.primary, // Primary color text for secondary button
+  },
+  input: {
+    height: 50, // Increased height
+    borderColor: colors.border,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 16,
+    paddingHorizontal: 15,
+    backgroundColor: colors.surface, // Light background for input
     fontSize: 16,
-    fontWeight: 'bold',
+    color: colors.textPrimary,
+    width: '100%', // Use full width within padding
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2, // For Android shadow
+  },
+  errorText: {
+    color: colors.error,
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 10,
   },
   // Add more common styles as needed
 });
@@ -39,4 +100,7 @@ export const responsiveWidth = (percentage: number) => {
 export const responsiveHeight = (percentage: number) => {
   return (height * percentage) / 100;
 };
+
+// Export colors for use in specific components if needed
+export { colors };
 

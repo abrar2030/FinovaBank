@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert, ScrollView } from 'react-native';
-import { commonStyles, responsiveWidth } from '../styles/commonStyles'; // Import common styles
+import { commonStyles, colors, responsiveWidth } from '../styles/commonStyles'; // Import common styles and colors
 import { getAccountDetails } from '../services/api'; // Import API service
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
@@ -50,7 +50,7 @@ const AccountDetailsScreen = () => {
         console.error('Failed to fetch account details:', err);
         const errorMessage = err.response?.data?.error?.message || err.message || 'Failed to load account details.';
         setError(errorMessage);
-        Alert.alert('Error', errorMessage);
+        // Alert.alert('Error', errorMessage); // Optionally show alert or just display error text
       } finally {
         setLoading(false);
       }
@@ -62,8 +62,8 @@ const AccountDetailsScreen = () => {
   if (loading) {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
-        <ActivityIndicator size="large" color="#007bff" />
-        <Text>Loading Account Details...</Text>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={styles.loadingText}>Loading Account Details...</Text>
       </View>
     );
   }
@@ -71,7 +71,8 @@ const AccountDetailsScreen = () => {
   if (error) {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
-        <Text style={styles.errorText}>Error: {error}</Text>
+        <Text style={commonStyles.errorText}>Error: {error}</Text>
+        {/* Optionally add a retry button */}
       </View>
     );
   }
@@ -79,16 +80,16 @@ const AccountDetailsScreen = () => {
   if (!accountDetails) {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
-        <Text>No account details found.</Text>
+        <Text style={styles.infoText}>No account details found.</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView style={commonStyles.container}> // Use ScrollView
+    <ScrollView style={commonStyles.container}> {/* Use ScrollView */}
       <Text style={commonStyles.titleText}>Account Details</Text>
 
-      <View style={styles.detailsContainer}>
+      <View style={[commonStyles.card, styles.detailsContainer]}> {/* Use card style */}
         <View style={styles.detailRow}>
           <Text style={styles.detailLabel}>Account ID:</Text>
           <Text style={styles.detailValue}>{accountDetails.accountId}</Text>
@@ -105,7 +106,7 @@ const AccountDetailsScreen = () => {
           <Text style={styles.detailLabel}>Account Type:</Text>
           <Text style={styles.detailValue}>{accountDetails.accountType}</Text>
         </View>
-        <View style={styles.detailRow}>
+        <View style={[styles.detailRow, styles.lastDetailRow]}> {/* Remove border from last row */}
           <Text style={styles.detailLabel}>Balance:</Text>
           <Text style={[styles.detailValue, styles.balanceValue]}>${accountDetails.balance.toFixed(2)}</Text>
         </View>
@@ -120,44 +121,49 @@ const AccountDetailsScreen = () => {
 // Add specific styles for AccountDetailsScreen
 const styles = StyleSheet.create({
   centerContent: {
+    flex: 1, // Ensure it takes full height
     justifyContent: 'center',
     alignItems: 'center',
   },
-  errorText: {
-    color: 'red',
+  loadingText: {
+    marginTop: 10,
     fontSize: 16,
+    color: colors.textSecondary,
+  },
+  infoText: {
+    fontSize: 16,
+    color: colors.textSecondary,
   },
   detailsContainer: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: responsiveWidth(4), // Responsive padding
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    // Removed background color, shadow etc. as it's handled by commonStyles.card
   },
   detailRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    alignItems: 'center',
+    paddingVertical: 15, // Increased padding
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.border, // Use modern border color
+  },
+  lastDetailRow: {
+    borderBottomWidth: 0, // No border for the last item
   },
   detailLabel: {
     fontSize: 16,
-    color: '#333',
+    color: colors.textPrimary,
     fontWeight: '500',
   },
   detailValue: {
     fontSize: 16,
-    color: '#555',
+    color: colors.textSecondary,
+    textAlign: 'right',
   },
   balanceValue: {
     fontWeight: 'bold',
-    color: '#28a745',
+    color: colors.primary, // Use primary color for balance
+    fontSize: 18, // Slightly larger balance value
   },
 });
 
 export default AccountDetailsScreen;
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert } from 'react-native';
-import { commonStyles, responsiveWidth } from '../styles/commonStyles'; // Import common styles
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import { commonStyles, colors, responsiveWidth } from '../styles/commonStyles'; // Import common styles and colors
 // TODO: Import the actual API function, e.g., getAccountTransactions
 // import { getAccountTransactions } from '../services/api';
 
@@ -16,45 +16,58 @@ interface Transaction {
 const TransactionsScreen = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // TODO: Get accountId from context or route params if needed
   const accountId = '1'; // Placeholder
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
+  const fetchTransactions = async (isRefreshing = false) => {
+    if (!isRefreshing) {
       setLoading(true);
-      setError(null);
-      try {
-        // TODO: Replace with actual API call
-        // const response = await getAccountTransactions(accountId);
-        // setTransactions(response.data);
+    }
+    setError(null);
+    try {
+      // TODO: Replace with actual API call
+      // const response = await getAccountTransactions(accountId);
+      // setTransactions(response.data);
 
-        // Simulate API call for now
-        await new Promise(resolve => setTimeout(resolve, 1200)); // Simulate network delay
-        const simulatedData: Transaction[] = [
-          { id: 't101', date: '2025-04-28', description: 'Grocery Store', amount: 75.50, type: 'DEBIT' },
-          { id: 't102', date: '2025-04-27', description: 'Salary Deposit', amount: 2500.00, type: 'CREDIT' },
-          { id: 't103', date: '2025-04-26', description: 'Online Purchase', amount: 120.00, type: 'DEBIT' },
-          { id: 't104', date: '2025-04-25', description: 'Utility Bill', amount: 95.00, type: 'DEBIT' },
-          { id: 't105', date: '2025-04-24', description: 'Friend Transfer', amount: 50.00, type: 'CREDIT' },
-        ];
-        setTransactions(simulatedData);
+      // Simulate API call for now
+      await new Promise(resolve => setTimeout(resolve, 1200)); // Simulate network delay
+      const simulatedData: Transaction[] = [
+        { id: 't101', date: '2025-04-28', description: 'Grocery Store Run', amount: 75.50, type: 'DEBIT' },
+        { id: 't102', date: '2025-04-27', description: 'Monthly Salary Deposit', amount: 2500.00, type: 'CREDIT' },
+        { id: 't103', date: '2025-04-26', description: 'Online Shopping - Gadget', amount: 120.00, type: 'DEBIT' },
+        { id: 't104', date: '2025-04-25', description: 'Electricity Bill Payment', amount: 95.00, type: 'DEBIT' },
+        { id: 't105', date: '2025-04-24', description: 'Transfer from Jane Doe', amount: 50.00, type: 'CREDIT' },
+        { id: 't106', date: '2025-04-23', description: 'Coffee Shop', amount: 5.75, type: 'DEBIT' },
+        { id: 't107', date: '2025-04-22', description: 'Restaurant Dinner', amount: 65.20, type: 'DEBIT' },
+      ];
+      setTransactions(simulatedData);
 
-      } catch (err: any) {
-        console.error('Failed to fetch transactions:', err);
-        const errorMessage = err.response?.data?.error?.message || err.message || 'Failed to load transactions.';
-        setError(errorMessage);
-        Alert.alert('Error', errorMessage);
-      } finally {
+    } catch (err: any) {
+      console.error('Failed to fetch transactions:', err);
+      const errorMessage = err.response?.data?.error?.message || err.message || 'Failed to load transactions.';
+      setError(errorMessage);
+      // Alert.alert('Error', errorMessage); // Optionally show alert
+    } finally {
+      if (!isRefreshing) {
         setLoading(false);
       }
-    };
+      setRefreshing(false);
+    }
+  };
 
+  useEffect(() => {
     fetchTransactions();
   }, [accountId]);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchTransactions(true);
+  };
+
   const renderTransactionItem = ({ item }: { item: Transaction }) => (
-    <View style={styles.transactionItem}>
+    <View style={[commonStyles.card, styles.transactionItem]}> {/* Use card style */}
       <View style={styles.transactionDetails}>
         <Text style={styles.transactionDescription}>{item.description}</Text>
         <Text style={styles.transactionDate}>{item.date}</Text>
@@ -68,16 +81,17 @@ const TransactionsScreen = () => {
   if (loading) {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
-        <ActivityIndicator size="large" color="#007bff" />
-        <Text>Loading Transactions...</Text>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={styles.loadingText}>Loading Transactions...</Text>
       </View>
     );
   }
 
-  if (error) {
+  if (error && transactions.length === 0) { // Show error only if no data is loaded
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
-        <Text style={styles.errorText}>Error: {error}</Text>
+        <Text style={commonStyles.errorText}>Error: {error}</Text>
+        {/* Optionally add a retry button */}
       </View>
     );
   }
@@ -85,11 +99,16 @@ const TransactionsScreen = () => {
   return (
     <View style={commonStyles.container}>
       <Text style={commonStyles.titleText}>Recent Transactions</Text>
+      {error && <Text style={[commonStyles.errorText, styles.inlineError]}>Failed to refresh: {error}</Text>} {/* Show refresh error inline */}
       <FlatList
         data={transactions}
         renderItem={renderTransactionItem}
         keyExtractor={(item) => item.id}
         ListEmptyComponent={<Text style={styles.emptyText}>No transactions found.</Text>}
+        contentContainerStyle={styles.listContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[colors.primary]} tintColor={colors.primary} />
+        }
       />
     </View>
   );
@@ -98,33 +117,33 @@ const TransactionsScreen = () => {
 // Add specific styles for TransactionsScreen
 const styles = StyleSheet.create({
   centerContent: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  errorText: {
-    color: 'red',
+  loadingText: {
+    marginTop: 10,
     fontSize: 16,
-    textAlign: 'center',
+    color: colors.textSecondary,
+  },
+  inlineError: {
+    marginBottom: 10,
   },
   emptyText: {
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 50,
     fontSize: 16,
-    color: '#6c757d',
+    color: colors.textSecondary,
+  },
+  listContainer: {
+    paddingBottom: 20, // Add padding at the bottom of the list
   },
   transactionItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: responsiveWidth(3.5), // Responsive padding
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.0,
-    elevation: 1,
+    marginBottom: 12, // Use marginBottom from commonStyles.card or adjust as needed
+    padding: 15, // Adjust padding within the card
   },
   transactionDetails: {
     flex: 1, // Allow details to take available space
@@ -133,23 +152,24 @@ const styles = StyleSheet.create({
   transactionDescription: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
+    color: colors.textPrimary,
+    marginBottom: 4, // Add space between description and date
   },
   transactionDate: {
-    fontSize: 12,
-    color: '#6c757d',
-    marginTop: 2,
+    fontSize: 13,
+    color: colors.textSecondary,
   },
   transactionAmount: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 17,
+    fontWeight: '600', // Semibold
   },
   creditAmount: {
-    color: '#28a745', // Green for credit
+    color: colors.secondary, // Use secondary color (green) for credit
   },
   debitAmount: {
-    color: '#dc3545', // Red for debit
+    color: colors.error, // Use error color (red) for debit
   },
 });
 
 export default TransactionsScreen;
+
