@@ -41,16 +41,20 @@ else
     COMMIT_MESSAGE="Auto-commit on $(date '+%Y-%m-%d %H:%M:%S')"
 fi
 
-# Check for any changes
-if git diff-index --quiet HEAD --; then
+# =====================================================
+# Check for any changes, including untracked files
+# =====================================================
+# `git status --porcelain` outputs a line for each change:
+#  - modified files, deletions, new files, etc.
+if [ -z "$(git status --porcelain)" ]; then
     echo "No changes detected. Nothing to commit."
     exit 0
 else
     echo "Changes detected. Proceeding with commit."
 fi
 
-# Add all changes to staging
-git add .
+# Add all changes (tracked + untracked) to staging
+git add --all
 
 # Commit the changes with the commit message
 git commit -m "$COMMIT_MESSAGE"
