@@ -148,4 +148,4 @@ terraform.rc
 CarbonXchange.bmp
 
 # Scripts output/temp files (if any)
-# Add specific patterns if lint-all.sh or git-auto-commit.sh create temp files
+# Add specific patterns if lint-all.sh or git-auto-commit.sh create temp filesgit-auto-commit.sh
