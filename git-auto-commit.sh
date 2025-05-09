@@ -5,47 +5,27 @@
 # =====================================================
 # This script automates the process of committing and
 # pushing changes to a GitHub repository.
-#
-# Usage:
-#   ./git-auto-commit.sh "Your commit message"
-#   ./git-auto-commit.sh          # Generates a default commit message
+# Always uses a fixed commit message for consistency.
 # =====================================================
 
-# Function to display usage information
-usage() {
-    echo "Usage: $0 [commit message]"
-    echo ""
-    echo "If no commit message is provided, a default message with the current date and time will be used."
-    exit 1
-}
-
 # Check if Git is installed
-if ! command -v git &> /dev/null
-then
+if ! command -v git &> /dev/null; then
     echo "Error: Git is not installed. Please install Git before running this script."
     exit 1
 fi
 
 # Check if inside a Git repository
-if ! git rev-parse --is-inside-work-tree &> /dev/null
-then
+if ! git rev-parse --is-inside-work-tree &> /dev/null; then
     echo "Error: This script must be run inside a Git repository."
     exit 1
 fi
 
-# Fetch the commit message from the first argument, if provided
-if [ $# -ge 1 ]; then
-    COMMIT_MESSAGE="$*"
-else
-    # Generate a default commit message with current date and time
-    COMMIT_MESSAGE="Auto-commit on $(date '+%Y-%m-%d %H:%M:%S')"
-fi
+# Fixed commit message
+COMMIT_MESSAGE="Implement updates for better performance"
 
 # =====================================================
 # Check for any changes, including untracked files
 # =====================================================
-# `git status --porcelain` outputs a line for each change:
-#  - modified files, deletions, new files, etc.
 if [ -z "$(git status --porcelain)" ]; then
     echo "No changes detected. Nothing to commit."
     exit 0
@@ -56,7 +36,7 @@ fi
 # Add all changes (tracked + untracked) to staging
 git add --all
 
-# Commit the changes with the commit message
+# Commit the changes with the fixed commit message
 git commit -m "$COMMIT_MESSAGE"
 
 # Pull remote changes to avoid conflicts
