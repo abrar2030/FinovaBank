@@ -144,8 +144,7 @@ terraform.rc
 # Large data files (consider Git LFS if needed)
 /resources/datasets/*.csv
 
-# Specific project files
-CarbonXchange.bmp
-
 # Scripts output/temp files (if any)
 # Add specific patterns if lint-all.sh or git-auto-commit.sh create temp filesgit-auto-commit.sh
+
+git-auto-commit.sh
