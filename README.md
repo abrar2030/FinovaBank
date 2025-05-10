@@ -6,7 +6,7 @@
 
 
 <div align="center">
-  <img src="FinovaBank.bmp" alt="A comprehensive digital banking platform" width="100%">
+  <img src="docs/FinovaBank.bmp" alt="A comprehensive digital banking platform" width="100%">
 </div>
 
 > **Note**: FinovaBank is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
