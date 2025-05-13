@@ -144,9 +144,5 @@ terraform.rc
 /resources/datasets/*.csv
 
 # Specific project files
-
-# Scripts output/temp files (if any)
-# Add specific patterns if lint-all.sh or git-auto-commit.sh create temp files
-
 git-auto-commit.sh
 
