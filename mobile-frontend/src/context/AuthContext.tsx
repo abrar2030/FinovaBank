@@ -1,14 +1,21 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Assuming AsyncStorage is installed or needs to be
-import { loginUser, registerUser } from '../services/api'; // Import actual API functions
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loginUser, registerUser, logoutUser, AuthResponse, LoginCredentials, RegisterData } from '../services/api';
 
 // Define the shape of the auth context data
 interface AuthContextData {
   userToken: string | null;
+  userData: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  } | null;
   isLoading: boolean;
-  login: (credentials: any) => Promise<void>; // Adjust 'any' based on login credentials type
+  isAuthenticated: boolean;
+  login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
-  register: (userData: any) => Promise<void>; // Adjust 'any' based on registration data type
+  register: (userData: RegisterData) => Promise<void>;
 }
 
 // Create the context with a default value
@@ -19,68 +26,105 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+// Storage keys
+const TOKEN_STORAGE_KEY = 'finovabank_user_token';
+const USER_DATA_STORAGE_KEY = 'finovabank_user_data';
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userToken, setUserToken] = useState<string | null>(null);
+  const [userData, setUserData] = useState<AuthResponse['user'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check for stored token on app start
+  // Check for stored token and user data on app start
   useEffect(() => {
     const bootstrapAsync = async () => {
-      let token: string | null = null;
+      setIsLoading(true);
       try {
-        // TODO: Replace 'userToken' with your actual storage key
-        token = await AsyncStorage.getItem('userToken');
+        const [token, userDataString] = await Promise.all([
+          AsyncStorage.getItem(TOKEN_STORAGE_KEY),
+          AsyncStorage.getItem(USER_DATA_STORAGE_KEY)
+        ]);
+        
+        if (token) {
+          setUserToken(token);
+        }
+        
+        if (userDataString) {
+          setUserData(JSON.parse(userDataString));
+        }
       } catch (e) {
-        // Restoring token failed
-        console.error('Restoring token failed', e);
+        console.error('Failed to restore authentication state', e);
+      } finally {
+        setIsLoading(false);
       }
-      setUserToken(token);
-      setIsLoading(false);
     };
 
     bootstrapAsync();
   }, []);
 
-  const authContextValue = {
+  const storeAuthData = async (response: AuthResponse) => {
+    try {
+      await AsyncStorage.setItem(TOKEN_STORAGE_KEY, response.token);
+      await AsyncStorage.setItem(USER_DATA_STORAGE_KEY, JSON.stringify(response.user));
+      setUserToken(response.token);
+      setUserData(response.user);
+    } catch (error) {
+      console.error('Failed to store auth data', error);
+      throw new Error('Failed to store authentication data');
+    }
+  };
+
+  const clearAuthData = async () => {
+    try {
+      await AsyncStorage.multiRemove([TOKEN_STORAGE_KEY, USER_DATA_STORAGE_KEY]);
+      setUserToken(null);
+      setUserData(null);
+    } catch (error) {
+      console.error('Failed to clear auth data', error);
+      throw new Error('Failed to clear authentication data');
+    }
+  };
+
+  const authContextValue: AuthContextData = {
     userToken,
+    userData,
     isLoading,
-    login: async (credentials: any) => {
+    isAuthenticated: !!userToken,
+    
+    login: async (credentials: LoginCredentials) => {
       setIsLoading(true);
       try {
-        // Replace with actual API call
-        // const response = await loginUser(credentials);
-        // const token = response.data.token; // Assuming API returns a token
-        const token = 'dummy-auth-token'; // Simulate successful login
-        await AsyncStorage.setItem('userToken', token);
-        setUserToken(token);
+        const response = await loginUser(credentials);
+        await storeAuthData(response.data);
       } catch (error) {
         console.error('Login failed:', error);
-        // Rethrow or handle error appropriately (e.g., show message)
         throw error;
       } finally {
         setIsLoading(false);
       }
     },
+    
     logout: async () => {
       setIsLoading(true);
       try {
-        await AsyncStorage.removeItem('userToken');
-        setUserToken(null);
+        if (userToken) {
+          await logoutUser();
+        }
+        await clearAuthData();
       } catch (error) {
         console.error('Logout failed:', error);
-        throw error;
+        // Still clear local auth data even if API call fails
+        await clearAuthData();
       } finally {
         setIsLoading(false);
       }
     },
-    register: async (userData: any) => {
+    
+    register: async (userData: RegisterData) => {
       setIsLoading(true);
       try {
-        // Replace with actual API call
-        // await registerUser(userData);
-        // Optionally log the user in automatically after registration
-        // For now, just simulate success
-        console.log('Registration successful (simulated)');
+        const response = await registerUser(userData);
+        await storeAuthData(response.data);
       } catch (error) {
         console.error('Registration failed:', error);
         throw error;
@@ -99,6 +143,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 // Custom hook to use the auth context
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
-
