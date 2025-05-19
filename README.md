@@ -1,24 +1,25 @@
-# Digital Banking Platform
+# FinovaBank
 
-[![CI Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/ci-cd.yml?branch=main&label=CI&logo=github)](https://github.com/abrar2030/FinovaBank/actions)
-[![CI Status](https://img.shields.io/github/workflow/status/abrar2030/FinovaBank/CI/main?label=CI)](https://github.com/abrar2030/FinovaBank/actions)
-[![Test Coverage](https://img.shields.io/codecov/c/github/abrar2030/FinovaBank/main?label=Coverage)](https://codecov.io/gh/abrar2030/FinovaBank)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/complete-workflow.yml?branch=main&label=CI/CD&logo=github)](https://github.com/abrar2030/FinovaBank/actions)
+[![Backend Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/backend-workflow.yml?branch=main&label=Backend&logo=java)](https://github.com/abrar2030/FinovaBank/actions)
+[![Frontend Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/frontend-workflow.yml?branch=main&label=Frontend&logo=react)](https://github.com/abrar2030/FinovaBank/actions)
+[![License](https://img.shields.io/github/license/abrar2030/FinovaBank)](https://github.com/abrar2030/FinovaBank/blob/main/LICENSE)
 
-## Overview
+## 🏦 Digital Banking Platform with AI & Blockchain
 
-FinovaBank is a comprehensive digital banking platform that combines traditional banking services with modern fintech innovations. The platform offers a secure, user-friendly experience for personal and business banking needs, leveraging blockchain for enhanced security and AI for personalized financial insights.
+FinovaBank is a modern digital banking platform that combines traditional banking services with cutting-edge technologies like artificial intelligence and blockchain to provide secure, efficient, and personalized financial services.
 
 <div align="center">
-  <img src="docs/FinovaBank.bmp" alt="Digital Banking Platform" width="100%">
+  <img src="docs/images/finovabank_dashboard.png" alt="FinovaBank Dashboard" width="80%">
 </div>
 
-> **Note**: FinovaBank is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
+> **Note**: This project is under active development. Features and functionalities are continuously being enhanced to improve banking capabilities and user experience.
 
 ## Table of Contents
+- [Overview](#overview)
 - [Key Features](#key-features)
-- [Feature Implementation Status](#feature-implementation-status)
 - [Technology Stack](#technology-stack)
+- [Security Measures](#security-measures)
 - [Architecture](#architecture)
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
@@ -27,101 +28,151 @@ FinovaBank is a comprehensive digital banking platform that combines traditional
 - [Contributing](#contributing)
 - [License](#license)
 
+## Overview
+
+FinovaBank is a comprehensive digital banking platform designed to provide a seamless banking experience for customers while leveraging modern technologies to enhance security, efficiency, and personalization. The platform offers traditional banking services alongside innovative features powered by AI and blockchain technology.
+
 ## Key Features
 
-- **Core Banking Services**: Accounts, transfers, payments, and cards management
-- **Mobile Banking**: Full-featured mobile application for on-the-go banking
-- **Blockchain Integration**: Enhanced security and transparent transaction records
-- **AI-Powered Insights**: Personalized financial advice and spending analysis
-- **Open Banking APIs**: Integration with third-party financial services
-- **Regulatory Compliance**: Built-in compliance with banking regulations
+### Core Banking Services
+- **Account Management**: Create and manage various account types (checking, savings, investment)
+- **Payment Processing**: Domestic and international transfers with real-time tracking
+- **Card Management**: Virtual and physical card issuance and control
+- **Loan Services**: Application, approval, and management of various loan products
+- **Bill Payments**: Automated and scheduled bill payments with reminders
 
-## Feature Implementation Status
+### AI-Powered Financial Intelligence
+- **Personalized Insights**: AI-driven analysis of spending patterns and financial habits
+- **Smart Budgeting**: Automated budget recommendations based on income and expenses
+- **Fraud Detection**: Real-time monitoring and alerting for suspicious activities
+- **Credit Scoring**: Alternative credit assessment using machine learning
+- **Chatbot Assistant**: Natural language processing for customer support
 
-| Feature | Status | Description | Planned Release |
-|---------|--------|-------------|----------------|
-| **Core Banking** |
-| Account Management | ✅ Implemented | Create and manage various account types | v1.0 |
-| Money Transfers | ✅ Implemented | Domestic and international transfers | v1.0 |
-| Bill Payments | ✅ Implemented | Utility and service bill payments | v1.0 |
-| Card Management | ✅ Implemented | Credit and debit card services | v1.0 |
-| Loan Processing | 🔄 In Progress | Personal and business loan applications | v1.1 |
-| Investment Products | 📅 Planned | Stocks, bonds, and mutual funds | v1.2 |
-| **Mobile Banking** |
-| iOS Application | ✅ Implemented | Native iOS banking app | v1.0 |
-| Android Application | ✅ Implemented | Native Android banking app | v1.0 |
-| Biometric Authentication | ✅ Implemented | Fingerprint and face recognition | v1.0 |
-| Mobile Check Deposit | 🔄 In Progress | Deposit checks via mobile camera | v1.1 |
-| Voice Banking | 📅 Planned | Voice-activated banking commands | v1.2 |
-| **Blockchain Integration** |
-| Transaction Ledger | ✅ Implemented | Immutable transaction records | v1.0 |
-| Smart Contracts | ✅ Implemented | Automated financial agreements | v1.0 |
-| Digital Identity | 🔄 In Progress | Blockchain-based identity verification | v1.1 |
-| Cross-Border Payments | 🔄 In Progress | Blockchain-powered international transfers | v1.1 |
-| Tokenized Assets | 📅 Planned | Digital representation of physical assets | v1.2 |
-| **AI Features** |
-| Spending Analysis | ✅ Implemented | Categorized transaction insights | v1.0 |
-| Budget Recommendations | ✅ Implemented | Personalized budgeting advice | v1.0 |
-| Fraud Detection | ✅ Implemented | AI-powered suspicious activity alerts | v1.0 |
-| Investment Advice | 🔄 In Progress | Personalized investment recommendations | v1.1 |
-| Predictive Banking | 📅 Planned | Anticipate financial needs and behaviors | v1.2 |
-| **Open Banking** |
-| Developer Portal | ✅ Implemented | Documentation and API access | v1.0 |
-| Account Information API | ✅ Implemented | Secure account data access | v1.0 |
-| Payment Initiation API | ✅ Implemented | Third-party payment processing | v1.0 |
-| Marketplace Integration | 🔄 In Progress | Connect with fintech partners | v1.1 |
-| Data Analytics API | 📅 Planned | Aggregated financial insights | v1.2 |
-| **Compliance & Security** |
-| KYC/AML Compliance | ✅ Implemented | Customer verification processes | v1.0 |
-| Data Encryption | ✅ Implemented | End-to-end encryption | v1.0 |
-| Regulatory Reporting | ✅ Implemented | Automated compliance reporting | v1.0 |
-| Advanced Threat Protection | 🔄 In Progress | AI-based security monitoring | v1.1 |
-| Regulatory Sandbox | 📅 Planned | Test environment for compliance | v1.2 |
+### Blockchain Integration
+- **Immutable Transaction Records**: Blockchain-backed transaction history
+- **Smart Contracts**: Automated execution of financial agreements
+- **Digital Identity**: Secure and portable KYC verification
+- **Cross-Border Payments**: Fast and low-cost international transfers
+- **Tokenized Assets**: Support for digital asset management
 
-**Legend:**
-- ✅ Implemented: Feature is complete and available
-- 🔄 In Progress: Feature is currently being developed
-- 📅 Planned: Feature is planned for future release
+### Open Banking Features
+- **API Ecosystem**: Developer-friendly APIs for third-party integration
+- **Partner Marketplace**: Curated financial services from partners
+- **Data Sharing Controls**: Granular permissions for data access
+- **Regulatory Compliance**: Built-in compliance with open banking regulations
+- **Analytics Dashboard**: Insights for developers and partners
 
 ## Technology Stack
 
 ### Backend
-- **Java/Spring Boot**: Core banking services
-- **Node.js**: API gateway and middleware
-- **Python**: AI and data analytics
-- **Hyperledger Fabric**: Enterprise blockchain framework
-- **PostgreSQL/MongoDB**: Relational and document databases
+- **Languages**: Java, Kotlin
+- **Frameworks**: Spring Boot, Quarkus
+- **Database**: PostgreSQL, MongoDB
+- **Message Queue**: Kafka, RabbitMQ
+- **Cache**: Redis
+- **Search**: Elasticsearch
 
 ### Frontend
-- **React.js**: Web application
-- **React Native**: Mobile applications
-- **Redux**: State management
-- **D3.js**: Data visualization
-- **Material-UI/Tailwind CSS**: UI frameworks
+- **Framework**: React with TypeScript
+- **State Management**: Redux Toolkit
+- **Styling**: Material-UI, Styled Components
+- **Data Visualization**: D3.js, Recharts
+- **Mobile**: React Native
 
-### DevOps & Infrastructure
-- **Docker/Kubernetes**: Containerization and orchestration
-- **AWS/Azure**: Cloud infrastructure
-- **Terraform**: Infrastructure as code
-- **Jenkins/GitHub Actions**: CI/CD pipelines
-- **ELK Stack**: Logging and monitoring
+### AI & Machine Learning
+- **Languages**: Python, R
+- **Frameworks**: TensorFlow, PyTorch, scikit-learn
+- **NLP**: BERT, Transformers
+- **Data Processing**: Pandas, NumPy
+- **Model Serving**: TensorFlow Serving, MLflow
 
-### Security
-- **OAuth 2.0/OpenID Connect**: Authentication and authorization
-- **HashiCorp Vault**: Secrets management
-- **Snyk/SonarQube**: Security scanning
-- **WAF/DDoS Protection**: Network security
+### Blockchain
+- **Platforms**: Hyperledger Fabric, Ethereum
+- **Smart Contracts**: Solidity, Chaincode
+- **Integration**: Web3.js, Ethers.js
+- **Identity**: Decentralized Identifiers (DIDs)
+- **Consensus**: Practical Byzantine Fault Tolerance (PBFT)
+
+### DevOps
+- **Containerization**: Docker
+- **Orchestration**: Kubernetes
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Prometheus, Grafana
+- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
+- **Infrastructure as Code**: Terraform, Ansible
+
+## Security Measures
+
+FinovaBank implements multiple layers of security to protect customer data and financial assets:
+
+### Authentication & Authorization
+- **Multi-Factor Authentication**: Biometric, SMS, and app-based verification
+- **Role-Based Access Control**: Granular permissions for system access
+- **OAuth 2.0/OpenID Connect**: Secure authentication protocols
+- **JWT Tokens**: Secure API access
+
+### Data Protection
+- **End-to-End Encryption**: For all data in transit
+- **At-Rest Encryption**: For all stored data
+- **Data Masking**: For sensitive information
+- **Secure Key Management**: HSM integration
+
+### Compliance & Auditing
+- **Regulatory Compliance**: GDPR, PSD2, CCPA, etc.
+- **Audit Logging**: Comprehensive activity tracking
+- **Penetration Testing**: Regular security assessments
+- **Vulnerability Management**: Continuous scanning and remediation
+
+### Network Security
+- **Web Application Firewall**: Protection against common attacks
+- **DDoS Protection**: Mitigation of denial-of-service attacks
+- **API Security**: Rate limiting and request validation
+- **Intrusion Detection**: Real-time monitoring for suspicious activities
+
+### Additional Security
+- **Secure SDLC**: Security integrated into development lifecycle
+- **Security Automation**: Automated security testing in CI/CD
+- **Snyk/SonarQube**: Security scanning for code and dependencies
+- **WAF/DDoS Protection**: Network security measures
 
 ## Architecture
 
 FinovaBank follows a microservices architecture with these key components:
 
-1. **API Gateway**: Entry point for all client requests, handling routing and authentication
-2. **Core Banking Services**: Microservices for accounts, transfers, payments, etc.
-3. **Blockchain Layer**: Handles immutable transaction records and smart contracts
-4. **AI Engine**: Processes financial data for insights and fraud detection
-5. **Data Layer**: Manages structured and unstructured data storage
-6. **Integration Layer**: Connects with external systems and third-party services
+```
+FinovaBank/
+├── API Gateway
+│   ├── Authentication & Authorization
+│   ├── Request Routing
+│   ├── Rate Limiting
+│   └── API Documentation
+├── Core Banking Services
+│   ├── Account Service
+│   ├── Payment Service
+│   ├── Card Service
+│   ├── Loan Service
+│   └── Customer Service
+├── Blockchain Layer
+│   ├── Transaction Ledger
+│   ├── Smart Contract Engine
+│   ├── Digital Identity Service
+│   └── Asset Tokenization
+├── AI Engine
+│   ├── Fraud Detection
+│   ├── Financial Insights
+│   ├── Credit Scoring
+│   └── Chatbot Service
+├── Data Layer
+│   ├── Relational Database
+│   ├── Document Store
+│   ├── Time Series Database
+│   └── Data Warehouse
+└── Integration Layer
+    ├── Partner APIs
+    ├── Regulatory Reporting
+    ├── Payment Networks
+    └── External Services
+```
 
 ## Installation and Setup
 
@@ -132,7 +183,20 @@ FinovaBank follows a microservices architecture with these key components:
 - Docker and Docker Compose
 - Kubernetes cluster (for production deployment)
 
-### Local Development Setup
+### Quick Start with Setup Script
+```bash
+# Clone the repository
+git clone https://github.com/abrar2030/FinovaBank.git
+cd FinovaBank
+
+# Run the setup script
+./finovabank.sh setup
+
+# Start the application
+./finovabank.sh start
+```
+
+### Manual Local Development Setup
 
 1. Clone the repository:
 ```bash
@@ -151,7 +215,7 @@ cd ../gateway
 npm install
 
 # Frontend
-cd ../frontend
+cd ../web-frontend
 npm install
 
 # AI services
@@ -176,27 +240,89 @@ cd backend
 ./mvnw flyway:migrate
 ```
 
+### Kubernetes Deployment
+
+For production deployment using Kubernetes:
+
+```bash
+# Deploy to Kubernetes
+./kubernetes-auto-deploy.sh production
+
+# Check deployment status
+kubectl get pods -n finovabank
+```
+
 ## Usage
 
 ### Customer Onboarding
+
 1. Register for an account on the platform
+   - Sign up with email or phone number
+   - Verify identity with KYC process
+   - Create secure login credentials
+
 2. Complete KYC verification
+   - Upload identification documents
+   - Verify personal information
+   - Complete biometric verification
+
 3. Set up security preferences
+   - Configure multi-factor authentication
+   - Set transaction limits and alerts
+   - Customize privacy settings
 
 ### Banking Operations
+
 1. Create and manage accounts
+   - Open checking, savings, or investment accounts
+   - Set account preferences and notifications
+   - View transaction history and statements
+
 2. Perform transfers and payments
+   - Transfer funds between accounts
+   - Send money to other users
+   - Schedule recurring payments
+   - Pay bills and invoices
+
 3. Manage cards and settings
+   - Request physical or virtual cards
+   - Set card limits and restrictions
+   - Enable/disable cards for specific uses
+   - Track card transactions
 
 ### Financial Insights
+
 1. View spending analysis
+   - Categorized expense breakdown
+   - Spending trends and patterns
+   - Merchant-specific analytics
+
 2. Get budget recommendations
+   - Personalized budget suggestions
+   - Savings opportunities
+   - Expense reduction tips
+
 3. Set financial goals
+   - Create savings targets
+   - Track progress toward goals
+   - Receive achievement notifications
 
 ### Developer Integration
+
 1. Register on the developer portal
+   - Create developer account
+   - Define application use case
+   - Accept terms and conditions
+
 2. Generate API keys
+   - Create and manage API credentials
+   - Set access scopes and permissions
+   - Configure webhook endpoints
+
 3. Integrate with available APIs
+   - Access API documentation
+   - Use SDKs and sample code
+   - Test in sandbox environment
 
 ## Testing
 
@@ -206,31 +332,34 @@ The project includes comprehensive testing to ensure reliability and security:
 - Backend services with JUnit and Mockito
 - Frontend components with Jest and React Testing Library
 - AI models with pytest
+- Blockchain components with Truffle/Hardhat
 
 ### Integration Testing
 - API endpoint tests with Postman/Newman
 - Service-to-service communication tests
 - Database integration tests
+- Blockchain integration tests
 
 ### End-to-End Testing
 - User journey tests with Cypress
 - Mobile app tests with Detox
 - Performance tests with JMeter
+- Load testing with Gatling
 
 ### Security Testing
-- Penetration testing
-- Vulnerability scanning
-- Compliance verification
+- Penetration testing with OWASP ZAP
+- Vulnerability scanning with Snyk
+- Compliance verification with custom tools
+- Secure code review
 
 To run tests:
-
 ```bash
 # Backend tests
 cd backend
 ./mvnw test
 
 # Frontend tests
-cd frontend
+cd web-frontend
 npm test
 
 # API gateway tests
@@ -244,6 +373,9 @@ pytest
 # End-to-end tests
 cd e2e
 npm test
+
+# Run all tests
+./run_all_tests.sh
 ```
 
 ## CI/CD Pipeline
@@ -255,17 +387,19 @@ FinovaBank uses GitHub Actions for continuous integration and deployment:
 - Code quality checks with SonarQube
 - Security scanning with Snyk
 - Test coverage reporting
+- Performance benchmarking
 
 ### Continuous Deployment
 - Automated deployment to development environment on merge to develop
 - Automated deployment to staging environment on merge to main
 - Manual promotion to production after approval
 - Infrastructure updates via Terraform
+- Database migration management
 
 Current CI/CD Status:
-- Build: ![Build Status](https://img.shields.io/github/workflow/status/abrar2030/FinovaBank/CI/main?label=build)
-- Test Coverage: ![Coverage](https://img.shields.io/codecov/c/github/abrar2030/FinovaBank/main?label=coverage)
-- Code Quality: ![Code Quality](https://img.shields.io/sonar/quality_gate/abrar2030_FinovaBank?server=https%3A%2F%2Fsonarcloud.io&label=code%20quality)
+- Main: ![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/complete-workflow.yml?branch=main&label=build)
+- Backend: ![Backend Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/backend-workflow.yml?branch=main&label=backend)
+- Frontend: ![Frontend Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/frontend-workflow.yml?branch=main&label=frontend)
 
 ## Contributing
 
@@ -297,7 +431,6 @@ We welcome contributions to improve FinovaBank! Here's how you can contribute:
    - Respond to review comments and make necessary adjustments
 
 ### Development Guidelines
-
 - Follow Java code conventions for backend services
 - Use ESLint and Prettier for JavaScript/React code
 - Follow PEP 8 style guide for Python code
