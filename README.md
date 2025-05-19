@@ -1,5 +1,6 @@
 # Digital Banking Platform
 
+[![CI Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/ci-cd.yml?branch=main&label=CI&logo=github)](https://github.com/abrar2030/FinovaBank/actions)
 [![CI Status](https://img.shields.io/github/workflow/status/abrar2030/FinovaBank/CI/main?label=CI)](https://github.com/abrar2030/FinovaBank/actions)
 [![Test Coverage](https://img.shields.io/codecov/c/github/abrar2030/FinovaBank/main?label=Coverage)](https://codecov.io/gh/abrar2030/FinovaBank)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
