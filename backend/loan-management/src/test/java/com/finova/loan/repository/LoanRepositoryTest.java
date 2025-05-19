@@ -1,42 +1,41 @@
 package com.finovabank.repositories;
 
-import com.finova.loan.model.Loan; // Assuming model exists here, adjust if needed
-import com.finova.loan.repository.LoanRepository; // Corrected import
+import com.finova.loan.LoanManagementApplication;
+import com.finova.loan.model.Loan;
+import com.finova.loan.repository.LoanRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ContextConfiguration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
-@DataJpaTest // Use DataJpaTest for repository tests
+import static org.junit.jupiter.api.Assertions.*;
+
+@DataJpaTest
+@ContextConfiguration(classes = LoanManagementApplication.class)
 public class LoanRepositoryTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private LoanRepository loanRepository;
 
     @Test
-    public void whenFindById_thenReturnLoan() {
-        // Given
-        // Loan loan = new Loan(); // Need actual Loan model details
-        // loan.setSomeProperty("test"); // Set properties based on Loan model
-        // entityManager.persist(loan);
-        // entityManager.flush();
-
-        // When
-        // Loan found = loanRepository.findById(loan.getId()).orElse(null);
-
-        // Then
-        // assertThat(found).isNotNull();
-        // assertThat(found.getSomeProperty()).isEqualTo(loan.getSomeProperty());
-
-        // Placeholder assertion until Loan model is known
-        assertThat(loanRepository).isNotNull();
+    public void testSaveAndFindLoan() {
+        // Create a test loan
+        Loan loan = new Loan();
+        loan.setLoanNumber("LOAN123456");
+        loan.setAmount(new BigDecimal("10000.00"));
+        loan.setInterestRate(new BigDecimal("5.25"));
+        loan.setTermMonths(36);
+        loan.setCustomerId("customer123");
+        loan.setStatus("PENDING");
+        
+        // Save the loan
+        Loan savedLoan = loanRepository.save(loan);
+        
+        // Verify the loan was saved with an ID
+        assertNotNull(savedLoan.getId());
     }
-
-    // Add more tests for other repository methods (e.g., save, delete, custom queries)
 }
-

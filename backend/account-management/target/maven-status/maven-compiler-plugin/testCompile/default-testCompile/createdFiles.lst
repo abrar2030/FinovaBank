@@ -1,0 +1,5 @@
+com/finovabank/services/AccountServiceTest.class
+com/finova/account/integration/AccountServiceIntegrationTest.class
+com/finova/account/repository/AccountRepositoryTest.class
+com/finova/account/AccountManagementApplication.class
+com/finovabank/controllers/AccountControllerTest.class

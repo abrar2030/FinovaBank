@@ -1,42 +1,78 @@
-package com.finovabank.repositories;
+package com.finova.account.repository;
 
-import com.finova.account.model.Account; // Assuming model exists here, adjust if needed
-import com.finova.account.repository.AccountRepository; // Corrected import
+import com.finova.account.AccountManagementApplication;
+import com.finova.account.model.Account;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ContextConfiguration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
-@DataJpaTest // Use DataJpaTest for repository tests
+import static org.junit.jupiter.api.Assertions.*;
+
+@DataJpaTest
+@ContextConfiguration(classes = AccountManagementApplication.class)
 public class AccountRepositoryTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private AccountRepository accountRepository;
 
     @Test
-    public void whenFindById_thenReturnAccount() {
-        // Given
-        // Account account = new Account(); // Need actual Account model details
-        // account.setSomeProperty("test"); // Set properties based on Account model
-        // entityManager.persist(account);
-        // entityManager.flush();
-
-        // When
-        // Account found = accountRepository.findById(account.getId()).orElse(null);
-
-        // Then
-        // assertThat(found).isNotNull();
-        // assertThat(found.getSomeProperty()).isEqualTo(account.getSomeProperty());
-
-        // Placeholder assertion until Account model is known
-        assertThat(accountRepository).isNotNull();
+    public void testSaveAndFindAccount() {
+        // Create a test account
+        Account account = new Account();
+        account.setAccountNumber("TEST123456");
+        account.setBalance(new BigDecimal("1000.00"));
+        account.setCustomerId("customer123");
+        
+        // Save the account
+        Account savedAccount = accountRepository.save(account);
+        
+        // Verify the account was saved with an ID
+        assertNotNull(savedAccount.getId());
+        
+        // Find the account by ID
+        Optional<Account> foundAccount = accountRepository.findById(savedAccount.getId());
+        
+        // Verify the account was found
+        assertTrue(foundAccount.isPresent());
+        assertEquals("TEST123456", foundAccount.get().getAccountNumber());
+        assertEquals(0, new BigDecimal("1000.00").compareTo(foundAccount.get().getBalance()));
+        assertEquals("customer123", foundAccount.get().getCustomerId());
     }
 
-    // Add more tests for other repository methods (e.g., save, delete, custom queries)
+    @Test
+    public void testFindByCustomerId() {
+        // Create test accounts
+        Account account1 = new Account();
+        account1.setAccountNumber("ACC1");
+        account1.setBalance(new BigDecimal("1000.00"));
+        account1.setCustomerId("customer123");
+        
+        Account account2 = new Account();
+        account2.setAccountNumber("ACC2");
+        account2.setBalance(new BigDecimal("2000.00"));
+        account2.setCustomerId("customer123");
+        
+        Account account3 = new Account();
+        account3.setAccountNumber("ACC3");
+        account3.setBalance(new BigDecimal("3000.00"));
+        account3.setCustomerId("customer456");
+        
+        // Save the accounts
+        accountRepository.save(account1);
+        accountRepository.save(account2);
+        accountRepository.save(account3);
+        
+        // Find accounts by customer ID
+        List<Account> customerAccounts = accountRepository.findByCustomerId("customer123");
+        
+        // Verify the correct accounts were found
+        assertEquals(2, customerAccounts.size());
+        assertTrue(customerAccounts.stream().anyMatch(a -> a.getAccountNumber().equals("ACC1")));
+        assertTrue(customerAccounts.stream().anyMatch(a -> a.getAccountNumber().equals("ACC2")));
+    }
 }
-

@@ -1,0 +1,5 @@
+com/finova/loan/LoanManagementApplication.class
+com/finovabank/controllers/LoanControllerTest.class
+com/finova/loan/integration/LoanServiceIntegrationTest.class
+com/finovabank/repositories/LoanRepositoryTest.class
+com/finovabank/services/LoanServiceTest.class

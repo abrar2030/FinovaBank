@@ -1,32 +1,37 @@
 package com.finovabank.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper; // Added for JSON conversion
-import com.finova.loan.controller.LoanController; // Corrected import
-import com.finova.loan.model.Loan; // Assuming model exists and has necessary fields/methods
-import com.finova.loan.service.LoanService; // Corrected import
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finova.loan.LoanManagementApplication;
+import com.finova.loan.controller.LoanController;
+import com.finova.loan.model.Loan;
+import com.finova.loan.service.LoanService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-// Import static methods for MockMvc request builders and result matchers
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
-@WebMvcTest(LoanController.class) // Uncommented and corrected class
+@WebMvcTest(LoanController.class)
+@ContextConfiguration(classes = LoanManagementApplication.class)
 public class LoanControllerTest {
 
-    @Autowired // Uncommented
+    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean // Uncommented
+    @MockBean
     private LoanService loanService;
 
     // Helper to convert object to JSON string
@@ -40,7 +45,7 @@ public class LoanControllerTest {
     }
 
     @Test
-    public void contextLoads() throws Exception { // Added throws Exception
+    public void contextLoads() throws Exception {
         // Basic test to ensure the context loads and controller is wired
         assert(mockMvc != null);
     }
@@ -48,10 +53,10 @@ public class LoanControllerTest {
     @Test
     public void testGetLoanById() throws Exception {
         // Arrange
-        Loan loan = new Loan(); // Assuming a default constructor and setters
+        Loan loan = new Loan();
         loan.setId(1L);
-        loan.setAmount(5000.0);
-        loan.setStatus("APPROVED"); // Example property
+        loan.setAmount(new BigDecimal("5000.0"));
+        loan.setStatus("APPROVED");
 
         when(loanService.getLoanById(1L)).thenReturn(loan);
 
@@ -69,8 +74,16 @@ public class LoanControllerTest {
     @Test
     public void testGetAllLoans() throws Exception {
         // Arrange
-        Loan loan1 = new Loan(); loan1.setId(1L); loan1.setAmount(5000.0); loan1.setStatus("APPROVED");
-        Loan loan2 = new Loan(); loan2.setId(2L); loan2.setAmount(10000.0); loan2.setStatus("PENDING");
+        Loan loan1 = new Loan(); 
+        loan1.setId(1L); 
+        loan1.setAmount(new BigDecimal("5000.0")); 
+        loan1.setStatus("APPROVED");
+        
+        Loan loan2 = new Loan(); 
+        loan2.setId(2L); 
+        loan2.setAmount(new BigDecimal("10000.0")); 
+        loan2.setStatus("PENDING");
+        
         List<Loan> loans = Arrays.asList(loan1, loan2);
 
         when(loanService.getAllLoans()).thenReturn(loans);
@@ -90,14 +103,14 @@ public class LoanControllerTest {
     public void testCreateLoan() throws Exception {
         // Arrange
         Loan loanToCreate = new Loan();
-        loanToCreate.setAmount(7500.0);
-        loanToCreate.setUserId(123L); // Example property
+        loanToCreate.setAmount(new BigDecimal("7500.0"));
+        loanToCreate.setCustomerId("123");
 
         Loan createdLoan = new Loan();
-        createdLoan.setId(3L); // Assume service returns the created loan with ID
-        createdLoan.setAmount(7500.0);
-        createdLoan.setUserId(123L);
-        createdLoan.setStatus("PENDING"); // Default status
+        createdLoan.setId(3L);
+        createdLoan.setAmount(new BigDecimal("7500.0"));
+        createdLoan.setCustomerId("123");
+        createdLoan.setStatus("PENDING");
 
         when(loanService.createLoan(any(Loan.class))).thenReturn(createdLoan);
 
@@ -105,7 +118,7 @@ public class LoanControllerTest {
         mockMvc.perform(post("/loan")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(loanToCreate)))
-                .andExpect(status().isOk()) // Assuming 200 OK, could be 201 Created
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(3)))
                 .andExpect(jsonPath("$.status", is("PENDING")));
 
@@ -116,11 +129,11 @@ public class LoanControllerTest {
     public void testUpdateLoan() throws Exception {
         // Arrange
         Loan loanUpdates = new Loan();
-        loanUpdates.setStatus("REJECTED"); // Only updating status
+        loanUpdates.setStatus("REJECTED");
 
         Loan updatedLoan = new Loan();
         updatedLoan.setId(1L);
-        updatedLoan.setAmount(5000.0);
+        updatedLoan.setAmount(new BigDecimal("5000.0"));
         updatedLoan.setStatus("REJECTED");
 
         when(loanService.updateLoan(eq(1L), any(Loan.class))).thenReturn(updatedLoan);
@@ -143,9 +156,8 @@ public class LoanControllerTest {
 
         // Act & Assert
         mockMvc.perform(delete("/loan/{id}", 1L))
-                .andExpect(status().isOk()); // Assuming 200 OK on delete
+                .andExpect(status().isOk());
 
         verify(loanService, times(1)).deleteLoan(1L);
     }
 }
-

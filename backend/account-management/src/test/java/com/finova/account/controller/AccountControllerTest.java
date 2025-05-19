@@ -1,33 +1,38 @@
 package com.finovabank.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper; // Added for JSON conversion
-import com.finova.account.controller.AccountController; // Corrected import
-import com.finova.account.model.Account; // Assuming model exists and has necessary fields/methods
-import com.finova.account.service.AccountService; // Corrected import
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finova.account.AccountManagementApplication;
+import com.finova.account.controller.AccountController;
+import com.finova.account.model.Account;
+import com.finova.account.service.AccountService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-// Import static methods for MockMvc request builders and result matchers
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
-
-@WebMvcTest(AccountController.class) // Uncommented and corrected class
+@WebMvcTest(AccountController.class)
+@ContextConfiguration(classes = AccountManagementApplication.class)
 public class AccountControllerTest {
 
-    @Autowired // Uncommented
+    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean // Uncommented
+    @MockBean
     private AccountService accountService;
 
     // Helper to convert object to JSON string
@@ -41,7 +46,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void contextLoads() throws Exception { // Added throws Exception
+    public void contextLoads() throws Exception {
         // Basic test to ensure the context loads and controller is wired
         assert(mockMvc != null);
     }
@@ -49,10 +54,10 @@ public class AccountControllerTest {
     @Test
     public void testGetAccountById() throws Exception {
         // Arrange
-        Account account = new Account(); // Assuming a default constructor and setters
+        Account account = new Account();
         account.setId(1L);
         account.setAccountNumber("1234567890");
-        account.setBalance(1000.0);
+        account.setBalance(new BigDecimal("1000.0"));
 
         when(accountService.getAccountById(1L)).thenReturn(account);
 
@@ -70,8 +75,16 @@ public class AccountControllerTest {
     @Test
     public void testGetAllAccounts() throws Exception {
         // Arrange
-        Account account1 = new Account(); account1.setId(1L); account1.setAccountNumber("111"); account1.setBalance(100.0);
-        Account account2 = new Account(); account2.setId(2L); account2.setAccountNumber("222"); account2.setBalance(200.0);
+        Account account1 = new Account(); 
+        account1.setId(1L); 
+        account1.setAccountNumber("111"); 
+        account1.setBalance(new BigDecimal("100.0"));
+        
+        Account account2 = new Account(); 
+        account2.setId(2L); 
+        account2.setAccountNumber("222"); 
+        account2.setBalance(new BigDecimal("200.0"));
+        
         List<Account> accounts = Arrays.asList(account1, account2);
 
         when(accountService.getAllAccounts()).thenReturn(accounts);
@@ -91,14 +104,13 @@ public class AccountControllerTest {
     public void testCreateAccount() throws Exception {
         // Arrange
         Account accountToCreate = new Account();
-        // Assume Account needs accountNumber and initial balance for creation
         accountToCreate.setAccountNumber("9876543210");
-        accountToCreate.setBalance(50.0);
+        accountToCreate.setBalance(new BigDecimal("50.0"));
 
         Account createdAccount = new Account();
-        createdAccount.setId(2L); // Assume service returns the created account with ID
+        createdAccount.setId(2L);
         createdAccount.setAccountNumber("9876543210");
-        createdAccount.setBalance(50.0);
+        createdAccount.setBalance(new BigDecimal("50.0"));
 
         when(accountService.createAccount(any(Account.class))).thenReturn(createdAccount);
 
@@ -106,7 +118,7 @@ public class AccountControllerTest {
         mockMvc.perform(post("/account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(accountToCreate)))
-                .andExpect(status().isOk()) // Assuming 200 OK on creation, could be 201 Created
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(2)))
                 .andExpect(jsonPath("$.accountNumber", is("9876543210")));
 
@@ -117,12 +129,12 @@ public class AccountControllerTest {
     public void testUpdateAccount() throws Exception {
         // Arrange
         Account accountUpdates = new Account();
-        accountUpdates.setBalance(1500.0); // Only updating balance
+        accountUpdates.setBalance(new BigDecimal("1500.0"));
 
         Account updatedAccount = new Account();
         updatedAccount.setId(1L);
         updatedAccount.setAccountNumber("1234567890");
-        updatedAccount.setBalance(1500.0);
+        updatedAccount.setBalance(new BigDecimal("1500.0"));
 
         when(accountService.updateAccount(eq(1L), any(Account.class))).thenReturn(updatedAccount);
 
@@ -144,9 +156,8 @@ public class AccountControllerTest {
 
         // Act & Assert
         mockMvc.perform(delete("/account/{id}", 1L))
-                .andExpect(status().isOk()); // Assuming 200 OK on delete
+                .andExpect(status().isOk());
 
         verify(accountService, times(1)).deleteAccount(1L);
     }
 }
-

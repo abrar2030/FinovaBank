@@ -1,5 +1,3 @@
-# deployment-account-management.yaml
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,7 +5,12 @@ metadata:
   labels:
     app: account-management
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: account-management
@@ -21,3 +24,28 @@ spec:
           image: abrar2030/finovabackend:account-management
           ports:
             - containerPort: 8095
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8095
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8095
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3

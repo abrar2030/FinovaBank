@@ -1,5 +1,5 @@
-com/finova/loan/controller/LoanController.class
 com/finova/loan/LoanServiceApplication.class
+com/finova/loan/controller/LoanController.class
 com/finova/loan/service/impl/LoanServiceImpl.class
 com/finova/loan/model/Loan.class
 com/finova/loan/repository/LoanRepository.class

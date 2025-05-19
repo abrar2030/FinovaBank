@@ -1,34 +1,55 @@
-package com.finovabank.integration;
+package com.finova.loan.integration;
 
+import com.finova.loan.LoanManagementApplication;
+import com.finova.loan.model.Loan;
+import com.finova.loan.service.LoanService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
-// Assuming the main application class for loan-service exists
-// import com.finova.loan.LoanServiceApplication;
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+@ContextConfiguration(classes = LoanManagementApplication.class)
 public class LoanServiceIntegrationTest {
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private LoanService loanService;
 
     @Test
-    public void testApplyLoanEndpoint() {
-        // String url = "http://localhost:" + port + "/api/loans/apply"; // Adjust endpoint
-        // LoanApplicationRequest request = new LoanApplicationRequest(/* ... */);
-        // ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-        // assertEquals(HttpStatus.CREATED, response.getStatusCode()); // Or OK depending on API design
-        // Add assertions for response body
+    public void testCreateAndGetLoan() {
+        // Create a test loan
+        Loan loan = new Loan();
+        loan.setLoanNumber("LOAN123456");
+        loan.setAmount(new BigDecimal("10000.00"));
+        loan.setInterestRate(new BigDecimal("5.25"));
+        loan.setTermMonths(36);
+        loan.setCustomerId("customer123");
+        
+        Loan savedLoan = loanService.createLoan(loan);
+        
+        // Verify the loan was created
+        assertNotNull(savedLoan.getId());
+        
+        // Retrieve the loan
+        Loan retrievedLoan = loanService.getLoanById(savedLoan.getId());
+        
+        // Verify retrieved loan matches
+        assertEquals(savedLoan.getId(), retrievedLoan.getId());
+        assertEquals("LOAN123456", retrievedLoan.getLoanNumber());
+        assertEquals(0, new BigDecimal("10000.00").compareTo(retrievedLoan.getAmount()));
+        assertEquals(0, new BigDecimal("5.25").compareTo(retrievedLoan.getInterestRate()));
+        assertEquals(36, retrievedLoan.getTermMonths());
+        assertEquals("customer123", retrievedLoan.getCustomerId());
     }
-
-    // Add more integration tests for other loan endpoints (e.g., get loan status)
 }
-

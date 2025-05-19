@@ -18,12 +18,16 @@ public class Loan {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  private String loanNumber;
   private Long accountId;
+  private String customerId;
   private BigDecimal amount;
   private BigDecimal interestRate;
+  private Integer termMonths;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
   private String status;
+  private String purpose;
 
   // Getters and Setters
 }

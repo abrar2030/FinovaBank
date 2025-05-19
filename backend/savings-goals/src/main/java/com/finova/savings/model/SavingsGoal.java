@@ -1,6 +1,7 @@
 package com.finova.savings.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +19,13 @@ public class SavingsGoal {
   private Long id;
 
   private Long accountId;
+  private String name;
   private String goalName;
   private BigDecimal targetAmount;
   private BigDecimal currentAmount;
+  private LocalDate targetDate;
+  private String customerId;
+  private String status;
 
   // Getters and Setters
 }

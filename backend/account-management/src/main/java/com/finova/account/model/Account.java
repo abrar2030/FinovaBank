@@ -19,6 +19,10 @@ public class Account {
 
   private String name;
   private BigDecimal balance;
+  private String accountNumber;
+  private String customerId;
+  private String accountType;
+  private String status;
 
   // Getters and Setters
 }

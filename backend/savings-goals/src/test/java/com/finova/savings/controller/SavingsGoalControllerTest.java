@@ -1,32 +1,37 @@
 package com.finovabank.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper; // Added for JSON conversion
-import com.finova.savings.controller.SavingsGoalController; // Corrected import
-import com.finova.savings.model.SavingsGoal; // Assuming model exists and has necessary fields/methods
-import com.finova.savings.service.SavingsGoalService; // Corrected import
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finova.savings.SavingsGoalsApplication;
+import com.finova.savings.controller.SavingsGoalController;
+import com.finova.savings.model.SavingsGoal;
+import com.finova.savings.service.SavingsGoalService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-// Import static methods for MockMvc request builders and result matchers
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
-@WebMvcTest(SavingsGoalController.class) // Uncommented and corrected class
+@WebMvcTest(SavingsGoalController.class)
+@ContextConfiguration(classes = SavingsGoalsApplication.class)
 public class SavingsGoalControllerTest {
 
-    @Autowired // Uncommented
+    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean // Uncommented
+    @MockBean
     private SavingsGoalService savingsGoalService;
 
     // Helper to convert object to JSON string
@@ -40,7 +45,7 @@ public class SavingsGoalControllerTest {
     }
 
     @Test
-    public void contextLoads() throws Exception { // Added throws Exception
+    public void contextLoads() throws Exception {
         // Basic test to ensure the context loads and controller is wired
         assert(mockMvc != null);
     }
@@ -48,11 +53,11 @@ public class SavingsGoalControllerTest {
     @Test
     public void testGetSavingsGoalById() throws Exception {
         // Arrange
-        SavingsGoal goal = new SavingsGoal(); // Assuming a default constructor and setters
+        SavingsGoal goal = new SavingsGoal();
         goal.setId(1L);
         goal.setName("Vacation Fund");
-        goal.setTargetAmount(2000.0);
-        goal.setCurrentAmount(500.0);
+        goal.setTargetAmount(new BigDecimal("2000.0"));
+        goal.setCurrentAmount(new BigDecimal("500.0"));
 
         when(savingsGoalService.getSavingsGoalById(1L)).thenReturn(goal);
 
@@ -70,8 +75,16 @@ public class SavingsGoalControllerTest {
     @Test
     public void testGetAllSavingsGoals() throws Exception {
         // Arrange
-        SavingsGoal goal1 = new SavingsGoal(); goal1.setId(1L); goal1.setName("Vacation"); goal1.setTargetAmount(2000.0);
-        SavingsGoal goal2 = new SavingsGoal(); goal2.setId(2L); goal2.setName("New Car"); goal2.setTargetAmount(10000.0);
+        SavingsGoal goal1 = new SavingsGoal(); 
+        goal1.setId(1L); 
+        goal1.setName("Vacation"); 
+        goal1.setTargetAmount(new BigDecimal("2000.0"));
+        
+        SavingsGoal goal2 = new SavingsGoal(); 
+        goal2.setId(2L); 
+        goal2.setName("New Car"); 
+        goal2.setTargetAmount(new BigDecimal("10000.0"));
+        
         List<SavingsGoal> goals = Arrays.asList(goal1, goal2);
 
         when(savingsGoalService.getAllSavingsGoals()).thenReturn(goals);
@@ -92,15 +105,15 @@ public class SavingsGoalControllerTest {
         // Arrange
         SavingsGoal goalToCreate = new SavingsGoal();
         goalToCreate.setName("Emergency Fund");
-        goalToCreate.setTargetAmount(5000.0);
-        goalToCreate.setUserId(123L); // Example property
+        goalToCreate.setTargetAmount(new BigDecimal("5000.0"));
+        goalToCreate.setCustomerId("123");
 
         SavingsGoal createdGoal = new SavingsGoal();
-        createdGoal.setId(3L); // Assume service returns the created goal with ID
+        createdGoal.setId(3L);
         createdGoal.setName("Emergency Fund");
-        createdGoal.setTargetAmount(5000.0);
-        createdGoal.setCurrentAmount(0.0); // Default current amount
-        createdGoal.setUserId(123L);
+        createdGoal.setTargetAmount(new BigDecimal("5000.0"));
+        createdGoal.setCurrentAmount(new BigDecimal("0.0"));
+        createdGoal.setCustomerId("123");
 
         when(savingsGoalService.createSavingsGoal(any(SavingsGoal.class))).thenReturn(createdGoal);
 
@@ -108,7 +121,7 @@ public class SavingsGoalControllerTest {
         mockMvc.perform(post("/savings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(goalToCreate)))
-                .andExpect(status().isOk()) // Assuming 200 OK, could be 201 Created
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(3)))
                 .andExpect(jsonPath("$.name", is("Emergency Fund")));
 
@@ -119,13 +132,13 @@ public class SavingsGoalControllerTest {
     public void testUpdateSavingsGoal() throws Exception {
         // Arrange
         SavingsGoal goalUpdates = new SavingsGoal();
-        goalUpdates.setCurrentAmount(750.0); // Only updating current amount
+        goalUpdates.setCurrentAmount(new BigDecimal("750.0"));
 
         SavingsGoal updatedGoal = new SavingsGoal();
         updatedGoal.setId(1L);
         updatedGoal.setName("Vacation Fund");
-        updatedGoal.setTargetAmount(2000.0);
-        updatedGoal.setCurrentAmount(750.0);
+        updatedGoal.setTargetAmount(new BigDecimal("2000.0"));
+        updatedGoal.setCurrentAmount(new BigDecimal("750.0"));
 
         when(savingsGoalService.updateSavingsGoal(eq(1L), any(SavingsGoal.class))).thenReturn(updatedGoal);
 
@@ -147,9 +160,8 @@ public class SavingsGoalControllerTest {
 
         // Act & Assert
         mockMvc.perform(delete("/savings/{id}", 1L))
-                .andExpect(status().isOk()); // Assuming 200 OK on delete
+                .andExpect(status().isOk());
 
         verify(savingsGoalService, times(1)).deleteSavingsGoal(1L);
     }
 }
-
