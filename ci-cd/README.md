@@ -1,27 +1,6 @@
 # FinovaBank CI/CD Configuration
 
-This directory contains CI/CD configurations for the FinovaBank project, including GitHub Actions workflows and Jenkins pipeline configurations.
-
-## GitHub Actions Workflows
-
-The GitHub Actions workflows are located in the `.github/workflows` directory and include:
-
-1. **backend-workflow.yml**: CI/CD pipeline for the Java/Spring Boot backend microservices
-   - Builds and tests the backend services
-   - Performs code quality analysis with SonarQube
-   - Builds and pushes Docker images for each microservice
-   - Deploys to Kubernetes in production environment (main branch only)
-
-2. **frontend-workflow.yml**: CI/CD pipeline for the Node.js frontend
-   - Builds and tests the frontend application
-   - Performs linting and code coverage analysis
-   - Builds and pushes Docker image
-   - Deploys to Kubernetes in production environment (main branch only)
-
-3. **complete-workflow.yml**: Orchestrator workflow that combines backend and frontend pipelines
-   - Uses reusable workflows to trigger both backend and frontend pipelines
-   - Performs final verification of all deployments
-   - Sends deployment notifications
+This directory contains CI/CD configurations for the FinovaBank project, including Jenkins pipeline configurations.
 
 ## Jenkins Pipelines
 
@@ -47,18 +26,6 @@ The Jenkins pipeline configurations are located in the `ci-cd/jenkins` directory
 
 ## Setup Instructions
 
-### GitHub Actions Setup
-
-1. Place the workflow files in the `.github/workflows` directory in your repository
-2. Configure the following secrets in your GitHub repository:
-   - `DOCKER_REGISTRY`: URL of your Docker registry
-   - `DOCKER_USERNAME`: Username for Docker registry
-   - `DOCKER_PASSWORD`: Password for Docker registry
-   - `SONAR_TOKEN`: SonarQube authentication token
-   - `SONAR_HOST_URL`: URL of your SonarQube instance
-   - `KUBE_CONFIG_DATA`: Base64-encoded Kubernetes configuration file
-   - `SLACK_WEBHOOK_URL`: Webhook URL for Slack notifications (optional)
-
 ### Jenkins Setup
 
 1. Create the following Jenkins pipeline jobs:
@@ -79,9 +46,3 @@ The Jenkins pipeline configurations are located in the `ci-cd/jenkins` directory
    - Kubernetes CLI
    - SonarQube Scanner
    - HTML Publisher (for test reports)
-
-## Notes
-
-- These configurations assume that Kubernetes deployment YAML files are located in the `infrastructure/kubernetes` directory
-- Adjust Docker registry URLs and image names according to your organization's naming conventions
-- Modify the deployment steps as needed based on your specific infrastructure requirements
