@@ -1,0 +1,327 @@
+# FinovaBank Infrastructure Inventory
+# Comprehensive inventory configuration for financial-grade infrastructure
+
+all:
+  vars:
+    # Global configuration
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/finovabank-keypair.pem
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_python_interpreter: /usr/bin/python3
+    
+    # Environment configuration
+    environment: production
+    project_name: FinovaBank
+    
+    # Security configuration
+    security_level: financial-grade
+    compliance_requirements:
+      - PCI-DSS
+      - GLBA
+      - SOX
+      - GDPR
+    
+    # Network configuration
+    vpc_cidr: 10.0.0.0/16
+    private_subnet_cidrs:
+      - 10.0.11.0/24
+      - 10.0.12.0/24
+      - 10.0.13.0/24
+    
+    # Application configuration
+    app_version: latest
+    deployment_strategy: rolling
+    health_check_timeout: 60
+    
+    # Monitoring configuration
+    cloudwatch_region: us-west-2
+    log_retention_days: 2555  # 7 years for financial compliance
+    metrics_namespace: FinovaBank
+    
+    # Backup configuration
+    backup_retention_days: 2555
+    backup_schedule: "0 1 * * *"  # Daily at 1 AM
+    
+  children:
+    # Production environment
+    production:
+      vars:
+        environment: production
+        log_level: info
+        debug_mode: false
+        ssl_enabled: true
+        encryption_at_rest: true
+        multi_az_deployment: true
+        auto_scaling_enabled: true
+        
+      children:
+        # Application servers
+        app_servers:
+          vars:
+            server_type: application
+            instance_type: t3.medium
+            min_instances: 2
+            max_instances: 10
+            desired_instances: 3
+            
+            # Application-specific configuration
+            java_heap_size: 2g
+            connection_pool_size: 50
+            request_timeout: 30
+            
+            # Security configuration
+            firewall_rules:
+              - { port: 22, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8080, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8081, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8082, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8083, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8084, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8085, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8086, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8087, source: "10.0.0.0/16", protocol: tcp }
+              - { port: 8088, source: "10.0.0.0/16", protocol: tcp }
+            
+          hosts:
+            # These will be populated dynamically by Terraform outputs
+            # or AWS dynamic inventory
+            app-server-1:
+              ansible_host: 10.0.11.10
+              availability_zone: us-west-2a
+              instance_id: i-1234567890abcdef0
+              
+            app-server-2:
+              ansible_host: 10.0.12.10
+              availability_zone: us-west-2b
+              instance_id: i-1234567890abcdef1
+              
+            app-server-3:
+              ansible_host: 10.0.13.10
+              availability_zone: us-west-2c
+              instance_id: i-1234567890abcdef2
+        
+        # Database servers (if using EC2 instead of RDS)
+        database_servers:
+          vars:
+            server_type: database
+            instance_type: r5.large
+            
+            # Database configuration
+            db_engine: mysql
+            db_version: "8.0"
+            db_port: 3306
+            db_name: finovabank
+            db_user: finovadmin
+            
+            # Performance configuration
+            innodb_buffer_pool_size: 4G
+            max_connections: 200
+            query_cache_size: 256M
+            
+            # Security configuration
+            ssl_required: true
+            encryption_at_rest: true
+            backup_retention: 30
+            
+            firewall_rules:
+              - { port: 22, source: "10.0.1.0/24", protocol: tcp }  # Bastion access
+              - { port: 3306, source: "10.0.11.0/24", protocol: tcp }  # App servers
+              - { port: 3306, source: "10.0.12.0/24", protocol: tcp }
+              - { port: 3306, source: "10.0.13.0/24", protocol: tcp }
+            
+          hosts:
+            # Primary database
+            db-primary:
+              ansible_host: 10.0.21.10
+              availability_zone: us-west-2a
+              instance_id: i-db1234567890abcdef
+              db_role: primary
+              
+            # Read replica
+            db-replica:
+              ansible_host: 10.0.22.10
+              availability_zone: us-west-2b
+              instance_id: i-db1234567890abcde1
+              db_role: replica
+        
+        # Load balancers (if using EC2 instead of ALB)
+        load_balancers:
+          vars:
+            server_type: load_balancer
+            instance_type: t3.medium
+            
+            # Load balancer configuration
+            lb_algorithm: round_robin
+            health_check_interval: 30
+            health_check_timeout: 5
+            health_check_retries: 3
+            
+            # SSL configuration
+            ssl_certificate_path: /etc/ssl/certs/finovabank.crt
+            ssl_private_key_path: /etc/ssl/private/finovabank.key
+            ssl_protocols:
+              - TLSv1.2
+              - TLSv1.3
+            
+            firewall_rules:
+              - { port: 22, source: "10.0.1.0/24", protocol: tcp }  # Bastion access
+              - { port: 80, source: "0.0.0.0/0", protocol: tcp }    # HTTP
+              - { port: 443, source: "0.0.0.0/0", protocol: tcp }   # HTTPS
+            
+          hosts:
+            lb-1:
+              ansible_host: 10.0.1.10
+              availability_zone: us-west-2a
+              instance_id: i-lb1234567890abcdef
+              
+            lb-2:
+              ansible_host: 10.0.2.10
+              availability_zone: us-west-2b
+              instance_id: i-lb1234567890abcde1
+        
+        # Bastion hosts
+        bastion_hosts:
+          vars:
+            server_type: bastion
+            instance_type: t3.micro
+            
+            # Bastion configuration
+            ssh_port: 22
+            max_sessions: 2
+            session_timeout: 300
+            
+            # Security configuration
+            fail2ban_enabled: true
+            fail2ban_bantime: 7200
+            fail2ban_maxretry: 3
+            
+            # Monitoring configuration
+            enhanced_monitoring: true
+            session_logging: true
+            
+            firewall_rules:
+              - { port: 22, source: "0.0.0.0/0", protocol: tcp }  # SSH from internet
+            
+          hosts:
+            bastion-1:
+              ansible_host: 54.123.45.67  # Public IP
+              private_ip: 10.0.1.5
+              availability_zone: us-west-2a
+              instance_id: i-bastion1234567890ab
+    
+    # Staging environment
+    staging:
+      vars:
+        environment: staging
+        log_level: debug
+        debug_mode: true
+        ssl_enabled: true
+        encryption_at_rest: true
+        multi_az_deployment: false
+        auto_scaling_enabled: false
+        
+      children:
+        staging_app_servers:
+          vars:
+            server_type: application
+            instance_type: t3.small
+            min_instances: 1
+            max_instances: 2
+            desired_instances: 1
+            
+          hosts:
+            staging-app-1:
+              ansible_host: 10.0.101.10
+              availability_zone: us-west-2a
+              instance_id: i-staging1234567890ab
+        
+        staging_database_servers:
+          vars:
+            server_type: database
+            instance_type: t3.medium
+            
+          hosts:
+            staging-db-1:
+              ansible_host: 10.0.121.10
+              availability_zone: us-west-2a
+              instance_id: i-stagingdb1234567890
+              db_role: primary
+    
+    # Development environment
+    development:
+      vars:
+        environment: development
+        log_level: debug
+        debug_mode: true
+        ssl_enabled: false
+        encryption_at_rest: false
+        multi_az_deployment: false
+        auto_scaling_enabled: false
+        
+      children:
+        dev_app_servers:
+          vars:
+            server_type: application
+            instance_type: t3.micro
+            min_instances: 1
+            max_instances: 1
+            desired_instances: 1
+            
+          hosts:
+            dev-app-1:
+              ansible_host: 10.0.201.10
+              availability_zone: us-west-2a
+              instance_id: i-dev1234567890abcdef
+        
+        dev_database_servers:
+          vars:
+            server_type: database
+            instance_type: t3.micro
+            
+          hosts:
+            dev-db-1:
+              ansible_host: 10.0.221.10
+              availability_zone: us-west-2a
+              instance_id: i-devdb1234567890abcd
+              db_role: primary
+
+# Group variables for specific server types
+finova_servers:
+  children:
+    - app_servers
+    - staging_app_servers
+    - dev_app_servers
+
+database_servers_all:
+  children:
+    - database_servers
+    - staging_database_servers
+    - dev_database_servers
+
+load_balancers_all:
+  children:
+    - load_balancers
+
+bastion_hosts_all:
+  children:
+    - bastion_hosts
+
+# Security groups
+security_critical:
+  children:
+    - database_servers_all
+    - bastion_hosts_all
+
+compliance_required:
+  children:
+    - app_servers
+    - database_servers_all
+    - load_balancers_all
+
+monitoring_required:
+  children:
+    - app_servers
+    - database_servers_all
+    - load_balancers_all
+    - bastion_hosts_all
+

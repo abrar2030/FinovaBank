@@ -1,63 +1,433 @@
-# Infrastructure Directory
+# FinovaBank Infrastructure
 
-The infrastructure directory contains all the Infrastructure as Code (IaC) components and configuration management tools that support the deployment, scaling, and operation of the FinovaBank platform. This directory serves as the foundation for reliable, reproducible, and secure infrastructure provisioning across all environments.
+## Overview
 
-## Infrastructure Philosophy
+This directory contains the comprehensive infrastructure configuration for FinovaBank, a financial services platform designed to meet the highest standards of security, compliance, and reliability. The infrastructure implements financial-grade security controls and complies with industry regulations including PCI-DSS, GLBA, SOX, and GDPR.
 
-The FinovaBank infrastructure follows a "configuration as code" philosophy, where all infrastructure components are defined, versioned, and managed using the same practices applied to application code. This approach ensures consistency across environments, enables automated testing of infrastructure changes, and provides a clear audit trail of infrastructure evolution. The infrastructure is designed with security, scalability, and operational excellence as primary considerations, aligning with financial industry best practices.
+## Architecture
 
-The infrastructure components are organized to support a multi-environment deployment strategy, with clear separation between development, testing, staging, and production environments. Each environment is configured with appropriate security controls and resource allocations, while maintaining consistency in the overall architecture.
+### Infrastructure Components
 
-## Key Components
+- **Terraform**: Infrastructure as Code (IaC) for AWS cloud resources
+- **Ansible**: Configuration management and server automation
+- **Security**: Comprehensive security policies and controls
+- **Compliance**: Regulatory compliance frameworks and monitoring
+- **Monitoring**: Multi-layered monitoring and alerting system
+- **Secrets Management**: Secure secret storage and rotation
 
-The ansible subdirectory contains configuration management code that handles the provisioning and configuration of servers, services, and applications. Ansible playbooks define the desired state of various system components, ensuring consistent configuration across all environments. These playbooks cover everything from basic server setup to application deployment and service configuration. Ansible's agentless architecture makes it particularly suitable for managing both cloud and on-premises infrastructure components securely.
+### Security Features
 
-The terraform subdirectory houses Infrastructure as Code definitions for cloud resources using HashiCorp Terraform. These definitions create and manage cloud infrastructure components such as virtual networks, compute instances, managed database services, load balancers, and security groups. The Terraform code is structured in modules that can be composed to create complete environments, with variables for environment-specific configurations. This approach enables consistent infrastructure provisioning with minimal manual intervention.
+- **Multi-layered Security**: Defense in depth approach with multiple security controls
+- **Encryption**: End-to-end encryption for data at rest and in transit
+- **Access Controls**: Role-based access control with principle of least privilege
+- **Monitoring**: Real-time security monitoring and incident response
+- **Compliance**: Automated compliance checking and reporting
 
-The secrets subdirectory contains tools and configurations for managing sensitive information such as API keys, database credentials, and encryption keys. This directory implements secure practices for secret management, including encryption, access controls, and integration with external secret management services. The secrets management approach ensures that sensitive information is never stored in plain text in the repository while remaining accessible to authorized systems and processes.
+## Directory Structure
 
-## Infrastructure Workflow
+```
+infrastructure/
+├── terraform/                 # Infrastructure as Code
+│   ├── main.tf               # Main Terraform configuration
+│   ├── variables.tf          # Variable definitions
+│   ├── outputs.tf            # Output definitions
+│   ├── user_data.sh          # Application server setup script
+│   └── bastion_user_data.sh  # Bastion host setup script
+├── ansible/                  # Configuration Management
+│   ├── playbook.yml          # Main Ansible playbook
+│   ├── inventory.yml         # Inventory configuration
+│   └── ansible.cfg           # Ansible configuration
+├── security/                 # Security Policies
+│   └── security-policies.yml # Comprehensive security policies
+├── compliance/               # Compliance Framework
+│   └── compliance-framework.yml # Regulatory compliance configuration
+├── monitoring/               # Monitoring Configuration
+│   └── monitoring-config.yml # Monitoring and alerting setup
+├── secrets/                  # Secrets Management
+│   └── secrets.yml           # Secret management configuration
+└── README.md                 # This file
+```
 
-The infrastructure components support a comprehensive workflow that spans the entire lifecycle of infrastructure resources:
+## Prerequisites
 
-Infrastructure changes begin with code modifications in this directory, following the same code review and approval process used for application code. This ensures that infrastructure changes are properly vetted before implementation.
+### Required Tools
 
-Automated testing validates infrastructure definitions before deployment, catching potential issues early in the development cycle. Tests include syntax validation, security checks, and policy compliance verification.
+- **Terraform** >= 1.0
+- **Ansible** >= 2.9
+- **AWS CLI** >= 2.0
+- **Docker** >= 20.0
+- **kubectl** >= 1.20 (if using Kubernetes)
 
-Continuous integration pipelines apply infrastructure changes in a controlled manner, with appropriate approvals for production changes. The pipelines include steps for planning, validation, and application of changes, with rollback capabilities for failed deployments.
+### AWS Permissions
 
-Monitoring and alerting are integrated into the infrastructure to provide visibility into resource utilization, performance, and potential issues. This integration ensures that operations teams have the information needed to maintain system reliability.
+The following AWS permissions are required:
 
-## Security Considerations
+- EC2 (full access)
+- VPC (full access)
+- RDS (full access)
+- S3 (full access)
+- IAM (full access)
+- CloudWatch (full access)
+- KMS (full access)
+- Secrets Manager (full access)
 
-Security is a fundamental aspect of the infrastructure design, with multiple layers of protection:
+### Environment Variables
 
-Network security is implemented through segmentation, firewalls, and access controls that restrict communication to authorized paths. The network architecture follows the principle of least privilege, with clear separation between public-facing and internal components.
+```bash
+export AWS_ACCESS_KEY_ID="your-access-key"
+export AWS_SECRET_ACCESS_KEY="your-secret-key"
+export AWS_DEFAULT_REGION="us-west-2"
+```
 
-Identity and access management controls ensure that only authorized users and services can access infrastructure resources. Role-based access control is implemented consistently across all infrastructure components.
+## Quick Start
 
-Encryption is applied to data at rest and in transit, protecting sensitive information throughout its lifecycle. Key management follows industry best practices to ensure the security of encryption keys.
+### 1. Infrastructure Deployment
 
-Compliance with financial regulations is built into the infrastructure design, with controls and audit capabilities that meet regulatory requirements. The infrastructure supports comprehensive logging and monitoring for security events.
+```bash
+# Navigate to terraform directory
+cd terraform/
 
-## Disaster Recovery and Business Continuity
+# Initialize Terraform
+terraform init
 
-The infrastructure includes provisions for disaster recovery and business continuity:
+# Plan the deployment
+terraform plan
 
-Backup and recovery procedures ensure that data and configuration can be restored in case of failures. Regular backup testing verifies the effectiveness of these procedures.
+# Apply the configuration
+terraform apply
+```
 
-High availability configurations minimize the impact of component failures on overall system availability. Critical components are deployed with redundancy to eliminate single points of failure.
+### 2. Server Configuration
 
-Geographic distribution of resources provides resilience against regional outages, with the ability to fail over to alternate regions when necessary. The infrastructure supports both active-active and active-passive configurations depending on service requirements.
+```bash
+# Navigate to ansible directory
+cd ../ansible/
 
-## Integration with CI/CD Pipeline
+# Update inventory with actual server IPs
+# Edit inventory.yml with your server details
 
-The infrastructure components integrate seamlessly with the CI/CD pipeline:
+# Run the playbook
+ansible-playbook -i inventory.yml playbook.yml
+```
 
-Infrastructure changes can be triggered by application deployments, ensuring that necessary infrastructure updates are applied before new application versions are deployed.
+### 3. Verify Deployment
 
-Environment provisioning is automated, allowing the creation of consistent environments for testing and staging. This automation supports the rapid creation of ephemeral environments for feature testing.
+```bash
+# Check infrastructure status
+terraform output
 
-Deployment validation includes infrastructure verification steps that confirm the correct state of infrastructure components before and after application deployment.
+# Verify services are running
+ansible all -i inventory.yml -m ping
+```
 
-The infrastructure directory serves as the foundation for reliable, secure, and scalable operation of the FinovaBank platform, enabling consistent deployment and management across all environments.
+## Configuration
+
+### Terraform Variables
+
+Key variables that should be customized:
+
+```hcl
+# Basic Configuration
+aws_region = "us-west-2"
+environment = "production"
+project_name = "FinovaBank"
+
+# Network Configuration
+vpc_cidr = "10.0.0.0/16"
+public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
+
+# Security Configuration
+enable_deletion_protection = true
+enable_encryption_at_rest = true
+enable_waf = true
+
+# Compliance Configuration
+compliance_level = "financial-grade"
+regulatory_requirements = ["PCI-DSS", "GLBA", "SOX", "GDPR"]
+```
+
+### Ansible Variables
+
+Key variables in `inventory.yml`:
+
+```yaml
+# Application Configuration
+app_version: latest
+deployment_strategy: rolling
+
+# Security Configuration
+security_level: financial-grade
+compliance_requirements:
+  - PCI-DSS
+  - GLBA
+  - SOX
+  - GDPR
+
+# Monitoring Configuration
+cloudwatch_region: us-west-2
+log_retention_days: 2555  # 7 years for financial compliance
+```
+
+## Security
+
+### Security Controls
+
+1. **Network Security**
+   - VPC with private subnets
+   - Security groups with restrictive rules
+   - Web Application Firewall (WAF)
+   - Network Access Control Lists (NACLs)
+
+2. **Data Protection**
+   - Encryption at rest using AWS KMS
+   - Encryption in transit using TLS 1.2+
+   - Data classification and handling
+   - Data loss prevention (DLP)
+
+3. **Access Control**
+   - Multi-factor authentication (MFA)
+   - Role-based access control (RBAC)
+   - Principle of least privilege
+   - Regular access reviews
+
+4. **Monitoring and Logging**
+   - Comprehensive audit logging
+   - Real-time security monitoring
+   - Intrusion detection and prevention
+   - Security incident response
+
+### Security Hardening
+
+The infrastructure implements security hardening based on:
+
+- CIS Benchmarks
+- NIST Cybersecurity Framework
+- AWS Security Best Practices
+- Financial Services Security Guidelines
+
+## Compliance
+
+### Regulatory Frameworks
+
+The infrastructure complies with:
+
+1. **PCI-DSS v4.0**
+   - Cardholder data protection
+   - Network security controls
+   - Access control measures
+   - Regular security testing
+
+2. **GLBA (Gramm-Leach-Bliley Act)**
+   - Customer information protection
+   - Privacy notices and controls
+   - Safeguards rule implementation
+
+3. **SOX (Sarbanes-Oxley Act)**
+   - IT general controls
+   - Change management
+   - Access controls for financial systems
+
+4. **GDPR**
+   - Data protection principles
+   - Data subject rights
+   - Privacy by design
+
+### Compliance Monitoring
+
+- Automated compliance checking
+- Regular compliance assessments
+- Audit trail maintenance
+- Regulatory reporting
+
+## Monitoring
+
+### Monitoring Stack
+
+1. **Infrastructure Monitoring**
+   - System metrics (CPU, memory, disk, network)
+   - Container monitoring
+   - Database performance monitoring
+
+2. **Application Monitoring**
+   - Application Performance Monitoring (APM)
+   - Business metrics tracking
+   - API monitoring and SLA tracking
+
+3. **Security Monitoring**
+   - Security Information and Event Management (SIEM)
+   - Intrusion Detection System (IDS)
+   - Vulnerability monitoring
+
+4. **Compliance Monitoring**
+   - Audit trail monitoring
+   - Data Loss Prevention (DLP)
+   - Regulatory compliance tracking
+
+### Alerting
+
+- Multi-channel alerting (email, SMS, Slack, PagerDuty)
+- Severity-based escalation
+- Alert suppression and correlation
+- Incident management integration
+
+## Backup and Disaster Recovery
+
+### Backup Strategy
+
+- **Frequency**: Continuous for critical data, daily for others
+- **Retention**: 7 years for financial compliance
+- **Testing**: Monthly backup restoration tests
+- **Encryption**: All backups encrypted with AWS KMS
+
+### Disaster Recovery
+
+- **RTO**: 4 hours (Recovery Time Objective)
+- **RPO**: 1 hour (Recovery Point Objective)
+- **Multi-region**: Primary in us-west-2, DR in us-east-1
+- **Automated failover**: Configured for critical systems
+
+## Maintenance
+
+### Regular Maintenance Tasks
+
+1. **Security Updates**
+   - Automated security patching
+   - Vulnerability scanning and remediation
+   - Security configuration reviews
+
+2. **Compliance Reviews**
+   - Quarterly compliance assessments
+   - Annual regulatory audits
+   - Policy and procedure updates
+
+3. **Performance Optimization**
+   - Resource utilization reviews
+   - Performance tuning
+   - Capacity planning
+
+4. **Backup Verification**
+   - Monthly backup restoration tests
+   - Backup integrity checks
+   - Disaster recovery drills
+
+### Maintenance Windows
+
+- **Regular Maintenance**: Saturdays 02:00-06:00 UTC
+- **Emergency Maintenance**: As needed with approval
+- **Security Patches**: Within SLA based on severity
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Terraform Deployment Failures**
+   ```bash
+   # Check AWS credentials
+   aws sts get-caller-identity
+   
+   # Validate Terraform configuration
+   terraform validate
+   
+   # Check resource limits
+   aws service-quotas list-service-quotas --service-code ec2
+   ```
+
+2. **Ansible Configuration Failures**
+   ```bash
+   # Test connectivity
+   ansible all -i inventory.yml -m ping
+   
+   # Check SSH access
+   ssh -i ~/.ssh/finovabank-keypair.pem ubuntu@<server-ip>
+   
+   # Verify sudo access
+   ansible all -i inventory.yml -m shell -a "sudo whoami"
+   ```
+
+3. **Application Health Issues**
+   ```bash
+   # Check service status
+   ansible all -i inventory.yml -m shell -a "docker ps"
+   
+   # Check logs
+   ansible all -i inventory.yml -m shell -a "docker logs finovabank-app"
+   
+   # Check health endpoints
+   curl http://<server-ip>:8080/health
+   ```
+
+### Log Locations
+
+- **System Logs**: `/var/log/syslog`, `/var/log/messages`
+- **Application Logs**: `/var/log/finovabank/`
+- **Security Logs**: `/var/log/audit/audit.log`
+- **Docker Logs**: `docker logs <container-name>`
+
+## Support
+
+### Documentation
+
+- [Security Policies](security/security-policies.yml)
+- [Compliance Framework](compliance/compliance-framework.yml)
+- [Monitoring Configuration](monitoring/monitoring-config.yml)
+- [Secrets Management](secrets/secrets.yml)
+
+### Contacts
+
+- **Infrastructure Team**: infrastructure@finovabank.com
+- **Security Team**: security@finovabank.com
+- **Compliance Team**: compliance@finovabank.com
+- **Emergency Contact**: emergency@finovabank.com
+
+### Support Channels
+
+- **Slack**: #infrastructure-support
+- **Ticketing**: ServiceNow
+- **Emergency**: PagerDuty escalation
+
+## Contributing
+
+### Development Workflow
+
+1. Create feature branch
+2. Make changes and test locally
+3. Run security and compliance checks
+4. Submit pull request
+5. Code review and approval
+6. Deploy to staging environment
+7. Validate and deploy to production
+
+### Code Standards
+
+- Follow Terraform best practices
+- Use Ansible best practices
+- Implement security by design
+- Document all changes
+- Include compliance considerations
+
+### Testing
+
+- **Infrastructure Tests**: Terratest
+- **Configuration Tests**: Molecule
+- **Security Tests**: Checkov, tfsec
+- **Compliance Tests**: InSpec
+
+## License
+
+This infrastructure configuration is proprietary to FinovaBank and is subject to internal security and compliance requirements.
+
+## Changelog
+
+### Version 2.0.0 (2024-01-01)
+- Complete infrastructure redesign for financial-grade security
+- Added comprehensive compliance framework
+- Implemented multi-layered monitoring
+- Enhanced security controls and policies
+- Added disaster recovery capabilities
+
+### Version 1.0.0 (2023-01-01)
+- Initial infrastructure implementation
+- Basic security controls
+- Simple monitoring setup
+

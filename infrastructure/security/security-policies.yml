@@ -1,0 +1,661 @@
+---
+# FinovaBank Security Policies Configuration
+# Comprehensive security policies for financial-grade infrastructure
+# Implements industry standards including PCI-DSS, GLBA, SOX, and GDPR
+
+# Global Security Configuration
+global_security:
+  organization: FinovaBank
+  security_framework: NIST Cybersecurity Framework
+  compliance_standards:
+    - PCI-DSS v4.0
+    - GLBA (Gramm-Leach-Bliley Act)
+    - SOX (Sarbanes-Oxley Act)
+    - GDPR (General Data Protection Regulation)
+    - ISO 27001
+    - FFIEC Guidelines
+  
+  security_classification:
+    - level: public
+      description: "Information that can be freely shared"
+      controls: basic
+    - level: internal
+      description: "Information for internal use only"
+      controls: standard
+    - level: confidential
+      description: "Sensitive business information"
+      controls: enhanced
+    - level: restricted
+      description: "Highly sensitive financial data"
+      controls: maximum
+
+# Access Control Policies
+access_control:
+  principle: least_privilege
+  
+  authentication:
+    multi_factor_required: true
+    password_policy:
+      min_length: 14
+      complexity_required: true
+      special_characters: true
+      numbers: true
+      uppercase: true
+      lowercase: true
+      history_count: 24
+      max_age_days: 90
+      lockout_threshold: 3
+      lockout_duration: 30  # minutes
+    
+    session_management:
+      timeout_minutes: 30
+      concurrent_sessions: 1
+      secure_cookies: true
+      session_fixation_protection: true
+    
+    privileged_access:
+      approval_required: true
+      dual_control: true
+      session_recording: true
+      time_limited: true
+      max_duration_hours: 4
+      justification_required: true
+  
+  authorization:
+    role_based_access: true
+    attribute_based_access: true
+    
+    roles:
+      - name: read_only
+        permissions:
+          - view_dashboards
+          - view_reports
+          - view_logs
+        data_access: public, internal
+      
+      - name: application_user
+        permissions:
+          - view_dashboards
+          - view_reports
+          - create_transactions
+          - view_account_data
+        data_access: public, internal, confidential
+      
+      - name: system_admin
+        permissions:
+          - manage_infrastructure
+          - view_system_logs
+          - manage_users
+          - configure_monitoring
+        data_access: public, internal, confidential
+      
+      - name: security_admin
+        permissions:
+          - manage_security_policies
+          - view_audit_logs
+          - manage_access_controls
+          - incident_response
+        data_access: all
+      
+      - name: compliance_officer
+        permissions:
+          - view_compliance_reports
+          - manage_audit_trails
+          - access_sensitive_data
+          - generate_regulatory_reports
+        data_access: all
+    
+    data_access_matrix:
+      customer_pii:
+        read: [application_user, compliance_officer]
+        write: [application_user]
+        delete: [compliance_officer]
+      
+      financial_transactions:
+        read: [application_user, compliance_officer]
+        write: [application_user]
+        delete: []
+      
+      system_configurations:
+        read: [system_admin, security_admin]
+        write: [system_admin]
+        delete: [system_admin]
+      
+      audit_logs:
+        read: [security_admin, compliance_officer]
+        write: [system]
+        delete: []
+
+# Network Security Policies
+network_security:
+  segmentation:
+    enabled: true
+    zones:
+      - name: dmz
+        description: "Demilitarized zone for public-facing services"
+        allowed_protocols: [HTTP, HTTPS]
+        monitoring_level: high
+      
+      - name: application
+        description: "Application servers and services"
+        allowed_protocols: [HTTP, HTTPS, MySQL, Redis]
+        monitoring_level: high
+      
+      - name: database
+        description: "Database servers and storage"
+        allowed_protocols: [MySQL, PostgreSQL]
+        monitoring_level: maximum
+      
+      - name: management
+        description: "Administrative and monitoring systems"
+        allowed_protocols: [SSH, SNMP, HTTPS]
+        monitoring_level: maximum
+  
+  firewall_rules:
+    default_policy: deny
+    
+    ingress_rules:
+      - name: allow_https_from_internet
+        source: 0.0.0.0/0
+        destination: dmz
+        protocol: HTTPS
+        port: 443
+        action: allow
+        logging: true
+      
+      - name: allow_ssh_from_bastion
+        source: bastion_subnet
+        destination: all_subnets
+        protocol: SSH
+        port: 22
+        action: allow
+        logging: true
+      
+      - name: allow_app_to_db
+        source: application_subnet
+        destination: database_subnet
+        protocol: MySQL
+        port: 3306
+        action: allow
+        logging: true
+    
+    egress_rules:
+      - name: allow_https_to_internet
+        source: application_subnet
+        destination: 0.0.0.0/0
+        protocol: HTTPS
+        port: 443
+        action: allow
+        logging: true
+      
+      - name: deny_all_other
+        source: any
+        destination: any
+        protocol: any
+        port: any
+        action: deny
+        logging: true
+  
+  intrusion_detection:
+    enabled: true
+    mode: active  # active or passive
+    
+    detection_rules:
+      - name: sql_injection_attempt
+        pattern: "(?i)(union|select|insert|update|delete|drop|create|alter).*"
+        severity: high
+        action: block
+      
+      - name: brute_force_login
+        pattern: "failed login attempts > 5 in 5 minutes"
+        severity: medium
+        action: block_ip
+      
+      - name: suspicious_file_access
+        pattern: "access to /etc/passwd or /etc/shadow"
+        severity: high
+        action: alert
+      
+      - name: privilege_escalation
+        pattern: "sudo or su command execution"
+        severity: medium
+        action: alert
+  
+  ddos_protection:
+    enabled: true
+    rate_limiting:
+      requests_per_minute: 1000
+      burst_size: 100
+      block_duration: 300  # seconds
+    
+    geo_blocking:
+      enabled: true
+      blocked_countries: []  # Define based on business requirements
+      allowed_countries: [US, CA, GB, EU]
+
+# Data Protection Policies
+data_protection:
+  encryption:
+    at_rest:
+      enabled: true
+      algorithm: AES-256
+      key_management: aws_kms
+      key_rotation_days: 90
+    
+    in_transit:
+      enabled: true
+      min_tls_version: "1.2"
+      cipher_suites:
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+      
+      certificate_management:
+        auto_renewal: true
+        validity_period_days: 365
+        key_size: 2048
+        signature_algorithm: SHA-256
+  
+  data_classification:
+    automatic_classification: true
+    
+    classification_rules:
+      - pattern: "\\b\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}\\b"
+        classification: restricted
+        description: "Credit card numbers"
+      
+      - pattern: "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+        classification: restricted
+        description: "Social Security Numbers"
+      
+      - pattern: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b"
+        classification: confidential
+        description: "Email addresses"
+      
+      - pattern: "\\b\\d{9}\\b"
+        classification: confidential
+        description: "Account numbers"
+  
+  data_loss_prevention:
+    enabled: true
+    
+    policies:
+      - name: prevent_credit_card_exfiltration
+        data_types: [credit_card_numbers]
+        actions: [block, alert, log]
+        channels: [email, web, usb, print]
+      
+      - name: prevent_ssn_sharing
+        data_types: [social_security_numbers]
+        actions: [block, alert, log]
+        channels: [email, web, cloud_storage]
+      
+      - name: monitor_financial_data
+        data_types: [account_numbers, transaction_data]
+        actions: [alert, log]
+        channels: [all]
+  
+  backup_and_recovery:
+    backup_frequency: daily
+    retention_period_days: 2555  # 7 years for financial compliance
+    
+    backup_encryption: true
+    backup_testing_frequency: monthly
+    
+    recovery_objectives:
+      rpo_hours: 1   # Recovery Point Objective
+      rto_hours: 4   # Recovery Time Objective
+    
+    disaster_recovery:
+      enabled: true
+      secondary_region: us-east-1
+      replication_frequency: real_time
+      failover_testing_frequency: quarterly
+
+# Application Security Policies
+application_security:
+  secure_development:
+    security_training_required: true
+    code_review_required: true
+    security_testing_required: true
+    
+    static_analysis:
+      enabled: true
+      tools: [SonarQube, Checkmarx, Veracode]
+      scan_frequency: every_commit
+      
+    dynamic_analysis:
+      enabled: true
+      tools: [OWASP ZAP, Burp Suite]
+      scan_frequency: weekly
+      
+    dependency_scanning:
+      enabled: true
+      tools: [Snyk, OWASP Dependency Check]
+      scan_frequency: daily
+  
+  runtime_protection:
+    web_application_firewall:
+      enabled: true
+      mode: blocking
+      
+      rules:
+        - name: owasp_top_10
+          enabled: true
+          action: block
+        
+        - name: sql_injection
+          enabled: true
+          action: block
+        
+        - name: xss_protection
+          enabled: true
+          action: block
+        
+        - name: csrf_protection
+          enabled: true
+          action: block
+    
+    api_security:
+      rate_limiting: true
+      authentication_required: true
+      input_validation: true
+      output_encoding: true
+      
+      rate_limits:
+        - endpoint: "/api/auth/login"
+          limit: 5
+          window: 300  # seconds
+        
+        - endpoint: "/api/transactions"
+          limit: 100
+          window: 60   # seconds
+        
+        - endpoint: "/api/*"
+          limit: 1000
+          window: 60   # seconds
+  
+  container_security:
+    image_scanning: true
+    runtime_protection: true
+    
+    policies:
+      - name: no_root_containers
+        description: "Containers must not run as root"
+        enforcement: true
+      
+      - name: read_only_filesystem
+        description: "Container filesystems should be read-only"
+        enforcement: true
+      
+      - name: no_privileged_containers
+        description: "Containers must not run in privileged mode"
+        enforcement: true
+      
+      - name: resource_limits
+        description: "Containers must have CPU and memory limits"
+        enforcement: true
+
+# Monitoring and Incident Response
+monitoring:
+  security_monitoring:
+    enabled: true
+    
+    log_sources:
+      - application_logs
+      - system_logs
+      - network_logs
+      - database_logs
+      - security_device_logs
+    
+    correlation_rules:
+      - name: multiple_failed_logins
+        description: "Multiple failed login attempts from same IP"
+        condition: "failed_logins > 5 in 5 minutes from same IP"
+        severity: medium
+        response: block_ip
+      
+      - name: privilege_escalation_attempt
+        description: "Attempt to escalate privileges"
+        condition: "sudo or su command after failed authentication"
+        severity: high
+        response: alert_security_team
+      
+      - name: data_exfiltration_attempt
+        description: "Large data transfer outside business hours"
+        condition: "data_transfer > 1GB outside 9-5 business hours"
+        severity: high
+        response: alert_security_team
+      
+      - name: malware_detection
+        description: "Malware signature detected"
+        condition: "antivirus alert or suspicious file hash"
+        severity: critical
+        response: isolate_system
+  
+  incident_response:
+    team:
+      - role: incident_commander
+        contact: security-lead@finovabank.com
+        phone: "+1-555-0101"
+      
+      - role: technical_lead
+        contact: infrastructure@finovabank.com
+        phone: "+1-555-0102"
+      
+      - role: communications_lead
+        contact: communications@finovabank.com
+        phone: "+1-555-0103"
+      
+      - role: legal_counsel
+        contact: legal@finovabank.com
+        phone: "+1-555-0104"
+    
+    procedures:
+      - severity: critical
+        response_time: 15  # minutes
+        escalation_time: 30  # minutes
+        steps:
+          - "Activate incident response team"
+          - "Assess and contain the threat"
+          - "Preserve evidence"
+          - "Notify stakeholders"
+          - "Begin recovery procedures"
+          - "Document incident"
+      
+      - severity: high
+        response_time: 30  # minutes
+        escalation_time: 60  # minutes
+        steps:
+          - "Assign incident handler"
+          - "Investigate and contain"
+          - "Notify management"
+          - "Begin remediation"
+          - "Document findings"
+      
+      - severity: medium
+        response_time: 60  # minutes
+        escalation_time: 120  # minutes
+        steps:
+          - "Assign to security analyst"
+          - "Investigate incident"
+          - "Implement fixes"
+          - "Monitor for recurrence"
+      
+      - severity: low
+        response_time: 240  # minutes
+        escalation_time: 480  # minutes
+        steps:
+          - "Log incident"
+          - "Schedule investigation"
+          - "Implement preventive measures"
+
+# Compliance and Audit
+compliance:
+  audit_logging:
+    enabled: true
+    retention_period_days: 2555  # 7 years
+    
+    events_to_log:
+      - user_authentication
+      - privilege_escalation
+      - data_access
+      - configuration_changes
+      - system_administration
+      - security_events
+      - financial_transactions
+    
+    log_integrity:
+      enabled: true
+      method: digital_signatures
+      verification_frequency: daily
+  
+  regulatory_reporting:
+    automated_reports: true
+    
+    reports:
+      - name: pci_dss_compliance
+        frequency: quarterly
+        recipients: [compliance@finovabank.com, auditor@external.com]
+        
+      - name: sox_controls_testing
+        frequency: annually
+        recipients: [compliance@finovabank.com, cfo@finovabank.com]
+        
+      - name: glba_privacy_assessment
+        frequency: annually
+        recipients: [privacy@finovabank.com, legal@finovabank.com]
+        
+      - name: gdpr_data_processing
+        frequency: annually
+        recipients: [privacy@finovabank.com, dpo@finovabank.com]
+  
+  vulnerability_management:
+    scanning_frequency: weekly
+    
+    severity_levels:
+      - level: critical
+        remediation_sla: 24  # hours
+        approval_required: false
+        
+      - level: high
+        remediation_sla: 72  # hours
+        approval_required: true
+        
+      - level: medium
+        remediation_sla: 168  # hours (1 week)
+        approval_required: true
+        
+      - level: low
+        remediation_sla: 720  # hours (30 days)
+        approval_required: true
+    
+    patch_management:
+      testing_environment_required: true
+      approval_process: true
+      rollback_plan_required: true
+      
+      maintenance_windows:
+        - day: saturday
+          time: "02:00-06:00"
+          timezone: UTC
+          type: regular
+        
+        - day: any
+          time: any
+          timezone: UTC
+          type: emergency
+          approval_required: true
+
+# Business Continuity and Disaster Recovery
+business_continuity:
+  disaster_recovery:
+    rpo_hours: 1   # Recovery Point Objective
+    rto_hours: 4   # Recovery Time Objective
+    
+    backup_strategy:
+      frequency: continuous
+      retention: 2555_days  # 7 years
+      testing_frequency: monthly
+      
+    failover_procedures:
+      automatic_failover: true
+      manual_override: true
+      
+      primary_site: us-west-2
+      secondary_site: us-east-1
+      
+      failover_triggers:
+        - primary_site_unavailable
+        - performance_degradation
+        - security_incident
+        - natural_disaster
+  
+  crisis_management:
+    communication_plan:
+      internal_stakeholders:
+        - executives
+        - it_team
+        - security_team
+        - compliance_team
+        - customer_service
+      
+      external_stakeholders:
+        - customers
+        - regulators
+        - partners
+        - media
+        - law_enforcement
+    
+    recovery_priorities:
+      - priority: 1
+        systems: [customer_authentication, core_banking]
+        rto_hours: 1
+      
+      - priority: 2
+        systems: [transaction_processing, account_management]
+        rto_hours: 2
+      
+      - priority: 3
+        systems: [reporting, analytics]
+        rto_hours: 8
+      
+      - priority: 4
+        systems: [marketing, non_critical_apps]
+        rto_hours: 24
+
+# Security Awareness and Training
+security_awareness:
+  training_program:
+    mandatory: true
+    frequency: annually
+    
+    modules:
+      - name: security_fundamentals
+        duration_hours: 2
+        topics: [passwords, phishing, social_engineering]
+        
+      - name: financial_data_protection
+        duration_hours: 3
+        topics: [pci_dss, data_classification, privacy]
+        
+      - name: incident_response
+        duration_hours: 1
+        topics: [reporting_procedures, escalation]
+        
+      - name: regulatory_compliance
+        duration_hours: 2
+        topics: [glba, sox, gdpr]
+  
+  phishing_simulation:
+    enabled: true
+    frequency: monthly
+    
+    failure_threshold: 10  # percent
+    remedial_training_required: true
+  
+  security_communications:
+    security_bulletins: monthly
+    threat_intelligence_sharing: weekly
+    security_metrics_reporting: quarterly
+
