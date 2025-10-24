@@ -23,26 +23,17 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
-
-        <!-- Spring Boot Starter Web for basic web server capabilities -->
+        <!-- Add Spring Security for basic auth on Eureka -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- H2 Database (for testing purposes, can be removed if not needed) -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
-        <!-- PostgreSQL Database (if needed for persistence) -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.3.8</version>
-        </dependency>
+
+
+
+
     </dependencies>
 
 </project>

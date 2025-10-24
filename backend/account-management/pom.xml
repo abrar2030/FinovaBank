@@ -14,17 +14,16 @@
     <artifactId>account-management</artifactId>
 
     <dependencies>
-        <!-- Spring Boot Starter Web -->
+        <!-- Feign Client for inter-service communication -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!-- Spring Boot Starter Web -->
+
 
         <!-- Spring Boot Starter Data JPA -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+
 
         <!-- Spring Boot Starter Eureka Client -->
         <dependency>
@@ -32,12 +31,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- PostgreSQL Driver -->
-<!--        <dependency>-->
-<!--            <groupId>org.postgresql</groupId>-->
-<!--            <artifactId>postgresql</artifactId>-->
-<!--            <version>42.3.8</version>-->
-<!--        </dependency>-->
+
 
         <dependency>
             <groupId>com.h2database</groupId>
@@ -46,19 +40,10 @@
         </dependency>
 
         <!-- Spring Boot Starter Test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
 
         <!-- Lombok (Optional) -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
-        </dependency>
+
     </dependencies>
 
 </project>

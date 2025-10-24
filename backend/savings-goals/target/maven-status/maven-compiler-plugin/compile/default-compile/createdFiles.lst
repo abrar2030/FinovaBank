@@ -1,6 +1,0 @@
-com/finova/savings/controller/SavingsGoalController.class
-com/finova/savings/repository/SavingsGoalRepository.class
-com/finova/savings/model/SavingsGoal.class
-com/finova/savings/SavingsGoalsServiceApplication.class
-com/finova/savings/service/SavingsGoalService.class
-com/finova/savings/service/impl/SavingsGoalServiceImpl.class

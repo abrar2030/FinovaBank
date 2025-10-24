@@ -34,14 +34,13 @@ backend/
 ├── auth-service/           # Authentication and authorization
 ├── account-management/     # Account operations
 ├── transaction-service/    # Transaction processing
-├── ai-service/            # AI and ML capabilities (Flask)
-├── compliance-service/    # Compliance monitoring (Flask)
-├── security-service/      # Security management
-├── notification-service/  # Notifications
-├── loan-management/       # Loan processing
-├── risk-assessment/       # Risk analysis
-├── reporting/            # Financial reporting
-└── savings-goals/        # Savings management
+├── ai-service/             # AI and ML capabilities (Flask)
+├── compliance-service/     # Compliance monitoring (Flask)
+├── security-service/       # Security management
+├── notification-service/   # Notifications
+├── loan-management/        # Loan processing
+├── reporting/             # Financial reporting
+└── savings-goals/         # Savings management
 ```
 
 ### **Technology Stack**
@@ -93,20 +92,8 @@ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 # Build all services
 mvn clean install
 
-# Run services in order:
-# 1. Eureka Server (Port 8761)
-cd eureka-server && mvn spring-boot:run &
-
-# 2. API Gateway (Port 8080)
-cd api-gateway && mvn spring-boot:run &
-
-# 3. Auth Service (Port 8081)
-cd auth-service && mvn spring-boot:run &
-
-# 4. Account Management (Port 8082)
-cd account-management && mvn spring-boot:run &
-
-# 5. Other services...
+# To run all services, you can use the following command from the backend directory:
+for d in */ ; do (cd "$d" && mvn spring-boot:run &); done
 ```
 
 ### **5. Run AI Services**

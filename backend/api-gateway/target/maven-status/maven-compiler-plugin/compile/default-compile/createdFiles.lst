@@ -1,5 +1,0 @@
-com/finova/apigateway/security/JwtUtil.class
-com/finova/apigateway/security/JwtAuthenticationEntryPoint.class
-com/finova/apigateway/ApiGatewayApplication.class
-com/finova/apigateway/security/SecurityConfig.class
-com/finova/apigateway/security/JwtAuthenticationFilter.class
