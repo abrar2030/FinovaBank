@@ -1,40 +1,59 @@
 #!/bin/bash
 
+# This script is refactored to use a loop for microservices, reducing duplication.
+
+# Exit immediately if a command exits with a non-zero status.
+set -e
+
 # Set Docker registry from environment variable or use default
 DOCKER_REGISTRY=${DOCKER_USERNAME:-abrar2030}
+IMAGE_REPO="finovabackend"
 
-# Build and push images
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:api-gateway -f backend/api-gateway/Dockerfile backend/api-gateway
-docker push $DOCKER_REGISTRY/finovabackend:api-gateway
+# List of all backend microservices
+MICROSERVICES=(
+    "api-gateway"
+    "account-management"
+    "transaction-service"
+    "loan-management"
+    "savings-goals"
+    "risk-assessment"
+    "compliance"
+    "notification-service"
+    "reporting"
+)
 
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:account-management -f backend/account-management/Dockerfile backend/account-management
-docker push $DOCKER_REGISTRY/finovabackend:account-management
+# Function to build and push a Docker image
+build_and_push() {
+    local service_name=$1
+    local context_path=$2
+    local dockerfile_path=$3
+    
+    echo "Building and pushing $service_name..."
+    
+    # Use a consistent image name structure
+    local image_name="$DOCKER_REGISTRY/$IMAGE_REPO/$service_name"
+    
+    # Build
+    docker buildx build -t "$image_name:latest" -f "$dockerfile_path" "$context_path"
+    
+    # Push
+    docker push "$image_name:latest"
+    
+    echo "$service_name built and pushed successfully."
+}
 
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:transaction-service -f backend/transaction-service/Dockerfile backend/transaction-service
-docker push $DOCKER_REGISTRY/finovabackend:transaction-service
+# 1. Build and push backend microservices
+for service in "${MICROSERVICES[@]}"; do
+    build_and_push "$service" "backend/$service" "backend/$service/Dockerfile"
+done
 
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:loan-management -f backend/loan-management/Dockerfile backend/loan-management
-docker push $DOCKER_REGISTRY/finovabackend:loan-management
+# 2. Build and push frontend
+build_and_push "web-frontend" "web-frontend" "web-frontend/Dockerfile"
 
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:savings-goals -f backend/savings-goals/Dockerfile backend/savings-goals
-docker push $DOCKER_REGISTRY/finovabackend:savings-goals
+# 3. Deploy to Kubernetes using the refactored Helm chart
+echo "Deploying to Kubernetes using Helm..."
+# Assuming the user is running this script from the FinovaBank root directory
+helm upgrade --install finovabank kubernetes --wait
 
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:risk-assessment -f backend/risk-assessment/Dockerfile backend/risk-assessment
-docker push $DOCKER_REGISTRY/finovabackend:risk-assessment
+echo "Deployment complete."
 
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:compliance -f backend/compliance/Dockerfile backend/compliance
-docker push $DOCKER_REGISTRY/finovabackend:compliance
-
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:notification-service -f backend/notification-service/Dockerfile backend/notification-service
-docker push $DOCKER_REGISTRY/finovabackend:notification-service
-
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:reporting -f backend/reporting/Dockerfile backend/reporting
-docker push $DOCKER_REGISTRY/finovabackend:reporting
-
-docker buildx build -t $DOCKER_REGISTRY/finovabackend:frontend -f frontend/Dockerfile frontend
-docker push $DOCKER_REGISTRY/finovabackend:frontend
-
-# Deploy to Kubernetes
-kubectl apply -f infrastructure/kubernetes/namespace.yaml
-kubectl apply -f infrastructure/kubernetes/deployment.yaml
-kubectl apply -f infrastructure/kubernetes/service.yaml

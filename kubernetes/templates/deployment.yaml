@@ -1,0 +1,65 @@
+{{- range $serviceName, $service := .Values.services }}
+{{- if $service.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $serviceName }}
+  labels:
+    app: {{ $serviceName }}
+    {{- include "finovabank.labels" $ | nindent 4 }}
+spec:
+  replicas: {{ $service.replicaCount | default $.Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: {{ $serviceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ $serviceName }}
+        {{- include "finovabank.selectorLabels" $ | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ $serviceName }}
+          image: {{ $.Values.image.repository }}:{{ $service.tag | default $.Values.image.tag }}
+          ports:
+            - containerPort: {{ $service.port }}
+          env:
+            {{- include "finovabank.env" $ | nindent 12 }}
+            - name: SERVICE_PORT
+              value: {{ $service.port | quote }}
+          resources:
+            requests:
+              cpu: {{ $service.resources.requests.cpu | default $.Values.resources.requests.cpu | quote }}
+              memory: {{ $service.resources.requests.memory | default $.Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ $service.resources.limits.cpu | default $.Values.resources.limits.cpu | quote }}
+              memory: {{ $service.resources.limits.memory | default $.Values.resources.limits.memory | quote }}
+          {{- if $service.probes.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ $service.probes.path | default "/actuator/health" }}
+              port: {{ $service.probes.port | default $service.port }}
+            initialDelaySeconds: {{ $service.probes.readiness.initialDelaySeconds | default 30 }}
+            periodSeconds: {{ $service.probes.readiness.periodSeconds | default 10 }}
+            timeoutSeconds: {{ $service.probes.readiness.timeoutSeconds | default 5 }}
+            successThreshold: {{ $service.probes.readiness.successThreshold | default 1 }}
+            failureThreshold: {{ $service.probes.readiness.failureThreshold | default 3 }}
+          livenessProbe:
+            httpGet:
+              path: {{ $service.probes.path | default "/actuator/health" }}
+              port: {{ $service.probes.port | default $service.port }}
+            initialDelaySeconds: {{ $service.probes.liveness.initialDelaySeconds | default 60 }}
+            periodSeconds: {{ $service.probes.liveness.periodSeconds | default 20 }}
+            timeoutSeconds: {{ $service.probes.liveness.timeoutSeconds | default 5 }}
+            successThreshold: {{ $service.probes.liveness.successThreshold | default 1 }}
+            failureThreshold: {{ $service.probes.liveness.failureThreshold | default 3 }}
+          {{- end }}
+{{- end }}
+{{- end }}
+
