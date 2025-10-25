@@ -44,8 +44,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const storedUser = localStorage.getItem('user');
-        const token = localStorage.getItem('token');
+        const storedUser = sessionStorage.getItem('user');
+        const token = sessionStorage.getItem('token');
         
         if (storedUser && token) {
           // Verify token validity with backend
@@ -55,14 +55,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setIsAuthenticated(true);
           } else {
             // Token is invalid, clear storage
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
           }
         }
       } catch (err) {
         console.error('Auth verification failed:', err);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
       } finally {
         setLoading(false);
       }
