@@ -1,173 +1,349 @@
 ---
+version: '3.8'
+
 services:
+  # ----------------------------------------------------------------
+  # Service Discovery and Gateway
+  # ----------------------------------------------------------------
   eureka-server:
     build:
       context: ./backend/eureka-server
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:eureka-server
+    image: finovabank/eureka-server
     container_name: eureka-server
     ports:
       - "8001:8001"
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_PORT=8001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   api-gateway:
     build:
       context: ./backend/api-gateway
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:api-gateway
+    image: finovabank/api-gateway
     container_name: api-gateway
     ports:
       - "8002:8002"
     depends_on:
-      - eureka-server
-      - account-management
-      - transaction-service
-      - notification-service
-      - loan-management
-      - risk-assessment
-      - savings-goals
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - API_GATEWAY_PORT=8002
+      - SPRING_PROFILES_ACTIVE=docker
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ----------------------------------------------------------------
+  # Core Business Microservices
+  # ----------------------------------------------------------------
+  auth-service:
+    build:
+      context: ./backend/auth-service
+      dockerfile: Dockerfile
+    image: finovabank/auth-service
+    container_name: auth-service
+    ports:
+      - "8080:8080" # Exposed for direct testing/debug, usually accessed via gateway
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - finova-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
+      - AUTH_SERVICE_PORT=8080
+      - SPRING_PROFILES_ACTIVE=docker
+
+  security-service:
+    build:
+      context: ./backend/security-service
+      dockerfile: Dockerfile
+    image: finovabank/security-service
+    container_name: security-service
+    ports:
+      - "8089:8089"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - finova-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
+      - SECURITY_SERVICE_PORT=8089
+      - SPRING_PROFILES_ACTIVE=docker
+
   account-management:
     build:
       context: ./backend/account-management
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:account-management
+    image: finovabank/account-management
     container_name: account-management
     ports:
       - "8081:8081"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - ACCOUNT_MANAGEMENT_PORT=8081
+      - SPRING_PROFILES_ACTIVE=docker
+
   transaction-service:
     build:
       context: ./backend/transaction-service
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:transaction-service
+    image: finovabank/transaction-service
     container_name: transaction-service
     ports:
       - "8082:8082"
     depends_on:
-      - eureka-server
-      - account-management
+      eureka-server:
+        condition: service_healthy
+      account-management:
+        condition: service_started
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - TRANSACTION_SERVICE_PORT=8082
+      - SPRING_PROFILES_ACTIVE=docker
+
   notification-service:
     build:
       context: ./backend/notification-service
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:notification-service
+    image: finovabank/notification-service
     container_name: notification-service
     ports:
       - "8083:8083"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - NOTIFICATION_SERVICE_PORT=8083
+      - SPRING_PROFILES_ACTIVE=docker
+
   loan-management:
     build:
       context: ./backend/loan-management
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:loan-management
+    image: finovabank/loan-management
     container_name: loan-management
     ports:
       - "8084:8084"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - LOAN_MANAGEMENT_PORT=8084
-  compliance:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  compliance-service:
     build:
-      context: ./backend/compliance
+      context: ./backend/compliance-service
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:compliance
+    image: finovabank/compliance-service
     container_name: compliance-service
     ports:
       - "8085:8085"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - COMPLIANCE_SERVICE_PORT=8085
+      - SPRING_PROFILES_ACTIVE=docker
+
   reporting:
     build:
       context: ./backend/reporting
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:reporting
+    image: finovabank/reporting
     container_name: reporting-service
     ports:
       - "8086:8086"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - REPORTING_SERVICE_PORT=8086
+      - SPRING_PROFILES_ACTIVE=docker
+
   risk-assessment:
     build:
       context: ./backend/risk-assessment
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:risk-assessment
+    image: finovabank/risk-assessment
     container_name: risk-assessment-service
     ports:
       - "8087:8087"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - RISK_ASSESSMENT_SERVICE_PORT=8087
+      - SPRING_PROFILES_ACTIVE=docker
+
   savings-goals:
     build:
       context: ./backend/savings-goals
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:savings-goals
+    image: finovabank/savings-goals
     container_name: savings-goals-service
     ports:
       - "8088:8088"
     depends_on:
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - SAVINGS_GOALS_SERVICE_PORT=8088
-  frontend:
+      - SPRING_PROFILES_ACTIVE=docker
+  
+  ai-service:
     build:
-      context: ./frontend
+      context: ./backend/ai-service
       dockerfile: Dockerfile
-    image: abrar2030/finovabackend:frontend
-    container_name: frontend
+    image: finovabank/ai-service
+    container_name: ai-service
+    ports:
+      - "8090:8090"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - finova-network
+    environment:
+      - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
+      - AI_SERVICE_PORT=8090
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # ----------------------------------------------------------------
+  # Frontend Applications
+  # ----------------------------------------------------------------
+  web-frontend:
+    build:
+      context: ./web-frontend
+      dockerfile: Dockerfile
+    image: finovabank/web-frontend
+    container_name: web-frontend
     ports:
       - "3000:80"
     depends_on:
-      - api-gateway
+      api-gateway:
+        condition: service_healthy
     networks:
-      - backend-network
+      - finova-network
     environment:
       - REACT_APP_API_BASE_URL=http://api-gateway:8002
+
+  mobile-frontend-dev:
+    # This service is for development/hot-reloading of the React Native app.
+    # It does not build the native app, only runs the JS bundler.
+    build:
+      context: ./mobile-frontend
+      dockerfile: Dockerfile.dev # Assuming a Dockerfile.dev exists or needs to be created for RN development
+    image: finovabank/mobile-frontend-dev
+    container_name: mobile-frontend-dev
+    # The React Native packager runs on port 8081 by default, but it's often better to expose the host port
+    # for the development server and let the native app connect to the host IP.
+    ports:
+      - "8081:8081"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    networks:
+      - finova-network
+    volumes:
+      - ./mobile-frontend:/app
+      - /app/node_modules
+    command: ["npm", "start"]
+    environment:
+      # The mobile app will need to connect to the API Gateway.
+      # When running on a device/emulator, it usually needs the host's IP, but in docker-compose, 
+      # the service name is fine if the native app is also containerized or configured correctly.
+      # For simplicity in a docker-compose context, we'll point it to the gateway service name.
+      - REACT_NATIVE_API_BASE_URL=http://api-gateway:8002
+      - NODE_ENV=development
+
+  # ----------------------------------------------------------------
+  # Monitoring Stack (Optional but recommended)
+  # ----------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.47.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - finova-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    # Prometheus needs to scrape all microservices, so it depends on them.
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.1.5
+    container_name: grafana
+    ports:
+      - "3001:3000" # Grafana default port is 3000
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./monitoring/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./monitoring/grafana/grafana_dashboard.json:/etc/grafana/provisioning/dashboards/finova-dashboard.json
+    networks:
+      - finova-network
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      prometheus:
+        condition: service_started
+    restart: unless-stopped
+
+# ----------------------------------------------------------------
+# Volumes and Networks
+# ----------------------------------------------------------------
+volumes:
+  grafana-storage:
+
 networks:
-  backend-network:
+  finova-network:
     driver: bridge
+
