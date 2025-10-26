@@ -1,8 +1,6 @@
 # FinovaBank
 
-[![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/complete-workflow.yml?branch=main&label=CI/CD&logo=github)](https://github.com/abrar2030/FinovaBank/actions)
-[![Backend Status](https://img.shields.io/badge/backend-stable-brightgreen)](https://github.com/abrar2030/FinovaBank/tree/main/backend)
-[![Frontend Status](https://img.shields.io/badge/frontend-stable-brightgreen)](https://github.com/abrar2030/FinovaBank/tree/main/web-frontend)
+![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/FinovaBank/cicd.yml?branch=main&label=CI/CD&logo=github)
 [![Test Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)](https://github.com/abrar2030/FinovaBank/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
