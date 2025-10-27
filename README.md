@@ -34,32 +34,40 @@ FinovaBank is a comprehensive digital banking platform designed to provide a sea
 ## Key Features
 
 ### Core Banking Services
-* **Account Management**: Create and manage various account types (checking, savings, investment)
-* **Payment Processing**: Domestic and international transfers with real-time tracking
-* **Card Management**: Virtual and physical card issuance and control
-* **Loan Services**: Application, approval, and management of various loan products
-* **Bill Payments**: Automated and scheduled bill payments with reminders
+| Feature | Description |
+| :--- | :--- |
+| **Account Management** | Create and manage various account types (checking, savings, investment) |
+| **Payment Processing** | Domestic and international transfers with real-time tracking |
+| **Card Management** | Virtual and physical card issuance and control |
+| **Loan Services** | Application, approval, and management of various loan products |
+| **Bill Payments** | Automated and scheduled bill payments with reminders |
 
 ### AI-Powered Financial Intelligence
-* **Personalized Insights**: AI-driven analysis of spending patterns and financial habits
-* **Smart Budgeting**: Automated budget recommendations based on income and expenses
-* **Fraud Detection**: Real-time monitoring and alerting for suspicious activities
-* **Credit Scoring**: Alternative credit assessment using machine learning
-* **Chatbot Assistant**: Natural language processing for customer support
+| Feature | Description |
+| :--- | :--- |
+| **Personalized Insights** | AI-driven analysis of spending patterns and financial habits |
+| **Smart Budgeting** | Automated budget recommendations based on income and expenses |
+| **Fraud Detection** | Real-time monitoring and alerting for suspicious activities |
+| **Credit Scoring** | Alternative credit assessment using machine learning |
+| **Chatbot Assistant** | Natural language processing for customer support |
 
 ### Blockchain Integration
-* **Immutable Transaction Records**: Blockchain-backed transaction history
-* **Smart Contracts**: Automated execution of financial agreements
-* **Digital Identity**: Secure and portable KYC verification
-* **Cross-Border Payments**: Fast and low-cost international transfers
-* **Tokenized Assets**: Support for digital asset management
+| Feature | Description |
+| :--- | :--- |
+| **Immutable Transaction Records** | Blockchain-backed transaction history |
+| **Smart Contracts** | Automated execution of financial agreements |
+| **Digital Identity** | Secure and portable KYC verification |
+| **Cross-Border Payments** | Fast and low-cost international transfers |
+| **Tokenized Assets** | Support for digital asset management |
 
 ### Open Banking & Integration
-* **API Ecosystem**: Developer-friendly APIs for third-party integration
-* **Partner Marketplace**: Curated financial services from partners
-* **Data Sharing Controls**: Granular permissions for data access
-* **Regulatory Compliance**: Built-in compliance with open banking regulations
-* **Analytics Dashboard**: Insights for developers and partners
+| Feature | Description |
+| :--- | :--- |
+| **API Ecosystem** | Developer-friendly APIs for third-party integration |
+| **Partner Marketplace** | Curated financial services from partners |
+| **Data Sharing Controls** | Granular permissions for data access |
+| **Regulatory Compliance** | Built-in compliance with open banking regulations |
+| **Analytics Dashboard** | Insights for developers and partners |
 
 ## Technology Stack
 
@@ -105,34 +113,44 @@ FinovaBank is a comprehensive digital banking platform designed to provide a sea
 FinovaBank implements multiple layers of security to protect customer data and financial assets:
 
 ### Authentication & Authorization
-* **Multi-Factor Authentication**: Biometric, SMS, and app-based verification
-* **Role-Based Access Control**: Granular permissions for system access
-* **OAuth 2.0/OpenID Connect**: Secure authentication protocols
-* **JWT Tokens**: Secure API access
+| Feature | Description |
+| :--- | :--- |
+| **Multi-Factor Authentication** | Biometric, SMS, and app-based verification |
+| **Role-Based Access Control** | Granular permissions for system access |
+| **OAuth 2.0/OpenID Connect** | Secure authentication protocols |
+| **JWT Tokens** | Secure API access |
 
 ### Data Protection
-* **End-to-End Encryption**: For all data in transit
-* **At-Rest Encryption**: For all stored data
-* **Data Masking**: For sensitive information
-* **Secure Key Management**: HSM integration
+| Feature | Description |
+| :--- | :--- |
+| **End-to-End Encryption** | For all data in transit |
+| **At-Rest Encryption** | For all stored data |
+| **Data Masking** | For sensitive information |
+| **Secure Key Management** | HSM integration |
 
 ### Compliance & Auditing
-* **Regulatory Compliance**: GDPR, PSD2, CCPA, etc.
-* **Audit Logging**: Comprehensive activity tracking
-* **Penetration Testing**: Regular security assessments
-* **Vulnerability Management**: Continuous scanning and remediation
+| Feature | Description |
+| :--- | :--- |
+| **Regulatory Compliance** | GDPR, PSD2, CCPA, etc. |
+| **Audit Logging** | Comprehensive activity tracking |
+| **Penetration Testing** | Regular security assessments |
+| **Vulnerability Management** | Continuous scanning and remediation |
 
 ### Network Security
-* **Web Application Firewall**: Protection against common attacks
-* **DDoS Protection**: Mitigation of denial-of-service attacks
-* **API Security**: Rate limiting and request validation
-* **Intrusion Detection**: Real-time monitoring for suspicious activities
+| Feature | Description |
+| :--- | :--- |
+| **Web Application Firewall** | Protection against common attacks |
+| **DDoS Protection** | Mitigation of denial-of-service attacks |
+| **API Security** | Rate limiting and request validation |
+| **Intrusion Detection** | Real-time monitoring for suspicious activities |
 
 ### DevSecOps
-* **Secure SDLC**: Security integrated into development lifecycle
-* **Security Automation**: Automated security testing in CI/CD
-* **Snyk/SonarQube**: Security scanning for code and dependencies
-* **WAF/DDoS Protection**: Network security measures
+| Feature | Description |
+| :--- | :--- |
+| **Secure SDLC** | Security integrated into development lifecycle |
+| **Security Automation** | Automated security testing in CI/CD |
+| **Snyk/SonarQube** | Security scanning for code and dependencies |
+| **WAF/DDoS Protection** | Network security measures |
 
 ## Architecture
 
@@ -248,66 +266,6 @@ For production deployment using Kubernetes:
 # Deploy to Kubernetes
 ./kubernetes-auto-deploy.sh
 ```
-
-## Usage
-
-### Admin Portal
-
-The admin portal provides comprehensive tools for bank administrators:
-
-1. **Customer Management**
-   * View and manage customer accounts
-   * Handle KYC verification
-   * Process account applications
-
-2. **Transaction Monitoring**
-   * Monitor real-time transactions
-   * Review flagged transactions
-   * Generate transaction reports
-
-3. **System Configuration**
-   * Configure system parameters
-   * Manage feature flags
-   * Control service availability
-
-### Customer Web Portal
-
-The customer web portal offers a full range of banking services:
-
-1. **Account Dashboard**
-   * View account balances and transactions
-   * Track spending patterns
-   * Set financial goals
-
-2. **Payments & Transfers**
-   * Make domestic and international transfers
-   * Schedule recurring payments
-   * Pay bills and invoices
-
-3. **Card Management**
-   * View card details and transactions
-   * Freeze/unfreeze cards
-   * Set spending limits
-
-### Mobile Application
-
-The mobile app provides on-the-go banking:
-
-1. **Biometric Authentication**
-   * Fingerprint and facial recognition
-   * Secure login and transaction approval
-   * Device binding for enhanced security
-
-2. **Mobile Payments**
-   * NFC payments
-   * QR code transfers
-   * Peer-to-peer payments
-
-3. **Financial Insights**
-   * Personalized financial advice
-   * Budget tracking
-   * Spending categorization
-
 ## Testing
 
 The project maintains comprehensive test coverage across all components to ensure reliability and security.
@@ -325,34 +283,44 @@ The project maintains comprehensive test coverage across all components to ensur
 | Overall | 85% | ✅ |
 
 ### Unit Tests
-* Service layer tests
-* Repository tests
-* Controller tests
-* Utility function tests
+| Component | Test Type |
+| :--- | :--- |
+| Service layer | Unit tests for business logic |
+| Repository | Unit tests for data access |
+| Controller | Unit tests for API endpoints |
+| Utility function | Unit tests for helper functions |
 
 ### Integration Tests
-* API endpoint tests
-* Service interaction tests
-* Database integration tests
-* Message queue tests
+| Component | Test Type |
+| :--- | :--- |
+| API endpoint | Integration tests for routing and response |
+| Service interaction | Integration tests for inter-service communication |
+| Database integration | Integration tests for data persistence |
+| Message queue | Integration tests for asynchronous communication |
 
 ### End-to-End Tests
-* User journey tests
-* Cross-service workflows
-* Payment processing tests
-* Account management tests
+| Component | Test Type |
+| :--- | :--- |
+| User journey | E2E tests for full user workflows |
+| Cross-service workflows | E2E tests for complex, multi-service operations |
+| Payment processing | E2E tests for transaction lifecycle |
+| Account management | E2E tests for account creation and modification |
 
 ### Performance Tests
-* Load testing
-* Stress testing
-* Scalability testing
-* Database performance testing
+| Test Type | Purpose |
+| :--- | :--- |
+| Load testing | To assess system behavior under expected load |
+| Stress testing | To determine system breaking point |
+| Scalability testing | To verify horizontal scaling capabilities |
+| Database performance testing | To optimize data layer efficiency |
 
 ### Security Tests
-* Penetration testing
-* Vulnerability scanning
-* Authentication tests
-* Authorization tests
+| Test Type | Purpose |
+| :--- | :--- |
+| Penetration testing | To identify and exploit vulnerabilities |
+| Vulnerability scanning | Continuous scanning of code and dependencies |
+| Authentication tests | To ensure secure login mechanisms |
+| Authorization tests | To verify granular access control |
 
 ### Running Tests
 
@@ -373,15 +341,16 @@ npm test
 ./finovabank.sh test
 ```
 
-## CI/CD Pipeline
-
+### CI/CD Pipeline
 FinovaBank uses GitHub Actions for continuous integration and deployment:
 
-* Automated testing on each pull request
-* Code quality checks with SonarQube
-* Security scanning with Snyk and OWASP Dependency Check
-* Docker image building and publishing
-* Automated deployment to staging and production environments
+| Stage | Description |
+| :--- | :--- |
+| Automated testing | On each pull request |
+| Code quality checks | With SonarQube |
+| Security scanning | With Snyk and OWASP Dependency Check |
+| Docker image building | And publishing |
+| Automated deployment | To staging and production environments |s
 
 ## Contributing
 
