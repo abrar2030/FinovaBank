@@ -74,14 +74,3 @@ web-frontend/
 ├── package.json      # Project dependencies and scripts
 └── README.md         # This file
 ```
-
-## Enhancements and Refactoring
-
-This project has been refactored and enhanced to improve its structure, maintainability, and security.
-
-*   **Improved Project Structure:** The file structure has been reorganized for better clarity and separation of concerns.
-*   **Duplicate Code Removal:** Redundant files and code have been removed to reduce clutter and improve consistency.
-*   **Security Enhancement:** The application now uses `sessionStorage` instead of `localStorage` for storing authentication tokens, which is a more secure approach.
-*   **Code Refactoring:** The codebase has been refactored to use modern React features and best practices, such as using the `Outlet` component from React Router v6 for layout components.
-*   **Updated README:** The README file has been updated to provide more specific and relevant information about the project.
-
