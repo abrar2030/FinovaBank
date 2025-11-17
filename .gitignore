@@ -146,3 +146,56 @@ terraform.rc
 # Specific project files
 git-auto-commit.sh
 
+
+# Additional IDE/Editor Metadata
+*.iml
+.project
+.classpath
+.settings/
+.idea/workspace.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/misc.xml
+.idea/*.iml
+
+# More Logs and Caches
+*.cache
+*.pid
+*.sock
+*.sqlite
+*.sqlite3
+/tmp/
+/temp/
+.sass-cache/
+.npm/
+.bower/
+.grunt/
+.nyc_output/
+.serverless/
+.terraform/
+.terraform.lock.hcl
+
+# OS generated files
+.DS_Store
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Compiled/Build files
+/build/
+/dist/
+/out/
+/target/
+/bin/
+/obj/
+*.o
+*.a
+*.so
+*.dll
+*.class
+*.pyc
+*.whl
+*.egg
+
+# Specific project files
+git-auto-commit.sh
