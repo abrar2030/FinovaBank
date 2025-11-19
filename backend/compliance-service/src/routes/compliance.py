@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class ComplianceMonitor:
-    """Real-time compliance monitoring and alerting system"""
+    #     """Real-time compliance monitoring and alerting system"""
 
     def __init__(self):
         self.compliance_rules = self._initialize_rules()
