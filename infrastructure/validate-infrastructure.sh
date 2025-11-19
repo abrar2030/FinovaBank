@@ -39,10 +39,10 @@ run_check() {
     local check_name="$1"
     local check_command="$2"
     local is_critical="${3:-true}"
-    
+
     TOTAL_CHECKS=$((TOTAL_CHECKS + 1))
     log "Running check: $check_name"
-    
+
     if eval "$check_command" > /dev/null 2>&1; then
         success "$check_name"
         PASSED_CHECKS=$((PASSED_CHECKS + 1))
@@ -123,16 +123,16 @@ log "Validating Terraform configuration..."
 
 if [ -d "terraform" ]; then
     cd terraform
-    
+
     run_check "Terraform init successful" "terraform init -backend=false"
     run_check "Terraform validate successful" "terraform validate"
     run_check "Terraform format check" "terraform fmt -check=true -diff=true"
-    
+
     # Check for security best practices
     run_check "No hardcoded secrets in Terraform" "! grep -r 'password.*=' . --include='*.tf' | grep -v variable"
     run_check "Encryption enabled for storage" "grep -q 'encrypted.*=.*true' *.tf"
     run_check "Backup retention configured" "grep -q 'backup_retention_period' *.tf"
-    
+
     cd ..
 fi
 
@@ -141,15 +141,15 @@ log "Validating Ansible configuration..."
 
 if [ -d "ansible" ]; then
     cd ansible
-    
+
     run_check "Ansible syntax check" "ansible-playbook --syntax-check playbook.yml"
     run_check "Ansible inventory valid" "ansible-inventory --list > /dev/null"
-    
+
     # Check for security best practices
     run_check "No plaintext passwords in Ansible" "! grep -r 'password:' . --include='*.yml' | grep -v vault"
     run_check "Sudo configuration present" "grep -q 'become.*true' playbook.yml"
     run_check "Security hardening tasks present" "grep -q 'security' playbook.yml"
-    
+
     cd ..
 fi
 

@@ -86,4 +86,3 @@ describe('LoansScreen (Mobile)', () => {
 
     // Add tests for loading state, error handling, applying for a new loan, etc.
 });
-

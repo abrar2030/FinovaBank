@@ -27,4 +27,3 @@ public class AuthControllerTest {
         // This test will not run as the class is disabled.
     }
 }
-

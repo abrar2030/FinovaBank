@@ -5,7 +5,7 @@
 # This script automates the testing process for all components
 # of the FinovaBank platform, including unit tests, integration
 # tests, and end-to-end tests.
-# 
+#
 # Author: Manus AI
 # Date: May 22, 2025
 # =====================================================
@@ -73,16 +73,16 @@ command_exists() {
 # Function to run backend tests
 run_backend_tests() {
     step_msg "Running backend tests..."
-    
+
     if [ ! -d "backend" ]; then
         error_msg "Backend directory not found"
     fi
-    
+
     cd backend
-    
+
     # Create report directories
     mkdir -p "../$TEST_REPORT_DIR/backend"
-    
+
     # Determine test types to run
     local test_types=""
     if [ "$RUN_UNIT" = true ]; then
@@ -91,160 +91,160 @@ run_backend_tests() {
     if [ "$RUN_INTEGRATION" = true ]; then
         test_types="$test_types integration-test"
     fi
-    
+
     # If no specific test type is selected, run all tests
     if [ -z "$test_types" ]; then
         test_types="test integration-test"
     fi
-    
+
     # Run tests with Maven
     for test_type in $test_types; do
         echo "Running backend $test_type..."
-        
+
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
             coverage_opts="-Djacoco.destFile=../coverage-reports/backend/jacoco.exec"
             mkdir -p "../$COVERAGE_REPORT_DIR/backend"
         fi
-        
+
         # Run the tests
         ./mvnw $test_type $coverage_opts -Dmaven.test.failure.ignore=false
-        
+
         # Check exit code
         if [ $? -ne 0 ]; then
             cd ..
             error_msg "Backend $test_type failed"
         fi
     done
-    
+
     # Generate coverage report if requested
     if [ "$GENERATE_COVERAGE" = true ]; then
         echo "Generating backend coverage report..."
         ./mvnw jacoco:report -Djacoco.dataFile=../coverage-reports/backend/jacoco.exec -Djacoco.outputDirectory=../coverage-reports/backend
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Backend tests completed successfully!${NC}"
 }
 
 # Function to run web frontend tests
 run_frontend_tests() {
     step_msg "Running web frontend tests..."
-    
+
     if [ ! -d "web-frontend" ]; then
         error_msg "Web frontend directory not found"
     fi
-    
+
     cd web-frontend
-    
+
     # Create report directories
     mkdir -p "../$TEST_REPORT_DIR/web-frontend"
-    
+
     # Install dependencies if node_modules doesn't exist
     if [ ! -d "node_modules" ]; then
         echo "Installing dependencies..."
         npm install
     fi
-    
+
     # Determine test types to run
     if [ "$RUN_UNIT" = true ]; then
         echo "Running frontend unit tests..."
-        
+
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
             coverage_opts="--coverage --coverageDirectory=../$COVERAGE_REPORT_DIR/web-frontend"
             mkdir -p "../$COVERAGE_REPORT_DIR/web-frontend"
         fi
-        
+
         # Run unit tests
         npm test -- --watchAll=false $coverage_opts --testResultsProcessor=jest-junit --reporters=default --reporters=jest-junit
-        
+
         # Check exit code
         if [ $? -ne 0 ]; then
             cd ..
             error_msg "Frontend unit tests failed"
         fi
     fi
-    
+
     # Run E2E tests if requested
     if [ "$RUN_E2E" = true ]; then
         echo "Running frontend end-to-end tests..."
-        
+
         # Check if Cypress is installed
         if [ ! -d "node_modules/cypress" ]; then
             echo "Installing Cypress..."
             npm install cypress --save-dev
         fi
-        
+
         # Run E2E tests
         npm run e2e:ci
-        
+
         # Check exit code
         if [ $? -ne 0 ]; then
             cd ..
             error_msg "Frontend end-to-end tests failed"
         fi
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Web frontend tests completed successfully!${NC}"
 }
 
 # Function to run mobile frontend tests
 run_mobile_tests() {
     step_msg "Running mobile frontend tests..."
-    
+
     if [ ! -d "mobile-frontend" ]; then
         error_msg "Mobile frontend directory not found"
     fi
-    
+
     cd mobile-frontend
-    
+
     # Create report directories
     mkdir -p "../$TEST_REPORT_DIR/mobile-frontend"
-    
+
     # Install dependencies if node_modules doesn't exist
     if [ ! -d "node_modules" ]; then
         echo "Installing dependencies..."
         npm install
     fi
-    
+
     # Determine test types to run
     if [ "$RUN_UNIT" = true ]; then
         echo "Running mobile unit tests..."
-        
+
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
             coverage_opts="--coverage --coverageDirectory=../$COVERAGE_REPORT_DIR/mobile-frontend"
             mkdir -p "../$COVERAGE_REPORT_DIR/mobile-frontend"
         fi
-        
+
         # Run unit tests
         npm test -- --watchAll=false $coverage_opts
-        
+
         # Check exit code
         if [ $? -ne 0 ]; then
             cd ..
             error_msg "Mobile unit tests failed"
         fi
     fi
-    
+
     # Run E2E tests if requested
     if [ "$RUN_E2E" = true ]; then
         echo "Running mobile end-to-end tests..."
-        
+
         # Check if Detox is installed
         if ! command_exists detox; then
             warning_msg "Detox is not installed. Skipping mobile E2E tests."
         else
             # Run E2E tests
             detox test --configuration ios.sim.release
-            
+
             # Check exit code
             if [ $? -ne 0 ]; then
                 cd ..
@@ -252,55 +252,55 @@ run_mobile_tests() {
             fi
         fi
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Mobile frontend tests completed successfully!${NC}"
 }
 
 # Function to run AI services tests
 run_ai_tests() {
     step_msg "Running AI services tests..."
-    
+
     if [ ! -d "ai-services" ]; then
         error_msg "AI services directory not found"
     fi
-    
+
     cd ai-services
-    
+
     # Create report directories
     mkdir -p "../$TEST_REPORT_DIR/ai-services"
-    
+
     # Check if virtual environment exists
     if [ ! -d "venv" ]; then
         echo "Creating virtual environment..."
         python3 -m venv venv
     fi
-    
+
     # Activate virtual environment
     source venv/bin/activate
-    
+
     # Install dependencies if requirements.txt exists
     if [ -f "requirements.txt" ]; then
         echo "Installing dependencies..."
         pip install -r requirements.txt
         pip install pytest pytest-cov
     fi
-    
+
     # Determine test types to run
     if [ "$RUN_UNIT" = true ] || [ "$RUN_INTEGRATION" = true ]; then
         echo "Running AI service tests..."
-        
+
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
             coverage_opts="--cov=. --cov-report=xml:../$COVERAGE_REPORT_DIR/ai-services/coverage.xml"
             mkdir -p "../$COVERAGE_REPORT_DIR/ai-services"
         fi
-        
+
         # Run tests
         python -m pytest $coverage_opts --junitxml=../$TEST_REPORT_DIR/ai-services/test-results.xml
-        
+
         # Check exit code
         if [ $? -ne 0 ]; then
             deactivate
@@ -308,28 +308,28 @@ run_ai_tests() {
             error_msg "AI service tests failed"
         fi
     fi
-    
+
     # Deactivate virtual environment
     deactivate
-    
+
     cd ..
-    
+
     echo -e "${GREEN}AI services tests completed successfully!${NC}"
 }
 
 # Function to generate a consolidated test report
 generate_test_report() {
     step_msg "Generating consolidated test report..."
-    
+
     # Check if any test reports exist
     if [ ! -d "$TEST_REPORT_DIR" ]; then
         warning_msg "No test reports found. Skipping report generation."
         return
     fi
-    
+
     # Create report directory
     mkdir -p "$TEST_REPORT_DIR/consolidated"
-    
+
     # Generate HTML report
     echo "<!DOCTYPE html>
 <html>
@@ -354,13 +354,13 @@ generate_test_report() {
         <h2>Summary</h2>
         <p>Generated on: $(date)</p>
     </div>" > "$TEST_REPORT_DIR/consolidated/index.html"
-    
+
     # Add component reports
     for component in backend web-frontend mobile-frontend ai-services; do
         if [ -d "$TEST_REPORT_DIR/$component" ]; then
             echo "<div class='component'>
         <h2>$component</h2>" >> "$TEST_REPORT_DIR/consolidated/index.html"
-            
+
             # Add test results if available
             if [ -f "$TEST_REPORT_DIR/$component/test-results.xml" ]; then
                 # Parse XML and extract summary
@@ -368,29 +368,29 @@ generate_test_report() {
             else
                 echo "<p>No test results found for this component.</p>" >> "$TEST_REPORT_DIR/consolidated/index.html"
             fi
-            
+
             echo "</div>" >> "$TEST_REPORT_DIR/consolidated/index.html"
         fi
     done
-    
+
     # Add coverage reports if available
     if [ -d "$COVERAGE_REPORT_DIR" ]; then
         echo "<div class='component'>
         <h2>Coverage Reports</h2>" >> "$TEST_REPORT_DIR/consolidated/index.html"
-        
+
         for component in backend web-frontend mobile-frontend ai-services; do
             if [ -d "$COVERAGE_REPORT_DIR/$component" ]; then
                 echo "<p>Coverage report available for $component</p>" >> "$TEST_REPORT_DIR/consolidated/index.html"
             fi
         done
-        
+
         echo "</div>" >> "$TEST_REPORT_DIR/consolidated/index.html"
     fi
-    
+
     # Close HTML
     echo "</body>
 </html>" >> "$TEST_REPORT_DIR/consolidated/index.html"
-    
+
     echo -e "${GREEN}Test report generated: $TEST_REPORT_DIR/consolidated/index.html${NC}"
 }
 

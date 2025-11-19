@@ -30,15 +30,15 @@ public class AccountServiceIntegrationTest {
         account.setAccountNumber("TEST123456");
         account.setBalance(new BigDecimal("1000.00"));
         account.setCustomerId("customer123");
-        
+
         Account savedAccount = accountService.createAccount(account);
-        
+
         // Verify the account was created
         assertNotNull(savedAccount.getId());
-        
+
         // Retrieve the account
         Account retrievedAccount = accountService.getAccountById(savedAccount.getId());
-        
+
         // Verify retrieved account matches
         assertEquals(savedAccount.getId(), retrievedAccount.getId());
         assertEquals("TEST123456", retrievedAccount.getAccountNumber());

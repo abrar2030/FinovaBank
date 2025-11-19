@@ -29,10 +29,10 @@ const TransactionsScreen = ({ route }: any) => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<TransactionFilterProps | null>(null);
-  
+
   const navigation = useNavigation();
   const { userData } = useAuth();
-  
+
   // Get accountId from route params or use default from user data
   const accountId = route?.params?.accountId || (userData?.id ? userData.id : '');
 
@@ -42,12 +42,12 @@ const TransactionsScreen = ({ route }: any) => {
       setError('No account ID available');
       return;
     }
-    
+
     if (!isRefreshing) {
       setLoading(true);
     }
     setError(null);
-    
+
     try {
       // Prepare filter parameters
       const params: any = {};
@@ -56,11 +56,11 @@ const TransactionsScreen = ({ route }: any) => {
         if (filter.endDate) params.endDate = filter.endDate;
         if (filter.type) params.type = filter.type;
       }
-      
+
       // Set default limit and pagination
       params.limit = 50;
       params.offset = 0;
-      
+
       const response = await getAccountTransactions(accountId, params);
       setTransactions(response.data);
     } catch (err: any) {
@@ -83,14 +83,14 @@ const TransactionsScreen = ({ route }: any) => {
     setRefreshing(true);
     fetchTransactions(true);
   };
-  
+
   const handleTransactionPress = (transaction: Transaction) => {
-    navigation.navigate('TransactionDetails', { 
+    navigation.navigate('TransactionDetails', {
       transactionId: transaction.id,
       transaction // Pass the transaction data for immediate display
     });
   };
-  
+
   const handleFilterPress = () => {
     navigation.navigate('TransactionFilters', {
       currentFilter: filter,
@@ -101,7 +101,7 @@ const TransactionsScreen = ({ route }: any) => {
   };
 
   const renderTransactionItem = ({ item }: { item: Transaction }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[commonStyles.card, styles.transactionItem]}
       onPress={() => handleTransactionPress(item)}
     >
@@ -111,7 +111,7 @@ const TransactionsScreen = ({ route }: any) => {
           <Text style={styles.merchantName}>{item.merchantName}</Text>
         )}
         <Text style={styles.transactionDate}>
-          {new Date(item.date).toLocaleDateString()} 
+          {new Date(item.date).toLocaleDateString()}
           {item.category && ` • ${item.category}`}
         </Text>
       </View>
@@ -137,7 +137,7 @@ const TransactionsScreen = ({ route }: any) => {
     <View style={commonStyles.container}>
       <View style={styles.header}>
         <Text style={commonStyles.titleText}>Transactions</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.filterButton}
           onPress={handleFilterPress}
         >
@@ -146,11 +146,11 @@ const TransactionsScreen = ({ route }: any) => {
           </Text>
         </TouchableOpacity>
       </View>
-      
+
       {error && (
         <View style={styles.errorContainer}>
           <Text style={commonStyles.errorText}>{error}</Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.retryButton}
             onPress={() => fetchTransactions()}
           >
@@ -158,7 +158,7 @@ const TransactionsScreen = ({ route }: any) => {
           </TouchableOpacity>
         </View>
       )}
-      
+
       <FlatList
         data={transactions}
         renderItem={renderTransactionItem}
@@ -167,7 +167,7 @@ const TransactionsScreen = ({ route }: any) => {
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No transactions found.</Text>
             {filter && (
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.clearFilterButton}
                 onPress={() => setFilter(null)}
               >
@@ -178,11 +178,11 @@ const TransactionsScreen = ({ route }: any) => {
         }
         contentContainerStyle={transactions.length === 0 ? styles.emptyListContent : styles.listContainer}
         refreshControl={
-          <RefreshControl 
-            refreshing={refreshing} 
-            onRefresh={onRefresh} 
-            colors={[colors.primary]} 
-            tintColor={colors.primary} 
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+            tintColor={colors.primary}
           />
         }
       />

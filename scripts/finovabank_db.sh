@@ -5,7 +5,7 @@
 # This script automates database operations including
 # initialization, migration, backup, restore, and
 # seeding test data.
-# 
+#
 # Author: Manus AI
 # Date: May 22, 2025
 # =====================================================
@@ -90,9 +90,9 @@ check_db_container() {
 # Function to initialize the database
 init_database() {
     step_msg "Initializing database..."
-    
+
     check_db_container
-    
+
     # Create database if it doesn't exist
     if ! docker-compose exec -T database psql -U "$DB_USER" -lqt | cut -d \| -f 1 | grep -qw "$DB_NAME"; then
         echo "Creating database $DB_NAME..."
@@ -100,19 +100,19 @@ init_database() {
     else
         echo "Database $DB_NAME already exists."
     fi
-    
+
     # Run all migrations
     run_migrations
-    
+
     echo -e "${GREEN}Database initialized successfully!${NC}"
 }
 
 # Function to run migrations
 run_migrations() {
     step_msg "Running database migrations..."
-    
+
     check_db_container
-    
+
     # Check if we're using Flyway or custom migrations
     if [ -d "backend" ] && [ -f "backend/pom.xml" ] && grep -q "flyway" "backend/pom.xml"; then
         echo "Using Flyway for migrations..."
@@ -121,10 +121,10 @@ run_migrations() {
         cd ..
     elif [ -d "$MIGRATIONS_DIR" ]; then
         echo "Using custom migrations from $MIGRATIONS_DIR..."
-        
+
         # Get list of migration files sorted by name
         migration_files=$(find "$MIGRATIONS_DIR" -name "*.sql" | sort)
-        
+
         # Apply each migration
         for migration in $migration_files; do
             echo "Applying migration: $(basename "$migration")..."
@@ -133,48 +133,48 @@ run_migrations() {
     else
         warning_msg "No migrations found. Skipping migration step."
     fi
-    
+
     echo -e "${GREEN}Migrations completed successfully!${NC}"
 }
 
 # Function to backup the database
 backup_database() {
     step_msg "Creating database backup..."
-    
+
     check_db_container
-    
+
     # Create backup directory if it doesn't exist
     mkdir -p "$BACKUP_DIR"
-    
+
     # Generate backup filename with timestamp
     backup_file="$BACKUP_DIR/${DB_NAME}_$(date +%Y%m%d_%H%M%S).sql"
-    
+
     # Create backup
     echo "Backing up database to $backup_file..."
     docker-compose exec -T database pg_dump -U "$DB_USER" "$DB_NAME" > "$backup_file"
-    
+
     # Compress backup
     gzip "$backup_file"
-    
+
     echo -e "${GREEN}Database backup created successfully: ${backup_file}.gz${NC}"
 }
 
 # Function to restore the database from a backup
 restore_database() {
     local backup_file="$1"
-    
+
     if [ -z "$backup_file" ]; then
         error_msg "Backup file not specified"
     fi
-    
+
     if [ ! -f "$backup_file" ]; then
         error_msg "Backup file not found: $backup_file"
     fi
-    
+
     step_msg "Restoring database from backup: $backup_file..."
-    
+
     check_db_container
-    
+
     # Check if we need to decompress the backup
     if [[ "$backup_file" == *.gz ]]; then
         echo "Decompressing backup file..."
@@ -182,69 +182,69 @@ restore_database() {
     else
         cat "$backup_file" | docker-compose exec -T database psql -U "$DB_USER" "$DB_NAME"
     fi
-    
+
     echo -e "${GREEN}Database restored successfully!${NC}"
 }
 
 # Function to seed the database with test data
 seed_database() {
     step_msg "Seeding database with test data..."
-    
+
     check_db_container
-    
+
     if [ ! -d "$SEED_DIR" ]; then
         error_msg "Seed directory not found: $SEED_DIR"
     fi
-    
+
     # Get list of seed files sorted by name
     seed_files=$(find "$SEED_DIR" -name "*.sql" | sort)
-    
+
     if [ -z "$seed_files" ]; then
         error_msg "No seed files found in $SEED_DIR"
     fi
-    
+
     # Apply each seed file
     for seed in $seed_files; do
         echo "Applying seed file: $(basename "$seed")..."
         docker-compose exec -T database psql -U "$DB_USER" -d "$DB_NAME" -f "/scripts/seed/$(basename "$seed")"
     done
-    
+
     echo -e "${GREEN}Database seeded successfully!${NC}"
 }
 
 # Function to reset the database
 reset_database() {
     step_msg "Resetting database..."
-    
+
     check_db_container
-    
+
     echo -e "${YELLOW}WARNING: This will delete all data in the database. Are you sure? (y/n)${NC}"
     read -r confirm
-    
+
     if [ "$confirm" != "y" ]; then
         echo "Database reset cancelled."
         return
     fi
-    
+
     # Drop and recreate database
     echo "Dropping database $DB_NAME..."
     docker-compose exec -T database psql -U "$DB_USER" -c "DROP DATABASE IF EXISTS $DB_NAME;"
-    
+
     echo "Creating database $DB_NAME..."
     docker-compose exec -T database psql -U "$DB_USER" -c "CREATE DATABASE $DB_NAME;"
-    
+
     # Run migrations
     run_migrations
-    
+
     echo -e "${GREEN}Database reset successfully!${NC}"
 }
 
 # Function to show migration status
 show_status() {
     step_msg "Showing migration status..."
-    
+
     check_db_container
-    
+
     # Check if we're using Flyway
     if [ -d "backend" ] && [ -f "backend/pom.xml" ] && grep -q "flyway" "backend/pom.xml"; then
         echo "Using Flyway for migrations..."
@@ -256,11 +256,11 @@ show_status() {
         echo "Checking migration status..."
         docker-compose exec -T database psql -U "$DB_USER" -d "$DB_NAME" -c "
             SELECT EXISTS (
-                SELECT FROM information_schema.tables 
-                WHERE table_schema = 'public' 
+                SELECT FROM information_schema.tables
+                WHERE table_schema = 'public'
                 AND table_name = 'schema_version'
             );"
-        
+
         if [ $? -eq 0 ]; then
             docker-compose exec -T database psql -U "$DB_USER" -d "$DB_NAME" -c "SELECT * FROM schema_version ORDER BY installed_rank;"
         else

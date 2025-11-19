@@ -103,4 +103,3 @@ export const responsiveHeight = (percentage: number) => {
 
 // Export colors for use in specific components if needed
 export { colors };
-

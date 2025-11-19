@@ -230,7 +230,7 @@ services:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
       - SAVINGS_GOALS_SERVICE_PORT=8088
       - SPRING_PROFILES_ACTIVE=docker
-  
+
   ai-service:
     build:
       context: ./backend/ai-service
@@ -291,7 +291,7 @@ services:
     command: ["npm", "start"]
     environment:
       # The mobile app will need to connect to the API Gateway.
-      # When running on a device/emulator, it usually needs the host's IP, but in docker-compose, 
+      # When running on a device/emulator, it usually needs the host's IP, but in docker-compose,
       # the service name is fine if the native app is also containerized or configured correctly.
       # For simplicity in a docker-compose context, we'll point it to the gateway service name.
       - REACT_NATIVE_API_BASE_URL=http://api-gateway:8002
@@ -346,4 +346,3 @@ volumes:
 networks:
   finova-network:
     driver: bridge
-

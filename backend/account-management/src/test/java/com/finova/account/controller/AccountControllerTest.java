@@ -75,16 +75,16 @@ public class AccountControllerTest {
     @Test
     public void testGetAllAccounts() throws Exception {
         // Arrange
-        Account account1 = new Account(); 
-        account1.setId(1L); 
-        account1.setAccountNumber("111"); 
+        Account account1 = new Account();
+        account1.setId(1L);
+        account1.setAccountNumber("111");
         account1.setBalance(new BigDecimal("100.0"));
-        
-        Account account2 = new Account(); 
-        account2.setId(2L); 
-        account2.setAccountNumber("222"); 
+
+        Account account2 = new Account();
+        account2.setId(2L);
+        account2.setAccountNumber("222");
         account2.setBalance(new BigDecimal("200.0"));
-        
+
         List<Account> accounts = Arrays.asList(account1, account2);
 
         when(accountService.getAllAccounts()).thenReturn(accounts);

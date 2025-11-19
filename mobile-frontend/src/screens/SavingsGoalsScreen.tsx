@@ -31,9 +31,9 @@ const SavingsGoalsScreen = ({ route }: any) => {
   const [newGoalName, setNewGoalName] = useState('');
   const [newGoalAmount, setNewGoalAmount] = useState('');
   const [targetDate, setTargetDate] = useState('');
-  
+
   const { userData } = useAuth();
-  
+
   // Get accountId from route params or use default from user data
   const accountId = route?.params?.accountId || (userData?.id ? userData.id : '');
 
@@ -47,7 +47,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
       setError('No account ID available');
       return;
     }
-    
+
     setLoading(true);
     setError(null);
     try {
@@ -83,16 +83,16 @@ const SavingsGoalsScreen = ({ route }: any) => {
         targetAmount,
         targetDate: targetDate || undefined
       });
-      
+
       // Refresh the goals list
       await fetchSavingsGoals();
-      
+
       // Reset form
       setNewGoalName('');
       setNewGoalAmount('');
       setTargetDate('');
       setShowAddForm(false);
-      
+
       Alert.alert('Success', 'Savings goal created successfully!');
     } catch (err: any) {
       console.error('Failed to create savings goal:', err);
@@ -161,24 +161,24 @@ const SavingsGoalsScreen = ({ route }: any) => {
           <Text style={styles.goalDate}>Target: {new Date(item.targetDate).toLocaleDateString()}</Text>
         )}
       </View>
-      
+
       {/* Progress bar */}
       <View style={styles.progressBarContainer}>
         <View style={[styles.progressBar, { width: `${item.progress}%` }]} />
       </View>
       <Text style={styles.progressText}>{item.progress}% Complete</Text>
-      
+
       {/* Action buttons */}
       <View style={styles.actionButtons}>
-        <TouchableOpacity 
-          style={[styles.actionButton, styles.contributeButton]} 
+        <TouchableOpacity
+          style={[styles.actionButton, styles.contributeButton]}
           onPress={() => handleContribute(item.id)}
         >
           <Text style={styles.actionButtonText}>Contribute</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={[styles.actionButton, styles.deleteButton]} 
+
+        <TouchableOpacity
+          style={[styles.actionButton, styles.deleteButton]}
           onPress={() => handleDeleteGoal(item.id)}
         >
           <Text style={styles.actionButtonText}>Delete</Text>
@@ -191,19 +191,19 @@ const SavingsGoalsScreen = ({ route }: any) => {
   const ContributionForm = ({ goalId, onSuccess, onCancel }: ContributionFormProps) => {
     const [amount, setAmount] = useState('');
     const [submitting, setSubmitting] = useState(false);
-    
+
     const handleSubmit = async () => {
       if (!amount.trim()) {
         Alert.alert('Error', 'Please enter a contribution amount.');
         return;
       }
-      
+
       const contributionAmount = parseFloat(amount);
       if (isNaN(contributionAmount) || contributionAmount <= 0) {
         Alert.alert('Error', 'Please enter a valid amount.');
         return;
       }
-      
+
       try {
         setSubmitting(true);
         await contributeTosavingsGoal(goalId, { amount: contributionAmount });
@@ -217,7 +217,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
         setSubmitting(false);
       }
     };
-    
+
     return (
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Add Contribution</Text>
@@ -230,15 +230,15 @@ const SavingsGoalsScreen = ({ route }: any) => {
           autoFocus
         />
         <View style={styles.formButtons}>
-          <TouchableOpacity 
-            style={[commonStyles.button, styles.cancelButton]} 
+          <TouchableOpacity
+            style={[commonStyles.button, styles.cancelButton]}
             onPress={onCancel}
             disabled={submitting}
           >
             <Text style={commonStyles.buttonText}>Cancel</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={[commonStyles.button, styles.saveButton]} 
+          <TouchableOpacity
+            style={[commonStyles.button, styles.saveButton]}
             onPress={handleSubmit}
             disabled={submitting}
           >
@@ -264,8 +264,8 @@ const SavingsGoalsScreen = ({ route }: any) => {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
         <Text style={styles.errorText}>Error: {error}</Text>
-        <TouchableOpacity 
-          style={[commonStyles.button, styles.retryButton]} 
+        <TouchableOpacity
+          style={[commonStyles.button, styles.retryButton]}
           onPress={fetchSavingsGoals}
         >
           <Text style={commonStyles.buttonText}>Retry</Text>
@@ -277,17 +277,17 @@ const SavingsGoalsScreen = ({ route }: any) => {
   return (
     <View style={commonStyles.container}>
       <Text style={commonStyles.titleText}>Your Savings Goals</Text>
-      
+
       {/* Add Goal Button */}
       {!showAddForm && !showContributeForm && (
-        <TouchableOpacity 
-          style={[commonStyles.button, styles.addButton]} 
+        <TouchableOpacity
+          style={[commonStyles.button, styles.addButton]}
           onPress={() => setShowAddForm(true)}
         >
           <Text style={commonStyles.buttonText}>Add New Savings Goal</Text>
         </TouchableOpacity>
       )}
-      
+
       {/* Add Goal Form */}
       {showAddForm && (
         <View style={styles.formContainer}>
@@ -312,8 +312,8 @@ const SavingsGoalsScreen = ({ route }: any) => {
             onChangeText={setTargetDate}
           />
           <View style={styles.formButtons}>
-            <TouchableOpacity 
-              style={[commonStyles.button, styles.cancelButton]} 
+            <TouchableOpacity
+              style={[commonStyles.button, styles.cancelButton]}
               onPress={() => {
                 setShowAddForm(false);
                 setNewGoalName('');
@@ -323,8 +323,8 @@ const SavingsGoalsScreen = ({ route }: any) => {
             >
               <Text style={commonStyles.buttonText}>Cancel</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
-              style={[commonStyles.button, styles.saveButton]} 
+            <TouchableOpacity
+              style={[commonStyles.button, styles.saveButton]}
               onPress={handleAddGoal}
             >
               <Text style={commonStyles.buttonText}>Save Goal</Text>
@@ -332,10 +332,10 @@ const SavingsGoalsScreen = ({ route }: any) => {
           </View>
         </View>
       )}
-      
+
       {/* Contribution Form */}
       {showContributeForm && selectedGoalId && (
-        <ContributionForm 
+        <ContributionForm
           goalId={selectedGoalId}
           onSuccess={handleContributionSuccess}
           onCancel={() => {
@@ -344,7 +344,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
           }}
         />
       )}
-      
+
       {/* Goals List */}
       {!showAddForm && !showContributeForm && (
         <FlatList

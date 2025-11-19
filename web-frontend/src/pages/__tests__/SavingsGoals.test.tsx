@@ -86,4 +86,3 @@ describe('SavingsGoals Page', () => {
 
     // Add tests for creating new goals, editing goals, loading states, error handling etc.
 });
-

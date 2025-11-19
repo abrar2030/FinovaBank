@@ -32,4 +32,3 @@ The `values.yaml` file is the primary configuration source.
 | `services.<serviceName>.probes.enabled` | Enables liveness and readiness probes. | `true` |
 
 For a complete list of configurable parameters, please refer to `values.yaml`.
-

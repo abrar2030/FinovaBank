@@ -35,15 +35,15 @@ public class LoanServiceIntegrationTest {
         loan.setInterestRate(new BigDecimal("5.25"));
         loan.setTermMonths(36);
         loan.setCustomerId("customer123");
-        
+
         Loan savedLoan = loanService.createLoan(loan);
-        
+
         // Verify the loan was created
         assertNotNull(savedLoan.getId());
-        
+
         // Retrieve the loan
         Loan retrievedLoan = loanService.getLoanById(savedLoan.getId());
-        
+
         // Verify retrieved loan matches
         assertEquals(savedLoan.getId(), retrievedLoan.getId());
         assertEquals("LOAN123456", retrievedLoan.getLoanNumber());

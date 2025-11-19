@@ -325,10 +325,10 @@ The infrastructure complies with:
    ```bash
    # Check AWS credentials
    aws sts get-caller-identity
-   
+
    # Validate Terraform configuration
    terraform validate
-   
+
    # Check resource limits
    aws service-quotas list-service-quotas --service-code ec2
    ```
@@ -337,10 +337,10 @@ The infrastructure complies with:
    ```bash
    # Test connectivity
    ansible all -i inventory.yml -m ping
-   
+
    # Check SSH access
    ssh -i ~/.ssh/finovabank-keypair.pem ubuntu@<server-ip>
-   
+
    # Verify sudo access
    ansible all -i inventory.yml -m shell -a "sudo whoami"
    ```
@@ -349,10 +349,10 @@ The infrastructure complies with:
    ```bash
    # Check service status
    ansible all -i inventory.yml -m shell -a "docker ps"
-   
+
    # Check logs
    ansible all -i inventory.yml -m shell -a "docker logs finovabank-app"
-   
+
    # Check health endpoints
    curl http://<server-ip>:8080/health
    ```
@@ -430,4 +430,3 @@ This infrastructure configuration is proprietary to FinovaBank and is subject to
 - Initial infrastructure implementation
 - Basic security controls
 - Simple monitoring setup
-

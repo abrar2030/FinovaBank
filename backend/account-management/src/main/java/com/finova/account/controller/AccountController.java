@@ -103,7 +103,7 @@ public class AccountController {
     public ResponseEntity<AccountResponse> updateBalance(
             @PathVariable Long id,
             @Valid @RequestBody BalanceUpdateRequest request) {
-        log.info("Updating balance for account ID: {}, amount: {}, type: {}", 
+        log.info("Updating balance for account ID: {}, amount: {}, type: {}",
                 id, request.getAmount(), request.getTransactionType());
         AccountResponse response = accountService.updateBalance(id, request);
         log.info("Balance updated successfully for account: {}", id);

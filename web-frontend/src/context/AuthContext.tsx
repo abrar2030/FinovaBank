@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const storedUser = sessionStorage.getItem('user');
         const token = sessionStorage.getItem('token');
-        
+
         if (storedUser && token) {
           // Verify token validity with backend
           const response = await authAPI.verifyToken(token);
@@ -76,13 +76,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       setError(null);
       const response = await authAPI.login(email, password);
-      
+
       const { token, user } = response.data;
-      
+
       // Store token in memory instead of localStorage for better security
       sessionStorage.setItem('token', token);
       sessionStorage.setItem('user', JSON.stringify(user));
-      
+
       setUser(user);
       setIsAuthenticated(true);
       navigate('/');
@@ -107,12 +107,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       setError(null);
       const response = await authAPI.register(name, email, password);
-      
+
       const { token, user } = response.data;
-      
+
       sessionStorage.setItem('token', token);
       sessionStorage.setItem('user', JSON.stringify(user));
-      
+
       setUser(user);
       setIsAuthenticated(true);
       navigate('/');

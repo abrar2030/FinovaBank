@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Grid, 
-  Card, 
-  CardContent, 
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
   CardHeader,
   Button,
   Divider,
@@ -44,11 +44,11 @@ const AccountDetails: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Fetch account details
         const accountResponse = await accountAPI.getAccountDetails(accountId);
         const account = accountResponse.data;
-        
+
         setAccountData({
           accountId: account.accountId,
           name: account.name,
@@ -58,11 +58,11 @@ const AccountDetails: React.FC = () => {
           accountType: account.accountType,
           createdDate: account.createdDate || new Date().toISOString().split('T')[0]
         });
-        
+
         // Fetch account transactions
         const transactionsResponse = await transactionAPI.getTransactions({ accountId });
         setTransactions(transactionsResponse.data || []);
-        
+
       } catch (err) {
         console.error('Error fetching account details:', err);
         setError('Failed to load account details. Please try again later.');
@@ -70,7 +70,7 @@ const AccountDetails: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     if (accountId) {
       fetchAccountDetails();
     }
@@ -88,8 +88,8 @@ const AccountDetails: React.FC = () => {
     return (
       <Box sx={{ mt: 4 }}>
         <Alert severity="error">{error}</Alert>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           sx={{ mt: 2 }}
           onClick={() => window.location.reload()}
         >
@@ -104,13 +104,13 @@ const AccountDetails: React.FC = () => {
       <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold' }}>
         Account Details
       </Typography>
-      
+
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
         {/* Account Information Card */}
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
           <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
-            <CardHeader 
-              title="Account Information" 
+            <CardHeader
+              title="Account Information"
               titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
             />
             <Divider />
@@ -149,37 +149,37 @@ const AccountDetails: React.FC = () => {
 
           {/* Quick Actions Card */}
           <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
-            <CardHeader 
-              title="Account Actions" 
+            <CardHeader
+              title="Account Actions"
               titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
             />
             <Divider />
             <CardContent>
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
-                <Button 
-                  variant="contained" 
-                  fullWidth 
+                <Button
+                  variant="contained"
+                  fullWidth
                   sx={{ py: 1.5 }}
                 >
                   Transfer Money
                 </Button>
-                <Button 
-                  variant="outlined" 
-                  fullWidth 
+                <Button
+                  variant="outlined"
+                  fullWidth
                   sx={{ py: 1.5 }}
                 >
                   Deposit Funds
                 </Button>
-                <Button 
-                  variant="outlined" 
-                  fullWidth 
+                <Button
+                  variant="outlined"
+                  fullWidth
                   sx={{ py: 1.5 }}
                 >
                   Download Statement
                 </Button>
-                <Button 
-                  variant="outlined" 
-                  fullWidth 
+                <Button
+                  variant="outlined"
+                  fullWidth
                   sx={{ py: 1.5 }}
                 >
                   Account Settings
@@ -191,8 +191,8 @@ const AccountDetails: React.FC = () => {
 
         {/* Transaction History Card */}
         <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
-          <CardHeader 
-            title="Transaction History" 
+          <CardHeader
+            title="Transaction History"
             titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
             action={
               <Button color="primary">Download CSV</Button>
@@ -223,36 +223,36 @@ const AccountDetails: React.FC = () => {
                         </TableCell>
                         <TableCell>{transaction.description || `Transaction #${transaction.transactionId}`}</TableCell>
                         <TableCell>
-                          <Chip 
-                            label={transaction.transactionType} 
+                          <Chip
+                            label={transaction.transactionType}
                             size="small"
-                            sx={{ 
-                              bgcolor: transaction.transactionType === 'CREDIT' 
-                                ? theme.palette.success.light 
+                            sx={{
+                              bgcolor: transaction.transactionType === 'CREDIT'
+                                ? theme.palette.success.light
                                 : theme.palette.info.light,
-                              color: transaction.transactionType === 'CREDIT' 
-                                ? theme.palette.success.dark 
+                              color: transaction.transactionType === 'CREDIT'
+                                ? theme.palette.success.dark
                                 : theme.palette.info.dark,
-                            }} 
+                            }}
                           />
                         </TableCell>
                         <TableCell>
-                          <Chip 
-                            label={transaction.status} 
+                          <Chip
+                            label={transaction.status}
                             size="small"
-                            sx={{ 
+                            sx={{
                               bgcolor: theme.palette.success.light,
                               color: theme.palette.success.dark
-                            }} 
+                            }}
                           />
                         </TableCell>
                         <TableCell align="right">
-                          <Typography 
-                            variant="body2" 
-                            sx={{ 
+                          <Typography
+                            variant="body2"
+                            sx={{
                               fontWeight: 'bold',
-                              color: transaction.transactionType === 'CREDIT' 
-                                ? theme.palette.success.main 
+                              color: transaction.transactionType === 'CREDIT'
+                                ? theme.palette.success.main
                                 : theme.palette.error.main
                             }}
                           >

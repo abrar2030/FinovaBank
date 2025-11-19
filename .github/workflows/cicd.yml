@@ -13,14 +13,14 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
+
       - name: Run Basic Health Check
         run: echo "Repository checkout complete. Starting basic checks."
-      
+
       - name: Validate Configuration Files
         run: |
           echo "No configuration files to validate. Proceeding."
           # A real step would be: find . -name "*.yml" | xargs yamllint
-      
+
       - name: Finalize Check
         run: echo "Basic CI check finished."

@@ -32,4 +32,3 @@ describe('Layout Component', () => {
         expect(screen.getByText('Test Content')).toBeInTheDocument();
     });
 });
-

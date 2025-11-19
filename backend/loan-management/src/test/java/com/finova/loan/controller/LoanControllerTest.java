@@ -74,16 +74,16 @@ public class LoanControllerTest {
     @Test
     public void testGetAllLoans() throws Exception {
         // Arrange
-        Loan loan1 = new Loan(); 
-        loan1.setId(1L); 
-        loan1.setAmount(new BigDecimal("5000.0")); 
+        Loan loan1 = new Loan();
+        loan1.setId(1L);
+        loan1.setAmount(new BigDecimal("5000.0"));
         loan1.setStatus("APPROVED");
-        
-        Loan loan2 = new Loan(); 
-        loan2.setId(2L); 
-        loan2.setAmount(new BigDecimal("10000.0")); 
+
+        Loan loan2 = new Loan();
+        loan2.setId(2L);
+        loan2.setAmount(new BigDecimal("10000.0"));
         loan2.setStatus("PENDING");
-        
+
         List<Loan> loans = Arrays.asList(loan1, loan2);
 
         when(loanService.getAllLoans()).thenReturn(loans);

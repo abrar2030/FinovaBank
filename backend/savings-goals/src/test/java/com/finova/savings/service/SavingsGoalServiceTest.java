@@ -28,4 +28,3 @@ public class SavingsGoalServiceTest {
 
     // Add more test methods for other service operations (e.g., getSavingsGoalsByUserId, updateSavingsGoalProgress)
 }
-

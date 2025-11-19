@@ -75,16 +75,16 @@ public class SavingsGoalControllerTest {
     @Test
     public void testGetAllSavingsGoals() throws Exception {
         // Arrange
-        SavingsGoal goal1 = new SavingsGoal(); 
-        goal1.setId(1L); 
-        goal1.setName("Vacation"); 
+        SavingsGoal goal1 = new SavingsGoal();
+        goal1.setId(1L);
+        goal1.setName("Vacation");
         goal1.setTargetAmount(new BigDecimal("2000.0"));
-        
-        SavingsGoal goal2 = new SavingsGoal(); 
-        goal2.setId(2L); 
-        goal2.setName("New Car"); 
+
+        SavingsGoal goal2 = new SavingsGoal();
+        goal2.setId(2L);
+        goal2.setName("New Car");
         goal2.setTargetAmount(new BigDecimal("10000.0"));
-        
+
         List<SavingsGoal> goals = Arrays.asList(goal1, goal2);
 
         when(savingsGoalService.getAllSavingsGoals()).thenReturn(goals);

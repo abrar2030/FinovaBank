@@ -1,8 +1,8 @@
 // Modern Dashboard component with enhanced UI
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
+import {
+  Box,
+  Typography,
   Button,
   Avatar,
   Divider,
@@ -15,7 +15,7 @@ import {
   Paper,
   Chip
 } from '@mui/material';
-import { 
+import {
   AccountBalance as AccountIcon,
   TrendingUp as TrendingUpIcon,
   CreditCard as CreditCardIcon,
@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Fetch accounts
         const accountsResponse = await accountAPI.getAccounts();
         if (accountsResponse.data && accountsResponse.data.length > 0) {
@@ -72,15 +72,15 @@ const Dashboard: React.FC = () => {
             accountType: account.accountType
           });
         }
-        
+
         // Fetch recent transactions
         const transactionsResponse = await transactionAPI.getTransactions({ limit: 5 });
         setRecentTransactions(transactionsResponse.data || []);
-        
+
         // Fetch savings goals
         const savingsResponse = await savingsAPI.getSavingsGoals();
         setSavingsGoals(savingsResponse.data || []);
-        
+
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
         setError('Failed to load dashboard data. Please try again later.');
@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     fetchDashboardData();
   }, []);
 
@@ -228,8 +228,8 @@ const Dashboard: React.FC = () => {
     return (
       <Box sx={{ mt: 4 }}>
         <Alert severity="error">{error}</Alert>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           sx={{ mt: 2 }}
           onClick={() => window.location.reload()}
         >
@@ -242,11 +242,11 @@ const Dashboard: React.FC = () => {
   return (
     <Box>
       {/* Welcome Section */}
-      <Box 
-        sx={{ 
-          mb: 4, 
-          p: 4, 
-          borderRadius: 3, 
+      <Box
+        sx={{
+          mb: 4,
+          p: 4,
+          borderRadius: 3,
           background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
@@ -264,15 +264,15 @@ const Dashboard: React.FC = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             startIcon={<AttachMoneyIcon />}
             onClick={() => navigate('/transactions')}
           >
             Transfer Money
           </Button>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             startIcon={<ReceiptIcon />}
             onClick={() => navigate('/accounts/1')}
           >
@@ -280,7 +280,7 @@ const Dashboard: React.FC = () => {
           </Button>
         </Box>
       </Box>
-      
+
       {/* Stats Cards */}
       <GridCompatibility container spacing={3} sx={{ mb: 4 }}>
         <GridCompatibility xs={12} sm={6} md={3}>
@@ -348,7 +348,7 @@ const Dashboard: React.FC = () => {
             </Button>
           </Paper>
         </GridCompatibility>
-        
+
         <GridCompatibility xs={12} sm={6} md={3}>
           <Paper
             elevation={0}
@@ -414,7 +414,7 @@ const Dashboard: React.FC = () => {
             </Button>
           </Paper>
         </GridCompatibility>
-        
+
         <GridCompatibility xs={12} sm={6} md={3}>
           <Paper
             elevation={0}
@@ -480,7 +480,7 @@ const Dashboard: React.FC = () => {
             </Button>
           </Paper>
         </GridCompatibility>
-        
+
         <GridCompatibility xs={12} sm={6} md={3}>
           <Paper
             elevation={0}
@@ -560,7 +560,7 @@ const Dashboard: React.FC = () => {
           </Paper>
         </GridCompatibility>
       </GridCompatibility>
-      
+
       {/* Main Content */}
       <GridCompatibility container spacing={3}>
         {/* Left Column */}
@@ -606,13 +606,13 @@ const Dashboard: React.FC = () => {
               <Line options={balanceOptions} data={balanceData} />
             </Box>
           </Paper>
-          
+
           {/* Tabs Section */}
           <Box sx={{ mb: 3 }}>
-            <Tabs 
-              value={activeTab} 
+            <Tabs
+              value={activeTab}
               onChange={handleTabChange}
-              sx={{ 
+              sx={{
                 mb: 2,
                 '& .MuiTabs-indicator': {
                   backgroundColor: theme.palette.primary.main,
@@ -621,18 +621,18 @@ const Dashboard: React.FC = () => {
                 }
               }}
             >
-              <Tab 
-                label="Recent Transactions" 
-                sx={{ 
+              <Tab
+                label="Recent Transactions"
+                sx={{
                   fontWeight: 600,
                   '&.Mui-selected': {
                     color: theme.palette.primary.main,
                   }
                 }}
               />
-              <Tab 
-                label="Spending Breakdown" 
-                sx={{ 
+              <Tab
+                label="Spending Breakdown"
+                sx={{
                   fontWeight: 600,
                   '&.Mui-selected': {
                     color: theme.palette.primary.main,
@@ -640,7 +640,7 @@ const Dashboard: React.FC = () => {
                 }}
               />
             </Tabs>
-            
+
             {/* Recent Transactions Tab */}
             {activeTab === 0 && (
               <Paper elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
@@ -648,7 +648,7 @@ const Dashboard: React.FC = () => {
                   <Typography variant="subtitle1" fontWeight={600}>
                     Transaction History
                   </Typography>
-                  <Button 
+                  <Button
                     color="primary"
                     endIcon={<MoreHorizIcon />}
                     onClick={() => navigate('/transactions')}
@@ -657,7 +657,7 @@ const Dashboard: React.FC = () => {
                   </Button>
                 </Box>
                 <Divider />
-                
+
                 {recentTransactions.length > 0 ? (
                   <Box>
                     {recentTransactions.map((transaction: any) => (
@@ -682,11 +682,11 @@ const Dashboard: React.FC = () => {
                               sx={{
                                 width: 40,
                                 height: 40,
-                                bgcolor: transaction.transactionType === 'CREDIT' 
-                                  ? `${theme.palette.success.main}15` 
+                                bgcolor: transaction.transactionType === 'CREDIT'
+                                  ? `${theme.palette.success.main}15`
                                   : `${theme.palette.error.main}15`,
-                                color: transaction.transactionType === 'CREDIT' 
-                                  ? theme.palette.success.main 
+                                color: transaction.transactionType === 'CREDIT'
+                                  ? theme.palette.success.main
                                   : theme.palette.error.main,
                                 mr: 2,
                               }}
@@ -724,8 +724,8 @@ const Dashboard: React.FC = () => {
                     <Typography variant="body1" color="text.secondary">
                       No recent transactions found.
                     </Typography>
-                    <Button 
-                      variant="outlined" 
+                    <Button
+                      variant="outlined"
                       sx={{ mt: 2 }}
                       onClick={() => navigate('/transactions')}
                     >
@@ -735,7 +735,7 @@ const Dashboard: React.FC = () => {
                 )}
               </Paper>
             )}
-            
+
             {/* Spending Breakdown Tab */}
             {activeTab === 1 && (
               <Paper elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}`, p: 3 }}>
@@ -752,7 +752,7 @@ const Dashboard: React.FC = () => {
                       </Box>
                     </Box>
                   </GridCompatibility>
-                  
+
                   <GridCompatibility xs={12} md={6}>
                     <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 3 }}>
                       Top Expenses
@@ -797,7 +797,7 @@ const Dashboard: React.FC = () => {
             )}
           </Box>
         </GridCompatibility>
-        
+
         {/* Right Column */}
         <GridCompatibility xs={12} md={4}>
           {/* Account Card */}
@@ -831,7 +831,7 @@ const Dashboard: React.FC = () => {
                 </Typography>
               </Box>
             </Box>
-            
+
             <Box sx={{ p: 3 }}>
               <GridCompatibility container spacing={2} sx={{ mb: 3 }}>
                 <GridCompatibility xs={6}>
@@ -851,19 +851,19 @@ const Dashboard: React.FC = () => {
                   </Typography>
                 </GridCompatibility>
               </GridCompatibility>
-              
+
               <Divider sx={{ my: 2 }} />
-              
+
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   fullWidth
                   onClick={() => navigate('/accounts/1')}
                 >
                   View Account Details
                 </Button>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   fullWidth
                   onClick={() => navigate('/transactions')}
                 >
@@ -872,7 +872,7 @@ const Dashboard: React.FC = () => {
               </Box>
             </Box>
           </Paper>
-          
+
           {/* Savings Goals */}
           <Paper
             elevation={0}
@@ -903,7 +903,7 @@ const Dashboard: React.FC = () => {
                   Savings Goals
                 </Typography>
               </Box>
-              <Button 
+              <Button
                 startIcon={<AddIcon />}
                 size="small"
                 onClick={() => navigate('/savings')}
@@ -911,7 +911,7 @@ const Dashboard: React.FC = () => {
                 New Goal
               </Button>
             </Box>
-            
+
             <Box sx={{ p: 3 }}>
               {savingsGoals.length > 0 ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -945,9 +945,9 @@ const Dashboard: React.FC = () => {
                               fontSize: '1.5rem',
                             }}
                           >
-                            {goal.category === 'VACATION' ? '✈️' : 
-                             goal.category === 'HOME' ? '🏠' : 
-                             goal.category === 'CAR' ? '🚗' : 
+                            {goal.category === 'VACATION' ? '✈️' :
+                             goal.category === 'HOME' ? '🏠' :
+                             goal.category === 'CAR' ? '🚗' :
                              goal.category === 'EDUCATION' ? '🎓' : '💰'}
                           </Box>
                           <Typography variant="subtitle1" fontWeight={600}>
@@ -968,7 +968,7 @@ const Dashboard: React.FC = () => {
                           {Math.round((goal.currentAmount / goal.targetAmount) * 100)}%
                         </Typography>
                       </Box>
-                      
+
                       <Box sx={{ mb: 1 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
                           <Typography variant="caption" color="text.secondary">
@@ -989,22 +989,22 @@ const Dashboard: React.FC = () => {
                           />
                         </Box>
                       </Box>
-                      
+
                       {goal.targetDate && (
                         <Typography variant="caption" color="text.secondary">
-                          Target: {new Date(goal.targetDate).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric', 
-                            year: 'numeric' 
+                          Target: {new Date(goal.targetDate).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
                           })}
                         </Typography>
                       )}
                     </Box>
                   ))}
-                  
+
                   {savingsGoals.length > 2 && (
-                    <Button 
-                      variant="text" 
+                    <Button
+                      variant="text"
                       endIcon={<MoreHorizIcon />}
                       onClick={() => navigate('/savings')}
                       sx={{ alignSelf: 'center', mt: 1 }}
@@ -1018,8 +1018,8 @@ const Dashboard: React.FC = () => {
                   <Typography variant="body1" color="text.secondary">
                     No savings goals found.
                   </Typography>
-                  <Button 
-                    variant="outlined" 
+                  <Button
+                    variant="outlined"
                     sx={{ mt: 2 }}
                     startIcon={<AddIcon />}
                     onClick={() => navigate('/savings')}
@@ -1030,7 +1030,7 @@ const Dashboard: React.FC = () => {
               )}
             </Box>
           </Paper>
-          
+
           {/* Quick Links */}
           <Paper
             elevation={0}
@@ -1061,27 +1061,27 @@ const Dashboard: React.FC = () => {
                 </Typography>
               </Box>
             </Box>
-            
+
             <Box sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   fullWidth
                   startIcon={<CreditCardIcon />}
                   onClick={() => navigate('/cards')}
                 >
                   Manage Cards
                 </Button>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   fullWidth
                   startIcon={<ReceiptIcon />}
                   onClick={() => navigate('/bills')}
                 >
                   Pay Bills
                 </Button>
-                <Button 
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   fullWidth
                   startIcon={<NotificationsIcon />}
                   onClick={() => navigate('/notifications')}

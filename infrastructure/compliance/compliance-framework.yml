@@ -9,7 +9,7 @@ compliance_framework:
   framework_version: "2.0"
   last_updated: "2024-01-01"
   next_review: "2024-12-31"
-  
+
   regulatory_scope:
     - jurisdiction: United States
       regulations: [GLBA, SOX, FFIEC, FDIC, OCC]
@@ -17,12 +17,12 @@ compliance_framework:
       regulations: [GDPR, PSD2, MiFID II]
     - jurisdiction: Global
       regulations: [PCI-DSS, ISO27001, NIST]
-  
+
   compliance_officer:
     name: "Chief Compliance Officer"
     email: "compliance@finovabank.com"
     phone: "+1-555-0100"
-    
+
   audit_firm:
     name: "External Audit Partners LLP"
     contact: "audit@externalpartners.com"
@@ -33,135 +33,135 @@ pci_dss:
   version: "4.0"
   merchant_level: 1
   service_provider_level: 1
-  
+
   requirements:
     # Requirement 1: Install and maintain network security controls
     req_1:
       title: "Install and maintain network security controls"
       status: implemented
-      
+
       controls:
         - control_id: "1.1.1"
           description: "Processes and mechanisms for implementing and maintaining network security controls are defined and understood"
           implementation: "Network security policies documented and approved"
           evidence: "/compliance/evidence/network-security-policy.pdf"
-          
+
         - control_id: "1.2.1"
           description: "Configuration standards for network security controls are defined and implemented"
           implementation: "Firewall rules configured according to standards"
           evidence: "/compliance/evidence/firewall-configurations.json"
-          
+
         - control_id: "1.2.2"
           description: "Network security controls are configured to restrict connections between untrusted networks and system components in the CDE"
           implementation: "Network segmentation implemented with VPC and security groups"
           evidence: "/compliance/evidence/network-segmentation.yaml"
-    
+
     # Requirement 2: Apply secure configurations to all system components
     req_2:
       title: "Apply secure configurations to all system components"
       status: implemented
-      
+
       controls:
         - control_id: "2.1.1"
           description: "Processes and mechanisms for applying secure configurations to all system components are defined and understood"
           implementation: "Configuration management using Ansible with security hardening"
           evidence: "/infrastructure/ansible/playbook.yml"
-          
+
         - control_id: "2.2.1"
           description: "Configuration standards are developed, implemented, and maintained"
           implementation: "Security baselines defined for all system types"
           evidence: "/compliance/evidence/security-baselines.yml"
-    
+
     # Requirement 3: Protect stored cardholder data
     req_3:
       title: "Protect stored cardholder data"
       status: implemented
-      
+
       controls:
         - control_id: "3.1.1"
           description: "Processes and mechanisms for protecting stored cardholder data are defined and understood"
           implementation: "Data protection policies and encryption standards"
           evidence: "/infrastructure/security/data-protection-policy.yml"
-          
+
         - control_id: "3.3.1"
           description: "Sensitive authentication data is not stored after authorization"
           implementation: "Application configured to not store sensitive auth data"
           evidence: "/compliance/evidence/auth-data-policy.md"
-          
+
         - control_id: "3.4.1"
           description: "PAN is protected wherever it is stored"
           implementation: "PAN encryption using AES-256 with AWS KMS"
           evidence: "/compliance/evidence/pan-encryption.yml"
-    
+
     # Requirement 4: Protect cardholder data with strong cryptography during transmission over open, public networks
     req_4:
       title: "Protect cardholder data with strong cryptography during transmission"
       status: implemented
-      
+
       controls:
         - control_id: "4.1.1"
           description: "Processes and mechanisms for protecting cardholder data with strong cryptography during transmission are defined and understood"
           implementation: "TLS 1.2+ enforced for all data transmission"
           evidence: "/compliance/evidence/tls-configuration.yml"
-          
+
         - control_id: "4.2.1"
           description: "Strong cryptography and security protocols are implemented to safeguard cardholder data during transmission"
           implementation: "End-to-end encryption implemented"
           evidence: "/compliance/evidence/encryption-in-transit.yml"
-    
+
     # Requirement 5: Protect all systems and networks from malicious software
     req_5:
       title: "Protect all systems and networks from malicious software"
       status: implemented
-      
+
       controls:
         - control_id: "5.1.1"
           description: "Processes and mechanisms for protecting all systems and networks from malicious software are defined and understood"
           implementation: "Anti-malware policies and procedures documented"
           evidence: "/compliance/evidence/anti-malware-policy.pdf"
-          
+
         - control_id: "5.2.1"
           description: "Anti-malware software is deployed and maintained"
           implementation: "ClamAV deployed on all systems with real-time scanning"
           evidence: "/compliance/evidence/antivirus-deployment.yml"
-    
+
     # Requirement 6: Develop and maintain secure systems and software
     req_6:
       title: "Develop and maintain secure systems and software"
       status: implemented
-      
+
       controls:
         - control_id: "6.1.1"
           description: "Processes and mechanisms for developing and maintaining secure systems and software are defined and understood"
           implementation: "Secure SDLC implemented with security gates"
           evidence: "/compliance/evidence/secure-sdlc.md"
-          
+
         - control_id: "6.2.1"
           description: "Bespoke and custom software are developed securely"
           implementation: "Code review and security testing mandatory"
           evidence: "/compliance/evidence/code-review-process.md"
-    
+
     # Continue with remaining requirements...
     req_7:
       title: "Restrict access to cardholder data by business need to know"
       status: implemented
-      
+
     req_8:
       title: "Identify users and authenticate access to system components"
       status: implemented
-      
+
     req_9:
       title: "Restrict physical access to cardholder data"
       status: implemented
-      
+
     req_10:
       title: "Log and monitor all access to network resources and cardholder data"
       status: implemented
-      
+
     req_11:
       title: "Test security of systems and networks regularly"
       status: implemented
-      
+
     req_12:
       title: "Support information security with organizational policies and programs"
       status: implemented
@@ -169,44 +169,44 @@ pci_dss:
 # GLBA (Gramm-Leach-Bliley Act) Compliance
 glba:
   title: "Gramm-Leach-Bliley Act Compliance"
-  
+
   safeguards_rule:
     information_security_program:
       designated_coordinator: "Chief Information Security Officer"
       risk_assessment_frequency: "annually"
-      
+
       safeguards:
         - category: "access_controls"
           description: "Controls to authenticate and authorize access to customer information"
           implementation: "Multi-factor authentication and role-based access control"
           evidence: "/compliance/evidence/access-controls.yml"
-          
+
         - category: "encryption"
           description: "Encryption of customer information in transit and at rest"
           implementation: "AES-256 encryption with AWS KMS key management"
           evidence: "/compliance/evidence/encryption-implementation.yml"
-          
+
         - category: "secure_development"
           description: "Secure development practices for systems handling customer information"
           implementation: "Security-focused SDLC with automated testing"
           evidence: "/compliance/evidence/secure-development.md"
-          
+
         - category: "vendor_management"
           description: "Oversight of service providers with access to customer information"
           implementation: "Vendor risk assessment and contractual safeguards"
           evidence: "/compliance/evidence/vendor-management.pdf"
-  
+
   privacy_rule:
     privacy_notice:
       delivery_method: "electronic and physical"
       update_frequency: "annually or upon material changes"
       opt_out_mechanism: "web portal and phone"
-      
+
     information_sharing:
       affiliates: "permitted with notice"
       non_affiliates: "limited to permitted purposes"
       joint_marketing: "permitted with agreement"
-      
+
     customer_rights:
       - right: "access to privacy notice"
         implementation: "Available on website and upon request"
@@ -218,51 +218,51 @@ glba:
 # SOX (Sarbanes-Oxley Act) Compliance
 sox:
   title: "Sarbanes-Oxley Act Compliance"
-  
+
   section_302:
     title: "Corporate Responsibility for Financial Reports"
-    
+
     controls:
       - control_id: "SOX-302-1"
         description: "CEO and CFO certification of financial reports"
         implementation: "Quarterly certification process"
         evidence: "/compliance/evidence/executive-certifications/"
-        
+
       - control_id: "SOX-302-2"
         description: "Disclosure controls and procedures"
         implementation: "Documented disclosure controls with quarterly testing"
         evidence: "/compliance/evidence/disclosure-controls.pdf"
-  
+
   section_404:
     title: "Management Assessment of Internal Controls"
-    
+
     controls:
       - control_id: "SOX-404-1"
         description: "Management assessment of internal control over financial reporting"
         implementation: "Annual ICFR assessment with documentation"
         evidence: "/compliance/evidence/icfr-assessment/"
-        
+
       - control_id: "SOX-404-2"
         description: "Auditor attestation of internal controls"
         implementation: "External auditor testing and opinion"
         evidence: "/compliance/evidence/auditor-attestation.pdf"
-  
+
   it_general_controls:
     - control_area: "access_controls"
       description: "Logical access controls for financial systems"
       implementation: "Role-based access with segregation of duties"
       testing_frequency: "quarterly"
-      
+
     - control_area: "change_management"
       description: "Change management for financial applications"
       implementation: "Formal change approval and testing process"
       testing_frequency: "quarterly"
-      
+
     - control_area: "backup_recovery"
       description: "Backup and recovery procedures"
       implementation: "Automated backups with recovery testing"
       testing_frequency: "monthly"
-      
+
     - control_area: "monitoring"
       description: "System monitoring and incident response"
       implementation: "24/7 monitoring with automated alerting"
@@ -271,75 +271,75 @@ sox:
 # GDPR (General Data Protection Regulation) Compliance
 gdpr:
   title: "General Data Protection Regulation Compliance"
-  
+
   data_protection_principles:
     - principle: "lawfulness_fairness_transparency"
       implementation: "Privacy notices and consent mechanisms"
       evidence: "/compliance/evidence/privacy-notices/"
-      
+
     - principle: "purpose_limitation"
       implementation: "Data processing purposes documented and limited"
       evidence: "/compliance/evidence/data-purposes.yml"
-      
+
     - principle: "data_minimization"
       implementation: "Data collection limited to necessary purposes"
       evidence: "/compliance/evidence/data-minimization.md"
-      
+
     - principle: "accuracy"
       implementation: "Data accuracy controls and correction processes"
       evidence: "/compliance/evidence/data-accuracy.yml"
-      
+
     - principle: "storage_limitation"
       implementation: "Data retention policies and automated deletion"
       evidence: "/compliance/evidence/retention-policies.yml"
-      
+
     - principle: "integrity_confidentiality"
       implementation: "Encryption and access controls"
       evidence: "/compliance/evidence/data-security.yml"
-      
+
     - principle: "accountability"
       implementation: "Compliance documentation and monitoring"
       evidence: "/compliance/evidence/accountability.pdf"
-  
+
   data_subject_rights:
     - right: "right_to_information"
       implementation: "Privacy notices and transparency reports"
       response_time: "immediate (at collection)"
-      
+
     - right: "right_of_access"
       implementation: "Customer portal for data access requests"
       response_time: "30 days"
-      
+
     - right: "right_to_rectification"
       implementation: "Data correction process through customer service"
       response_time: "30 days"
-      
+
     - right: "right_to_erasure"
       implementation: "Data deletion process with verification"
       response_time: "30 days"
-      
+
     - right: "right_to_restrict_processing"
       implementation: "Processing restriction flags in systems"
       response_time: "30 days"
-      
+
     - right: "right_to_data_portability"
       implementation: "Data export functionality in customer portal"
       response_time: "30 days"
-      
+
     - right: "right_to_object"
       implementation: "Opt-out mechanisms for marketing and profiling"
       response_time: "immediate"
-  
+
   privacy_by_design:
     implementation_areas:
       - area: "system_design"
         description: "Privacy considerations in system architecture"
         implementation: "Privacy impact assessments for new systems"
-        
+
       - area: "data_processing"
         description: "Privacy-preserving data processing techniques"
         implementation: "Pseudonymization and anonymization where possible"
-        
+
       - area: "vendor_management"
         description: "Privacy requirements in vendor contracts"
         implementation: "Data processing agreements with all vendors"
@@ -347,12 +347,12 @@ gdpr:
 # ISO 27001 Compliance
 iso_27001:
   title: "ISO 27001 Information Security Management"
-  
+
   isms_scope:
     description: "Information Security Management System scope"
     boundaries: "All FinovaBank IT systems and processes"
     exclusions: "Physical security of third-party data centers"
-  
+
   control_objectives:
     # A.5 Information security policies
     a5_information_security_policies:
@@ -360,96 +360,96 @@ iso_27001:
         title: "Policies for information security"
         implementation: "Information security policy approved by management"
         evidence: "/compliance/evidence/security-policy.pdf"
-        
+
       - control: "A.5.1.2"
         title: "Review of the policies for information security"
         implementation: "Annual policy review process"
         evidence: "/compliance/evidence/policy-reviews/"
-    
+
     # A.6 Organization of information security
     a6_organization:
       - control: "A.6.1.1"
         title: "Information security roles and responsibilities"
         implementation: "Security roles defined in job descriptions"
         evidence: "/compliance/evidence/security-roles.pdf"
-        
+
       - control: "A.6.2.1"
         title: "Mobile device policy"
         implementation: "BYOD policy with MDM implementation"
         evidence: "/compliance/evidence/mobile-device-policy.pdf"
-    
+
     # Continue with other control families...
     a8_asset_management:
       status: "implemented"
-      
+
     a9_access_control:
       status: "implemented"
-      
+
     a10_cryptography:
       status: "implemented"
-      
+
     a11_physical_security:
       status: "implemented"
-      
+
     a12_operations_security:
       status: "implemented"
-      
+
     a13_communications_security:
       status: "implemented"
-      
+
     a14_system_development:
       status: "implemented"
-      
+
     a15_supplier_relationships:
       status: "implemented"
-      
+
     a16_incident_management:
       status: "implemented"
-      
+
     a17_business_continuity:
       status: "implemented"
-      
+
     a18_compliance:
       status: "implemented"
 
 # FFIEC Guidelines Compliance
 ffiec:
   title: "Federal Financial Institutions Examination Council Guidelines"
-  
+
   cybersecurity_assessment_tool:
     maturity_levels:
       - domain: "cyber_risk_management"
         current_level: "evolving"
         target_level: "advanced"
-        
+
       - domain: "threat_intelligence"
         current_level: "intermediate"
         target_level: "advanced"
-        
+
       - domain: "cybersecurity_controls"
         current_level: "advanced"
         target_level: "innovative"
-        
+
       - domain: "external_dependency_management"
         current_level: "evolving"
         target_level: "advanced"
-        
+
       - domain: "cyber_incident_management"
         current_level: "intermediate"
         target_level: "advanced"
-  
+
   authentication_guidance:
     risk_assessment: "completed annually"
-    
+
     authentication_methods:
       - method: "multi_factor_authentication"
         implementation: "Required for all privileged accounts"
         technology: "TOTP and hardware tokens"
-        
+
       - method: "risk_based_authentication"
         implementation: "Implemented for customer transactions"
         technology: "Behavioral analytics and device fingerprinting"
-        
+
       - method: "strong_customer_authentication"
         implementation: "Required for payment initiation"
         technology: "Biometrics and transaction signing"
@@ -458,49 +458,49 @@ ffiec:
 compliance_monitoring:
   continuous_monitoring:
     enabled: true
-    
+
     monitoring_areas:
       - area: "access_controls"
         frequency: "real-time"
         alerts: "immediate for violations"
-        
+
       - area: "data_encryption"
         frequency: "daily"
         alerts: "within 4 hours"
-        
+
       - area: "vulnerability_management"
         frequency: "weekly"
         alerts: "within 24 hours for critical"
-        
+
       - area: "incident_response"
         frequency: "real-time"
         alerts: "immediate"
-  
+
   compliance_reporting:
     internal_reports:
       - report: "monthly_compliance_dashboard"
         recipients: ["ciso@finovabank.com", "compliance@finovabank.com"]
         frequency: "monthly"
-        
+
       - report: "quarterly_risk_assessment"
         recipients: ["board@finovabank.com", "audit_committee@finovabank.com"]
         frequency: "quarterly"
-        
+
       - report: "annual_compliance_review"
         recipients: ["ceo@finovabank.com", "board@finovabank.com"]
         frequency: "annually"
-    
+
     regulatory_reports:
       - report: "pci_dss_aoc"
         regulator: "PCI Security Standards Council"
         frequency: "annually"
         due_date: "March 31"
-        
+
       - report: "sox_404_assessment"
         regulator: "SEC"
         frequency: "annually"
         due_date: "60 days after fiscal year end"
-        
+
       - report: "ffiec_cybersecurity_assessment"
         regulator: "Federal Banking Regulators"
         frequency: "annually"
@@ -513,33 +513,33 @@ compliance_testing:
       frequency: "annually"
       scope: "external and internal networks"
       next_test: "2024-06-01"
-      
+
     - test_type: "vulnerability_scanning"
       frequency: "weekly"
       scope: "all systems"
       automated: true
-      
+
     - test_type: "access_control_testing"
       frequency: "quarterly"
       scope: "all applications and systems"
-      
+
     - test_type: "backup_recovery_testing"
       frequency: "monthly"
       scope: "critical systems"
-      
+
     - test_type: "incident_response_testing"
       frequency: "semi-annually"
       scope: "full incident response plan"
-  
+
   validation_procedures:
     - procedure: "control_effectiveness_testing"
       description: "Testing of key controls for effectiveness"
       frequency: "quarterly"
-      
+
     - procedure: "compliance_gap_analysis"
       description: "Analysis of compliance gaps and remediation"
       frequency: "annually"
-      
+
     - procedure: "third_party_assessments"
       description: "Independent assessment of compliance posture"
       frequency: "annually"
@@ -551,33 +551,33 @@ compliance_training:
       frequency: "annually"
       duration: "2 hours"
       audience: "all employees"
-      
+
     - course: "pci_dss_awareness"
       frequency: "annually"
       duration: "1 hour"
       audience: "employees handling cardholder data"
-      
+
     - course: "privacy_and_gdpr"
       frequency: "annually"
       duration: "1.5 hours"
       audience: "employees handling personal data"
-      
+
     - course: "sox_controls_training"
       frequency: "annually"
       duration: "2 hours"
       audience: "employees involved in financial reporting"
-  
+
   specialized_training:
     - course: "incident_response_procedures"
       frequency: "semi-annually"
       duration: "4 hours"
       audience: "incident response team"
-      
+
     - course: "compliance_monitoring_tools"
       frequency: "annually"
       duration: "8 hours"
       audience: "compliance and security teams"
-      
+
     - course: "regulatory_updates"
       frequency: "quarterly"
       duration: "1 hour"
@@ -590,48 +590,47 @@ compliance_metrics:
       target: "100%"
       current: "98%"
       frequency: "monthly"
-      
+
     - metric: "security_incident_response_time"
       target: "< 30 minutes"
       current: "25 minutes"
       frequency: "monthly"
-      
+
     - metric: "vulnerability_remediation_time"
       target: "< 72 hours for critical"
       current: "48 hours"
       frequency: "weekly"
-      
+
     - metric: "audit_findings_remediation_rate"
       target: "100% within SLA"
       current: "95%"
       frequency: "quarterly"
-      
+
     - metric: "data_breach_incidents"
       target: "0"
       current: "0"
       frequency: "monthly"
-  
+
   compliance_scoring:
     overall_score: 95
-    
+
     domain_scores:
       - domain: "pci_dss"
         score: 98
         last_assessment: "2024-01-15"
-        
+
       - domain: "glba"
         score: 96
         last_assessment: "2024-01-10"
-        
+
       - domain: "sox"
         score: 94
         last_assessment: "2024-01-20"
-        
+
       - domain: "gdpr"
         score: 92
         last_assessment: "2024-01-12"
-        
+
       - domain: "iso_27001"
         score: 97
         last_assessment: "2024-01-18"
-

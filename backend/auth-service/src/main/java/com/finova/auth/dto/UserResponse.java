@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    
+
     private Long id;
     private String username;
     private String email;
@@ -28,4 +28,3 @@ public class UserResponse {
     private LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
 }
-

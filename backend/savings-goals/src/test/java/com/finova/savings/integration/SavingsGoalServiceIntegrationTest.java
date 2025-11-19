@@ -42,15 +42,15 @@ public class SavingsGoalServiceIntegrationTest {
         savingsGoal.setCurrentAmount(new BigDecimal("1000.00"));
         savingsGoal.setTargetDate(LocalDate.now().plusMonths(6));
         savingsGoal.setCustomerId("customer123");
-        
+
         SavingsGoal savedGoal = savingsGoalService.createSavingsGoal(savingsGoal);
-        
+
         // Verify the savings goal was created
         assertNotNull(savedGoal.getId());
-        
+
         // Retrieve the savings goal
         SavingsGoal retrievedGoal = savingsGoalService.getSavingsGoalById(savedGoal.getId());
-        
+
         // Verify retrieved savings goal matches
         assertEquals(savedGoal.getId(), retrievedGoal.getId());
         assertEquals("Vacation Fund", retrievedGoal.getName());

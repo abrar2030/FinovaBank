@@ -28,4 +28,3 @@ describe('DashboardScreen (Mobile)', () => {
 
     // Add tests for loading states, error handling, interactions (e.g., tapping a transaction)
 });
-

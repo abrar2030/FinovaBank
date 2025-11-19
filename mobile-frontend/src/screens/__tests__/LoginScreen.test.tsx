@@ -96,4 +96,3 @@ describe('LoginScreen (Mobile)', () => {
         consoleSpy.mockRestore();
     });
 });
-

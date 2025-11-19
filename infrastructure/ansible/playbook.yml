@@ -14,22 +14,22 @@
     app_home: /opt/finovabank
     log_dir: /var/log/finovabank
     config_dir: /etc/finovabank
-    
+
     # Security configuration
     ssh_port: 22
     fail2ban_bantime: 3600
     fail2ban_maxretry: 3
-    
+
     # Monitoring configuration
     cloudwatch_region: "{{ ansible_ec2_placement_region | default('us-west-2') }}"
     log_retention_days: 2555  # 7 years for financial compliance
-    
+
     # Compliance configuration
     audit_rules_file: /etc/audit/rules.d/finovabank.rules
-    
+
     # Docker configuration
     docker_compose_version: "2.20.2"
-    
+
     # Services to install
     required_packages:
       - docker.io
@@ -52,7 +52,7 @@
       - awscli
       - amazon-cloudwatch-agent
       - amazon-ssm-agent
-    
+
     # Services to remove (security hardening)
     packages_to_remove:
       - telnet
@@ -64,14 +64,14 @@
       - tftp-server
       - talk
       - talk-server
-    
+
     # Services to disable
     services_to_disable:
       - postfix
       - cups
       - avahi-daemon
       - bluetooth
-    
+
     # FinovaBank microservices
     finovabank_services:
       - name: api-gateway
@@ -117,7 +117,7 @@
         update_cache: yes
         cache_valid_time: 3600
       when: ansible_os_family == "Debian"
-    
+
     - name: Update package cache (RHEL/CentOS)
       yum:
         update_cache: yes
@@ -127,7 +127,7 @@
     # ========================================
     # SYSTEM PREPARATION AND HARDENING
     # ========================================
-    
+
     - name: Create application user
       user:
         name: "{{ app_user }}"
@@ -137,7 +137,7 @@
         system: yes
         create_home: yes
       tags: [users, security]
-    
+
     - name: Create application directories
       file:
         path: "{{ item }}"
@@ -156,19 +156,19 @@
         - "{{ log_dir }}"
         - "{{ config_dir }}"
       tags: [directories, setup]
-    
+
     - name: Install required packages
       package:
         name: "{{ required_packages }}"
         state: present
       tags: [packages, setup]
-    
+
     - name: Remove unnecessary packages (security hardening)
       package:
         name: "{{ packages_to_remove }}"
         state: absent
       tags: [packages, security, hardening]
-    
+
     - name: Disable unnecessary services
       systemd:
         name: "{{ item }}"
@@ -177,11 +177,11 @@
       loop: "{{ services_to_disable }}"
       ignore_errors: yes
       tags: [services, security, hardening]
-    
+
     # ========================================
     # SSH SECURITY CONFIGURATION
     # ========================================
-    
+
     - name: Configure SSH security
       lineinfile:
         path: /etc/ssh/sshd_config
@@ -201,7 +201,7 @@
         - { regexp: '^#?AllowTcpForwarding', line: 'AllowTcpForwarding yes' }
       notify: restart sshd
       tags: [ssh, security, hardening]
-    
+
     - name: Add SSH allowed users
       lineinfile:
         path: /etc/ssh/sshd_config
@@ -209,22 +209,22 @@
         backup: yes
       notify: restart sshd
       tags: [ssh, security]
-    
+
     # ========================================
     # FIREWALL CONFIGURATION
     # ========================================
-    
+
     - name: Install and configure UFW firewall
       block:
         - name: Install UFW
           package:
             name: ufw
             state: present
-        
+
         - name: Reset UFW to defaults
           ufw:
             state: reset
-        
+
         - name: Configure UFW defaults
           ufw:
             direction: "{{ item.direction }}"
@@ -232,13 +232,13 @@
           loop:
             - { direction: 'incoming', policy: 'deny' }
             - { direction: 'outgoing', policy: 'allow' }
-        
+
         - name: Allow SSH
           ufw:
             rule: allow
             port: "{{ ssh_port }}"
             proto: tcp
-        
+
         - name: Allow application ports
           ufw:
             rule: allow
@@ -246,24 +246,24 @@
             proto: tcp
             src: "10.0.0.0/8"
           loop: "{{ finovabank_services }}"
-        
+
         - name: Allow health check port
           ufw:
             rule: allow
             port: "8080"
             proto: tcp
             src: "10.0.0.0/16"
-        
+
         - name: Enable UFW
           ufw:
             state: enabled
       when: ansible_os_family == "Debian"
       tags: [firewall, security]
-    
+
     # ========================================
     # FAIL2BAN CONFIGURATION
     # ========================================
-    
+
     - name: Configure fail2ban
       block:
         - name: Create fail2ban local configuration
@@ -276,14 +276,14 @@
               backend = systemd
               destemail = security@finovabank.com
               sendername = FinovaBank-Security
-              
+
               [sshd]
               enabled = true
               port = ssh
               logpath = /var/log/auth.log
               maxretry = {{ fail2ban_maxretry }}
               bantime = {{ fail2ban_bantime }}
-              
+
               [sshd-ddos]
               enabled = true
               port = ssh
@@ -291,7 +291,7 @@
               maxretry = 6
               bantime = {{ fail2ban_bantime }}
               findtime = 120
-              
+
               [recidive]
               enabled = true
               logpath = /var/log/fail2ban.log
@@ -302,97 +302,97 @@
             dest: /etc/fail2ban/jail.local
             backup: yes
           notify: restart fail2ban
-        
+
         - name: Start and enable fail2ban
           systemd:
             name: fail2ban
             state: started
             enabled: yes
       tags: [fail2ban, security]
-    
+
     # ========================================
     # AUDIT CONFIGURATION
     # ========================================
-    
+
     - name: Configure audit logging
       block:
         - name: Create audit rules for FinovaBank
           copy:
             content: |
               # FinovaBank Audit Rules for Financial Compliance
-              
+
               # Remove any existing rules
               -D
-              
+
               # Buffer size
               -b 8192
-              
+
               # Failure mode (0=silent, 1=printk, 2=panic)
               -f 1
-              
+
               # Monitor file access
               -w /etc/passwd -p wa -k identity
               -w /etc/group -p wa -k identity
               -w /etc/shadow -p wa -k identity
               -w /etc/sudoers -p wa -k identity
               -w /etc/sudoers.d/ -p wa -k identity
-              
+
               # Monitor authentication events
               -w /var/log/faillog -p wa -k logins
               -w /var/log/lastlog -p wa -k logins
               -w /var/log/wtmp -p wa -k logins
               -w /var/log/btmp -p wa -k logins
-              
+
               # Monitor network configuration
               -w /etc/hosts -p wa -k network
               -w /etc/network/ -p wa -k network
-              
+
               # Monitor system administration
               -w /var/log/sudo.log -p wa -k actions
               -w {{ app_home }}/config/ -p wa -k app_config
               -w {{ config_dir }}/ -p wa -k app_config
-              
+
               # Monitor file system mounts
               -a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
               -a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
-              
+
               # Monitor file deletions
               -a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
               -a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
-              
+
               # Monitor privilege escalation
               -w /bin/su -p x -k priv_esc
               -w /usr/bin/sudo -p x -k priv_esc
-              
+
               # Monitor system calls
               -a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
               -a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
-              
+
               # Monitor Docker
               -w /usr/bin/docker -p x -k docker
               -w /var/lib/docker/ -p wa -k docker
-              
+
               # Monitor application files
               -w {{ app_home }}/ -p wa -k finovabank_app
               -w {{ log_dir }}/ -p wa -k finovabank_logs
-              
+
               # Make the configuration immutable
               -e 2
             dest: "{{ audit_rules_file }}"
             backup: yes
           notify: restart auditd
-        
+
         - name: Start and enable auditd
           systemd:
             name: auditd
             state: started
             enabled: yes
       tags: [audit, security, compliance]
-    
+
     # ========================================
     # SYSTEM HARDENING
     # ========================================
-    
+
     - name: Apply kernel security parameters
       sysctl:
         name: "{{ item.name }}"
@@ -426,7 +426,7 @@
         - { name: 'kernel.dmesg_restrict', value: '1' }
         - { name: 'kernel.kptr_restrict', value: '2' }
       tags: [hardening, security, kernel]
-    
+
     - name: Configure system limits
       pam_limits:
         domain: "{{ app_user }}"
@@ -440,7 +440,7 @@
         - { type: 'hard', item: 'nproc', value: '32768' }
         - { type: 'hard', item: 'core', value: '0' }
       tags: [limits, hardening]
-    
+
     - name: Set proper file permissions
       file:
         path: "{{ item.path }}"
@@ -454,11 +454,11 @@
         - { path: '/etc/group', mode: '0644' }
         - { path: '/root', mode: '0700' }
       tags: [permissions, security, hardening]
-    
+
     # ========================================
     # DOCKER CONFIGURATION
     # ========================================
-    
+
     - name: Configure Docker
       block:
         - name: Add application user to docker group
@@ -466,7 +466,7 @@
             name: "{{ app_user }}"
             groups: docker
             append: yes
-        
+
         - name: Create Docker daemon configuration
           copy:
             content: |
@@ -492,13 +492,13 @@
             dest: /etc/docker/daemon.json
             backup: yes
           notify: restart docker
-        
+
         - name: Start and enable Docker
           systemd:
             name: docker
             state: started
             enabled: yes
-        
+
         - name: Install Docker Compose
           get_url:
             url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-linux-x86_64"
@@ -507,24 +507,24 @@
             owner: root
             group: root
       tags: [docker, setup]
-    
+
     # ========================================
     # LOGGING CONFIGURATION
     # ========================================
-    
+
     - name: Configure rsyslog for application logging
       copy:
         content: |
           # FinovaBank application logging configuration
           $template FinovaBankFormat,"%timestamp:::date-rfc3339% %HOSTNAME% %syslogtag% %msg%\n"
-          
+
           # Application logs
           local0.*    {{ log_dir }}/application.log;FinovaBankFormat
           local1.*    {{ log_dir }}/security.log;FinovaBankFormat
           local2.*    {{ log_dir }}/audit.log;FinovaBankFormat
           local3.*    {{ log_dir }}/performance.log;FinovaBankFormat
           local4.*    {{ log_dir }}/compliance.log;FinovaBankFormat
-          
+
           # Stop processing after writing to files
           local0.*    stop
           local1.*    stop
@@ -535,7 +535,7 @@
         backup: yes
       notify: restart rsyslog
       tags: [logging, setup]
-    
+
     - name: Configure log rotation
       copy:
         content: |
@@ -551,7 +551,7 @@
                   systemctl reload rsyslog > /dev/null 2>&1 || true
               endscript
           }
-          
+
           /var/log/audit/audit.log {
               daily
               missingok
@@ -567,11 +567,11 @@
         dest: /etc/logrotate.d/finovabank
         backup: yes
       tags: [logging, setup]
-    
+
     # ========================================
     # MONITORING SETUP
     # ========================================
-    
+
     - name: Configure CloudWatch agent
       block:
         - name: Create CloudWatch agent configuration
@@ -675,7 +675,7 @@
               }
             dest: /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
             backup: yes
-        
+
         - name: Start CloudWatch agent
           shell: |
             /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
@@ -685,16 +685,16 @@
                 -s
           changed_when: false
       tags: [monitoring, cloudwatch]
-    
+
     # ========================================
     # APPLICATION DEPLOYMENT
     # ========================================
-    
+
     - name: Create Docker Compose configuration
       copy:
         content: |
           version: '3.8'
-          
+
           services:
           {% for service in finovabank_services %}
             {{ service.name }}:
@@ -732,7 +732,7 @@
               cap_add:
                 - NET_BIND_SERVICE
           {% endfor %}
-          
+
           networks:
             finovabank:
               driver: bridge
@@ -744,38 +744,38 @@
         group: "{{ app_group }}"
         mode: '0644'
       tags: [docker, deployment]
-    
+
     - name: Create application configuration files
       copy:
         content: |
           # FinovaBank Application Configuration
-          
+
           # Database Configuration
           DB_HOST={{ ansible_default_ipv4.address }}
           DB_PORT=3306
           DB_NAME=finovabank
           DB_USER=finovadmin
-          
+
           # Redis Configuration
           REDIS_HOST={{ ansible_default_ipv4.address }}
           REDIS_PORT=6379
-          
+
           # Security Configuration
           JWT_SECRET_KEY=change_this_in_production
           ENCRYPTION_KEY=change_this_in_production
-          
+
           # Logging Configuration
           LOG_LEVEL=info
           LOG_FORMAT=json
-          
+
           # Monitoring Configuration
           METRICS_ENABLED=true
           HEALTH_CHECK_ENABLED=true
-          
+
           # Compliance Configuration
           AUDIT_ENABLED=true
           COMPLIANCE_MODE=strict
-          
+
           # Performance Configuration
           MAX_CONNECTIONS=100
           CONNECTION_TIMEOUT=30
@@ -785,39 +785,39 @@
         group: "{{ app_group }}"
         mode: '0600'
       tags: [configuration, deployment]
-    
+
     # ========================================
     # BACKUP AND MAINTENANCE SCRIPTS
     # ========================================
-    
+
     - name: Create backup script
       copy:
         content: |
           #!/bin/bash
           # FinovaBank backup script
-          
+
           set -e
-          
+
           BACKUP_DIR="{{ app_home }}/backups"
           DATE=$(date +%Y%m%d_%H%M%S)
           INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null || echo "unknown")
-          
+
           mkdir -p "$BACKUP_DIR"
-          
+
           # Backup application configuration
           tar -czf "$BACKUP_DIR/config_${INSTANCE_ID}_${DATE}.tar.gz" -C {{ app_home }} config/
-          
+
           # Backup application logs
           tar -czf "$BACKUP_DIR/logs_${INSTANCE_ID}_${DATE}.tar.gz" -C {{ log_dir }} .
-          
+
           # Backup application data
           if [ -d "{{ app_home }}/data" ]; then
               tar -czf "$BACKUP_DIR/data_${INSTANCE_ID}_${DATE}.tar.gz" -C {{ app_home }} data/
           fi
-          
+
           # Clean up old backups (keep last 7 days)
           find "$BACKUP_DIR" -name "*.tar.gz" -mtime +7 -delete
-          
+
           echo "Backup completed: $DATE"
           logger -p local2.info "FinovaBank backup completed: $DATE"
         dest: "{{ app_home }}/scripts/backup.sh"
@@ -825,32 +825,32 @@
         group: "{{ app_group }}"
         mode: '0755'
       tags: [backup, scripts]
-    
+
     - name: Create monitoring script
       copy:
         content: |
           #!/bin/bash
           # FinovaBank monitoring script
-          
+
           INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null || echo "unknown")
-          
+
           # Function to send metric to CloudWatch
           send_metric() {
               local metric_name="$1"
               local value="$2"
               local unit="$3"
-              
+
               aws cloudwatch put-metric-data \
                   --namespace "FinovaBank/Application" \
                   --metric-data MetricName="$metric_name",Value="$value",Unit="$unit",Dimensions=InstanceId="$INSTANCE_ID" \
                   --region "{{ cloudwatch_region }}" 2>/dev/null || true
           }
-          
+
           # Monitor Docker containers
           {% for service in finovabank_services %}
           if docker ps | grep -q "finovabank-{{ service.name }}"; then
               send_metric "{{ service.name | title }}Health" 1 "Count"
-              
+
               # Check health endpoint
               if curl -f http://localhost:{{ service.port }}{{ service.health_check }} > /dev/null 2>&1; then
                   send_metric "{{ service.name | title }}HealthCheck" 1 "Count"
@@ -862,17 +862,17 @@
               send_metric "{{ service.name | title }}HealthCheck" 0 "Count"
           fi
           {% endfor %}
-          
+
           # Monitor system resources
           DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
           send_metric "DiskUsage" "$DISK_USAGE" "Percent"
-          
+
           MEM_USAGE=$(free | awk 'NR==2{printf "%.0f", $3*100/$2}')
           send_metric "MemoryUsage" "$MEM_USAGE" "Percent"
-          
+
           LOAD_AVG=$(uptime | awk -F'load average:' '{print $2}' | awk '{print $1}' | sed 's/,//')
           send_metric "LoadAverage" "$LOAD_AVG" "None"
-          
+
           # Monitor active connections
           CONNECTIONS=$(netstat -an | grep :8080 | grep ESTABLISHED | wc -l)
           send_metric "ActiveConnections" "$CONNECTIONS" "Count"
@@ -881,28 +881,28 @@
         group: "{{ app_group }}"
         mode: '0755'
       tags: [monitoring, scripts]
-    
+
     - name: Create health check script
       copy:
         content: |
           #!/bin/bash
           # FinovaBank health check script
-          
+
           # Check system load
           LOAD=$(uptime | awk '{print $10}' | sed 's/,//')
           LOAD_THRESHOLD=2.0
-          
+
           # Check disk space
           DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
           DISK_THRESHOLD=90
-          
+
           # Check memory usage
           MEM_USAGE=$(free | awk 'NR==2{printf "%.0f", $3*100/$2}')
           MEM_THRESHOLD=90
-          
+
           # Check Docker daemon
           DOCKER_STATUS=$(systemctl is-active docker)
-          
+
           # Health check logic
           if (( $(echo "$LOAD > $LOAD_THRESHOLD" | bc -l) )); then
               echo "UNHEALTHY: High system load ($LOAD)"
@@ -925,11 +925,11 @@
         group: "{{ app_group }}"
         mode: '0755'
       tags: [health, scripts]
-    
+
     # ========================================
     # CRON JOBS AND SCHEDULED TASKS
     # ========================================
-    
+
     - name: Schedule backup job
       cron:
         name: "FinovaBank daily backup"
@@ -938,7 +938,7 @@
         job: "{{ app_home }}/scripts/backup.sh"
         user: "{{ app_user }}"
       tags: [cron, backup]
-    
+
     - name: Schedule monitoring job
       cron:
         name: "FinovaBank monitoring"
@@ -946,7 +946,7 @@
         job: "{{ app_home }}/scripts/monitor.sh"
         user: "{{ app_user }}"
       tags: [cron, monitoring]
-    
+
     - name: Schedule AIDE integrity check
       cron:
         name: "AIDE integrity check"
@@ -955,7 +955,7 @@
         job: "/usr/bin/aide --check"
         user: root
       tags: [cron, security]
-    
+
     - name: Schedule log cleanup
       cron:
         name: "Clean old logs"
@@ -964,38 +964,38 @@
         job: "find {{ log_dir }} -name '*.log.*' -mtime +30 -delete"
         user: "{{ app_user }}"
       tags: [cron, cleanup]
-    
+
     # ========================================
     # COMPLIANCE AND SECURITY CHECKS
     # ========================================
-    
+
     - name: Initialize AIDE database
       command: aide --init
       args:
         creates: /var/lib/aide/aide.db.new.gz
       tags: [aide, security]
-    
+
     - name: Move AIDE database
       command: mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
       args:
         creates: /var/lib/aide/aide.db.gz
       tags: [aide, security]
-    
+
     - name: Run rkhunter update
       command: rkhunter --update
       changed_when: false
       tags: [rkhunter, security]
-    
+
     - name: Run initial rkhunter check
       command: rkhunter --check --skip-keypress
       changed_when: false
       ignore_errors: yes
       tags: [rkhunter, security]
-    
+
     # ========================================
     # APPLICATION STARTUP
     # ========================================
-    
+
     - name: Pull Docker images
       docker_image:
         name: "{{ item.image }}"
@@ -1003,18 +1003,18 @@
       loop: "{{ finovabank_services }}"
       become_user: "{{ app_user }}"
       tags: [docker, deployment]
-    
+
     - name: Start FinovaBank services
       docker_compose:
         project_src: "{{ app_home }}"
         state: present
       become_user: "{{ app_user }}"
       tags: [docker, deployment, startup]
-    
+
     # ========================================
     # FINAL VERIFICATION
     # ========================================
-    
+
     - name: Wait for services to start
       wait_for:
         port: "{{ item.port }}"
@@ -1023,7 +1023,7 @@
         timeout: 60
       loop: "{{ finovabank_services }}"
       tags: [verification, startup]
-    
+
     - name: Verify service health
       uri:
         url: "http://{{ ansible_default_ipv4.address }}:{{ item.port }}{{ item.health_check }}"
@@ -1039,22 +1039,22 @@
       systemd:
         name: sshd
         state: restarted
-    
+
     - name: restart fail2ban
       systemd:
         name: fail2ban
         state: restarted
-    
+
     - name: restart auditd
       systemd:
         name: auditd
         state: restarted
-    
+
     - name: restart rsyslog
       systemd:
         name: rsyslog
         state: restarted
-    
+
     - name: restart docker
       systemd:
         name: docker
@@ -1065,12 +1065,12 @@
       debug:
         msg: |
           FinovaBank infrastructure deployment completed successfully!
-          
+
           Services deployed:
           {% for service in finovabank_services %}
           - {{ service.name }}: http://{{ ansible_default_ipv4.address }}:{{ service.port }}{{ service.health_check }}
           {% endfor %}
-          
+
           Security features enabled:
           - SSH hardening
           - Firewall (UFW)
@@ -1078,17 +1078,16 @@
           - Audit logging
           - File integrity monitoring (AIDE)
           - Rootkit detection (rkhunter)
-          
+
           Monitoring configured:
           - CloudWatch agent
           - Custom metrics
           - Log aggregation
           - Health checks
-          
+
           Compliance features:
           - Audit trails
           - Log retention ({{ log_retention_days }} days)
           - Backup automation
           - Security hardening
       tags: [summary]
-

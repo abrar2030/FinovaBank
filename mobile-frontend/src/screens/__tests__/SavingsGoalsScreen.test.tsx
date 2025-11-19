@@ -116,4 +116,3 @@ describe('SavingsGoalsScreen (Mobile)', () => {
 
     // Add tests for creating new goals, loading state, error handling, etc.
 });
-

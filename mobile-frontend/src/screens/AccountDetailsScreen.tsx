@@ -28,10 +28,10 @@ const AccountDetailsScreen = () => {
   const route = useRoute<AccountDetailsScreenRouteProp>();
   const navigation = useNavigation();
   const { userData } = useAuth();
-  
+
   // Get accountId from route params or use default from user data
   const accountId = route.params?.accountId || (userData?.id ? userData.id : '');
-  
+
   const [accountDetails, setAccountDetails] = useState<AccountDetailsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +43,7 @@ const AccountDetailsScreen = () => {
         setError('No account ID available');
         return;
       }
-      
+
       setLoading(true);
       setError(null);
       try {
@@ -87,8 +87,8 @@ const AccountDetailsScreen = () => {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
         <Text style={commonStyles.errorText}>Error: {error}</Text>
-        <TouchableOpacity 
-          style={[commonStyles.button, styles.retryButton]} 
+        <TouchableOpacity
+          style={[commonStyles.button, styles.retryButton]}
           onPress={() => navigation.navigate('Dashboard')}
         >
           <Text style={commonStyles.buttonText}>Return to Dashboard</Text>
@@ -101,8 +101,8 @@ const AccountDetailsScreen = () => {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
         <Text style={styles.infoText}>No account details found.</Text>
-        <TouchableOpacity 
-          style={[commonStyles.button, styles.retryButton]} 
+        <TouchableOpacity
+          style={[commonStyles.button, styles.retryButton]}
           onPress={() => navigation.navigate('Dashboard')}
         >
           <Text style={commonStyles.buttonText}>Return to Dashboard</Text>
@@ -174,29 +174,29 @@ const AccountDetailsScreen = () => {
       <View style={styles.actionsContainer}>
         <Text style={styles.sectionTitle}>Account Actions</Text>
         <View style={styles.actionButtonsContainer}>
-          <TouchableOpacity 
-            style={[commonStyles.button, styles.actionButton]} 
+          <TouchableOpacity
+            style={[commonStyles.button, styles.actionButton]}
             onPress={handleViewTransactions}
           >
             <Text style={commonStyles.buttonText}>Transactions</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[commonStyles.button, styles.actionButton]} 
+
+          <TouchableOpacity
+            style={[commonStyles.button, styles.actionButton]}
             onPress={handleViewSavingsGoals}
           >
             <Text style={commonStyles.buttonText}>Savings Goals</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[commonStyles.button, styles.actionButton]} 
+
+          <TouchableOpacity
+            style={[commonStyles.button, styles.actionButton]}
             onPress={handleViewLoans}
           >
             <Text style={commonStyles.buttonText}>Loans</Text>
           </TouchableOpacity>
         </View>
       </View>
-      
+
       <Text style={styles.lastUpdatedText}>
         Last updated: {new Date(accountDetails.lastUpdated).toLocaleString()}
       </Text>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   statusValue: (status) => ({
-    color: 
+    color:
       status === 'ACTIVE' ? colors.success :
       status === 'INACTIVE' ? colors.warning :
       status === 'FROZEN' ? colors.error :

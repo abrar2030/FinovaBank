@@ -31,10 +31,10 @@ public class LoanRepositoryTest {
         loan.setTermMonths(36);
         loan.setCustomerId("customer123");
         loan.setStatus("PENDING");
-        
+
         // Save the loan
         Loan savedLoan = loanRepository.save(loan);
-        
+
         // Verify the loan was saved with an ID
         assertNotNull(savedLoan.getId());
     }

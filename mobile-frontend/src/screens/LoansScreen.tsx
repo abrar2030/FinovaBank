@@ -36,10 +36,10 @@ const LoansScreen = ({ route }: any) => {
   const [error, setError] = useState<string | null>(null);
   const [showLoanForm, setShowLoanForm] = useState(false);
   const [loanTypes, setLoanTypes] = useState<{id: string, name: string, maxAmount: number, baseRate: number}[]>([]);
-  
+
   const navigation = useNavigation<LoansScreenNavigationProp>();
   const { userData } = useAuth();
-  
+
   // Get accountId from route params or use default from user data
   const accountId = route?.params?.accountId || (userData?.id ? userData.id : '');
 
@@ -50,13 +50,13 @@ const LoansScreen = ({ route }: any) => {
         setError('No account ID available');
         return;
       }
-      
+
       setLoading(true);
       setError(null);
       try {
         const response = await getAccountLoans(accountId);
         setLoans(response.data);
-        
+
         // Also fetch available loan types
         const typesResponse = await getLoanTypes();
         setLoanTypes(typesResponse.data);
@@ -76,11 +76,11 @@ const LoansScreen = ({ route }: any) => {
   const handleApplyLoan = () => {
     setShowLoanForm(true);
   };
-  
+
   const handleLoanFormClose = () => {
     setShowLoanForm(false);
   };
-  
+
   const handleLoanSubmit = async (loanData: any) => {
     try {
       setLoading(true);
@@ -88,11 +88,11 @@ const LoansScreen = ({ route }: any) => {
         ...loanData,
         accountId
       });
-      
+
       // Refresh loans list after successful application
       const response = await getAccountLoans(accountId);
       setLoans(response.data);
-      
+
       Alert.alert('Success', 'Loan application submitted successfully!');
     } catch (err: any) {
       console.error('Failed to apply for loan:', err);
@@ -105,7 +105,7 @@ const LoansScreen = ({ route }: any) => {
   };
 
   const renderLoanItem = ({ item }: { item: Loan }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.loanItem}
       onPress={() => navigation.navigate('LoanDetails', { loanId: item.id })}
     >
@@ -160,8 +160,8 @@ const LoansScreen = ({ route }: any) => {
     return (
       <View style={[commonStyles.container, styles.centerContent]}>
         <Text style={styles.errorText}>Error: {error}</Text>
-        <TouchableOpacity 
-          style={[commonStyles.button, styles.retryButton]} 
+        <TouchableOpacity
+          style={[commonStyles.button, styles.retryButton]}
           onPress={() => navigation.navigate('Dashboard')}
         >
           <Text style={commonStyles.buttonText}>Return to Dashboard</Text>
@@ -176,16 +176,16 @@ const LoansScreen = ({ route }: any) => {
       <TouchableOpacity style={[commonStyles.button, styles.applyButton]} onPress={handleApplyLoan}>
         <Text style={commonStyles.buttonText}>Apply for a New Loan</Text>
       </TouchableOpacity>
-      
+
       {showLoanForm && (
-        <LoanApplicationForm 
+        <LoanApplicationForm
           visible={showLoanForm}
           onClose={handleLoanFormClose}
           onSubmit={handleLoanSubmit}
           loanTypes={loanTypes}
         />
       )}
-      
+
       <FlatList
         data={loans}
         renderItem={renderLoanItem}
@@ -209,13 +209,13 @@ const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
   const [amount, setAmount] = useState('');
   const [term, setTerm] = useState('');
   const [purpose, setPurpose] = useState('');
-  
+
   if (!visible) return null;
-  
+
   return (
     <View style={styles.formContainer}>
       <Text style={styles.formTitle}>Apply for a Loan</Text>
-      
+
       <View style={styles.formField}>
         <Text style={styles.formLabel}>Loan Type</Text>
         {/* Implement dropdown for loan types */}
@@ -227,7 +227,7 @@ const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
           placeholder="Select loan type"
         />
       </View>
-      
+
       <View style={styles.formField}>
         <Text style={styles.formLabel}>Amount</Text>
         <TextInput
@@ -238,7 +238,7 @@ const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
           keyboardType="numeric"
         />
       </View>
-      
+
       <View style={styles.formField}>
         <Text style={styles.formLabel}>Term (months)</Text>
         <TextInput
@@ -249,7 +249,7 @@ const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
           keyboardType="numeric"
         />
       </View>
-      
+
       <View style={styles.formField}>
         <Text style={styles.formLabel}>Purpose</Text>
         <TextInput
@@ -260,14 +260,14 @@ const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
           multiline
         />
       </View>
-      
+
       <View style={styles.formButtons}>
         <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
           <Text style={styles.cancelButtonText}>Cancel</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.submitButton} 
+
+        <TouchableOpacity
+          style={styles.submitButton}
           onPress={() => onSubmit({
             loanType,
             amount: parseFloat(amount),

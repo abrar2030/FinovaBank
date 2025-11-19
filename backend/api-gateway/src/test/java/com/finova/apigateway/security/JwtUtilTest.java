@@ -23,7 +23,7 @@ public class JwtUtilTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         ReflectionTestUtils.setField(jwtUtil, "SECRET_KEY", SECRET_KEY);
-        
+
         userDetails = mock(UserDetails.class);
         when(userDetails.getUsername()).thenReturn("test@example.com");
     }
@@ -32,7 +32,7 @@ public class JwtUtilTest {
     public void testGenerateToken() {
         // When
         String token = jwtUtil.generateToken(userDetails);
-        
+
         // Then
         assertNotNull(token);
         assertTrue(token.length() > 0);
@@ -42,10 +42,10 @@ public class JwtUtilTest {
     public void testExtractUsername() {
         // Given
         String token = jwtUtil.generateToken(userDetails);
-        
+
         // When
         String username = jwtUtil.extractUsername(token);
-        
+
         // Then
         assertEquals("test@example.com", username);
     }
@@ -54,10 +54,10 @@ public class JwtUtilTest {
     public void testValidateToken_ValidToken() {
         // Given
         String token = jwtUtil.generateToken(userDetails);
-        
+
         // When
         boolean isValid = jwtUtil.validateToken(token);
-        
+
         // Then
         assertTrue(isValid);
     }
@@ -68,17 +68,17 @@ public class JwtUtilTest {
         // Set a very short expiration time for testing
         ReflectionTestUtils.setField(jwtUtil, "JWT_TOKEN_VALIDITY", 1); // 1 millisecond
         String token = jwtUtil.generateToken(userDetails);
-        
+
         // Wait for token to expire
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         // When
         boolean isValid = jwtUtil.validateToken(token);
-        
+
         // Then
         assertFalse(isValid);
     }

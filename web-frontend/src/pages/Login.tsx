@@ -32,29 +32,29 @@ const Login: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { login } = useAuth();
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
     }
-    
+
     try {
       setError(null);
       setLoading(true);
-      
+
       // Call login function from auth context
       await login(email, password);
-      
+
       // Redirect to dashboard on successful login
       navigate('/dashboard');
     } catch (err: any) {
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <Box
       sx={{
@@ -101,20 +101,20 @@ const Login: React.FC = () => {
               FinovaBank
             </Typography>
           </Box>
-          
+
           <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
             Welcome Back
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
             Please sign in to access your account
           </Typography>
-          
+
           {error && (
             <Alert severity="error" sx={{ mb: 3 }}>
               {error}
             </Alert>
           )}
-          
+
           <Box component="form" onSubmit={handleSubmit}>
             <TextField
               fullWidth
@@ -131,7 +131,7 @@ const Login: React.FC = () => {
                 ),
               }}
             />
-            
+
             <TextField
               fullWidth
               label="Password"
@@ -158,11 +158,11 @@ const Login: React.FC = () => {
                 ),
               }}
             />
-            
+
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1, mb: 3 }}>
               <FormControlLabel
                 control={
-                  <Checkbox 
+                  <Checkbox
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
                     color="primary"
@@ -171,12 +171,12 @@ const Login: React.FC = () => {
                 }
                 label={<Typography variant="body2">Remember me</Typography>}
               />
-              
-              <Link 
-                component={RouterLink} 
+
+              <Link
+                component={RouterLink}
                 to="/forgot-password"
                 variant="body2"
-                sx={{ 
+                sx={{
                   color: theme.palette.primary.main,
                   textDecoration: 'none',
                   '&:hover': {
@@ -187,14 +187,14 @@ const Login: React.FC = () => {
                 Forgot password?
               </Link>
             </Box>
-            
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               size="large"
               disabled={loading}
-              sx={{ 
+              sx={{
                 py: 1.5,
                 fontWeight: 600,
                 boxShadow: '0px 8px 16px rgba(51, 102, 255, 0.24)',
@@ -202,14 +202,14 @@ const Login: React.FC = () => {
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </Button>
-            
+
             <Box sx={{ mt: 3, textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary">
                 Don't have an account?{' '}
-                <Link 
-                  component={RouterLink} 
+                <Link
+                  component={RouterLink}
                   to="/register"
-                  sx={{ 
+                  sx={{
                     color: theme.palette.primary.main,
                     fontWeight: 600,
                     textDecoration: 'none',
@@ -222,7 +222,7 @@ const Login: React.FC = () => {
                 </Link>
               </Typography>
             </Box>
-            
+
             <Box sx={{ mt: 4, mb: 2 }}>
               <Divider>
                 <Typography variant="body2" color="text.secondary" sx={{ px: 1 }}>
@@ -230,7 +230,7 @@ const Login: React.FC = () => {
                 </Typography>
               </Divider>
             </Box>
-            
+
             <GridCompatibility container spacing={2}>
               <GridCompatibility xs={4}>
                 <Button
@@ -265,7 +265,7 @@ const Login: React.FC = () => {
             </GridCompatibility>
           </Box>
         </Box>
-        
+
         {/* Right Side - Image and Info */}
         <Box
           sx={{
@@ -285,7 +285,7 @@ const Login: React.FC = () => {
           <Typography variant="body1" sx={{ mb: 4, opacity: 0.9 }}>
             Access all your financial services in one place with our secure and user-friendly platform.
           </Typography>
-          
+
           <Box sx={{ mb: 4 }}>
             <GridCompatibility container spacing={2}>
               <GridCompatibility xs={12}>
@@ -314,7 +314,7 @@ const Login: React.FC = () => {
                   </Box>
                 </Box>
               </GridCompatibility>
-              
+
               <GridCompatibility xs={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Box
@@ -341,7 +341,7 @@ const Login: React.FC = () => {
                   </Box>
                 </Box>
               </GridCompatibility>
-              
+
               <GridCompatibility xs={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box

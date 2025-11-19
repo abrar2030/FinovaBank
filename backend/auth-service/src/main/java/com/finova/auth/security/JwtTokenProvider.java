@@ -108,4 +108,3 @@ public class JwtTokenProvider {
         return refreshTokenValidityInSeconds;
     }
 }
-

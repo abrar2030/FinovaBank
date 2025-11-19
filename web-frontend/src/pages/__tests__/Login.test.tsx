@@ -71,4 +71,3 @@ describe('Login Page', () => {
         consoleSpy.mockRestore(); // Clean up the spy
     });
 });
-

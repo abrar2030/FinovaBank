@@ -107,31 +107,31 @@ api.interceptors.response.use(
 
 // Account API
 export const accountAPI = {
-  getAccounts: () => 
+  getAccounts: () =>
     api.get<Account[]>('/accounts'),
-  
-  getAccountDetails: (accountId: string) => 
+
+  getAccountDetails: (accountId: string) =>
     api.get<Account>(`/accounts/${accountId}`),
-  
-  createAccount: (data: CreateAccountData) => 
+
+  createAccount: (data: CreateAccountData) =>
     api.post<Account>('/accounts', data),
 };
 
 // Transaction API
 export const transactionAPI = {
-  getTransactions: (params?: { accountId?: string; startDate?: string; endDate?: string }) => 
+  getTransactions: (params?: { accountId?: string; startDate?: string; endDate?: string }) =>
     api.get<Transaction[]>('/transactions', { params }),
-  
-  createTransaction: (data: CreateTransactionData) => 
+
+  createTransaction: (data: CreateTransactionData) =>
     api.post<Transaction>('/transactions', data),
 };
 
 // Auth API
 export const authAPI = {
-  login: (email: string, password: string) => 
+  login: (email: string, password: string) =>
     api.post<{ token: string; user: User }>('/auth/login', { email, password }),
-  
-  register: (name: string, email: string, password: string) => 
+
+  register: (name: string, email: string, password: string) =>
     api.post<{ token: string; user: User }>('/auth/register', { name, email, password }),
 
   verifyToken: (token: string) =>
@@ -140,31 +140,31 @@ export const authAPI = {
 
 // Loan API
 export const loanAPI = {
-  getLoans: () => 
+  getLoans: () =>
     api.get<Loan[]>('/loans'),
-  
-  getLoanDetails: (loanId: string) => 
+
+  getLoanDetails: (loanId: string) =>
     api.get<Loan>(`/loans/${loanId}`),
-  
-  applyForLoan: (data: CreateLoanData) => 
+
+  applyForLoan: (data: CreateLoanData) =>
     api.post<Loan>('/loans', data),
 };
 
 // Savings API
 export const savingsAPI = {
-  getSavingsGoals: () => 
+  getSavingsGoals: () =>
     api.get<SavingsGoal[]>('/savings'),
-  
-  getSavingsGoalDetails: (goalId: string) => 
+
+  getSavingsGoalDetails: (goalId: string) =>
     api.get<SavingsGoal>(`/savings/${goalId}`),
-  
-  createSavingsGoal: (data: CreateSavingsGoalData) => 
+
+  createSavingsGoal: (data: CreateSavingsGoalData) =>
     api.post<SavingsGoal>('/savings', data),
-  
-  updateSavingsGoal: (goalId: number, data: Partial<CreateSavingsGoalData>) => 
+
+  updateSavingsGoal: (goalId: number, data: Partial<CreateSavingsGoalData>) =>
     api.put<SavingsGoal>(`/savings/${goalId}`, data),
-  
-  deleteSavingsGoal: (goalId: number) => 
+
+  deleteSavingsGoal: (goalId: number) =>
     api.delete<void>(`/savings/${goalId}`),
 };
 

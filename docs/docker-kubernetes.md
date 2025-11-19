@@ -105,4 +105,3 @@ kubectl apply -f kubernetes/templates/deployment-transaction-service.yaml -f kub
 ## Summary
 
 Follow these commands to build, tag, and push Docker images for the **FinovaBank** services and deploy them to Kubernetes, facilitating easy deployment via Docker Hub and Kubernetes.
-

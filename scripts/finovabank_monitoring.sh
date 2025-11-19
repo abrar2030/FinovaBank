@@ -5,7 +5,7 @@
 # This script automates the setup and configuration of
 # monitoring tools for the FinovaBank platform, including
 # Prometheus, Grafana, and ELK Stack.
-# 
+#
 # Author: Manus AI
 # Date: May 22, 2025
 # =====================================================
@@ -77,20 +77,20 @@ command_exists() {
 # Function to check prerequisites
 check_prerequisites() {
     step_msg "Checking monitoring prerequisites..."
-    
+
     # Check for Docker and Docker Compose
     if ! command_exists docker || ! command_exists docker-compose; then
         error_msg "Docker and Docker Compose are required for monitoring setup"
     fi
-    
+
     # Check Docker daemon
     if ! docker info >/dev/null 2>&1; then
         error_msg "Docker daemon is not running"
     fi
-    
+
     # Create directories
     mkdir -p "$MONITORING_DIR" "$CONFIG_DIR" "$DATA_DIR"
-    
+
     echo -e "${GREEN}All prerequisites satisfied!${NC}"
 }
 
@@ -100,12 +100,12 @@ setup_prometheus() {
         warning_msg "Skipping Prometheus setup as requested"
         return
     fi
-    
+
     step_msg "Setting up Prometheus..."
-    
+
     # Create Prometheus configuration directory
     mkdir -p "$CONFIG_DIR/prometheus"
-    
+
     # Create Prometheus configuration file
     cat > "$CONFIG_DIR/prometheus/prometheus.yml" << EOF
 global:
@@ -125,17 +125,17 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
-  
+
   - job_name: 'backend-services'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['backend:8080', 'account-service:8081', 'payment-service:8082']
-  
+
   - job_name: 'node-exporter'
     static_configs:
       - targets: ['node-exporter:9100']
 EOF
-    
+
     # Create alert rules file
     cat > "$CONFIG_DIR/prometheus/alert_rules.yml" << EOF
 groups:
@@ -149,7 +149,7 @@ groups:
         annotations:
           summary: "High CPU load (instance {{ \$labels.instance }})"
           description: "CPU load is above 80% for 5 minutes\n  VALUE = {{ \$value }}\n  LABELS = {{ \$labels }}"
-      
+
       - alert: HighMemoryUsage
         expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 80
         for: 5m
@@ -158,7 +158,7 @@ groups:
         annotations:
           summary: "High memory usage (instance {{ \$labels.instance }})"
           description: "Memory usage is above 80% for 5 minutes\n  VALUE = {{ \$value }}\n  LABELS = {{ \$labels }}"
-      
+
       - alert: HighDiskUsage
         expr: 100 - ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes) > 85
         for: 5m
@@ -167,7 +167,7 @@ groups:
         annotations:
           summary: "High disk usage (instance {{ \$labels.instance }})"
           description: "Disk usage is above 85% for 5 minutes\n  VALUE = {{ \$value }}\n  LABELS = {{ \$labels }}"
-      
+
       - alert: ServiceDown
         expr: up == 0
         for: 1m
@@ -177,10 +177,10 @@ groups:
           summary: "Service down (instance {{ \$labels.instance }})"
           description: "Service {{ \$labels.job }} is down\n  VALUE = {{ \$value }}\n  LABELS = {{ \$labels }}"
 EOF
-    
+
     # Create AlertManager configuration
     mkdir -p "$CONFIG_DIR/alertmanager"
-    
+
     cat > "$CONFIG_DIR/alertmanager/alertmanager.yml" << EOF
 global:
   resolve_timeout: 5m
@@ -209,7 +209,7 @@ inhibit_rules:
       severity: 'warning'
     equal: ['alertname', 'instance']
 EOF
-    
+
     echo -e "${GREEN}Prometheus configuration completed!${NC}"
 }
 
@@ -219,14 +219,14 @@ setup_grafana() {
         warning_msg "Skipping Grafana setup as requested"
         return
     fi
-    
+
     step_msg "Setting up Grafana..."
-    
+
     # Create Grafana configuration directory
     mkdir -p "$CONFIG_DIR/grafana/provisioning/datasources"
     mkdir -p "$CONFIG_DIR/grafana/provisioning/dashboards"
     mkdir -p "$CONFIG_DIR/grafana/dashboards"
-    
+
     # Create Grafana datasource configuration
     cat > "$CONFIG_DIR/grafana/provisioning/datasources/datasource.yml" << EOF
 apiVersion: 1
@@ -239,7 +239,7 @@ datasources:
     isDefault: true
     editable: false
 EOF
-    
+
     # Create Grafana dashboard configuration
     cat > "$CONFIG_DIR/grafana/provisioning/dashboards/dashboards.yml" << EOF
 apiVersion: 1
@@ -254,7 +254,7 @@ providers:
     options:
       path: /var/lib/grafana/dashboards
 EOF
-    
+
     # Create a sample dashboard
     cat > "$CONFIG_DIR/grafana/dashboards/finovabank-dashboard.json" << EOF
 {
@@ -482,7 +482,7 @@ EOF
   "version": 1
 }
 EOF
-    
+
     echo -e "${GREEN}Grafana configuration completed!${NC}"
 }
 
@@ -492,15 +492,15 @@ setup_elk() {
         warning_msg "Skipping ELK Stack setup as requested"
         return
     fi
-    
+
     step_msg "Setting up ELK Stack..."
-    
+
     # Create ELK configuration directories
     mkdir -p "$CONFIG_DIR/elasticsearch/config"
     mkdir -p "$CONFIG_DIR/logstash/config"
     mkdir -p "$CONFIG_DIR/logstash/pipeline"
     mkdir -p "$CONFIG_DIR/kibana/config"
-    
+
     # Create Elasticsearch configuration
     cat > "$CONFIG_DIR/elasticsearch/config/elasticsearch.yml" << EOF
 ---
@@ -509,21 +509,21 @@ network.host: 0.0.0.0
 discovery.type: single-node
 xpack.security.enabled: false
 EOF
-    
+
     # Create Logstash configuration
     cat > "$CONFIG_DIR/logstash/config/logstash.yml" << EOF
 ---
 http.host: "0.0.0.0"
 xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 EOF
-    
+
     # Create Logstash pipeline configuration
     cat > "$CONFIG_DIR/logstash/pipeline/logstash.conf" << EOF
 input {
   beats {
     port => 5044
   }
-  
+
   tcp {
     port => 5000
     codec => json
@@ -535,7 +535,7 @@ filter {
     grok {
       match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:log_level} %{GREEDYDATA:log_message}" }
     }
-    
+
     date {
       match => [ "timestamp", "ISO8601" ]
       target => "@timestamp"
@@ -550,7 +550,7 @@ output {
   }
 }
 EOF
-    
+
     # Create Kibana configuration
     cat > "$CONFIG_DIR/kibana/config/kibana.yml" << EOF
 ---
@@ -559,20 +559,20 @@ server.host: "0.0.0.0"
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 xpack.monitoring.ui.container.elasticsearch.enabled: true
 EOF
-    
+
     echo -e "${GREEN}ELK Stack configuration completed!${NC}"
 }
 
 # Function to create Docker Compose file
 create_docker_compose() {
     step_msg "Creating Docker Compose file for monitoring..."
-    
+
     cat > "$MONITORING_DIR/docker-compose.yml" << EOF
 version: '3'
 
 services:
 EOF
-    
+
     # Add Prometheus services if enabled
     if [ "$SETUP_PROMETHEUS" = true ]; then
         cat >> "$MONITORING_DIR/docker-compose.yml" << EOF
@@ -625,7 +625,7 @@ EOF
       - monitoring-network
 EOF
     fi
-    
+
     # Add Grafana if enabled
     if [ "$SETUP_GRAFANA" = true ]; then
         cat >> "$MONITORING_DIR/docker-compose.yml" << EOF
@@ -647,7 +647,7 @@ EOF
       - monitoring-network
 EOF
     fi
-    
+
     # Add ELK Stack if enabled
     if [ "$SETUP_ELK" = true ]; then
         cat >> "$MONITORING_DIR/docker-compose.yml" << EOF
@@ -697,7 +697,7 @@ EOF
       - monitoring-network
 EOF
     fi
-    
+
     # Add network configuration
     cat >> "$MONITORING_DIR/docker-compose.yml" << EOF
 
@@ -705,14 +705,14 @@ networks:
   monitoring-network:
     driver: bridge
 EOF
-    
+
     echo -e "${GREEN}Docker Compose file created: $MONITORING_DIR/docker-compose.yml${NC}"
 }
 
 # Function to create a startup script
 create_startup_script() {
     step_msg "Creating monitoring startup script..."
-    
+
     cat > "$MONITORING_DIR/start-monitoring.sh" << EOF
 #!/bin/bash
 
@@ -723,28 +723,28 @@ docker-compose up -d
 echo "Monitoring services started!"
 echo "Access points:"
 EOF
-    
+
     if [ "$SETUP_PROMETHEUS" = true ]; then
         echo "echo \"Prometheus: http://localhost:$PROMETHEUS_PORT\"" >> "$MONITORING_DIR/start-monitoring.sh"
     fi
-    
+
     if [ "$SETUP_GRAFANA" = true ]; then
         echo "echo \"Grafana: http://localhost:$GRAFANA_PORT (admin/admin)\"" >> "$MONITORING_DIR/start-monitoring.sh"
     fi
-    
+
     if [ "$SETUP_ELK" = true ]; then
         echo "echo \"Kibana: http://localhost:$KIBANA_PORT\"" >> "$MONITORING_DIR/start-monitoring.sh"
     fi
-    
+
     chmod +x "$MONITORING_DIR/start-monitoring.sh"
-    
+
     echo -e "${GREEN}Startup script created: $MONITORING_DIR/start-monitoring.sh${NC}"
 }
 
 # Function to create a README file
 create_readme() {
     step_msg "Creating monitoring README file..."
-    
+
     cat > "$MONITORING_DIR/README.md" << EOF
 # FinovaBank Monitoring
 
@@ -753,7 +753,7 @@ This directory contains the monitoring setup for the FinovaBank platform.
 ## Components
 
 EOF
-    
+
     if [ "$SETUP_PROMETHEUS" = true ]; then
         cat >> "$MONITORING_DIR/README.md" << EOF
 - **Prometheus**: Metrics collection and storage
@@ -761,13 +761,13 @@ EOF
 - **Node Exporter**: System metrics exporter
 EOF
     fi
-    
+
     if [ "$SETUP_GRAFANA" = true ]; then
         cat >> "$MONITORING_DIR/README.md" << EOF
 - **Grafana**: Visualization and dashboards
 EOF
     fi
-    
+
     if [ "$SETUP_ELK" = true ]; then
         cat >> "$MONITORING_DIR/README.md" << EOF
 - **Elasticsearch**: Log storage and indexing
@@ -775,7 +775,7 @@ EOF
 - **Kibana**: Log visualization and analysis
 EOF
     fi
-    
+
     cat >> "$MONITORING_DIR/README.md" << EOF
 
 ## Getting Started
@@ -789,25 +789,25 @@ EOF
 2. Access the monitoring interfaces:
 
 EOF
-    
+
     if [ "$SETUP_PROMETHEUS" = true ]; then
         cat >> "$MONITORING_DIR/README.md" << EOF
    - Prometheus: http://localhost:$PROMETHEUS_PORT
 EOF
     fi
-    
+
     if [ "$SETUP_GRAFANA" = true ]; then
         cat >> "$MONITORING_DIR/README.md" << EOF
    - Grafana: http://localhost:$GRAFANA_PORT (default credentials: admin/admin)
 EOF
     fi
-    
+
     if [ "$SETUP_ELK" = true ]; then
         cat >> "$MONITORING_DIR/README.md" << EOF
    - Kibana: http://localhost:$KIBANA_PORT
 EOF
     fi
-    
+
     cat >> "$MONITORING_DIR/README.md" << EOF
 
 ## Configuration
@@ -918,7 +918,7 @@ To modify alert receivers and routes, edit:
 
 \`config/alertmanager/alertmanager.yml\`
 EOF
-    
+
     echo -e "${GREEN}README file created: $MONITORING_DIR/README.md${NC}"
 }
 

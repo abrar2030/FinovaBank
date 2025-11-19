@@ -86,4 +86,3 @@ This script is open-source and can be modified as needed. Please ensure you have
 
 ## Author
 This script was created to simplify the deployment of microservices on a Minikube Kubernetes cluster.
-

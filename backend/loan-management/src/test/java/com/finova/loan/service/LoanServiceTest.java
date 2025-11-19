@@ -28,4 +28,3 @@ public class LoanServiceTest {
 
     // Add more test methods for other service operations (e.g., getLoanStatus, getLoansByUserId)
 }
-

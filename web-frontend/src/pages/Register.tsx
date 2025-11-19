@@ -41,7 +41,7 @@ const Register: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { register } = useAuth();
-  
+
   const [activeStep, setActiveStep] = useState(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -53,22 +53,22 @@ const Register: React.FC = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  
+
   const steps = ['Personal Information', 'Account Security', 'Review & Submit'];
-  
+
   const handleNext = () => {
     if (activeStep === 0) {
       if (!name || !email || !phone) {
         setError('Please fill in all required fields');
         return;
       }
-      
+
       // Basic email validation
       if (!/\S+@\S+\.\S+/.test(email)) {
         setError('Please enter a valid email address');
         return;
       }
-      
+
       setError(null);
       setActiveStep((prevStep) => prevStep + 1);
     } else if (activeStep === 1) {
@@ -76,42 +76,42 @@ const Register: React.FC = () => {
         setError('Please fill in all required fields');
         return;
       }
-      
+
       if (password !== confirmPassword) {
         setError('Passwords do not match');
         return;
       }
-      
+
       if (password.length < 8) {
         setError('Password must be at least 8 characters long');
         return;
       }
-      
+
       setError(null);
       setActiveStep((prevStep) => prevStep + 1);
     }
   };
-  
+
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
     setError(null);
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!agreeTerms) {
       setError('You must agree to the Terms and Conditions');
       return;
     }
-    
+
     try {
       setError(null);
       setLoading(true);
-      
+
       // Call register function from auth context
       await register(name, email, password);
-      
+
       // Redirect to dashboard on successful registration
       navigate('/dashboard');
     } catch (err: any) {
@@ -120,7 +120,7 @@ const Register: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <Box
       sx={{
@@ -158,14 +158,14 @@ const Register: React.FC = () => {
               FinovaBank
             </Typography>
           </Box>
-          
+
           <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
             Create Your Account
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
             Join thousands of users managing their finances with FinovaBank
           </Typography>
-          
+
           <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
             {steps.map((label) => (
               <Step key={label}>
@@ -173,13 +173,13 @@ const Register: React.FC = () => {
               </Step>
             ))}
           </Stepper>
-          
+
           {error && (
             <Alert severity="error" sx={{ mb: 3 }}>
               {error}
             </Alert>
           )}
-          
+
           <Box component="form" onSubmit={activeStep === 2 ? handleSubmit : undefined}>
             {/* Step 1: Personal Information */}
             {activeStep === 0 && (
@@ -199,7 +199,7 @@ const Register: React.FC = () => {
                     ),
                   }}
                 />
-                
+
                 <TextField
                   fullWidth
                   label="Email Address"
@@ -215,7 +215,7 @@ const Register: React.FC = () => {
                     ),
                   }}
                 />
-                
+
                 <TextField
                   fullWidth
                   label="Phone Number"
@@ -233,7 +233,7 @@ const Register: React.FC = () => {
                 />
               </>
             )}
-            
+
             {/* Step 2: Account Security */}
             {activeStep === 1 && (
               <>
@@ -264,7 +264,7 @@ const Register: React.FC = () => {
                   }}
                   helperText="Password must be at least 8 characters long"
                 />
-                
+
                 <TextField
                   fullWidth
                   label="Confirm Password"
@@ -293,7 +293,7 @@ const Register: React.FC = () => {
                 />
               </>
             )}
-            
+
             {/* Step 3: Review & Submit */}
             {activeStep === 2 && (
               <>
@@ -309,7 +309,7 @@ const Register: React.FC = () => {
                   <Typography variant="subtitle1" fontWeight={600} gutterBottom>
                     Personal Information
                   </Typography>
-                  
+
                   <GridCompatibility container spacing={2} sx={{ mb: 2 }}>
                     <GridCompatibility xs={4}>
                       <Typography variant="body2" color="text.secondary">
@@ -321,7 +321,7 @@ const Register: React.FC = () => {
                         {name}
                       </Typography>
                     </GridCompatibility>
-                    
+
                     <GridCompatibility xs={4}>
                       <Typography variant="body2" color="text.secondary">
                         Email Address
@@ -332,7 +332,7 @@ const Register: React.FC = () => {
                         {email}
                       </Typography>
                     </GridCompatibility>
-                    
+
                     <GridCompatibility xs={4}>
                       <Typography variant="body2" color="text.secondary">
                         Phone Number
@@ -344,13 +344,13 @@ const Register: React.FC = () => {
                       </Typography>
                     </GridCompatibility>
                   </GridCompatibility>
-                  
+
                   <Divider sx={{ my: 2 }} />
-                  
+
                   <Typography variant="subtitle1" fontWeight={600} gutterBottom>
                     Account Security
                   </Typography>
-                  
+
                   <GridCompatibility container spacing={2}>
                     <GridCompatibility xs={4}>
                       <Typography variant="body2" color="text.secondary">
@@ -364,10 +364,10 @@ const Register: React.FC = () => {
                     </GridCompatibility>
                   </GridCompatibility>
                 </Paper>
-                
+
                 <FormControlLabel
                   control={
-                    <Checkbox 
+                    <Checkbox
                       checked={agreeTerms}
                       onChange={(e) => setAgreeTerms(e.target.checked)}
                       color="primary"
@@ -376,10 +376,10 @@ const Register: React.FC = () => {
                   label={
                     <Typography variant="body2">
                       I agree to the{' '}
-                      <Link 
-                        component={RouterLink} 
+                      <Link
+                        component={RouterLink}
                         to="/terms"
-                        sx={{ 
+                        sx={{
                           color: theme.palette.primary.main,
                           textDecoration: 'none',
                           '&:hover': {
@@ -390,10 +390,10 @@ const Register: React.FC = () => {
                         Terms and Conditions
                       </Link>
                       {' '}and{' '}
-                      <Link 
-                        component={RouterLink} 
+                      <Link
+                        component={RouterLink}
                         to="/privacy"
-                        sx={{ 
+                        sx={{
                           color: theme.palette.primary.main,
                           textDecoration: 'none',
                           '&:hover': {
@@ -409,7 +409,7 @@ const Register: React.FC = () => {
                 />
               </>
             )}
-            
+
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
               {activeStep > 0 ? (
                 <Button
@@ -423,7 +423,7 @@ const Register: React.FC = () => {
               ) : (
                 <Box /> // Empty box for spacing
               )}
-              
+
               {activeStep < 2 ? (
                 <Button
                   variant="contained"
@@ -438,7 +438,7 @@ const Register: React.FC = () => {
                   type="submit"
                   variant="contained"
                   disabled={loading || !agreeTerms}
-                  sx={{ 
+                  sx={{
                     px: 4,
                     py: 1.5,
                     fontWeight: 600,
@@ -449,7 +449,7 @@ const Register: React.FC = () => {
                 </Button>
               )}
             </Box>
-            
+
             {activeStep === 0 && (
               <>
                 <Box sx={{ mt: 4, mb: 2 }}>
@@ -459,7 +459,7 @@ const Register: React.FC = () => {
                     </Typography>
                   </Divider>
                 </Box>
-                
+
                 <GridCompatibility container spacing={2}>
                   <GridCompatibility xs={4}>
                     <Button
@@ -492,14 +492,14 @@ const Register: React.FC = () => {
                     </Button>
                   </GridCompatibility>
                 </GridCompatibility>
-                
+
                 <Box sx={{ mt: 3, textAlign: 'center' }}>
                   <Typography variant="body2" color="text.secondary">
                     Already have an account?{' '}
-                    <Link 
-                      component={RouterLink} 
+                    <Link
+                      component={RouterLink}
                       to="/login"
-                      sx={{ 
+                      sx={{
                         color: theme.palette.primary.main,
                         fontWeight: 600,
                         textDecoration: 'none',
@@ -516,7 +516,7 @@ const Register: React.FC = () => {
             )}
           </Box>
         </Box>
-        
+
         {/* Right Side - Image and Info */}
         <Box
           sx={{
@@ -536,7 +536,7 @@ const Register: React.FC = () => {
           <Typography variant="body1" sx={{ mb: 4, opacity: 0.9 }}>
             Experience the future of banking with our innovative digital platform designed for your financial success.
           </Typography>
-          
+
           <Box sx={{ mb: 4 }}>
             <GridCompatibility container spacing={2}>
               <GridCompatibility xs={12}>
@@ -565,7 +565,7 @@ const Register: React.FC = () => {
                   </Box>
                 </Box>
               </GridCompatibility>
-              
+
               <GridCompatibility xs={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Box
@@ -592,7 +592,7 @@ const Register: React.FC = () => {
                   </Box>
                 </Box>
               </GridCompatibility>
-              
+
               <GridCompatibility xs={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box

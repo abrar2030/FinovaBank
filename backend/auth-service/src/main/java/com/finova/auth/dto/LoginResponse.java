@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
-    
+
     private String accessToken;
     private String refreshToken;
     private String tokenType = "Bearer";
@@ -23,4 +23,3 @@ public class LoginResponse {
     private Set<String> roles;
     private boolean mfaRequired;
 }
-

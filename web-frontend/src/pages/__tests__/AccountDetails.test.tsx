@@ -50,4 +50,3 @@ describe('AccountDetails Page', () => {
 
     // Add tests for loading state, error handling, etc.
 });
-

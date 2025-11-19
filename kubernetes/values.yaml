@@ -97,4 +97,3 @@ services:
     tag: "transaction-service-latest"
     probes:
       enabled: true
-

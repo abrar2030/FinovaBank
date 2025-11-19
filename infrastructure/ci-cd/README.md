@@ -52,4 +52,3 @@ This script is intended for local or manual CI/CD use. It automates the process 
 *   Docker and `docker buildx` installed.
 *   `helm` and `kubectl` configured to point to the target Kubernetes cluster.
 *   The script assumes you have logged into your Docker registry prior to execution.
-

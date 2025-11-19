@@ -4,7 +4,7 @@
 # =====================================================
 # This script automates code linting, formatting, and quality
 # checks across all components of the FinovaBank platform.
-# 
+#
 # Author: Manus AI
 # Date: May 22, 2025
 # =====================================================
@@ -68,246 +68,246 @@ command_exists() {
 # Function to lint backend code
 lint_backend() {
     step_msg "Linting backend code..."
-    
+
     if [ ! -d "backend" ]; then
         error_msg "Backend directory not found"
     fi
-    
+
     cd backend
-    
+
     # Create report directory
     mkdir -p "../$REPORT_DIR/backend"
-    
+
     # Check if Maven wrapper exists
     if [ ! -f "mvnw" ]; then
         echo "Maven wrapper not found, downloading..."
         mvn -N io.takari:maven:wrapper
         chmod +x mvnw
     fi
-    
+
     # Run Checkstyle
     echo "Running Checkstyle..."
     ./mvnw checkstyle:check -Dcheckstyle.output.format=xml -Dcheckstyle.output.file="../$REPORT_DIR/backend/checkstyle-result.xml"
-    
+
     # Run SpotBugs if available
     if grep -q "spotbugs" "pom.xml"; then
         echo "Running SpotBugs..."
         ./mvnw spotbugs:check -Dspotbugs.xmlOutput=true -Dspotbugs.outputDirectory="../$REPORT_DIR/backend"
     fi
-    
+
     # Run PMD if available
     if grep -q "pmd" "pom.xml"; then
         echo "Running PMD..."
         ./mvnw pmd:check -Dpmd.outputDirectory="../$REPORT_DIR/backend"
     fi
-    
+
     # If fix flag is set, run formatter
     if [ "$FIX_ISSUES" = true ]; then
         echo "Formatting backend code..."
         ./mvnw formatter:format
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Backend linting completed!${NC}"
 }
 
 # Function to lint web frontend code
 lint_frontend() {
     step_msg "Linting web frontend code..."
-    
+
     if [ ! -d "web-frontend" ]; then
         error_msg "Web frontend directory not found"
     fi
-    
+
     cd web-frontend
-    
+
     # Create report directory
     mkdir -p "../$REPORT_DIR/web-frontend"
-    
+
     # Install dependencies if node_modules doesn't exist
     if [ ! -d "node_modules" ]; then
         echo "Installing dependencies..."
         npm install
     fi
-    
+
     # Check if ESLint is installed
     if [ ! -f "node_modules/.bin/eslint" ]; then
         echo "Installing ESLint..."
         npm install eslint --save-dev
     fi
-    
+
     # Run ESLint
     echo "Running ESLint..."
     local fix_flag=""
     if [ "$FIX_ISSUES" = true ]; then
         fix_flag="--fix"
     fi
-    
+
     local format_flag="--format json"
     if [ "$VERBOSE" = true ]; then
         format_flag="--format stylish"
     fi
-    
+
     npx eslint . $fix_flag $format_flag --output-file "../$REPORT_DIR/web-frontend/eslint-results.json"
-    
+
     # Check if Prettier is installed
     if [ -f "package.json" ] && grep -q "prettier" "package.json"; then
         echo "Running Prettier..."
-        
+
         if [ "$FIX_ISSUES" = true ]; then
             npx prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
         else
             npx prettier --check "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}" > "../$REPORT_DIR/web-frontend/prettier-results.txt"
         fi
     fi
-    
+
     # Check TypeScript if applicable
     if [ -f "tsconfig.json" ]; then
         echo "Running TypeScript compiler check..."
         npx tsc --noEmit
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Web frontend linting completed!${NC}"
 }
 
 # Function to lint mobile frontend code
 lint_mobile() {
     step_msg "Linting mobile frontend code..."
-    
+
     if [ ! -d "mobile-frontend" ]; then
         error_msg "Mobile frontend directory not found"
     fi
-    
+
     cd mobile-frontend
-    
+
     # Create report directory
     mkdir -p "../$REPORT_DIR/mobile-frontend"
-    
+
     # Install dependencies if node_modules doesn't exist
     if [ ! -d "node_modules" ]; then
         echo "Installing dependencies..."
         npm install
     fi
-    
+
     # Check if ESLint is installed
     if [ ! -f "node_modules/.bin/eslint" ]; then
         echo "Installing ESLint..."
         npm install eslint --save-dev
     fi
-    
+
     # Run ESLint
     echo "Running ESLint..."
     local fix_flag=""
     if [ "$FIX_ISSUES" = true ]; then
         fix_flag="--fix"
     fi
-    
+
     local format_flag="--format json"
     if [ "$VERBOSE" = true ]; then
         format_flag="--format stylish"
     fi
-    
+
     npx eslint . $fix_flag $format_flag --output-file "../$REPORT_DIR/mobile-frontend/eslint-results.json"
-    
+
     # Check if Prettier is installed
     if [ -f "package.json" ] && grep -q "prettier" "package.json"; then
         echo "Running Prettier..."
-        
+
         if [ "$FIX_ISSUES" = true ]; then
             npx prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
         else
             npx prettier --check "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}" > "../$REPORT_DIR/mobile-frontend/prettier-results.txt"
         fi
     fi
-    
+
     # Check TypeScript if applicable
     if [ -f "tsconfig.json" ]; then
         echo "Running TypeScript compiler check..."
         npx tsc --noEmit
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Mobile frontend linting completed!${NC}"
 }
 
 # Function to lint AI services code
 lint_ai() {
     step_msg "Linting AI services code..."
-    
+
     if [ ! -d "ai-services" ]; then
         error_msg "AI services directory not found"
     fi
-    
+
     cd ai-services
-    
+
     # Create report directory
     mkdir -p "../$REPORT_DIR/ai-services"
-    
+
     # Check if virtual environment exists
     if [ ! -d "venv" ]; then
         echo "Creating virtual environment..."
         python3 -m venv venv
     fi
-    
+
     # Activate virtual environment
     source venv/bin/activate
-    
+
     # Install dependencies if requirements.txt exists
     if [ -f "requirements.txt" ]; then
         echo "Installing dependencies..."
         pip install -r requirements.txt
     fi
-    
+
     # Install linting tools
     echo "Installing linting tools..."
     pip install flake8 pylint black isort mypy
-    
+
     # Run Flake8
     echo "Running Flake8..."
     flake8 . --output-file="../$REPORT_DIR/ai-services/flake8-results.txt"
-    
+
     # Run Pylint
     echo "Running Pylint..."
     pylint --output-format=text . > "../$REPORT_DIR/ai-services/pylint-results.txt" || true
-    
+
     # Run MyPy if applicable
     if [ -f "mypy.ini" ] || [ -f "setup.cfg" ] && grep -q "\[mypy\]" "setup.cfg"; then
         echo "Running MyPy..."
         mypy . --txt-report="../$REPORT_DIR/ai-services/mypy-results.txt" || true
     fi
-    
+
     # If fix flag is set, run formatters
     if [ "$FIX_ISSUES" = true ]; then
         echo "Formatting AI services code..."
         black .
         isort .
     fi
-    
+
     # Deactivate virtual environment
     deactivate
-    
+
     cd ..
-    
+
     echo -e "${GREEN}AI services linting completed!${NC}"
 }
 
 # Function to generate a consolidated lint report
 generate_lint_report() {
     step_msg "Generating consolidated lint report..."
-    
+
     # Check if any lint reports exist
     if [ ! -d "$REPORT_DIR" ]; then
         warning_msg "No lint reports found. Skipping report generation."
         return
     fi
-    
+
     # Create report directory
     mkdir -p "$REPORT_DIR/consolidated"
-    
+
     # Generate HTML report
     echo "<!DOCTYPE html>
 <html>
@@ -332,7 +332,7 @@ generate_lint_report() {
         <h2>Summary</h2>
         <p>Generated on: $(date)</p>
     </div>" > "$REPORT_DIR/consolidated/index.html"
-    
+
     # Add component reports
     for component in backend web-frontend mobile-frontend ai-services; do
         if [ -d "$REPORT_DIR/$component" ]; then
@@ -344,7 +344,7 @@ generate_lint_report() {
                 <th>Status</th>
                 <th>Report</th>
             </tr>" >> "$REPORT_DIR/consolidated/index.html"
-            
+
             # Check for specific tool reports
             case $component in
                 backend)
@@ -396,16 +396,16 @@ generate_lint_report() {
                     fi
                     ;;
             esac
-            
+
             echo "        </table>
     </div>" >> "$REPORT_DIR/consolidated/index.html"
         fi
     done
-    
+
     # Close HTML
     echo "</body>
 </html>" >> "$REPORT_DIR/consolidated/index.html"
-    
+
     echo -e "${GREEN}Code quality report generated: $REPORT_DIR/consolidated/index.html${NC}"
 }
 

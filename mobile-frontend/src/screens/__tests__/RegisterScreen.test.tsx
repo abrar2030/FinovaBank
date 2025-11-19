@@ -142,4 +142,3 @@ describe('RegisterScreen (Mobile)', () => {
         consoleSpy.mockRestore();
     });
 });
-

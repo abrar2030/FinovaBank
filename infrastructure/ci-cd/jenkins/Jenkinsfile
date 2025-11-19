@@ -19,7 +19,7 @@ pipeline {
 
     tools {
         // Assuming tools are configured globally in Jenkins
-        maven 'M3' 
+        maven 'M3'
         jdk 'JDK 17'
         nodejs 'Node 18'
     }
@@ -32,7 +32,7 @@ pipeline {
         SONARQUBE_URL = credentials('sonarqube-url')
         KUBE_CONFIG = credentials('kubernetes-config')
         // Use a consistent image repository name
-        IMAGE_REPO = "finovabackend" 
+        IMAGE_REPO = "finovabackend"
     }
 
     stages {
@@ -89,7 +89,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Code Quality (SonarQube)') {
             steps {
                 dir('backend') {
@@ -114,20 +114,20 @@ pipeline {
                             def imageTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_REPO}/${service}:${env.BUILD_NUMBER}"
                             sh "docker build -t ${imageTag} ."
                             sh "docker push ${imageTag}"
-                            
+
                             if (env.BRANCH_NAME == 'main') {
                                 sh "docker tag ${imageTag} ${env.DOCKER_REGISTRY}/${env.IMAGE_REPO}/${service}:latest"
                                 sh "docker push ${env.DOCKER_REGISTRY}/${env.IMAGE_REPO}/${service}:latest"
                             }
                         }
                     }
-                    
+
                     // Build and push frontend
                     dir(frontendService) {
                         def imageTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_REPO}/${frontendService}:${env.BUILD_NUMBER}"
                         sh "docker build -t ${imageTag} ."
                         sh "docker push ${imageTag}"
-                        
+
                         if (env.BRANCH_NAME == 'main') {
                             sh "docker tag ${imageTag} ${env.DOCKER_REGISTRY}/${env.IMAGE_REPO}/${frontendService}:latest"
                             sh "docker push ${env.DOCKER_REGISTRY}/${env.IMAGE_REPO}/${frontendService}:latest"
@@ -146,17 +146,17 @@ pipeline {
                     // Configure kubectl
                     sh 'mkdir -p ~/.kube'
                     sh 'echo "${KUBE_CONFIG}" > ~/.kube/config'
-                    
+
                     // Use the refactored Helm chart for deployment
                     sh 'helm upgrade --install finovabank ./kubernetes --wait'
-                    
+
                     // Verification
                     sh 'kubectl get deployments -n default'
                     sh 'kubectl get services -n default'
                 }
             }
         }
-        
+
         stage('Integration & Smoke Tests') {
             when {
                 branch 'main'
@@ -181,4 +181,3 @@ pipeline {
         }
     }
 }
-

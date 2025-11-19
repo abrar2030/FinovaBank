@@ -22,4 +22,3 @@ spring:
       name: eureka-user
       password: eureka-password
       roles: USER
-

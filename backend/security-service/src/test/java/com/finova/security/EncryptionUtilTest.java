@@ -64,4 +64,3 @@ public class EncryptionUtilTest {
 
     // Add more tests for edge cases, different data types, key management if applicable
 }
-

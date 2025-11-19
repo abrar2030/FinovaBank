@@ -306,4 +306,3 @@ The `manage-services.sh` script provides a streamlined way to manage your backen
 - **Setup All Services:** `./manage-services.sh setup all`
 
 Replace `<service-name>` with the specific service you intend to manage, such as `eureka-server`, `frontend`, `api-gateway`, `account-management`, etc.
-

@@ -386,7 +386,7 @@ send_metric() {
     local metric_name="$1"
     local value="$2"
     local unit="$3"
-    
+
     aws cloudwatch put-metric-data \
         --namespace "FinovaBank/Bastion" \
         --metric-data MetricName="$metric_name",Value="$value",Unit="$unit",Dimensions=InstanceId="$INSTANCE_ID" \
@@ -440,9 +440,9 @@ log_connection() {
     local user="$2"
     local source_ip="$3"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    
+
     echo "$timestamp - $event_type - User: $user - Source IP: $source_ip" >> $LOG_FILE
-    
+
     # Send to CloudWatch
     aws logs put-log-events \
         --log-group-name "$CLOUDWATCH_LOG_GROUP" \
@@ -530,7 +530,7 @@ aide --check > $AIDE_REPORT 2>&1
 if [ $? -ne 0 ]; then
     echo "$(date): AIDE detected file system changes on bastion host" >> $AIDE_LOG
     cat $AIDE_REPORT >> $AIDE_LOG
-    
+
     # Send critical alert to CloudWatch
     aws logs put-log-events \
         --log-group-name "$CLOUDWATCH_LOG_GROUP" \
@@ -736,8 +736,8 @@ cat > /etc/motd << 'EOF'
 
  ███████╗██╗███╗   ██╗ ██████╗ ██╗   ██╗ █████╗ ██████╗  █████╗ ███╗   ██╗██╗  ██╗
  ██╔════╝██║████╗  ██║██╔═══██╗██║   ██║██╔══██╗██╔══██╗██╔══██╗████╗  ██║██║ ██╔╝
- █████╗  ██║██╔██╗ ██║██║   ██║██║   ██║███████║██████╔╝███████║██╔██╗ ██║█████╔╝ 
- ██╔══╝  ██║██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║██╔══██╗██╔══██║██║╚██╗██║██╔═██╗ 
+ █████╗  ██║██╔██╗ ██║██║   ██║██║   ██║███████║██████╔╝███████║██╔██╗ ██║█████╔╝
+ ██╔══╝  ██║██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║██╔══██╗██╔══██║██║╚██╗██║██╔═██╗
  ██║     ██║██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║██████╔╝██║  ██║██║ ╚████║██║  ██╗
  ╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
 
@@ -792,4 +792,3 @@ aws logs put-log-events \
     --region "$REGION"
 
 exit 0
-

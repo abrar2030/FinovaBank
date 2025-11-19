@@ -205,4 +205,3 @@ All error responses will be returned in the following format:
 ---
 
 This concludes the API documentation for the FinovaBank services. Feel free to explore further endpoints, or let me know if you need more details.
-

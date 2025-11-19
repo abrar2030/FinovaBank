@@ -100,4 +100,3 @@ public class AuthorizationTest {
 
     // Add more tests for different roles, permissions, and edge cases
 }
-

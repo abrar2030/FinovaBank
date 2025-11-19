@@ -139,4 +139,3 @@ Each of the following services is implemented using **Spring Boot**:
 ---
 
 This concludes the architectural documentation for the FinovaBank platform. Let me know if you need any further details or have any questions.
-

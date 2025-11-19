@@ -5,7 +5,7 @@
 # This script automates the complete setup of the FinovaBank
 # development environment, including dependency installation,
 # environment configuration, and initial database setup.
-# 
+#
 # Author: Manus AI
 # Date: May 22, 2025
 # =====================================================
@@ -60,19 +60,19 @@ warning_msg() {
 # Function to check prerequisites
 check_prerequisites() {
     step_msg "Checking prerequisites..."
-    
+
     local missing_prereqs=false
-    
+
     # Check for required software
     local required_commands=("git" "docker" "docker-compose" "java" "node" "npm" "python3")
-    
+
     for cmd in "${required_commands[@]}"; do
         if ! command_exists "$cmd"; then
             error_msg "$cmd is not installed"
             missing_prereqs=true
         fi
     done
-    
+
     # Check Java version
     if command_exists java; then
         java_version=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | sed 's/^1\.//' | cut -d'.' -f1)
@@ -81,7 +81,7 @@ check_prerequisites() {
             missing_prereqs=true
         fi
     fi
-    
+
     # Check Node.js version
     if command_exists node; then
         node_version=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
@@ -90,7 +90,7 @@ check_prerequisites() {
             missing_prereqs=true
         fi
     fi
-    
+
     # Check Python version
     if command_exists python3; then
         python_version=$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f2)
@@ -99,7 +99,7 @@ check_prerequisites() {
             missing_prereqs=true
         fi
     fi
-    
+
     # Check Docker and Docker Compose
     if command_exists docker; then
         if ! docker info >/dev/null 2>&1; then
@@ -107,24 +107,24 @@ check_prerequisites() {
             missing_prereqs=true
         fi
     fi
-    
+
     if [ "$missing_prereqs" = true ]; then
         error_msg "Please install the missing prerequisites and try again."
         exit 1
     fi
-    
+
     echo -e "${GREEN}All prerequisites are satisfied!${NC}"
 }
 
 # Function to set up environment variables
 setup_env_vars() {
     step_msg "Setting up environment variables..."
-    
+
     if [ ! -f .env.example ]; then
         error_msg ".env.example file not found"
         exit 1
     fi
-    
+
     if [ -f .env ]; then
         warning_msg ".env file already exists. Do you want to overwrite it? (y/n)"
         read -r overwrite
@@ -133,7 +133,7 @@ setup_env_vars() {
             return
         fi
     fi
-    
+
     cp .env.example .env
     echo -e "${GREEN}Environment variables set up successfully!${NC}"
     echo "Please edit the .env file with your configuration if needed."
@@ -142,81 +142,81 @@ setup_env_vars() {
 # Function to set up backend services
 setup_backend() {
     step_msg "Setting up backend services..."
-    
+
     if [ ! -d "backend" ]; then
         error_msg "Backend directory not found"
         exit 1
     fi
-    
+
     cd backend
-    
+
     # Check if Maven wrapper exists, if not, download it
     if [ ! -f "mvnw" ]; then
         echo "Maven wrapper not found, downloading..."
         mvn -N io.takari:maven:wrapper
     fi
-    
+
     # Make the Maven wrapper executable
     chmod +x mvnw
-    
+
     # Install dependencies
     ./mvnw clean install -DskipTests
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Backend services set up successfully!${NC}"
 }
 
 # Function to set up frontend
 setup_frontend() {
     step_msg "Setting up web frontend..."
-    
+
     if [ ! -d "web-frontend" ]; then
         error_msg "Web frontend directory not found"
         exit 1
     fi
-    
+
     cd web-frontend
-    
+
     # Install dependencies
     npm install
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Web frontend set up successfully!${NC}"
 }
 
 # Function to set up mobile frontend
 setup_mobile_frontend() {
     step_msg "Setting up mobile frontend..."
-    
+
     if [ ! -d "mobile-frontend" ]; then
         error_msg "Mobile frontend directory not found"
         exit 1
     fi
-    
+
     cd mobile-frontend
-    
+
     # Install dependencies
     npm install
-    
+
     cd ..
-    
+
     echo -e "${GREEN}Mobile frontend set up successfully!${NC}"
 }
 
 # Function to set up AI services
 setup_ai_services() {
     step_msg "Setting up AI services..."
-    
+
     # Check if AI services directory exists
     if [ ! -d "ai-services" ]; then
         warning_msg "AI services directory not found, creating it..."
         mkdir -p ai-services
     fi
-    
+
     cd ai-services
-    
+
     # Check if requirements.txt exists
     if [ ! -f "requirements.txt" ]; then
         warning_msg "requirements.txt not found, skipping pip install"
@@ -225,37 +225,37 @@ setup_ai_services() {
         if [ ! -d "venv" ]; then
             python3 -m venv venv
         fi
-        
+
         # Activate virtual environment and install dependencies
         source venv/bin/activate
         pip install -r requirements.txt
         deactivate
     fi
-    
+
     cd ..
-    
+
     echo -e "${GREEN}AI services set up successfully!${NC}"
 }
 
 # Function to initialize the database
 init_database() {
     step_msg "Initializing database..."
-    
+
     # Start database containers if they're not already running
     if ! docker-compose ps | grep -q "database"; then
         echo "Starting database containers..."
         docker-compose up -d database
     fi
-    
+
     # Wait for database to be ready
     echo "Waiting for database to be ready..."
     sleep 10
-    
+
     # Run database migrations
     cd backend
     ./mvnw flyway:migrate
     cd ..
-    
+
     # Load test data if requested
     if [ "$WITH_TEST_DATA" = true ]; then
         step_msg "Loading test data..."
@@ -268,17 +268,17 @@ init_database() {
         fi
         cd ..
     fi
-    
+
     echo -e "${GREEN}Database initialized successfully!${NC}"
 }
 
 # Function to start the application
 start_application() {
     step_msg "Starting the application..."
-    
+
     # Start all containers
     docker-compose up -d
-    
+
     echo -e "${GREEN}Application started successfully!${NC}"
     echo -e "You can access the application at: ${BLUE}http://localhost:3000${NC}"
 }

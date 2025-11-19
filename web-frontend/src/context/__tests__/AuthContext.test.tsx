@@ -92,4 +92,3 @@ describe('AuthContext', () => {
         console.error = originalError;
     });
 });
-

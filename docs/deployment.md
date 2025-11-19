@@ -228,4 +228,3 @@ $ mvn verify -f e2e-tests/pom.xml
 ---
 
 This completes the deployment documentation for the FinovaBank platform. For any issues or questions, please reach out to the deployment team.
-

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Card, 
-  CardContent, 
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
   CardHeader,
   Button,
   Divider,
@@ -49,10 +49,10 @@ const Loans: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
   const [loans, setLoans] = useState([
-    { 
-      id: 1001, 
-      loanAmount: 10000.00, 
-      loanType: 'PERSONAL', 
+    {
+      id: 1001,
+      loanAmount: 10000.00,
+      loanType: 'PERSONAL',
       interestRate: 5.25,
       durationInMonths: 24,
       monthlyPayment: 438.71,
@@ -61,10 +61,10 @@ const Loans: React.FC = () => {
       approvalDate: '2025-01-15',
       nextPaymentDate: '2025-05-15'
     },
-    { 
-      id: 1002, 
-      loanAmount: 5000.00, 
-      loanType: 'EDUCATION', 
+    {
+      id: 1002,
+      loanAmount: 5000.00,
+      loanType: 'EDUCATION',
       interestRate: 4.5,
       durationInMonths: 12,
       monthlyPayment: 428.04,
@@ -89,7 +89,7 @@ const Loans: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     fetchLoans();
   }, []);
 
@@ -117,7 +117,7 @@ const Loans: React.FC = () => {
           loanType: values.loanType,
           durationInMonths: values.durationInMonths
         });
-        
+
         if (response.data) {
           setLoans([...loans, response.data]);
         } else {
@@ -134,10 +134,10 @@ const Loans: React.FC = () => {
             approvalDate: '',
             nextPaymentDate: ''
           };
-          
+
           setLoans([...loans, newLoan]);
         }
-        
+
         handleCloseDialog();
       } catch (error) {
         console.error('Error applying for loan:', error);
@@ -216,30 +216,30 @@ const Loans: React.FC = () => {
         <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
           Loan Management
         </Typography>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           onClick={handleOpenDialog}
           sx={{ py: 1.5, px: 3 }}
         >
           Apply for New Loan
         </Button>
       </Box>
-      
+
       {loans.length > 0 ? (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
           {loans.map((loan) => (
             <Card key={loan.id} elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
-              <CardHeader 
+              <CardHeader
                 title={`Loan #${loan.id}`}
                 titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
                 action={
-                  <Chip 
-                    label={loan.status} 
+                  <Chip
+                    label={loan.status}
                     size="small"
-                    sx={{ 
+                    sx={{
                       bgcolor: getStatusChipColor(loan.status).bg,
                       color: getStatusChipColor(loan.status).color
-                    }} 
+                    }}
                   />
                 }
               />
@@ -249,13 +249,13 @@ const Loans: React.FC = () => {
                   <Box>
                     <Typography variant="body2" color="text.secondary">Loan Type</Typography>
                     <Box sx={{ mt: 0.5 }}>
-                      <Chip 
-                        label={loan.loanType} 
+                      <Chip
+                        label={loan.loanType}
                         size="small"
-                        sx={{ 
+                        sx={{
                           bgcolor: getLoanTypeChipColor(loan.loanType).bg,
                           color: getLoanTypeChipColor(loan.loanType).color
-                        }} 
+                        }}
                       />
                     </Box>
                   </Box>

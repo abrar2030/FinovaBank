@@ -85,4 +85,3 @@ describe('TransactionsScreen (Mobile)', () => {
 
     // Add tests for loading state, error handling, pull-to-refresh, filtering, etc.
 });
-

@@ -87,4 +87,3 @@ describe('Loans Page', () => {
 
     // Add tests for applying for a new loan, loading states, error handling etc.
 });
-

@@ -388,4 +388,3 @@ output "operational_summary" {
     incident_response   = "sns_notifications"
   }
 }
-

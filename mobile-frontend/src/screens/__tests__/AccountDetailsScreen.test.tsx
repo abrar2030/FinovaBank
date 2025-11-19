@@ -74,4 +74,3 @@ describe('AccountDetailsScreen (Mobile)', () => {
 
     // Add tests for loading state, error handling, etc.
 });
-

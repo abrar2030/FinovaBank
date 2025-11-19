@@ -31,4 +31,3 @@ public class AuthServiceIntegrationTest {
 
     // Add more integration tests for other auth endpoints (e.g., register, validate token)
 }
-

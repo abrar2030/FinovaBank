@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountResponse {
-    
+
     private Long id;
     private String accountNumber;
     private String customerId;
@@ -49,4 +49,3 @@ public class AccountResponse {
     private String updatedBy;
     private Long version;
 }
-

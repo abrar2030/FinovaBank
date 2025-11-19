@@ -32,4 +32,3 @@ describe('Dashboard Page', () => {
     // test('displays error message if data fetching fails', () => { /* ... */ });
     // test('navigates to transaction details on click', () => { /* ... */ });
 });
-

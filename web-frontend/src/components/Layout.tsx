@@ -47,10 +47,10 @@ const Layout: React.FC = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [notificationAnchorEl, setNotificationAnchorEl] = useState<null | HTMLElement>(null);
-  
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -58,7 +58,7 @@ const Layout: React.FC = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  
+
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -66,7 +66,7 @@ const Layout: React.FC = () => {
   const handleProfileMenuClose = () => {
     setAnchorEl(null);
   };
-  
+
   const handleNotificationMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setNotificationAnchorEl(event.currentTarget);
   };
@@ -74,13 +74,13 @@ const Layout: React.FC = () => {
   const handleNotificationMenuClose = () => {
     setNotificationAnchorEl(null);
   };
-  
+
   const handleLogout = () => {
     handleProfileMenuClose();
     logout();
     navigate('/login');
   };
-  
+
   const menuItems = [
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
     { text: 'Accounts', icon: <AccountBalanceIcon />, path: '/accounts' },
@@ -88,16 +88,16 @@ const Layout: React.FC = () => {
     { text: 'Savings Goals', icon: <SavingsIcon />, path: '/savings' },
     { text: 'Loans', icon: <CreditCardIcon />, path: '/loans' },
   ];
-  
+
   const secondaryMenuItems = [
     { text: 'Help & Support', icon: <HelpIcon />, path: '/support' },
   ];
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
-      <AppBar 
-        position="fixed" 
-        sx={{ 
+      <AppBar
+        position="fixed"
+        sx={{
           zIndex: theme.zIndex.drawer + 1,
           backgroundColor: 'background.paper',
           color: 'text.primary',
@@ -134,11 +134,11 @@ const Layout: React.FC = () => {
               FinovaBank
             </Typography>
           </Box>
-          
+
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Tooltip title="Notifications">
-              <IconButton 
-                color="inherit" 
+              <IconButton
+                color="inherit"
                 sx={{ mr: 1 }}
                 onClick={handleNotificationMenuOpen}
               >
@@ -147,10 +147,10 @@ const Layout: React.FC = () => {
                 </Badge>
               </IconButton>
             </Tooltip>
-            
-            <Box 
-              sx={{ 
-                display: 'flex', 
+
+            <Box
+              sx={{
+                display: 'flex',
                 alignItems: 'center',
                 cursor: 'pointer',
                 borderRadius: 2,
@@ -161,9 +161,9 @@ const Layout: React.FC = () => {
               }}
               onClick={handleProfileMenuOpen}
             >
-              <Avatar 
-                sx={{ 
-                  width: 36, 
+              <Avatar
+                sx={{
+                  width: 36,
                   height: 36,
                   bgcolor: theme.palette.primary.main,
                   color: 'white',
@@ -184,7 +184,7 @@ const Layout: React.FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      
+
       <Drawer
         variant={isMobile ? "temporary" : "permanent"}
         open={open}
@@ -218,7 +218,7 @@ const Layout: React.FC = () => {
           </IconButton>
         </Toolbar>
         <Divider />
-        
+
         <Box sx={{ overflow: 'auto', display: 'flex', flexDirection: 'column', height: '100%', py: 2 }}>
           <List sx={{ px: 2 }}>
             {menuItems.map((item) => (
@@ -238,24 +238,24 @@ const Layout: React.FC = () => {
                   },
                 }}
               >
-                <ListItemIcon sx={{ 
+                <ListItemIcon sx={{
                   color: location.pathname === item.path ? theme.palette.primary.main : 'text.secondary',
                   minWidth: 40
                 }}>
                   {item.icon}
                 </ListItemIcon>
-                <ListItemText 
-                  primary={item.text} 
-                  primaryTypographyProps={{ 
-                    fontWeight: location.pathname === item.path ? 600 : 400 
+                <ListItemText
+                  primary={item.text}
+                  primaryTypographyProps={{
+                    fontWeight: location.pathname === item.path ? 600 : 400
                   }}
                 />
               </ListItem>
             ))}
           </List>
-          
+
           <Divider sx={{ my: 2 }} />
-          
+
           <List sx={{ px: 2 }}>
             {secondaryMenuItems.map((item) => (
               <ListItem
@@ -274,22 +274,22 @@ const Layout: React.FC = () => {
                   },
                 }}
               >
-                <ListItemIcon sx={{ 
+                <ListItemIcon sx={{
                   color: location.pathname === item.path ? theme.palette.primary.main : 'text.secondary',
                   minWidth: 40
                 }}>
                   {item.icon}
                 </ListItemIcon>
-                <ListItemText 
-                  primary={item.text} 
-                  primaryTypographyProps={{ 
-                    fontWeight: location.pathname === item.path ? 600 : 400 
+                <ListItemText
+                  primary={item.text}
+                  primaryTypographyProps={{
+                    fontWeight: location.pathname === item.path ? 600 : 400
                   }}
                 />
               </ListItem>
             ))}
           </List>
-          
+
           <Box sx={{ mt: 'auto', px: 3, pb: 2 }}>
             <Button
               variant="outlined"
@@ -303,7 +303,7 @@ const Layout: React.FC = () => {
           </Box>
         </Box>
       </Drawer>
-      
+
       <Box
         component="main"
         sx={{
@@ -315,7 +315,7 @@ const Layout: React.FC = () => {
       >
         <Outlet />
       </Box>
-      
+
       {/* Profile Menu */}
       <Menu
         anchorEl={anchorEl}
@@ -352,7 +352,7 @@ const Layout: React.FC = () => {
           <ListItemText>Logout</ListItemText>
         </MenuItem>
       </Menu>
-      
+
       {/* Notifications Menu */}
       <Menu
         anchorEl={notificationAnchorEl}

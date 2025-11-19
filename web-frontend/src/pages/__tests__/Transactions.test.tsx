@@ -67,4 +67,3 @@ describe('Transactions Page', () => {
     // test('displays loading indicator while fetching transactions', () => { /* ... */ });
     // test('handles empty transaction list', () => { /* ... */ });
 });
-

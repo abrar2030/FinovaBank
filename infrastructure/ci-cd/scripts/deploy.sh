@@ -27,18 +27,18 @@ build_and_push() {
     local service_name=$1
     local context_path=$2
     local dockerfile_path=$3
-    
+
     echo "Building and pushing $service_name..."
-    
+
     # Use a consistent image name structure
     local image_name="$DOCKER_REGISTRY/$IMAGE_REPO/$service_name"
-    
+
     # Build
     docker buildx build -t "$image_name:latest" -f "$dockerfile_path" "$context_path"
-    
+
     # Push
     docker push "$image_name:latest"
-    
+
     echo "$service_name built and pushed successfully."
 }
 
@@ -56,4 +56,3 @@ echo "Deploying to Kubernetes using Helm..."
 helm upgrade --install finovabank kubernetes --wait
 
 echo "Deployment complete."
-

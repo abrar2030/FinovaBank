@@ -18,7 +18,7 @@ interface GridCompatibilityProps {
 
 const GridCompatibility: React.FC<GridCompatibilityProps> = (props) => {
   const { children, item, ...other } = props;
-  
+
   // In Material UI v7, the 'item' prop is no longer used
   // We simply pass all other props to the MuiGrid component
   return <MuiGrid {...other}>{children}</MuiGrid>;

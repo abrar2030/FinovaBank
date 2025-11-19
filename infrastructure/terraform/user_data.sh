@@ -326,7 +326,7 @@ aide --check > $AIDE_REPORT 2>&1
 if [ $? -ne 0 ]; then
     echo "$(date): AIDE detected file system changes" >> $AIDE_LOG
     cat $AIDE_REPORT >> $AIDE_LOG
-    
+
     # Send alert to CloudWatch
     aws logs put-log-events \
         --log-group-name "$CLOUDWATCH_LOG_GROUP" \
@@ -513,7 +513,7 @@ send_metric() {
     local metric_name="$1"
     local value="$2"
     local unit="$3"
-    
+
     aws cloudwatch put-metric-data \
         --namespace "FinovaBank/Application" \
         --metric-data MetricName="$metric_name",Value="$value",Unit="$unit",Dimensions=InstanceId="$INSTANCE_ID" \
@@ -648,4 +648,3 @@ aws logs put-log-events \
     --region "$REGION"
 
 exit 0
-

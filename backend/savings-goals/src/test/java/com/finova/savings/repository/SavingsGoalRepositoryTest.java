@@ -39,4 +39,3 @@ public class SavingsGoalRepositoryTest {
 
     // Add more tests for other repository methods (e.g., save, delete, custom queries)
 }
-

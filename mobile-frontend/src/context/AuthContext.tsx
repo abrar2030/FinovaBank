@@ -44,11 +44,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           AsyncStorage.getItem(TOKEN_STORAGE_KEY),
           AsyncStorage.getItem(USER_DATA_STORAGE_KEY)
         ]);
-        
+
         if (token) {
           setUserToken(token);
         }
-        
+
         if (userDataString) {
           setUserData(JSON.parse(userDataString));
         }
@@ -90,7 +90,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     userData,
     isLoading,
     isAuthenticated: !!userToken,
-    
+
     login: async (credentials: LoginCredentials) => {
       setIsLoading(true);
       try {
@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsLoading(false);
       }
     },
-    
+
     logout: async () => {
       setIsLoading(true);
       try {
@@ -119,7 +119,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsLoading(false);
       }
     },
-    
+
     register: async (userData: RegisterData) => {
       setIsLoading(true);
       try {

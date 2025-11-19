@@ -4,7 +4,7 @@ server:
 spring:
   application:
     name: auth-service
-  
+
   datasource:
     url: jdbc:postgresql://localhost:5432/finovabank_auth
     username: finova_user
@@ -16,7 +16,7 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -29,7 +29,7 @@ spring:
           batch_size: 20
         order_inserts: true
         order_updates: true
-  
+
   redis:
     host: localhost
     port: 6379
@@ -85,4 +85,3 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
-
