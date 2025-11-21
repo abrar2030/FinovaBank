@@ -2,8 +2,6 @@ package com.finovabank.services;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 // Placeholder: Replace with actual service and repository classes
@@ -13,18 +11,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
 
-    // @Mock
-    // private TransactionRepository transactionRepository;
+  // @Mock
+  // private TransactionRepository transactionRepository;
 
-    // @InjectMocks
-    // private TransactionServiceImpl transactionService;
+  // @InjectMocks
+  // private TransactionServiceImpl transactionService;
 
-    @Test
-    public void testGetTransactionsByAccountId() {
-        // Mock repository behavior
-        // Call service method
-        // Assert results
-    }
+  @Test
+  public void testGetTransactionsByAccountId() {
+    // Mock repository behavior
+    // Call service method
+    // Assert results
+  }
 
-    // Add more test methods for other service operations
+  // Add more test methods for other service operations
 }

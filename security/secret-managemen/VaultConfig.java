@@ -5,5 +5,4 @@ import org.springframework.vault.annotation.VaultPropertySource;
 
 @Configuration
 @VaultPropertySource("secret/finova")
-public class VaultConfig {
-}
+public class VaultConfig {}

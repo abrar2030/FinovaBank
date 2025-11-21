@@ -8,8 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public class ReportingServiceApplicationTests {
 
-    @Test
-    public void contextLoads() {
-        // Basic test to verify that the application context loads successfully
-    }
+  @Test
+  public void contextLoads() {
+    // Basic test to verify that the application context loads successfully
+  }
 }
