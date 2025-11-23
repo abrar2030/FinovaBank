@@ -1,26 +1,78 @@
-name: CI Check
+name: CI Formatting Check
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   workflow_dispatch:
 
 jobs:
-  build_check:
+  formatting_check:
     runs-on: ubuntu-latest
+
+    env:
+      BACKEND_DIR: backend
+      WEB_FRONTEND_DIR: web-frontend
+      MOBILE_FRONTEND_DIR: mobile-frontend
+
     steps:
+      # -------------------------------
+      # Checkout
+      # -------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Run Basic Health Check
-        run: echo "Repository checkout complete. Starting basic checks."
+      # -------------------------------
+      # Java Setup + Formatting
+      # -------------------------------
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
 
-      - name: Validate Configuration Files
+      - name: Install Google Java Format
         run: |
-          echo "No configuration files to validate. Proceeding."
-          # A real step would be: find . -name "*.yml" | xargs yamllint
+          curl -LJO https://github.com/google/google-java-format/releases/download/v1.17.0/google-java-format-1.17.0-all-deps.jar
 
+      - name: Run Java Formatting Checks
+        working-directory: ${{ env.BACKEND_DIR }}
+        run: |
+          echo "=== Running Google Java Format ==="
+          find . -name "*.java" | while read file; do
+            java -jar ../google-java-format-1.17.0-all-deps.jar --dry-run "$file" || exit 1
+          done
+
+      # -------------------------------
+      # Node + Prettier Setup
+      # -------------------------------
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Install Node dependencies (root)
+      - name: Install Node Dependencies
+        working-directory: .
+        run: npm ci
+
+      # Prettier: web-frontend
+      - name: Run Prettier Checks (web-frontend)
+        working-directory: .
+        run: |
+          echo "=== Running Prettier (web-frontend) ==="
+          ./node_modules/.bin/prettier --check "web-frontend/**/*.{js,jsx,ts,tsx,json,html,css,md}"
+
+      # Prettier: mobile-frontend
+      - name: Run Prettier Checks (mobile-frontend)
+        working-directory: .
+        run: |
+          echo "=== Running Prettier (mobile-frontend) ==="
+          ./node_modules/.bin/prettier --check "mobile-frontend/**/*.{js,jsx,ts,tsx,json,html,css,md}"
+
+      # -------------------------------
+      # Done
+      # -------------------------------
       - name: Finalize Check
-        run: echo "Basic CI check finished."
+        run: echo "All formatting checks completed successfully."
