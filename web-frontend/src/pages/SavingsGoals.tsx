@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -15,30 +15,28 @@ import {
   DialogActions,
   CircularProgress,
   IconButton,
-  useTheme
-} from '@mui/material';
+  useTheme,
+} from "@mui/material";
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Savings as SavingsIcon
-} from '@mui/icons-material';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { savingsAPI } from '../services/api';
+  Savings as SavingsIcon,
+} from "@mui/icons-material";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { savingsAPI } from "../services/api";
 
 const validationSchema = yup.object({
-  goalName: yup
-    .string()
-    .required('Goal name is required'),
+  goalName: yup.string().required("Goal name is required"),
   targetAmount: yup
     .number()
-    .min(100, 'Target amount must be at least $100')
-    .required('Target amount is required'),
+    .min(100, "Target amount must be at least $100")
+    .required("Target amount is required"),
   targetDate: yup
     .date()
-    .min(new Date(), 'Target date must be in the future')
-    .required('Target date is required'),
+    .min(new Date(), "Target date must be in the future")
+    .required("Target date is required"),
 });
 
 const SavingsGoals: React.FC = () => {
@@ -49,30 +47,30 @@ const SavingsGoals: React.FC = () => {
   const [savingsGoals, setSavingsGoals] = useState([
     {
       id: 1,
-      goalName: 'Vacation Fund',
-      targetAmount: 5000.00,
-      currentAmount: 2500.00,
-      targetDate: '2025-12-31',
-      createdDate: '2025-01-15',
-      progress: 50
+      goalName: "Vacation Fund",
+      targetAmount: 5000.0,
+      currentAmount: 2500.0,
+      targetDate: "2025-12-31",
+      createdDate: "2025-01-15",
+      progress: 50,
     },
     {
       id: 2,
-      goalName: 'Emergency Fund',
-      targetAmount: 10000.00,
-      currentAmount: 8000.00,
-      targetDate: '2025-08-30',
-      createdDate: '2024-10-05',
-      progress: 80
+      goalName: "Emergency Fund",
+      targetAmount: 10000.0,
+      currentAmount: 8000.0,
+      targetDate: "2025-08-30",
+      createdDate: "2024-10-05",
+      progress: 80,
     },
     {
       id: 3,
-      goalName: 'New Laptop',
-      targetAmount: 2000.00,
-      currentAmount: 500.00,
-      targetDate: '2025-06-15',
-      createdDate: '2025-03-01',
-      progress: 25
+      goalName: "New Laptop",
+      targetAmount: 2000.0,
+      currentAmount: 500.0,
+      targetDate: "2025-06-15",
+      createdDate: "2025-03-01",
+      progress: 25,
     },
   ]);
 
@@ -85,7 +83,7 @@ const SavingsGoals: React.FC = () => {
           setSavingsGoals(response.data);
         }
       } catch (error) {
-        console.error('Error fetching savings goals:', error);
+        console.error("Error fetching savings goals:", error);
       } finally {
         setLoading(false);
       }
@@ -97,7 +95,7 @@ const SavingsGoals: React.FC = () => {
   const handleOpenDialog = (goalId?: number) => {
     if (goalId) {
       setEditingGoalId(goalId);
-      const goal = savingsGoals.find(g => g.id === goalId);
+      const goal = savingsGoals.find((g) => g.id === goalId);
       if (goal) {
         formik.setValues({
           goalName: goal.goalName,
@@ -121,17 +119,17 @@ const SavingsGoals: React.FC = () => {
   const handleDeleteGoal = async (goalId: number) => {
     try {
       await savingsAPI.deleteSavingsGoal(goalId);
-      setSavingsGoals(savingsGoals.filter(goal => goal.id !== goalId));
+      setSavingsGoals(savingsGoals.filter((goal) => goal.id !== goalId));
     } catch (error) {
-      console.error('Error deleting savings goal:', error);
+      console.error("Error deleting savings goal:", error);
     }
   };
 
   const formik = useFormik({
     initialValues: {
-      goalName: '',
+      goalName: "",
       targetAmount: 1000,
-      targetDate: '',
+      targetDate: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -140,23 +138,30 @@ const SavingsGoals: React.FC = () => {
 
         if (editingGoalId) {
           // Update existing goal
-          const response = await savingsAPI.updateSavingsGoal(editingGoalId, values);
+          const response = await savingsAPI.updateSavingsGoal(
+            editingGoalId,
+            values,
+          );
           if (response.data) {
-            setSavingsGoals(savingsGoals.map(goal =>
-              goal.id === editingGoalId ? response.data : goal
-            ));
+            setSavingsGoals(
+              savingsGoals.map((goal) =>
+                goal.id === editingGoalId ? response.data : goal,
+              ),
+            );
           } else {
             // If API doesn't return updated goal, update locally
-            setSavingsGoals(savingsGoals.map(goal =>
-              goal.id === editingGoalId
-                ? {
-                    ...goal,
-                    goalName: values.goalName,
-                    targetAmount: values.targetAmount,
-                    targetDate: values.targetDate
-                  }
-                : goal
-            ));
+            setSavingsGoals(
+              savingsGoals.map((goal) =>
+                goal.id === editingGoalId
+                  ? {
+                      ...goal,
+                      goalName: values.goalName,
+                      targetAmount: values.targetAmount,
+                      targetDate: values.targetDate,
+                    }
+                  : goal,
+              ),
+            );
           }
         } else {
           // Create new goal
@@ -171,8 +176,8 @@ const SavingsGoals: React.FC = () => {
               targetAmount: values.targetAmount,
               currentAmount: 0,
               targetDate: values.targetDate,
-              createdDate: new Date().toISOString().split('T')[0],
-              progress: 0
+              createdDate: new Date().toISOString().split("T")[0],
+              progress: 0,
             };
 
             setSavingsGoals([...savingsGoals, newGoal]);
@@ -181,7 +186,7 @@ const SavingsGoals: React.FC = () => {
 
         handleCloseDialog();
       } catch (error) {
-        console.error('Error saving goal:', error);
+        console.error("Error saving goal:", error);
       } finally {
         setLoading(false);
       }
@@ -191,27 +196,39 @@ const SavingsGoals: React.FC = () => {
   const handleContribute = async (goalId: number, amount: number) => {
     try {
       // In a real app, this would call an API endpoint to contribute to the goal
-      setSavingsGoals(savingsGoals.map(goal => {
-        if (goal.id === goalId) {
-          const newCurrentAmount = goal.currentAmount + amount;
-          const newProgress = Math.min(100, Math.round((newCurrentAmount / goal.targetAmount) * 100));
+      setSavingsGoals(
+        savingsGoals.map((goal) => {
+          if (goal.id === goalId) {
+            const newCurrentAmount = goal.currentAmount + amount;
+            const newProgress = Math.min(
+              100,
+              Math.round((newCurrentAmount / goal.targetAmount) * 100),
+            );
 
-          return {
-            ...goal,
-            currentAmount: newCurrentAmount,
-            progress: newProgress
-          };
-        }
-        return goal;
-      }));
+            return {
+              ...goal,
+              currentAmount: newCurrentAmount,
+              progress: newProgress,
+            };
+          }
+          return goal;
+        }),
+      );
     } catch (error) {
-      console.error('Error contributing to goal:', error);
+      console.error("Error contributing to goal:", error);
     }
   };
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -219,8 +236,15 @@ const SavingsGoals: React.FC = () => {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 4,
+        }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Savings Goals
         </Typography>
         <Button
@@ -234,12 +258,29 @@ const SavingsGoals: React.FC = () => {
       </Box>
 
       {savingsGoals.length > 0 ? (
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr', lg: '1fr 1fr 1fr' }, gap: 3 }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              md: "1fr 1fr",
+              lg: "1fr 1fr 1fr",
+            },
+            gap: 3,
+          }}
+        >
           {savingsGoals.map((goal) => (
-            <Card key={goal.id} elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
+            <Card
+              key={goal.id}
+              elevation={0}
+              sx={{
+                borderRadius: 3,
+                border: `1px solid ${theme.palette.divider}`,
+              }}
+            >
               <CardHeader
                 title={goal.goalName}
-                titleTypographyProps={{ variant: 'h6', fontWeight: 'bold' }}
+                titleTypographyProps={{ variant: "h6", fontWeight: "bold" }}
                 action={
                   <Box>
                     <IconButton
@@ -261,9 +302,19 @@ const SavingsGoals: React.FC = () => {
               <Divider />
               <CardContent>
                 <Box sx={{ mb: 3 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography variant="body2" color="text.secondary">Progress</Typography>
-                    <Typography variant="body2" fontWeight="medium">{goal.progress}%</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="body2" color="text.secondary">
+                      Progress
+                    </Typography>
+                    <Typography variant="body2" fontWeight="medium">
+                      {goal.progress}%
+                    </Typography>
                   </Box>
                   <LinearProgress
                     variant="determinate"
@@ -272,38 +323,65 @@ const SavingsGoals: React.FC = () => {
                       height: 8,
                       borderRadius: 4,
                       bgcolor: theme.palette.grey[200],
-                      '& .MuiLinearProgress-bar': {
+                      "& .MuiLinearProgress-bar": {
                         borderRadius: 4,
-                        bgcolor: goal.progress === 100 ? theme.palette.success.main : theme.palette.primary.main,
-                      }
+                        bgcolor:
+                          goal.progress === 100
+                            ? theme.palette.success.main
+                            : theme.palette.primary.main,
+                      },
                     }}
                   />
                 </Box>
 
-                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 2,
+                  }}
+                >
                   <Box>
-                    <Typography variant="body2" color="text.secondary">Current Amount</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Current Amount
+                    </Typography>
                     <Typography variant="body1" fontWeight="medium">
-                      ${goal.currentAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      $
+                      {goal.currentAmount.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                      })}
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography variant="body2" color="text.secondary">Target Amount</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Target Amount
+                    </Typography>
                     <Typography variant="body1" fontWeight="medium">
-                      ${goal.targetAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      $
+                      {goal.targetAmount.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                      })}
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography variant="body2" color="text.secondary">Created Date</Typography>
-                    <Typography variant="body1" fontWeight="medium">{goal.createdDate}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Created Date
+                    </Typography>
+                    <Typography variant="body1" fontWeight="medium">
+                      {goal.createdDate}
+                    </Typography>
                   </Box>
                   <Box>
-                    <Typography variant="body2" color="text.secondary">Target Date</Typography>
-                    <Typography variant="body1" fontWeight="medium">{goal.targetDate}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Target Date
+                    </Typography>
+                    <Typography variant="body1" fontWeight="medium">
+                      {goal.targetDate}
+                    </Typography>
                   </Box>
                 </Box>
 
-                <Box sx={{ mt: 3, display: 'flex', gap: 1 }}>
+                <Box sx={{ mt: 3, display: "flex", gap: 1 }}>
                   <Button
                     variant="outlined"
                     fullWidth
@@ -326,10 +404,17 @@ const SavingsGoals: React.FC = () => {
           ))}
         </Box>
       ) : (
-        <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
-          <CardContent sx={{ textAlign: 'center', py: 5 }}>
-            <SavingsIcon sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }} />
-            <Typography variant="h6" sx={{ mb: 2 }}>No Savings Goals</Typography>
+        <Card
+          elevation={0}
+          sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}
+        >
+          <CardContent sx={{ textAlign: "center", py: 5 }}>
+            <SavingsIcon
+              sx={{ fontSize: 60, color: theme.palette.primary.main, mb: 2 }}
+            />
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              No Savings Goals
+            </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
               You don't have any savings goals at the moment.
             </Typography>
@@ -345,13 +430,18 @@ const SavingsGoals: React.FC = () => {
       )}
 
       {/* Savings Goal Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 'bold' }}>
-          {editingGoalId ? 'Edit Savings Goal' : 'Create New Savings Goal'}
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ fontWeight: "bold" }}>
+          {editingGoalId ? "Edit Savings Goal" : "Create New Savings Goal"}
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
-            <Box sx={{ display: 'grid', gap: 2 }}>
+            <Box sx={{ display: "grid", gap: 2 }}>
               <TextField
                 fullWidth
                 id="goalName"
@@ -359,7 +449,9 @@ const SavingsGoals: React.FC = () => {
                 label="Goal Name"
                 value={formik.values.goalName}
                 onChange={formik.handleChange}
-                error={formik.touched.goalName && Boolean(formik.errors.goalName)}
+                error={
+                  formik.touched.goalName && Boolean(formik.errors.goalName)
+                }
                 helperText={formik.touched.goalName && formik.errors.goalName}
                 margin="normal"
               />
@@ -371,8 +463,13 @@ const SavingsGoals: React.FC = () => {
                 type="number"
                 value={formik.values.targetAmount}
                 onChange={formik.handleChange}
-                error={formik.touched.targetAmount && Boolean(formik.errors.targetAmount)}
-                helperText={formik.touched.targetAmount && formik.errors.targetAmount}
+                error={
+                  formik.touched.targetAmount &&
+                  Boolean(formik.errors.targetAmount)
+                }
+                helperText={
+                  formik.touched.targetAmount && formik.errors.targetAmount
+                }
                 margin="normal"
               />
               <TextField
@@ -383,8 +480,12 @@ const SavingsGoals: React.FC = () => {
                 type="date"
                 value={formik.values.targetDate}
                 onChange={formik.handleChange}
-                error={formik.touched.targetDate && Boolean(formik.errors.targetDate)}
-                helperText={formik.touched.targetDate && formik.errors.targetDate}
+                error={
+                  formik.touched.targetDate && Boolean(formik.errors.targetDate)
+                }
+                helperText={
+                  formik.touched.targetDate && formik.errors.targetDate
+                }
                 margin="normal"
                 InputLabelProps={{
                   shrink: true,
@@ -395,7 +496,7 @@ const SavingsGoals: React.FC = () => {
           <DialogActions sx={{ px: 3, pb: 3 }}>
             <Button onClick={handleCloseDialog}>Cancel</Button>
             <Button type="submit" variant="contained">
-              {editingGoalId ? 'Update Goal' : 'Create Goal'}
+              {editingGoalId ? "Update Goal" : "Create Goal"}
             </Button>
           </DialogActions>
         </form>

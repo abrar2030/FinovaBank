@@ -1,5 +1,5 @@
 // Modern Login page with enhanced UI
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -13,8 +13,8 @@ import {
   useTheme,
   Divider,
   Checkbox,
-  FormControlLabel
-} from '@mui/material';
+  FormControlLabel,
+} from "@mui/material";
 import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
@@ -22,19 +22,19 @@ import {
   Lock as LockIcon,
   Google as GoogleIcon,
   Apple as AppleIcon,
-  Facebook as FacebookIcon
-} from '@mui/icons-material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import GridCompatibility from '../components/GridCompatibility';
+  Facebook as FacebookIcon,
+} from "@mui/icons-material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import GridCompatibility from "../components/GridCompatibility";
 
 const Login: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('Please enter both email and password');
+      setError("Please enter both email and password");
       return;
     }
 
@@ -56,9 +56,11 @@ const Login: React.FC = () => {
       await login(email, password);
 
       // Redirect to dashboard on successful login
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (err: any) {
-      setError(err.message || 'Failed to login. Please check your credentials.');
+      setError(
+        err.message || "Failed to login. Please check your credentials.",
+      );
     } finally {
       setLoading(false);
     }
@@ -67,24 +69,24 @@ const Login: React.FC = () => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         background: `linear-gradient(135deg, ${theme.palette.primary.light}15 0%, ${theme.palette.secondary.light}15 100%)`,
-        p: 3
+        p: 3,
       }}
     >
       <Paper
         elevation={0}
         sx={{
           borderRadius: 4,
-          overflow: 'hidden',
-          width: '100%',
+          overflow: "hidden",
+          width: "100%",
           maxWidth: 1000,
-          boxShadow: '0px 10px 40px rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          boxShadow: "0px 10px 40px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
         {/* Left Side - Login Form */}
@@ -92,12 +94,17 @@ const Login: React.FC = () => {
           sx={{
             flex: 1,
             p: 4,
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
-            <Typography variant="h4" component="h1" fontWeight={700} color="primary">
+          <Box sx={{ mb: 4, display: "flex", justifyContent: "center" }}>
+            <Typography
+              variant="h4"
+              component="h1"
+              fontWeight={700}
+              color="primary"
+            >
               FinovaBank
             </Typography>
           </Box>
@@ -135,7 +142,7 @@ const Login: React.FC = () => {
             <TextField
               fullWidth
               label="Password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               margin="normal"
               value={password}
@@ -152,14 +159,26 @@ const Login: React.FC = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      {showPassword ? (
+                        <VisibilityOffIcon />
+                      ) : (
+                        <VisibilityIcon />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
             />
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1, mb: 3 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mt: 1,
+                mb: 3,
+              }}
+            >
               <FormControlLabel
                 control={
                   <Checkbox
@@ -178,10 +197,10 @@ const Login: React.FC = () => {
                 variant="body2"
                 sx={{
                   color: theme.palette.primary.main,
-                  textDecoration: 'none',
-                  '&:hover': {
-                    textDecoration: 'underline',
-                  }
+                  textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
                 }}
               >
                 Forgot password?
@@ -197,25 +216,25 @@ const Login: React.FC = () => {
               sx={{
                 py: 1.5,
                 fontWeight: 600,
-                boxShadow: '0px 8px 16px rgba(51, 102, 255, 0.24)',
+                boxShadow: "0px 8px 16px rgba(51, 102, 255, 0.24)",
               }}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? "Signing in..." : "Sign In"}
             </Button>
 
-            <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Box sx={{ mt: 3, textAlign: "center" }}>
               <Typography variant="body2" color="text.secondary">
-                Don't have an account?{' '}
+                Don't have an account?{" "}
                 <Link
                   component={RouterLink}
                   to="/register"
                   sx={{
                     color: theme.palette.primary.main,
                     fontWeight: 600,
-                    textDecoration: 'none',
-                    '&:hover': {
-                      textDecoration: 'underline',
-                    }
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
                   }}
                 >
                   Sign Up
@@ -225,7 +244,11 @@ const Login: React.FC = () => {
 
             <Box sx={{ mt: 4, mb: 2 }}>
               <Divider>
-                <Typography variant="body2" color="text.secondary" sx={{ px: 1 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ px: 1 }}
+                >
                   Or continue with
                 </Typography>
               </Divider>
@@ -270,12 +293,12 @@ const Login: React.FC = () => {
         <Box
           sx={{
             flex: 1,
-            bgcolor: 'primary.main',
-            color: 'white',
+            bgcolor: "primary.main",
+            color: "white",
             p: 4,
-            display: { xs: 'none', md: 'flex' },
-            flexDirection: 'column',
-            justifyContent: 'center',
+            display: { xs: "none", md: "flex" },
+            flexDirection: "column",
+            justifyContent: "center",
             background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
           }}
         >
@@ -283,22 +306,23 @@ const Login: React.FC = () => {
             Banking Made Simple
           </Typography>
           <Typography variant="body1" sx={{ mb: 4, opacity: 0.9 }}>
-            Access all your financial services in one place with our secure and user-friendly platform.
+            Access all your financial services in one place with our secure and
+            user-friendly platform.
           </Typography>
 
           <Box sx={{ mb: 4 }}>
             <GridCompatibility container spacing={2}>
               <GridCompatibility xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                   <Box
                     sx={{
                       width: 40,
                       height: 40,
                       borderRadius: 2,
-                      bgcolor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      bgcolor: "rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mr: 2,
                     }}
                   >
@@ -316,16 +340,16 @@ const Login: React.FC = () => {
               </GridCompatibility>
 
               <GridCompatibility xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                   <Box
                     sx={{
                       width: 40,
                       height: 40,
                       borderRadius: 2,
-                      bgcolor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      bgcolor: "rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mr: 2,
                     }}
                   >
@@ -343,16 +367,16 @@ const Login: React.FC = () => {
               </GridCompatibility>
 
               <GridCompatibility xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box
                     sx={{
                       width: 40,
                       height: 40,
                       borderRadius: 2,
-                      bgcolor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      bgcolor: "rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mr: 2,
                     }}
                   >

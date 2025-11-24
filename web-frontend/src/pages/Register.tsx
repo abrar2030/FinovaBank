@@ -1,5 +1,5 @@
 // Modern Register page with enhanced UI
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -16,8 +16,8 @@ import {
   FormControlLabel,
   Stepper,
   Step,
-  StepLabel
-} from '@mui/material';
+  StepLabel,
+} from "@mui/material";
 import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
@@ -31,11 +31,11 @@ import {
   Apple as AppleIcon,
   Facebook as FacebookIcon,
   Security as SecurityIcon,
-  Devices as DevicesIcon
-} from '@mui/icons-material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import GridCompatibility from '../components/GridCompatibility';
+  Devices as DevicesIcon,
+} from "@mui/icons-material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import GridCompatibility from "../components/GridCompatibility";
 
 const Register: React.FC = () => {
   const theme = useTheme();
@@ -43,29 +43,29 @@ const Register: React.FC = () => {
   const { register } = useAuth();
 
   const [activeStep, setActiveStep] = useState(0);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const steps = ['Personal Information', 'Account Security', 'Review & Submit'];
+  const steps = ["Personal Information", "Account Security", "Review & Submit"];
 
   const handleNext = () => {
     if (activeStep === 0) {
       if (!name || !email || !phone) {
-        setError('Please fill in all required fields');
+        setError("Please fill in all required fields");
         return;
       }
 
       // Basic email validation
       if (!/\S+@\S+\.\S+/.test(email)) {
-        setError('Please enter a valid email address');
+        setError("Please enter a valid email address");
         return;
       }
 
@@ -73,17 +73,17 @@ const Register: React.FC = () => {
       setActiveStep((prevStep) => prevStep + 1);
     } else if (activeStep === 1) {
       if (!password || !confirmPassword) {
-        setError('Please fill in all required fields');
+        setError("Please fill in all required fields");
         return;
       }
 
       if (password !== confirmPassword) {
-        setError('Passwords do not match');
+        setError("Passwords do not match");
         return;
       }
 
       if (password.length < 8) {
-        setError('Password must be at least 8 characters long');
+        setError("Password must be at least 8 characters long");
         return;
       }
 
@@ -101,7 +101,7 @@ const Register: React.FC = () => {
     e.preventDefault();
 
     if (!agreeTerms) {
-      setError('You must agree to the Terms and Conditions');
+      setError("You must agree to the Terms and Conditions");
       return;
     }
 
@@ -113,9 +113,9 @@ const Register: React.FC = () => {
       await register(name, email, password);
 
       // Redirect to dashboard on successful registration
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (err: any) {
-      setError(err.message || 'Failed to register. Please try again.');
+      setError(err.message || "Failed to register. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -124,24 +124,24 @@ const Register: React.FC = () => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         background: `linear-gradient(135deg, ${theme.palette.primary.light}15 0%, ${theme.palette.secondary.light}15 100%)`,
-        p: 3
+        p: 3,
       }}
     >
       <Paper
         elevation={0}
         sx={{
           borderRadius: 4,
-          overflow: 'hidden',
-          width: '100%',
+          overflow: "hidden",
+          width: "100%",
           maxWidth: 1000,
-          boxShadow: '0px 10px 40px rgba(0, 0, 0, 0.1)',
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          boxShadow: "0px 10px 40px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
         {/* Left Side - Register Form */}
@@ -149,12 +149,17 @@ const Register: React.FC = () => {
           sx={{
             flex: 1,
             p: 4,
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
-            <Typography variant="h4" component="h1" fontWeight={700} color="primary">
+          <Box sx={{ mb: 4, display: "flex", justifyContent: "center" }}>
+            <Typography
+              variant="h4"
+              component="h1"
+              fontWeight={700}
+              color="primary"
+            >
               FinovaBank
             </Typography>
           </Box>
@@ -180,7 +185,10 @@ const Register: React.FC = () => {
             </Alert>
           )}
 
-          <Box component="form" onSubmit={activeStep === 2 ? handleSubmit : undefined}>
+          <Box
+            component="form"
+            onSubmit={activeStep === 2 ? handleSubmit : undefined}
+          >
             {/* Step 1: Personal Information */}
             {activeStep === 0 && (
               <>
@@ -240,7 +248,7 @@ const Register: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   variant="outlined"
                   margin="normal"
                   value={password}
@@ -257,7 +265,11 @@ const Register: React.FC = () => {
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
                         >
-                          {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -268,7 +280,7 @@ const Register: React.FC = () => {
                 <TextField
                   fullWidth
                   label="Confirm Password"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   variant="outlined"
                   margin="normal"
                   value={confirmPassword}
@@ -282,10 +294,16 @@ const Register: React.FC = () => {
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
                           edge="end"
                         >
-                          {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                          {showConfirmPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -375,30 +393,30 @@ const Register: React.FC = () => {
                   }
                   label={
                     <Typography variant="body2">
-                      I agree to the{' '}
+                      I agree to the{" "}
                       <Link
                         component={RouterLink}
                         to="/terms"
                         sx={{
                           color: theme.palette.primary.main,
-                          textDecoration: 'none',
-                          '&:hover': {
-                            textDecoration: 'underline',
-                          }
+                          textDecoration: "none",
+                          "&:hover": {
+                            textDecoration: "underline",
+                          },
                         }}
                       >
                         Terms and Conditions
-                      </Link>
-                      {' '}and{' '}
+                      </Link>{" "}
+                      and{" "}
                       <Link
                         component={RouterLink}
                         to="/privacy"
                         sx={{
                           color: theme.palette.primary.main,
-                          textDecoration: 'none',
-                          '&:hover': {
-                            textDecoration: 'underline',
-                          }
+                          textDecoration: "none",
+                          "&:hover": {
+                            textDecoration: "underline",
+                          },
                         }}
                       >
                         Privacy Policy
@@ -410,7 +428,9 @@ const Register: React.FC = () => {
               </>
             )}
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}
+            >
               {activeStep > 0 ? (
                 <Button
                   variant="outlined"
@@ -442,10 +462,10 @@ const Register: React.FC = () => {
                     px: 4,
                     py: 1.5,
                     fontWeight: 600,
-                    boxShadow: '0px 8px 16px rgba(51, 102, 255, 0.24)',
+                    boxShadow: "0px 8px 16px rgba(51, 102, 255, 0.24)",
                   }}
                 >
-                  {loading ? 'Creating Account...' : 'Create Account'}
+                  {loading ? "Creating Account..." : "Create Account"}
                 </Button>
               )}
             </Box>
@@ -454,7 +474,11 @@ const Register: React.FC = () => {
               <>
                 <Box sx={{ mt: 4, mb: 2 }}>
                   <Divider>
-                    <Typography variant="body2" color="text.secondary" sx={{ px: 1 }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ px: 1 }}
+                    >
                       Or sign up with
                     </Typography>
                   </Divider>
@@ -493,19 +517,19 @@ const Register: React.FC = () => {
                   </GridCompatibility>
                 </GridCompatibility>
 
-                <Box sx={{ mt: 3, textAlign: 'center' }}>
+                <Box sx={{ mt: 3, textAlign: "center" }}>
                   <Typography variant="body2" color="text.secondary">
-                    Already have an account?{' '}
+                    Already have an account?{" "}
                     <Link
                       component={RouterLink}
                       to="/login"
                       sx={{
                         color: theme.palette.primary.main,
                         fontWeight: 600,
-                        textDecoration: 'none',
-                        '&:hover': {
-                          textDecoration: 'underline',
-                        }
+                        textDecoration: "none",
+                        "&:hover": {
+                          textDecoration: "underline",
+                        },
                       }}
                     >
                       Sign In
@@ -521,12 +545,12 @@ const Register: React.FC = () => {
         <Box
           sx={{
             flex: 1,
-            bgcolor: 'primary.main',
-            color: 'white',
+            bgcolor: "primary.main",
+            color: "white",
             p: 4,
-            display: { xs: 'none', md: 'flex' },
-            flexDirection: 'column',
-            justifyContent: 'center',
+            display: { xs: "none", md: "flex" },
+            flexDirection: "column",
+            justifyContent: "center",
             background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
           }}
         >
@@ -534,22 +558,23 @@ const Register: React.FC = () => {
             Join FinovaBank Today
           </Typography>
           <Typography variant="body1" sx={{ mb: 4, opacity: 0.9 }}>
-            Experience the future of banking with our innovative digital platform designed for your financial success.
+            Experience the future of banking with our innovative digital
+            platform designed for your financial success.
           </Typography>
 
           <Box sx={{ mb: 4 }}>
             <GridCompatibility container spacing={2}>
               <GridCompatibility xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                   <Box
                     sx={{
                       width: 40,
                       height: 40,
                       borderRadius: 2,
-                      bgcolor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      bgcolor: "rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mr: 2,
                     }}
                   >
@@ -567,16 +592,16 @@ const Register: React.FC = () => {
               </GridCompatibility>
 
               <GridCompatibility xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                   <Box
                     sx={{
                       width: 40,
                       height: 40,
                       borderRadius: 2,
-                      bgcolor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      bgcolor: "rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mr: 2,
                     }}
                   >
@@ -587,23 +612,24 @@ const Register: React.FC = () => {
                       Seamless Experience
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                      Access your accounts from any device with our responsive platform
+                      Access your accounts from any device with our responsive
+                      platform
                     </Typography>
                   </Box>
                 </Box>
               </GridCompatibility>
 
               <GridCompatibility xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Box
                     sx={{
                       width: 40,
                       height: 40,
                       borderRadius: 2,
-                      bgcolor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      bgcolor: "rgba(255, 255, 255, 0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mr: 2,
                     }}
                   >

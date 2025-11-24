@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
-import { commonStyles, colors } from '../styles/commonStyles'; // Import common styles and colors
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
-import { useAuth } from '../context/AuthContext'; // Import useAuth hook
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {commonStyles, colors} from '../styles/commonStyles'; // Import common styles and colors
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/AppNavigator';
+import {useAuth} from '../context/AuthContext'; // Import useAuth hook
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Login'
+>;
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // State for login error message
-  const { login, isLoading } = useAuth(); // Get login function and loading state from context
+  const {login, isLoading} = useAuth(); // Get login function and loading state from context
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleLogin = async () => {
@@ -22,11 +34,15 @@ const LoginScreen = () => {
       return;
     }
     try {
-      await login({ email, password });
+      await login({email, password});
       // Navigation is handled by AppNavigator based on userToken change
-    } catch (apiError: any) { // Specify 'any' or a more specific error type
+    } catch (apiError: any) {
+      // Specify 'any' or a more specific error type
       console.error('Login failed:', apiError);
-      const errorMessage = apiError.response?.data?.error?.message || apiError.message || 'Login failed. Please check your credentials and try again.';
+      const errorMessage =
+        apiError.response?.data?.error?.message ||
+        apiError.message ||
+        'Login failed. Please check your credentials and try again.';
       setError(errorMessage);
     }
   };
@@ -38,11 +54,12 @@ const LoginScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={commonStyles.container}
-    >
+      style={commonStyles.container}>
       <View style={styles.innerContainer}>
         <Text style={commonStyles.titleText}>Welcome Back!</Text>
-        <Text style={commonStyles.subtitleText}>Login to your FinovaBank account</Text>
+        <Text style={commonStyles.subtitleText}>
+          Login to your FinovaBank account
+        </Text>
 
         {error ? <Text style={commonStyles.errorText}>{error}</Text> : null}
 
@@ -77,11 +94,19 @@ const LoginScreen = () => {
           )}
         </TouchableOpacity>
         <TouchableOpacity
-          style={[commonStyles.button, commonStyles.buttonSecondary, styles.registerButton, isLoading && styles.buttonDisabled]} // Use secondary button style
+          style={[
+            commonStyles.button,
+            commonStyles.buttonSecondary,
+            styles.registerButton,
+            isLoading && styles.buttonDisabled,
+          ]} // Use secondary button style
           onPress={navigateToRegister}
           disabled={isLoading} // Disable button during loading
         >
-          <Text style={[commonStyles.buttonText, commonStyles.buttonTextSecondary]}>Don't have an account? Register</Text>
+          <Text
+            style={[commonStyles.buttonText, commonStyles.buttonTextSecondary]}>
+            Don't have an account? Register
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import {render, screen} from '@testing-library/react-native';
 
 // Corrected import path based on project structure
 import DashboardScreen from '../../../../../finovabank_project/mobile-frontend/src/screens/DashboardScreen';
@@ -11,20 +11,20 @@ import DashboardScreen from '../../../../../finovabank_project/mobile-frontend/s
 // }));
 
 describe('DashboardScreen (Mobile)', () => {
-    test('renders dashboard elements correctly', () => {
-        // Render the actual DashboardScreen component
-        render(<DashboardScreen />);
+  test('renders dashboard elements correctly', () => {
+    // Render the actual DashboardScreen component
+    render(<DashboardScreen />);
 
-        // Check for key elements expected in the actual DashboardScreen component
-        // These assertions might need adjustment based on the actual component's output
-        expect(screen.getByText(/dashboard/i)).toBeTruthy();
+    // Check for key elements expected in the actual DashboardScreen component
+    // These assertions might need adjustment based on the actual component's output
+    expect(screen.getByText(/dashboard/i)).toBeTruthy();
 
-        // Example assertions (adjust based on actual component content):
-        // expect(screen.getByText(/Account Balance/i)).toBeTruthy();
-        // expect(screen.getByText(/Recent Transactions/i)).toBeTruthy();
+    // Example assertions (adjust based on actual component content):
+    // expect(screen.getByText(/Account Balance/i)).toBeTruthy();
+    // expect(screen.getByText(/Recent Transactions/i)).toBeTruthy();
 
-        // Add more specific assertions based on the real component's structure and data fetching
-    });
+    // Add more specific assertions based on the real component's structure and data fetching
+  });
 
-    // Add tests for loading states, error handling, interactions (e.g., tapping a transaction)
+  // Add tests for loading states, error handling, interactions (e.g., tapping a transaction)
 });

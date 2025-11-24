@@ -1,6 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 // Define modern color palette
 const colors = {
@@ -102,4 +102,4 @@ export const responsiveHeight = (percentage: number) => {
 };
 
 // Export colors for use in specific components if needed
-export { colors };
+export {colors};

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { render, screen, act } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { render, screen, act } from "@testing-library/react";
+import "@testing-library/jest-dom";
 
 // Assuming the context exists in the original project at:
 // /home/ubuntu/finova_project/web-frontend/src/context/AuthContext.tsx
@@ -9,86 +9,90 @@ import '@testing-library/jest-dom';
 
 // --- Placeholder AuthContext Implementation --- START ---
 interface AuthContextType {
-    isAuthenticated: boolean;
-    login: () => void;
-    logout: () => void;
+  isAuthenticated: boolean;
+  login: () => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = () => setIsAuthenticated(true);
-    const logout = () => setIsAuthenticated(false);
+  const login = () => setIsAuthenticated(true);
+  const logout = () => setIsAuthenticated(false);
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
 // --- Placeholder AuthContext Implementation --- END ---
 
 // Test Component using the context
 const TestComponent: React.FC = () => {
-    const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, login, logout } = useAuth();
 
-    return (
-        <div>
-            <p>Authenticated: {isAuthenticated ? 'Yes' : 'No'}</p>
-            <button onClick={login}>Login</button>
-            <button onClick={logout}>Logout</button>
-        </div>
-    );
+  return (
+    <div>
+      <p>Authenticated: {isAuthenticated ? "Yes" : "No"}</p>
+      <button onClick={login}>Login</button>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
 };
 
-describe('AuthContext', () => {
-    test('provides authentication status and actions', () => {
-        render(
-            <AuthProvider>
-                <TestComponent />
-            </AuthProvider>
-        );
+describe("AuthContext", () => {
+  test("provides authentication status and actions", () => {
+    render(
+      <AuthProvider>
+        <TestComponent />
+      </AuthProvider>,
+    );
 
-        // Initial state: Not authenticated
-        expect(screen.getByText('Authenticated: No')).toBeInTheDocument();
+    // Initial state: Not authenticated
+    expect(screen.getByText("Authenticated: No")).toBeInTheDocument();
 
-        // Click login button
-        const loginButton = screen.getByRole('button', { name: /login/i });
-        act(() => {
-            loginButton.click();
-        });
-
-        // State after login: Authenticated
-        expect(screen.getByText('Authenticated: Yes')).toBeInTheDocument();
-
-        // Click logout button
-        const logoutButton = screen.getByRole('button', { name: /logout/i });
-        act(() => {
-            logoutButton.click();
-        });
-
-        // State after logout: Not authenticated
-        expect(screen.getByText('Authenticated: No')).toBeInTheDocument();
+    // Click login button
+    const loginButton = screen.getByRole("button", { name: /login/i });
+    act(() => {
+      loginButton.click();
     });
 
-    test('throws error if useAuth is used outside AuthProvider', () => {
-        // Suppress console.error output for this specific test
-        const originalError = console.error;
-        console.error = jest.fn();
+    // State after login: Authenticated
+    expect(screen.getByText("Authenticated: Yes")).toBeInTheDocument();
 
-        expect(() => render(<TestComponent />)).toThrow('useAuth must be used within an AuthProvider');
-
-        // Restore console.error
-        console.error = originalError;
+    // Click logout button
+    const logoutButton = screen.getByRole("button", { name: /logout/i });
+    act(() => {
+      logoutButton.click();
     });
+
+    // State after logout: Not authenticated
+    expect(screen.getByText("Authenticated: No")).toBeInTheDocument();
+  });
+
+  test("throws error if useAuth is used outside AuthProvider", () => {
+    // Suppress console.error output for this specific test
+    const originalError = console.error;
+    console.error = jest.fn();
+
+    expect(() => render(<TestComponent />)).toThrow(
+      "useAuth must be used within an AuthProvider",
+    );
+
+    // Restore console.error
+    console.error = originalError;
+  });
 });

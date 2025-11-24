@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
-import { commonStyles, responsiveWidth } from '../styles/commonStyles';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
-import { getAccountLoans, applyForLoan, getLoanTypes } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
+import {commonStyles, responsiveWidth} from '../styles/commonStyles';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/AppNavigator';
+import {getAccountLoans, applyForLoan, getLoanTypes} from '../services/api';
+import {useAuth} from '../context/AuthContext';
 
 // Define the structure for loan data
 interface Loan {
@@ -22,7 +30,10 @@ interface Loan {
 }
 
 // Define the navigation prop type for this screen
-type LoansScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Loans'>;
+type LoansScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Loans'
+>;
 
 interface LoanApplicationFormProps {
   visible: boolean;
@@ -30,18 +41,21 @@ interface LoanApplicationFormProps {
   onSubmit: (loanData: any) => void;
 }
 
-const LoansScreen = ({ route }: any) => {
+const LoansScreen = ({route}: any) => {
   const [loans, setLoans] = useState<Loan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showLoanForm, setShowLoanForm] = useState(false);
-  const [loanTypes, setLoanTypes] = useState<{id: string, name: string, maxAmount: number, baseRate: number}[]>([]);
+  const [loanTypes, setLoanTypes] = useState<
+    {id: string; name: string; maxAmount: number; baseRate: number}[]
+  >([]);
 
   const navigation = useNavigation<LoansScreenNavigationProp>();
-  const { userData } = useAuth();
+  const {userData} = useAuth();
 
   // Get accountId from route params or use default from user data
-  const accountId = route?.params?.accountId || (userData?.id ? userData.id : '');
+  const accountId =
+    route?.params?.accountId || (userData?.id ? userData.id : '');
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -62,7 +76,8 @@ const LoansScreen = ({ route }: any) => {
         setLoanTypes(typesResponse.data);
       } catch (err: any) {
         console.error('Failed to fetch loans:', err);
-        const errorMessage = err.response?.data?.message || err.message || 'Failed to load loans.';
+        const errorMessage =
+          err.response?.data?.message || err.message || 'Failed to load loans.';
         setError(errorMessage);
         Alert.alert('Error', errorMessage);
       } finally {
@@ -86,7 +101,7 @@ const LoansScreen = ({ route }: any) => {
       setLoading(true);
       await applyForLoan({
         ...loanData,
-        accountId
+        accountId,
       });
 
       // Refresh loans list after successful application
@@ -96,7 +111,10 @@ const LoansScreen = ({ route }: any) => {
       Alert.alert('Success', 'Loan application submitted successfully!');
     } catch (err: any) {
       console.error('Failed to apply for loan:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to submit loan application.';
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to submit loan application.';
       Alert.alert('Error', errorMessage);
     } finally {
       setLoading(false);
@@ -104,23 +122,28 @@ const LoansScreen = ({ route }: any) => {
     }
   };
 
-  const renderLoanItem = ({ item }: { item: Loan }) => (
+  const renderLoanItem = ({item}: {item: Loan}) => (
     <TouchableOpacity
       style={styles.loanItem}
-      onPress={() => navigation.navigate('LoanDetails', { loanId: item.id })}
-    >
+      onPress={() => navigation.navigate('LoanDetails', {loanId: item.id})}>
       <View style={styles.loanDetails}>
         <Text style={styles.loanType}>{item.type}</Text>
-        <Text style={styles.loanDate}>Applied: {new Date(item.appliedDate).toLocaleDateString()}</Text>
-        <Text style={styles.loanAmount}>Amount: ${item.amount.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        })}</Text>
+        <Text style={styles.loanDate}>
+          Applied: {new Date(item.appliedDate).toLocaleDateString()}
+        </Text>
+        <Text style={styles.loanAmount}>
+          Amount: $
+          {item.amount.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </Text>
         {item.status === 'ACTIVE' && (
           <Text style={styles.loanPayment}>
-            Monthly Payment: ${item.monthlyPayment.toLocaleString(undefined, {
+            Monthly Payment: $
+            {item.monthlyPayment.toLocaleString(undefined, {
               minimumFractionDigits: 2,
-              maximumFractionDigits: 2
+              maximumFractionDigits: 2,
             })}
           </Text>
         )}
@@ -162,8 +185,7 @@ const LoansScreen = ({ route }: any) => {
         <Text style={styles.errorText}>Error: {error}</Text>
         <TouchableOpacity
           style={[commonStyles.button, styles.retryButton]}
-          onPress={() => navigation.navigate('Dashboard')}
-        >
+          onPress={() => navigation.navigate('Dashboard')}>
           <Text style={commonStyles.buttonText}>Return to Dashboard</Text>
         </TouchableOpacity>
       </View>
@@ -173,7 +195,9 @@ const LoansScreen = ({ route }: any) => {
   return (
     <View style={commonStyles.container}>
       <Text style={commonStyles.titleText}>Your Loans</Text>
-      <TouchableOpacity style={[commonStyles.button, styles.applyButton]} onPress={handleApplyLoan}>
+      <TouchableOpacity
+        style={[commonStyles.button, styles.applyButton]}
+        onPress={handleApplyLoan}>
         <Text style={commonStyles.buttonText}>Apply for a New Loan</Text>
       </TouchableOpacity>
 
@@ -189,22 +213,26 @@ const LoansScreen = ({ route }: any) => {
       <FlatList
         data={loans}
         renderItem={renderLoanItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No loans found.</Text>
-            <Text style={styles.emptySubText}>Apply for a loan to get started.</Text>
+            <Text style={styles.emptySubText}>
+              Apply for a loan to get started.
+            </Text>
           </View>
         }
         style={styles.listContainer}
-        contentContainerStyle={loans.length === 0 ? styles.emptyListContent : null}
+        contentContainerStyle={
+          loans.length === 0 ? styles.emptyListContent : null
+        }
       />
     </View>
   );
 };
 
 // Loan Application Form Component
-const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
+const LoanApplicationForm = ({visible, onClose, onSubmit, loanTypes}) => {
   const [loanType, setLoanType] = useState('');
   const [amount, setAmount] = useState('');
   const [term, setTerm] = useState('');
@@ -268,13 +296,14 @@ const LoanApplicationForm = ({ visible, onClose, onSubmit, loanTypes }) => {
 
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => onSubmit({
-            loanType,
-            amount: parseFloat(amount),
-            term: parseInt(term),
-            purpose
-          })}
-        >
+          onPress={() =>
+            onSubmit({
+              loanType,
+              amount: parseFloat(amount),
+              term: parseInt(term),
+              purpose,
+            })
+          }>
           <Text style={styles.submitButtonText}>Submit Application</Text>
         </TouchableOpacity>
       </View>
@@ -334,7 +363,7 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(3.5),
     marginBottom: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 1.0,
     elevation: 1,
@@ -396,7 +425,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,

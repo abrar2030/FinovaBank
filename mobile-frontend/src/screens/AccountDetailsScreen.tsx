@@ -1,13 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import { commonStyles, colors, responsiveWidth } from '../styles/commonStyles';
-import { getAccountDetails } from '../services/api';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/AppNavigator';
-import { useAuth } from '../context/AuthContext';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {commonStyles, colors, responsiveWidth} from '../styles/commonStyles';
+import {getAccountDetails} from '../services/api';
+import {useRoute, RouteProp, useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../navigation/AppNavigator';
+import {useAuth} from '../context/AuthContext';
 
 // Define the route prop type for this screen
-type AccountDetailsScreenRouteProp = RouteProp<RootStackParamList, 'AccountDetails'>;
+type AccountDetailsScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'AccountDetails'
+>;
 
 // Define the structure for account details data
 interface AccountDetailsData {
@@ -27,12 +38,14 @@ interface AccountDetailsData {
 const AccountDetailsScreen = () => {
   const route = useRoute<AccountDetailsScreenRouteProp>();
   const navigation = useNavigation();
-  const { userData } = useAuth();
+  const {userData} = useAuth();
 
   // Get accountId from route params or use default from user data
-  const accountId = route.params?.accountId || (userData?.id ? userData.id : '');
+  const accountId =
+    route.params?.accountId || (userData?.id ? userData.id : '');
 
-  const [accountDetails, setAccountDetails] = useState<AccountDetailsData | null>(null);
+  const [accountDetails, setAccountDetails] =
+    useState<AccountDetailsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,7 +64,10 @@ const AccountDetailsScreen = () => {
         setAccountDetails(response.data);
       } catch (err: any) {
         console.error('Failed to fetch account details:', err);
-        const errorMessage = err.response?.data?.message || err.message || 'Failed to load account details.';
+        const errorMessage =
+          err.response?.data?.message ||
+          err.message ||
+          'Failed to load account details.';
         setError(errorMessage);
         Alert.alert('Error', errorMessage);
       } finally {
@@ -63,15 +79,15 @@ const AccountDetailsScreen = () => {
   }, [accountId]);
 
   const handleViewTransactions = () => {
-    navigation.navigate('Transactions', { accountId });
+    navigation.navigate('Transactions', {accountId});
   };
 
   const handleViewSavingsGoals = () => {
-    navigation.navigate('SavingsGoals', { accountId });
+    navigation.navigate('SavingsGoals', {accountId});
   };
 
   const handleViewLoans = () => {
-    navigation.navigate('Loans', { accountId });
+    navigation.navigate('Loans', {accountId});
   };
 
   if (loading) {
@@ -89,8 +105,7 @@ const AccountDetailsScreen = () => {
         <Text style={commonStyles.errorText}>Error: {error}</Text>
         <TouchableOpacity
           style={[commonStyles.button, styles.retryButton]}
-          onPress={() => navigation.navigate('Dashboard')}
-        >
+          onPress={() => navigation.navigate('Dashboard')}>
           <Text style={commonStyles.buttonText}>Return to Dashboard</Text>
         </TouchableOpacity>
       </View>
@@ -103,8 +118,7 @@ const AccountDetailsScreen = () => {
         <Text style={styles.infoText}>No account details found.</Text>
         <TouchableOpacity
           style={[commonStyles.button, styles.retryButton]}
-          onPress={() => navigation.navigate('Dashboard')}
-        >
+          onPress={() => navigation.navigate('Dashboard')}>
           <Text style={commonStyles.buttonText}>Return to Dashboard</Text>
         </TouchableOpacity>
       </View>
@@ -123,7 +137,9 @@ const AccountDetailsScreen = () => {
         {accountDetails.routingNumber && (
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Routing Number:</Text>
-            <Text style={styles.detailValue}>{accountDetails.routingNumber}</Text>
+            <Text style={styles.detailValue}>
+              {accountDetails.routingNumber}
+            </Text>
           </View>
         )}
         <View style={styles.detailRow}>
@@ -132,26 +148,35 @@ const AccountDetailsScreen = () => {
         </View>
         <View style={styles.detailRow}>
           <Text style={styles.detailLabel}>Status:</Text>
-          <Text style={[styles.detailValue, styles.statusValue(accountDetails.status)]}>
+          <Text
+            style={[
+              styles.detailValue,
+              styles.statusValue(accountDetails.status),
+            ]}>
             {accountDetails.status}
           </Text>
         </View>
         <View style={styles.detailRow}>
           <Text style={styles.detailLabel}>Open Date:</Text>
-          <Text style={styles.detailValue}>{new Date(accountDetails.openDate).toLocaleDateString()}</Text>
+          <Text style={styles.detailValue}>
+            {new Date(accountDetails.openDate).toLocaleDateString()}
+          </Text>
         </View>
         {accountDetails.interestRate !== undefined && (
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Interest Rate:</Text>
-            <Text style={styles.detailValue}>{accountDetails.interestRate.toFixed(2)}%</Text>
+            <Text style={styles.detailValue}>
+              {accountDetails.interestRate.toFixed(2)}%
+            </Text>
           </View>
         )}
         <View style={[styles.detailRow, styles.lastDetailRow]}>
           <Text style={styles.detailLabel}>Balance:</Text>
           <Text style={[styles.detailValue, styles.balanceValue]}>
-            ${accountDetails.balance.toLocaleString(undefined, {
+            $
+            {accountDetails.balance.toLocaleString(undefined, {
               minimumFractionDigits: 2,
-              maximumFractionDigits: 2
+              maximumFractionDigits: 2,
             })}
           </Text>
         </View>
@@ -176,22 +201,19 @@ const AccountDetailsScreen = () => {
         <View style={styles.actionButtonsContainer}>
           <TouchableOpacity
             style={[commonStyles.button, styles.actionButton]}
-            onPress={handleViewTransactions}
-          >
+            onPress={handleViewTransactions}>
             <Text style={commonStyles.buttonText}>Transactions</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[commonStyles.button, styles.actionButton]}
-            onPress={handleViewSavingsGoals}
-          >
+            onPress={handleViewSavingsGoals}>
             <Text style={commonStyles.buttonText}>Savings Goals</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[commonStyles.button, styles.actionButton]}
-            onPress={handleViewLoans}
-          >
+            onPress={handleViewLoans}>
             <Text style={commonStyles.buttonText}>Loans</Text>
           </TouchableOpacity>
         </View>
@@ -254,12 +276,15 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 18,
   },
-  statusValue: (status) => ({
+  statusValue: status => ({
     color:
-      status === 'ACTIVE' ? colors.success :
-      status === 'INACTIVE' ? colors.warning :
-      status === 'FROZEN' ? colors.error :
-      colors.textSecondary,
+      status === 'ACTIVE'
+        ? colors.success
+        : status === 'INACTIVE'
+          ? colors.warning
+          : status === 'FROZEN'
+            ? colors.error
+            : colors.textSecondary,
     fontWeight: '500',
   }),
   accountOwnerContainer: {

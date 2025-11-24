@@ -1,8 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert, TouchableOpacity, TextInput } from 'react-native';
-import { commonStyles, responsiveWidth } from '../styles/commonStyles';
-import { getAccountSavingsGoals, createSavingsGoal, contributeTosavingsGoal, deleteSavingsGoal } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  Alert,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import {commonStyles, responsiveWidth} from '../styles/commonStyles';
+import {
+  getAccountSavingsGoals,
+  createSavingsGoal,
+  contributeTosavingsGoal,
+  deleteSavingsGoal,
+} from '../services/api';
+import {useAuth} from '../context/AuthContext';
 
 // Define the structure for savings goal data
 interface SavingsGoal {
@@ -21,7 +35,7 @@ interface ContributionFormProps {
   onCancel: () => void;
 }
 
-const SavingsGoalsScreen = ({ route }: any) => {
+const SavingsGoalsScreen = ({route}: any) => {
   const [savingsGoals, setSavingsGoals] = useState<SavingsGoal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,10 +46,11 @@ const SavingsGoalsScreen = ({ route }: any) => {
   const [newGoalAmount, setNewGoalAmount] = useState('');
   const [targetDate, setTargetDate] = useState('');
 
-  const { userData } = useAuth();
+  const {userData} = useAuth();
 
   // Get accountId from route params or use default from user data
-  const accountId = route?.params?.accountId || (userData?.id ? userData.id : '');
+  const accountId =
+    route?.params?.accountId || (userData?.id ? userData.id : '');
 
   useEffect(() => {
     fetchSavingsGoals();
@@ -55,7 +70,10 @@ const SavingsGoalsScreen = ({ route }: any) => {
       setSavingsGoals(response.data);
     } catch (err: any) {
       console.error('Failed to fetch savings goals:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to load savings goals.';
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to load savings goals.';
       setError(errorMessage);
       Alert.alert('Error', errorMessage);
     } finally {
@@ -81,7 +99,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
         accountId,
         name: newGoalName,
         targetAmount,
-        targetDate: targetDate || undefined
+        targetDate: targetDate || undefined,
       });
 
       // Refresh the goals list
@@ -96,7 +114,10 @@ const SavingsGoalsScreen = ({ route }: any) => {
       Alert.alert('Success', 'Savings goal created successfully!');
     } catch (err: any) {
       console.error('Failed to create savings goal:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to create savings goal.';
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to create savings goal.';
       Alert.alert('Error', errorMessage);
       setLoading(false);
     }
@@ -114,7 +135,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
       [
         {
           text: 'Cancel',
-          style: 'cancel'
+          style: 'cancel',
         },
         {
           text: 'Delete',
@@ -127,13 +148,16 @@ const SavingsGoalsScreen = ({ route }: any) => {
               Alert.alert('Success', 'Savings goal deleted successfully!');
             } catch (err: any) {
               console.error('Failed to delete savings goal:', err);
-              const errorMessage = err.response?.data?.message || err.message || 'Failed to delete savings goal.';
+              const errorMessage =
+                err.response?.data?.message ||
+                err.message ||
+                'Failed to delete savings goal.';
               Alert.alert('Error', errorMessage);
               setLoading(false);
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     );
   };
 
@@ -143,28 +167,35 @@ const SavingsGoalsScreen = ({ route }: any) => {
     await fetchSavingsGoals();
   };
 
-  const renderSavingsGoalItem = ({ item }: { item: SavingsGoal }) => (
+  const renderSavingsGoalItem = ({item}: {item: SavingsGoal}) => (
     <View style={styles.goalItem}>
       <Text style={styles.goalName}>{item.name}</Text>
       <View style={styles.goalDetails}>
         <Text style={styles.goalAmount}>
-          ${item.currentAmount.toLocaleString(undefined, {
+          $
+          {item.currentAmount.toLocaleString(undefined, {
             minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })} / ${item.targetAmount.toLocaleString(undefined, {
+            maximumFractionDigits: 2,
+          })}{' '}
+          / $
+          {item.targetAmount.toLocaleString(undefined, {
             minimumFractionDigits: 2,
-            maximumFractionDigits: 2
+            maximumFractionDigits: 2,
           })}
         </Text>
-        <Text style={styles.goalDate}>Created: {new Date(item.createdDate).toLocaleDateString()}</Text>
+        <Text style={styles.goalDate}>
+          Created: {new Date(item.createdDate).toLocaleDateString()}
+        </Text>
         {item.targetDate && (
-          <Text style={styles.goalDate}>Target: {new Date(item.targetDate).toLocaleDateString()}</Text>
+          <Text style={styles.goalDate}>
+            Target: {new Date(item.targetDate).toLocaleDateString()}
+          </Text>
         )}
       </View>
 
       {/* Progress bar */}
       <View style={styles.progressBarContainer}>
-        <View style={[styles.progressBar, { width: `${item.progress}%` }]} />
+        <View style={[styles.progressBar, {width: `${item.progress}%`}]} />
       </View>
       <Text style={styles.progressText}>{item.progress}% Complete</Text>
 
@@ -172,15 +203,13 @@ const SavingsGoalsScreen = ({ route }: any) => {
       <View style={styles.actionButtons}>
         <TouchableOpacity
           style={[styles.actionButton, styles.contributeButton]}
-          onPress={() => handleContribute(item.id)}
-        >
+          onPress={() => handleContribute(item.id)}>
           <Text style={styles.actionButtonText}>Contribute</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.actionButton, styles.deleteButton]}
-          onPress={() => handleDeleteGoal(item.id)}
-        >
+          onPress={() => handleDeleteGoal(item.id)}>
           <Text style={styles.actionButtonText}>Delete</Text>
         </TouchableOpacity>
       </View>
@@ -188,7 +217,11 @@ const SavingsGoalsScreen = ({ route }: any) => {
   );
 
   // Contribution Form Component
-  const ContributionForm = ({ goalId, onSuccess, onCancel }: ContributionFormProps) => {
+  const ContributionForm = ({
+    goalId,
+    onSuccess,
+    onCancel,
+  }: ContributionFormProps) => {
     const [amount, setAmount] = useState('');
     const [submitting, setSubmitting] = useState(false);
 
@@ -206,12 +239,15 @@ const SavingsGoalsScreen = ({ route }: any) => {
 
       try {
         setSubmitting(true);
-        await contributeTosavingsGoal(goalId, { amount: contributionAmount });
+        await contributeTosavingsGoal(goalId, {amount: contributionAmount});
         Alert.alert('Success', 'Contribution added successfully!');
         onSuccess();
       } catch (err: any) {
         console.error('Failed to add contribution:', err);
-        const errorMessage = err.response?.data?.message || err.message || 'Failed to add contribution.';
+        const errorMessage =
+          err.response?.data?.message ||
+          err.message ||
+          'Failed to add contribution.';
         Alert.alert('Error', errorMessage);
       } finally {
         setSubmitting(false);
@@ -233,15 +269,13 @@ const SavingsGoalsScreen = ({ route }: any) => {
           <TouchableOpacity
             style={[commonStyles.button, styles.cancelButton]}
             onPress={onCancel}
-            disabled={submitting}
-          >
+            disabled={submitting}>
             <Text style={commonStyles.buttonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[commonStyles.button, styles.saveButton]}
             onPress={handleSubmit}
-            disabled={submitting}
-          >
+            disabled={submitting}>
             <Text style={commonStyles.buttonText}>
               {submitting ? 'Processing...' : 'Add Contribution'}
             </Text>
@@ -266,8 +300,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
         <Text style={styles.errorText}>Error: {error}</Text>
         <TouchableOpacity
           style={[commonStyles.button, styles.retryButton]}
-          onPress={fetchSavingsGoals}
-        >
+          onPress={fetchSavingsGoals}>
           <Text style={commonStyles.buttonText}>Retry</Text>
         </TouchableOpacity>
       </View>
@@ -282,8 +315,7 @@ const SavingsGoalsScreen = ({ route }: any) => {
       {!showAddForm && !showContributeForm && (
         <TouchableOpacity
           style={[commonStyles.button, styles.addButton]}
-          onPress={() => setShowAddForm(true)}
-        >
+          onPress={() => setShowAddForm(true)}>
           <Text style={commonStyles.buttonText}>Add New Savings Goal</Text>
         </TouchableOpacity>
       )}
@@ -319,14 +351,12 @@ const SavingsGoalsScreen = ({ route }: any) => {
                 setNewGoalName('');
                 setNewGoalAmount('');
                 setTargetDate('');
-              }}
-            >
+              }}>
               <Text style={commonStyles.buttonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[commonStyles.button, styles.saveButton]}
-              onPress={handleAddGoal}
-            >
+              onPress={handleAddGoal}>
               <Text style={commonStyles.buttonText}>Save Goal</Text>
             </TouchableOpacity>
           </View>
@@ -350,15 +380,19 @@ const SavingsGoalsScreen = ({ route }: any) => {
         <FlatList
           data={savingsGoals}
           renderItem={renderSavingsGoalItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
               <Text style={styles.emptyText}>No savings goals found.</Text>
-              <Text style={styles.emptySubText}>Create a goal to start saving!</Text>
+              <Text style={styles.emptySubText}>
+                Create a goal to start saving!
+              </Text>
             </View>
           }
           style={styles.listContainer}
-          contentContainerStyle={savingsGoals.length === 0 ? styles.emptyListContent : null}
+          contentContainerStyle={
+            savingsGoals.length === 0 ? styles.emptyListContent : null
+          }
         />
       )}
     </View>
@@ -414,7 +448,7 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(4),
     marginBottom: 15,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 1.0,
     elevation: 1,
@@ -483,7 +517,7 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(4),
     marginBottom: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,

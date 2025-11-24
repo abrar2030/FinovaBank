@@ -5,27 +5,34 @@ db.createCollection("user_profiles", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["userId", "email", "firstName", "lastName", "createdAt", "updatedAt"],
+      required: [
+        "userId",
+        "email",
+        "firstName",
+        "lastName",
+        "createdAt",
+        "updatedAt",
+      ],
       properties: {
         userId: {
           bsonType: "string",
-          description: "Unique identifier for the user"
+          description: "Unique identifier for the user",
         },
         email: {
           bsonType: "string",
-          description: "User's email address"
+          description: "User's email address",
         },
         firstName: {
           bsonType: "string",
-          description: "User's first name"
+          description: "User's first name",
         },
         lastName: {
           bsonType: "string",
-          description: "User's last name"
+          description: "User's last name",
         },
         phoneNumber: {
           bsonType: "string",
-          description: "User's phone number"
+          description: "User's phone number",
         },
         address: {
           bsonType: "object",
@@ -34,28 +41,28 @@ db.createCollection("user_profiles", {
             city: { bsonType: "string" },
             state: { bsonType: "string" },
             zipCode: { bsonType: "string" },
-            country: { bsonType: "string" }
-          }
+            country: { bsonType: "string" },
+          },
         },
         preferences: {
           bsonType: "object",
           properties: {
             language: { bsonType: "string" },
             theme: { bsonType: "string" },
-            notifications: { bsonType: "bool" }
-          }
+            notifications: { bsonType: "bool" },
+          },
         },
         createdAt: {
           bsonType: "date",
-          description: "Date when the user profile was created"
+          description: "Date when the user profile was created",
         },
         updatedAt: {
           bsonType: "date",
-          description: "Date when the user profile was last updated"
-        }
-      }
-    }
-  }
+          description: "Date when the user profile was last updated",
+        },
+      },
+    },
+  },
 });
 
 db.user_profiles.createIndex({ userId: 1 }, { unique: true });

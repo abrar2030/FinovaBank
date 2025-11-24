@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
-import { commonStyles, colors, responsiveWidth } from '../styles/commonStyles';
-import { getAccountTransactions } from '../services/api';
-import { useAuth } from '../context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+  TouchableOpacity,
+} from 'react-native';
+import {commonStyles, colors, responsiveWidth} from '../styles/commonStyles';
+import {getAccountTransactions} from '../services/api';
+import {useAuth} from '../context/AuthContext';
+import {useNavigation} from '@react-navigation/native';
 
 // Define the structure for transaction data
 interface Transaction {
@@ -23,7 +31,7 @@ interface TransactionFilterProps {
   type?: string;
 }
 
-const TransactionsScreen = ({ route }: any) => {
+const TransactionsScreen = ({route}: any) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -31,10 +39,11 @@ const TransactionsScreen = ({ route }: any) => {
   const [filter, setFilter] = useState<TransactionFilterProps | null>(null);
 
   const navigation = useNavigation();
-  const { userData } = useAuth();
+  const {userData} = useAuth();
 
   // Get accountId from route params or use default from user data
-  const accountId = route?.params?.accountId || (userData?.id ? userData.id : '');
+  const accountId =
+    route?.params?.accountId || (userData?.id ? userData.id : '');
 
   const fetchTransactions = async (isRefreshing = false) => {
     if (!accountId) {
@@ -65,7 +74,10 @@ const TransactionsScreen = ({ route }: any) => {
       setTransactions(response.data);
     } catch (err: any) {
       console.error('Failed to fetch transactions:', err);
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to load transactions.';
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        'Failed to load transactions.';
       setError(errorMessage);
     } finally {
       if (!isRefreshing) {
@@ -87,7 +99,7 @@ const TransactionsScreen = ({ route }: any) => {
   const handleTransactionPress = (transaction: Transaction) => {
     navigation.navigate('TransactionDetails', {
       transactionId: transaction.id,
-      transaction // Pass the transaction data for immediate display
+      transaction, // Pass the transaction data for immediate display
     });
   };
 
@@ -96,15 +108,14 @@ const TransactionsScreen = ({ route }: any) => {
       currentFilter: filter,
       onFilterApply: (newFilter: TransactionFilterProps) => {
         setFilter(newFilter);
-      }
+      },
     });
   };
 
-  const renderTransactionItem = ({ item }: { item: Transaction }) => (
+  const renderTransactionItem = ({item}: {item: Transaction}) => (
     <TouchableOpacity
       style={[commonStyles.card, styles.transactionItem]}
-      onPress={() => handleTransactionPress(item)}
-    >
+      onPress={() => handleTransactionPress(item)}>
       <View style={styles.transactionDetails}>
         <Text style={styles.transactionDescription}>{item.description}</Text>
         {item.merchantName && (
@@ -115,10 +126,15 @@ const TransactionsScreen = ({ route }: any) => {
           {item.category && ` • ${item.category}`}
         </Text>
       </View>
-      <Text style={[styles.transactionAmount, item.type === 'CREDIT' ? styles.creditAmount : styles.debitAmount]}>
-        {item.type === 'CREDIT' ? '+' : '-'}${item.amount.toLocaleString(undefined, {
+      <Text
+        style={[
+          styles.transactionAmount,
+          item.type === 'CREDIT' ? styles.creditAmount : styles.debitAmount,
+        ]}>
+        {item.type === 'CREDIT' ? '+' : '-'}$
+        {item.amount.toLocaleString(undefined, {
           minimumFractionDigits: 2,
-          maximumFractionDigits: 2
+          maximumFractionDigits: 2,
         })}
       </Text>
     </TouchableOpacity>
@@ -139,8 +155,7 @@ const TransactionsScreen = ({ route }: any) => {
         <Text style={commonStyles.titleText}>Transactions</Text>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={handleFilterPress}
-        >
+          onPress={handleFilterPress}>
           <Text style={styles.filterButtonText}>
             {filter ? 'Filters Applied' : 'Filter'}
           </Text>
@@ -152,8 +167,7 @@ const TransactionsScreen = ({ route }: any) => {
           <Text style={commonStyles.errorText}>{error}</Text>
           <TouchableOpacity
             style={styles.retryButton}
-            onPress={() => fetchTransactions()}
-          >
+            onPress={() => fetchTransactions()}>
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
@@ -162,21 +176,24 @@ const TransactionsScreen = ({ route }: any) => {
       <FlatList
         data={transactions}
         renderItem={renderTransactionItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No transactions found.</Text>
             {filter && (
               <TouchableOpacity
                 style={styles.clearFilterButton}
-                onPress={() => setFilter(null)}
-              >
+                onPress={() => setFilter(null)}>
                 <Text style={styles.clearFilterText}>Clear Filters</Text>
               </TouchableOpacity>
             )}
           </View>
         }
-        contentContainerStyle={transactions.length === 0 ? styles.emptyListContent : styles.listContainer}
+        contentContainerStyle={
+          transactions.length === 0
+            ? styles.emptyListContent
+            : styles.listContainer
+        }
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

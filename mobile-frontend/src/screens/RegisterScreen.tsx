@@ -1,46 +1,64 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
-import { commonStyles, colors } from '../styles/commonStyles'; // Import common styles and colors
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
-import { useAuth } from '../context/AuthContext'; // Import useAuth hook
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
+import {commonStyles, colors} from '../styles/commonStyles';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../navigation/AppNavigator';
+import {useAuth} from '../context/AuthContext';
 
-type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
+type RegisterScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Register'
+>;
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State for registration error message
-  const { register, isLoading } = useAuth(); // Get register function and loading state
+  const [error, setError] = useState('');
+  const {register, isLoading} = useAuth();
   const navigation = useNavigation<RegisterScreenNavigationProp>();
 
   const handleRegister = async () => {
-    setError(''); // Clear previous errors
+    setError('');
+
     if (!name || !email || !password) {
       setError('Please fill in all fields.');
       return;
     }
-    // Basic email validation
-    const emailRegex = /^[^\]+@[^\]+\.[^\]+$/;
+
+    // Basic email validation (fixed regex)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address.');
       return;
     }
-    // Basic password validation (e.g., minimum length)
+
     if (password.length < 6) {
       setError('Password must be at least 6 characters long.');
       return;
     }
 
     try {
-      await register({ name, email, password });
+      await register({name, email, password});
       Alert.alert('Success', 'Registration successful! Please log in.');
-      navigation.navigate('Login'); // Navigate to Login after successful registration
+      navigation.navigate('Login');
     } catch (apiError: any) {
       console.error('Registration failed:', apiError);
-      const errorMessage = apiError.response?.data?.error?.message || apiError.message || 'Registration failed. Please try again.';
+      const errorMessage =
+        apiError.response?.data?.error?.message ||
+        apiError.message ||
+        'Registration failed. Please try again.';
       setError(errorMessage);
     }
   };
@@ -48,8 +66,7 @@ const RegisterScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={commonStyles.container}
-    >
+      style={commonStyles.container}>
       <View style={styles.innerContainer}>
         <Text style={commonStyles.titleText}>Create Account</Text>
         <Text style={commonStyles.subtitleText}>Join FinovaBank today!</Text>
@@ -83,11 +100,11 @@ const RegisterScreen = () => {
           placeholderTextColor={colors.textSecondary}
           editable={!isLoading}
         />
+
         <TouchableOpacity
           style={[commonStyles.button, isLoading && styles.buttonDisabled]}
           onPress={handleRegister}
-          disabled={isLoading}
-        >
+          disabled={isLoading}>
           {isLoading ? (
             <ActivityIndicator color={colors.background} />
           ) : (
@@ -96,18 +113,24 @@ const RegisterScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[commonStyles.button, commonStyles.buttonSecondary, styles.loginButton, isLoading && styles.buttonDisabled]}
+          style={[
+            commonStyles.button,
+            commonStyles.buttonSecondary,
+            styles.loginButton,
+            isLoading && styles.buttonDisabled,
+          ]}
           onPress={() => navigation.navigate('Login')}
-          disabled={isLoading}
-        >
-          <Text style={[commonStyles.buttonText, commonStyles.buttonTextSecondary]}>Already have an account? Login</Text>
+          disabled={isLoading}>
+          <Text
+            style={[commonStyles.buttonText, commonStyles.buttonTextSecondary]}>
+            Already have an account? Login
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-// Add specific styles for RegisterScreen if needed
 const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,

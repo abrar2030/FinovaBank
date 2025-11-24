@@ -1,6 +1,19 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loginUser, registerUser, logoutUser, AuthResponse, LoginCredentials, RegisterData } from '../services/api';
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
+  AuthResponse,
+  LoginCredentials,
+  RegisterData,
+} from '../services/api';
 
 // Define the shape of the auth context data
 interface AuthContextData {
@@ -30,7 +43,7 @@ interface AuthProviderProps {
 const TOKEN_STORAGE_KEY = 'finovabank_user_token';
 const USER_DATA_STORAGE_KEY = 'finovabank_user_data';
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const [userToken, setUserToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<AuthResponse['user'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         const [token, userDataString] = await Promise.all([
           AsyncStorage.getItem(TOKEN_STORAGE_KEY),
-          AsyncStorage.getItem(USER_DATA_STORAGE_KEY)
+          AsyncStorage.getItem(USER_DATA_STORAGE_KEY),
         ]);
 
         if (token) {
@@ -65,7 +78,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const storeAuthData = async (response: AuthResponse) => {
     try {
       await AsyncStorage.setItem(TOKEN_STORAGE_KEY, response.token);
-      await AsyncStorage.setItem(USER_DATA_STORAGE_KEY, JSON.stringify(response.user));
+      await AsyncStorage.setItem(
+        USER_DATA_STORAGE_KEY,
+        JSON.stringify(response.user),
+      );
       setUserToken(response.token);
       setUserData(response.user);
     } catch (error) {
@@ -76,7 +92,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const clearAuthData = async () => {
     try {
-      await AsyncStorage.multiRemove([TOKEN_STORAGE_KEY, USER_DATA_STORAGE_KEY]);
+      await AsyncStorage.multiRemove([
+        TOKEN_STORAGE_KEY,
+        USER_DATA_STORAGE_KEY,
+      ]);
       setUserToken(null);
       setUserData(null);
     } catch (error) {

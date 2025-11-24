@@ -1,5 +1,5 @@
 // Modern Transactions page with enhanced UI
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -19,8 +19,8 @@ import {
   Menu,
   MenuItem,
   ListItemIcon,
-  ListItemText
-} from '@mui/material';
+  ListItemText,
+} from "@mui/material";
 import {
   Search as SearchIcon,
   FilterList as FilterListIcon,
@@ -33,11 +33,11 @@ import {
   Download as DownloadIcon,
   Add as AddIcon,
   AttachMoney as AttachMoneyIcon,
-  DateRange as DateRangeIcon
-} from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { transactionAPI } from '../services/api';
-import GridCompatibility from '../components/GridCompatibility';
+  DateRange as DateRangeIcon,
+} from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { transactionAPI } from "../services/api";
+import GridCompatibility from "../components/GridCompatibility";
 
 const Transactions: React.FC = () => {
   const theme = useTheme();
@@ -46,7 +46,7 @@ const Transactions: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [transactions, setTransactions] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
 
@@ -59,10 +59,9 @@ const Transactions: React.FC = () => {
         // Fetch transactions
         const response = await transactionAPI.getTransactions();
         setTransactions(response.data || []);
-
       } catch (err) {
-        console.error('Error fetching transactions:', err);
-        setError('Failed to load transactions. Please try again later.');
+        console.error("Error fetching transactions:", err);
+        setError("Failed to load transactions. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -75,7 +74,10 @@ const Transactions: React.FC = () => {
     setActiveTab(newValue);
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, transaction: any) => {
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    transaction: any,
+  ) => {
     setAnchorEl(event.currentTarget);
     setSelectedTransaction(transaction);
   };
@@ -87,15 +89,19 @@ const Transactions: React.FC = () => {
 
   const filteredTransactions = transactions.filter((transaction: any) => {
     // Filter by tab
-    if (activeTab === 1 && transaction.transactionType !== 'CREDIT') return false;
-    if (activeTab === 2 && transaction.transactionType !== 'DEBIT') return false;
+    if (activeTab === 1 && transaction.transactionType !== "CREDIT")
+      return false;
+    if (activeTab === 2 && transaction.transactionType !== "DEBIT")
+      return false;
 
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       return (
-        (transaction.description && transaction.description.toLowerCase().includes(query)) ||
-        (transaction.category && transaction.category.toLowerCase().includes(query)) ||
+        (transaction.description &&
+          transaction.description.toLowerCase().includes(query)) ||
+        (transaction.category &&
+          transaction.category.toLowerCase().includes(query)) ||
         (transaction.amount && transaction.amount.toString().includes(query))
       );
     }
@@ -105,7 +111,14 @@ const Transactions: React.FC = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -134,12 +147,13 @@ const Transactions: React.FC = () => {
           mb: 4,
           p: 4,
           borderRadius: 3,
-          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)',
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          alignItems: { xs: 'flex-start', md: 'center' },
-          justifyContent: 'space-between',
-          gap: 2
+          background:
+            "linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%)",
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: { xs: "flex-start", md: "center" },
+          justifyContent: "space-between",
+          gap: 2,
         }}
       >
         <Box>
@@ -150,18 +164,15 @@ const Transactions: React.FC = () => {
             View and manage all your account transactions
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <Button
             variant="contained"
             startIcon={<AttachMoneyIcon />}
-            onClick={() => navigate('/transfer')}
+            onClick={() => navigate("/transfer")}
           >
             New Transfer
           </Button>
-          <Button
-            variant="outlined"
-            startIcon={<DownloadIcon />}
-          >
+          <Button variant="outlined" startIcon={<DownloadIcon />}>
             Export
           </Button>
         </Box>
@@ -174,7 +185,7 @@ const Transactions: React.FC = () => {
           p: 3,
           borderRadius: 3,
           border: `1px solid ${theme.palette.divider}`,
-          mb: 3
+          mb: 3,
         }}
       >
         <GridCompatibility container spacing={3} alignItems="center">
@@ -197,7 +208,13 @@ const Transactions: React.FC = () => {
           </GridCompatibility>
 
           <GridCompatibility xs={12} md={6}>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: { xs: 'flex-start', md: 'flex-end' } }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                justifyContent: { xs: "flex-start", md: "flex-end" },
+              }}
+            >
               <Button
                 variant="outlined"
                 startIcon={<DateRangeIcon />}
@@ -224,38 +241,38 @@ const Transactions: React.FC = () => {
           onChange={handleTabChange}
           sx={{
             mb: 2,
-            '& .MuiTabs-indicator': {
+            "& .MuiTabs-indicator": {
               backgroundColor: theme.palette.primary.main,
               height: 3,
-              borderRadius: '3px 3px 0 0',
-            }
+              borderRadius: "3px 3px 0 0",
+            },
           }}
         >
           <Tab
             label="All Transactions"
             sx={{
               fontWeight: 600,
-              '&.Mui-selected': {
+              "&.Mui-selected": {
                 color: theme.palette.primary.main,
-              }
+              },
             }}
           />
           <Tab
             label="Income"
             sx={{
               fontWeight: 600,
-              '&.Mui-selected': {
+              "&.Mui-selected": {
                 color: theme.palette.primary.main,
-              }
+              },
             }}
           />
           <Tab
             label="Expenses"
             sx={{
               fontWeight: 600,
-              '&.Mui-selected': {
+              "&.Mui-selected": {
                 color: theme.palette.primary.main,
-              }
+              },
             }}
           />
         </Tabs>
@@ -267,14 +284,22 @@ const Transactions: React.FC = () => {
         sx={{
           borderRadius: 3,
           border: `1px solid ${theme.palette.divider}`,
-          overflow: 'hidden'
+          overflow: "hidden",
         }}
       >
         <Box sx={{ p: 3, borderBottom: `1px solid ${theme.palette.divider}` }}>
           <Typography variant="subtitle1" fontWeight={600}>
-            {activeTab === 0 ? 'All Transactions' : activeTab === 1 ? 'Income' : 'Expenses'}
+            {activeTab === 0
+              ? "All Transactions"
+              : activeTab === 1
+                ? "Income"
+                : "Expenses"}
             {filteredTransactions.length > 0 && (
-              <Typography component="span" color="text.secondary" sx={{ ml: 1, fontWeight: 400 }}>
+              <Typography
+                component="span"
+                color="text.secondary"
+                sx={{ ml: 1, fontWeight: 400 }}
+              >
                 ({filteredTransactions.length})
               </Typography>
             )}
@@ -289,45 +314,57 @@ const Transactions: React.FC = () => {
                 sx={{
                   p: 3,
                   borderBottom: `1px solid ${theme.palette.divider}`,
-                  '&:last-child': {
-                    borderBottom: 'none',
+                  "&:last-child": {
+                    borderBottom: "none",
                   },
-                  '&:hover': {
-                    bgcolor: 'rgba(0, 0, 0, 0.01)',
+                  "&:hover": {
+                    bgcolor: "rgba(0, 0, 0, 0.01)",
                   },
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Avatar
                     sx={{
                       width: 48,
                       height: 48,
-                      bgcolor: transaction.transactionType === 'CREDIT'
-                        ? `${theme.palette.success.main}15`
-                        : `${theme.palette.error.main}15`,
-                      color: transaction.transactionType === 'CREDIT'
-                        ? theme.palette.success.main
-                        : theme.palette.error.main,
+                      bgcolor:
+                        transaction.transactionType === "CREDIT"
+                          ? `${theme.palette.success.main}15`
+                          : `${theme.palette.error.main}15`,
+                      color:
+                        transaction.transactionType === "CREDIT"
+                          ? theme.palette.success.main
+                          : theme.palette.error.main,
                       mr: 2,
                     }}
                   >
-                    {transaction.transactionType === 'CREDIT' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+                    {transaction.transactionType === "CREDIT" ? (
+                      <ArrowUpwardIcon />
+                    ) : (
+                      <ArrowDownwardIcon />
+                    )}
                   </Avatar>
 
                   <Box>
                     <Typography variant="subtitle1" fontWeight={600}>
-                      {transaction.description || `Transaction #${transaction.transactionId}`}
+                      {transaction.description ||
+                        `Transaction #${transaction.transactionId}`}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", mt: 0.5 }}
+                    >
                       <Typography variant="body2" color="text.secondary">
-                        {new Date(transaction.date).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
+                        {new Date(transaction.date).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          },
+                        )}
                       </Typography>
 
                       {transaction.category && (
@@ -336,9 +373,9 @@ const Transactions: React.FC = () => {
                             sx={{
                               width: 4,
                               height: 4,
-                              borderRadius: '50%',
-                              bgcolor: 'text.secondary',
-                              mx: 1
+                              borderRadius: "50%",
+                              bgcolor: "text.secondary",
+                              mx: 1,
                             }}
                           />
                           <Chip
@@ -346,9 +383,9 @@ const Transactions: React.FC = () => {
                             size="small"
                             sx={{
                               height: 24,
-                              fontSize: '0.75rem',
-                              bgcolor: 'rgba(0, 0, 0, 0.04)',
-                              color: 'text.secondary',
+                              fontSize: "0.75rem",
+                              bgcolor: "rgba(0, 0, 0, 0.04)",
+                              color: "text.secondary",
                             }}
                           />
                         </>
@@ -357,14 +394,21 @@ const Transactions: React.FC = () => {
                   </Box>
                 </Box>
 
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Typography
                     variant="subtitle1"
                     fontWeight={600}
-                    color={transaction.transactionType === 'CREDIT' ? 'success.main' : 'error.main'}
+                    color={
+                      transaction.transactionType === "CREDIT"
+                        ? "success.main"
+                        : "error.main"
+                    }
                     sx={{ mr: 2 }}
                   >
-                    {transaction.transactionType === 'CREDIT' ? '+' : '-'}${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    {transaction.transactionType === "CREDIT" ? "+" : "-"}$
+                    {Math.abs(transaction.amount).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                    })}
                   </Typography>
 
                   <IconButton
@@ -378,22 +422,21 @@ const Transactions: React.FC = () => {
             ))}
           </Box>
         ) : (
-          <Box sx={{ p: 4, textAlign: 'center' }}>
+          <Box sx={{ p: 4, textAlign: "center" }}>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
               {searchQuery
-                ? 'No transactions match your search criteria.'
+                ? "No transactions match your search criteria."
                 : activeTab === 0
-                  ? 'No transactions found.'
+                  ? "No transactions found."
                   : activeTab === 1
-                    ? 'No income transactions found.'
-                    : 'No expense transactions found.'
-              }
+                    ? "No income transactions found."
+                    : "No expense transactions found."}
             </Typography>
             {!searchQuery && (
               <Button
                 variant="contained"
                 startIcon={<AddIcon />}
-                onClick={() => navigate('/transfer')}
+                onClick={() => navigate("/transfer")}
               >
                 New Transaction
               </Button>
@@ -410,17 +453,19 @@ const Transactions: React.FC = () => {
         PaperProps={{
           sx: {
             mt: 1,
-            boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.1)',
+            boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.1)",
             borderRadius: 2,
-          }
+          },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => {
-          handleMenuClose();
-          navigate(`/transactions/${selectedTransaction?.transactionId}`);
-        }}>
+        <MenuItem
+          onClick={() => {
+            handleMenuClose();
+            navigate(`/transactions/${selectedTransaction?.transactionId}`);
+          }}
+        >
           <ListItemIcon>
             <ReceiptIcon fontSize="small" />
           </ListItemIcon>
@@ -439,8 +484,8 @@ const Transactions: React.FC = () => {
           <ListItemText>Download Receipt</ListItemText>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleMenuClose} sx={{ color: 'error.main' }}>
-          <ListItemIcon sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
+          <ListItemIcon sx={{ color: "error.main" }}>
             <DeleteIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Delete</ListItemText>
