@@ -1,12 +1,15 @@
 # FinovaBank API Documentation
 
 ## Overview
+
 The FinovaBank platform is a digital banking solution providing various services such as account management, transactions, loan processing, savings goals, risk assessment, compliance, notifications, and reporting. This documentation covers the core REST APIs for each service, their endpoints, expected request and response formats, and status codes.
 
 ---
 
 ### Base URL
+
 The base URL for all APIs is:
+
 ```
 http://{host}:{port}/api/v1
 ```
@@ -16,6 +19,7 @@ http://{host}:{port}/api/v1
 ### Account Management Service
 
 #### 1. Create Account
+
 - **Endpoint**: `/accounts`
 - **Method**: `POST`
 - **Description**: Create a new user account.
@@ -36,15 +40,16 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `201 Created`
-    - `400 Bad Request`
+  - `201 Created`
+  - `400 Bad Request`
 
 #### 2. Get Account Details
+
 - **Endpoint**: `/accounts/{accountId}`
 - **Method**: `GET`
 - **Description**: Retrieve details of a specific account.
 - **Path Parameters**:
-    - `accountId` (Long) - Unique ID of the account.
+  - `accountId` (Long) - Unique ID of the account.
 - **Response**:
   ```json
   {
@@ -56,14 +61,15 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `200 OK`
-    - `404 Not Found`
+  - `200 OK`
+  - `404 Not Found`
 
 ---
 
 ### Transaction Service
 
 #### 1. Create Transaction
+
 - **Endpoint**: `/transactions`
 - **Method**: `POST`
 - **Description**: Initiate a fund transfer or other transaction.
@@ -84,15 +90,16 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `200 OK`
-    - `400 Bad Request`
+  - `200 OK`
+  - `400 Bad Request`
 
 #### 2. Get Transaction Details
+
 - **Endpoint**: `/transactions/{transactionId}`
 - **Method**: `GET`
 - **Description**: Get details of a specific transaction.
 - **Path Parameters**:
-    - `transactionId` (Long) - Unique ID of the transaction.
+  - `transactionId` (Long) - Unique ID of the transaction.
 - **Response**:
   ```json
   {
@@ -104,14 +111,15 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `200 OK`
-    - `404 Not Found`
+  - `200 OK`
+  - `404 Not Found`
 
 ---
 
 ### Loan Management Service
 
 #### 1. Apply for Loan
+
 - **Endpoint**: `/loans`
 - **Method**: `POST`
 - **Description**: Apply for a loan.
@@ -132,15 +140,16 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `201 Created`
-    - `400 Bad Request`
+  - `201 Created`
+  - `400 Bad Request`
 
 #### 2. Get Loan Details
+
 - **Endpoint**: `/loans/{loanId}`
 - **Method**: `GET`
 - **Description**: Retrieve details of a loan.
 - **Path Parameters**:
-    - `loanId` (Long) - Unique ID of the loan.
+  - `loanId` (Long) - Unique ID of the loan.
 - **Response**:
   ```json
   {
@@ -152,14 +161,15 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `200 OK`
-    - `404 Not Found`
+  - `200 OK`
+  - `404 Not Found`
 
 ---
 
 ### Savings Goals Service
 
 #### 1. Create Savings Goal
+
 - **Endpoint**: `/savings`
 - **Method**: `POST`
 - **Description**: Create a new savings goal.
@@ -179,12 +189,13 @@ http://{host}:{port}/api/v1
   }
   ```
 - **Status Codes**:
-    - `201 Created`
-    - `400 Bad Request`
+  - `201 Created`
+  - `400 Bad Request`
 
 ---
 
 ## Common Response Status Codes
+
 - `200 OK` - Request processed successfully.
 - `201 Created` - Resource created successfully.
 - `400 Bad Request` - Invalid request data.
@@ -192,7 +203,9 @@ http://{host}:{port}/api/v1
 - `500 Internal Server Error` - An unexpected error occurred.
 
 ## Error Response Format
+
 All error responses will be returned in the following format:
+
 ```json
 {
   "error": {

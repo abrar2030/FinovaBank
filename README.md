@@ -15,6 +15,7 @@ FinovaBank is a modern digital banking platform that combines traditional bankin
 > **Note**: This project is under active development. Features and functionalities are continuously being enhanced to improve banking capabilities and user experience.
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Technology Stack](#technology-stack)
@@ -34,123 +35,137 @@ FinovaBank is a comprehensive digital banking platform designed to provide a sea
 ## Key Features
 
 ### Core Banking Services
-| Feature | Description |
-| :--- | :--- |
+
+| Feature                | Description                                                             |
+| :--------------------- | :---------------------------------------------------------------------- |
 | **Account Management** | Create and manage various account types (checking, savings, investment) |
-| **Payment Processing** | Domestic and international transfers with real-time tracking |
-| **Card Management** | Virtual and physical card issuance and control |
-| **Loan Services** | Application, approval, and management of various loan products |
-| **Bill Payments** | Automated and scheduled bill payments with reminders |
+| **Payment Processing** | Domestic and international transfers with real-time tracking            |
+| **Card Management**    | Virtual and physical card issuance and control                          |
+| **Loan Services**      | Application, approval, and management of various loan products          |
+| **Bill Payments**      | Automated and scheduled bill payments with reminders                    |
 
 ### AI-Powered Financial Intelligence
-| Feature | Description |
-| :--- | :--- |
-| **Personalized Insights** | AI-driven analysis of spending patterns and financial habits |
-| **Smart Budgeting** | Automated budget recommendations based on income and expenses |
-| **Fraud Detection** | Real-time monitoring and alerting for suspicious activities |
-| **Credit Scoring** | Alternative credit assessment using machine learning |
-| **Chatbot Assistant** | Natural language processing for customer support |
+
+| Feature                   | Description                                                   |
+| :------------------------ | :------------------------------------------------------------ |
+| **Personalized Insights** | AI-driven analysis of spending patterns and financial habits  |
+| **Smart Budgeting**       | Automated budget recommendations based on income and expenses |
+| **Fraud Detection**       | Real-time monitoring and alerting for suspicious activities   |
+| **Credit Scoring**        | Alternative credit assessment using machine learning          |
+| **Chatbot Assistant**     | Natural language processing for customer support              |
 
 ### Blockchain Integration
-| Feature | Description |
-| :--- | :--- |
-| **Immutable Transaction Records** | Blockchain-backed transaction history |
-| **Smart Contracts** | Automated execution of financial agreements |
-| **Digital Identity** | Secure and portable KYC verification |
-| **Cross-Border Payments** | Fast and low-cost international transfers |
-| **Tokenized Assets** | Support for digital asset management |
+
+| Feature                           | Description                                 |
+| :-------------------------------- | :------------------------------------------ |
+| **Immutable Transaction Records** | Blockchain-backed transaction history       |
+| **Smart Contracts**               | Automated execution of financial agreements |
+| **Digital Identity**              | Secure and portable KYC verification        |
+| **Cross-Border Payments**         | Fast and low-cost international transfers   |
+| **Tokenized Assets**              | Support for digital asset management        |
 
 ### Open Banking & Integration
-| Feature | Description |
-| :--- | :--- |
-| **API Ecosystem** | Developer-friendly APIs for third-party integration |
-| **Partner Marketplace** | Curated financial services from partners |
-| **Data Sharing Controls** | Granular permissions for data access |
-| **Regulatory Compliance** | Built-in compliance with open banking regulations |
-| **Analytics Dashboard** | Insights for developers and partners |
+
+| Feature                   | Description                                         |
+| :------------------------ | :-------------------------------------------------- |
+| **API Ecosystem**         | Developer-friendly APIs for third-party integration |
+| **Partner Marketplace**   | Curated financial services from partners            |
+| **Data Sharing Controls** | Granular permissions for data access                |
+| **Regulatory Compliance** | Built-in compliance with open banking regulations   |
+| **Analytics Dashboard**   | Insights for developers and partners                |
 
 ## Technology Stack
 
 ### Backend
-* **Languages**: Java, Kotlin
-* **Frameworks**: Spring Boot, Quarkus
-* **Database**: PostgreSQL, MongoDB
-* **Message Queue**: Kafka, RabbitMQ
-* **Cache**: Redis
-* **Search**: Elasticsearch
+
+- **Languages**: Java, Kotlin
+- **Frameworks**: Spring Boot, Quarkus
+- **Database**: PostgreSQL, MongoDB
+- **Message Queue**: Kafka, RabbitMQ
+- **Cache**: Redis
+- **Search**: Elasticsearch
 
 ### Frontend
-* **Framework**: React with TypeScript
-* **State Management**: Redux Toolkit
-* **Styling**: Material-UI, Styled Components
-* **Data Visualization**: D3.js, Recharts
-* **Mobile**: React Native
+
+- **Framework**: React with TypeScript
+- **State Management**: Redux Toolkit
+- **Styling**: Material-UI, Styled Components
+- **Data Visualization**: D3.js, Recharts
+- **Mobile**: React Native
 
 ### AI & Machine Learning
-* **Languages**: Python, R
-* **Frameworks**: TensorFlow, PyTorch, scikit-learn
-* **NLP**: BERT, Transformers
-* **Data Processing**: Pandas, NumPy
-* **Model Serving**: TensorFlow Serving, MLflow
+
+- **Languages**: Python, R
+- **Frameworks**: TensorFlow, PyTorch, scikit-learn
+- **NLP**: BERT, Transformers
+- **Data Processing**: Pandas, NumPy
+- **Model Serving**: TensorFlow Serving, MLflow
 
 ### Blockchain
-* **Platforms**: Hyperledger Fabric, Ethereum
-* **Smart Contracts**: Solidity, Chaincode
-* **Integration**: Web3.js, Ethers.js
-* **Identity**: Decentralized Identifiers (DIDs)
-* **Consensus**: Practical Byzantine Fault Tolerance (PBFT)
+
+- **Platforms**: Hyperledger Fabric, Ethereum
+- **Smart Contracts**: Solidity, Chaincode
+- **Integration**: Web3.js, Ethers.js
+- **Identity**: Decentralized Identifiers (DIDs)
+- **Consensus**: Practical Byzantine Fault Tolerance (PBFT)
 
 ### DevOps & Infrastructure
-* **Containerization**: Docker
-* **Orchestration**: Kubernetes
-* **CI/CD**: GitHub Actions
-* **Monitoring**: Prometheus, Grafana
-* **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
-* **Infrastructure as Code**: Terraform, Ansible
+
+- **Containerization**: Docker
+- **Orchestration**: Kubernetes
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Prometheus, Grafana
+- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
+- **Infrastructure as Code**: Terraform, Ansible
 
 ## Security Measures
 
 FinovaBank implements multiple layers of security to protect customer data and financial assets:
 
 ### Authentication & Authorization
-| Feature | Description |
-| :--- | :--- |
+
+| Feature                         | Description                                |
+| :------------------------------ | :----------------------------------------- |
 | **Multi-Factor Authentication** | Biometric, SMS, and app-based verification |
-| **Role-Based Access Control** | Granular permissions for system access |
-| **OAuth 2.0/OpenID Connect** | Secure authentication protocols |
-| **JWT Tokens** | Secure API access |
+| **Role-Based Access Control**   | Granular permissions for system access     |
+| **OAuth 2.0/OpenID Connect**    | Secure authentication protocols            |
+| **JWT Tokens**                  | Secure API access                          |
 
 ### Data Protection
-| Feature | Description |
-| :--- | :--- |
-| **End-to-End Encryption** | For all data in transit |
-| **At-Rest Encryption** | For all stored data |
-| **Data Masking** | For sensitive information |
-| **Secure Key Management** | HSM integration |
+
+| Feature                   | Description               |
+| :------------------------ | :------------------------ |
+| **End-to-End Encryption** | For all data in transit   |
+| **At-Rest Encryption**    | For all stored data       |
+| **Data Masking**          | For sensitive information |
+| **Secure Key Management** | HSM integration           |
 
 ### Compliance & Auditing
-| Feature | Description |
-| :--- | :--- |
-| **Regulatory Compliance** | GDPR, PSD2, CCPA, etc. |
-| **Audit Logging** | Comprehensive activity tracking |
-| **Penetration Testing** | Regular security assessments |
+
+| Feature                      | Description                         |
+| :--------------------------- | :---------------------------------- |
+| **Regulatory Compliance**    | GDPR, PSD2, CCPA, etc.              |
+| **Audit Logging**            | Comprehensive activity tracking     |
+| **Penetration Testing**      | Regular security assessments        |
 | **Vulnerability Management** | Continuous scanning and remediation |
 
 ### Network Security
-| Feature | Description |
-| :--- | :--- |
-| **Web Application Firewall** | Protection against common attacks |
-| **DDoS Protection** | Mitigation of denial-of-service attacks |
-| **API Security** | Rate limiting and request validation |
-| **Intrusion Detection** | Real-time monitoring for suspicious activities |
+
+| Feature                      | Description                                    |
+| :--------------------------- | :--------------------------------------------- |
+| **Web Application Firewall** | Protection against common attacks              |
+| **DDoS Protection**          | Mitigation of denial-of-service attacks        |
+| **API Security**             | Rate limiting and request validation           |
+| **Intrusion Detection**      | Real-time monitoring for suspicious activities |
 
 ### DevSecOps
-| Feature | Description |
-| :--- | :--- |
-| **Secure SDLC** | Security integrated into development lifecycle |
-| **Security Automation** | Automated security testing in CI/CD |
-| **Snyk/SonarQube** | Security scanning for code and dependencies |
-| **WAF/DDoS Protection** | Network security measures |
+
+| Feature                 | Description                                    |
+| :---------------------- | :--------------------------------------------- |
+| **Secure SDLC**         | Security integrated into development lifecycle |
+| **Security Automation** | Automated security testing in CI/CD            |
+| **Snyk/SonarQube**      | Security scanning for code and dependencies    |
+| **WAF/DDoS Protection** | Network security measures                      |
 
 ## Architecture
 
@@ -194,11 +209,12 @@ FinovaBank/
 ## Installation and Setup
 
 ### Prerequisites
-* Java 11+
-* Node.js 14+
-* Python 3.8+
-* Docker and Docker Compose
-* Kubernetes cluster (for production deployment)
+
+- Java 11+
+- Node.js 14+
+- Python 3.8+
+- Docker and Docker Compose
+- Kubernetes cluster (for production deployment)
 
 ### Quick Start with Setup Script
 
@@ -217,12 +233,14 @@ cd FinovaBank
 ### Manual Local Development Setup
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/abrar2030/FinovaBank.git
 cd FinovaBank
 ```
 
 2. Install dependencies:
+
 ```bash
 # Backend services
 cd backend
@@ -242,17 +260,20 @@ pip install -r requirements.txt
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 4. Start the development environment:
+
 ```bash
 docker-compose up -d
 ```
 
 5. Initialize the database:
+
 ```bash
 cd backend
 ./mvnw flyway:migrate
@@ -266,61 +287,67 @@ For production deployment using Kubernetes:
 # Deploy to Kubernetes
 ./kubernetes-auto-deploy.sh
 ```
+
 ## Testing
 
 The project maintains comprehensive test coverage across all components to ensure reliability and security.
 
 ### Test Coverage
 
-| Component | Coverage | Status |
-|-----------|----------|--------|
-| Core Banking Services | 92% | ✅ |
-| API Gateway | 88% | ✅ |
-| Blockchain Layer | 85% | ✅ |
-| AI Engine | 83% | ✅ |
-| Frontend Components | 80% | ✅ |
-| Mobile App | 82% | ✅ |
-| Overall | 85% | ✅ |
+| Component             | Coverage | Status |
+| --------------------- | -------- | ------ |
+| Core Banking Services | 92%      | ✅     |
+| API Gateway           | 88%      | ✅     |
+| Blockchain Layer      | 85%      | ✅     |
+| AI Engine             | 83%      | ✅     |
+| Frontend Components   | 80%      | ✅     |
+| Mobile App            | 82%      | ✅     |
+| Overall               | 85%      | ✅     |
 
 ### Unit Tests
-| Component | Test Type |
-| :--- | :--- |
-| Service layer | Unit tests for business logic |
-| Repository | Unit tests for data access |
-| Controller | Unit tests for API endpoints |
+
+| Component        | Test Type                       |
+| :--------------- | :------------------------------ |
+| Service layer    | Unit tests for business logic   |
+| Repository       | Unit tests for data access      |
+| Controller       | Unit tests for API endpoints    |
 | Utility function | Unit tests for helper functions |
 
 ### Integration Tests
-| Component | Test Type |
-| :--- | :--- |
-| API endpoint | Integration tests for routing and response |
-| Service interaction | Integration tests for inter-service communication |
-| Database integration | Integration tests for data persistence |
-| Message queue | Integration tests for asynchronous communication |
+
+| Component            | Test Type                                         |
+| :------------------- | :------------------------------------------------ |
+| API endpoint         | Integration tests for routing and response        |
+| Service interaction  | Integration tests for inter-service communication |
+| Database integration | Integration tests for data persistence            |
+| Message queue        | Integration tests for asynchronous communication  |
 
 ### End-to-End Tests
-| Component | Test Type |
-| :--- | :--- |
-| User journey | E2E tests for full user workflows |
+
+| Component               | Test Type                                       |
+| :---------------------- | :---------------------------------------------- |
+| User journey            | E2E tests for full user workflows               |
 | Cross-service workflows | E2E tests for complex, multi-service operations |
-| Payment processing | E2E tests for transaction lifecycle |
-| Account management | E2E tests for account creation and modification |
+| Payment processing      | E2E tests for transaction lifecycle             |
+| Account management      | E2E tests for account creation and modification |
 
 ### Performance Tests
-| Test Type | Purpose |
-| :--- | :--- |
-| Load testing | To assess system behavior under expected load |
-| Stress testing | To determine system breaking point |
-| Scalability testing | To verify horizontal scaling capabilities |
-| Database performance testing | To optimize data layer efficiency |
+
+| Test Type                    | Purpose                                       |
+| :--------------------------- | :-------------------------------------------- |
+| Load testing                 | To assess system behavior under expected load |
+| Stress testing               | To determine system breaking point            |
+| Scalability testing          | To verify horizontal scaling capabilities     |
+| Database performance testing | To optimize data layer efficiency             |
 
 ### Security Tests
-| Test Type | Purpose |
-| :--- | :--- |
-| Penetration testing | To identify and exploit vulnerabilities |
+
+| Test Type              | Purpose                                      |
+| :--------------------- | :------------------------------------------- |
+| Penetration testing    | To identify and exploit vulnerabilities      |
 | Vulnerability scanning | Continuous scanning of code and dependencies |
-| Authentication tests | To ensure secure login mechanisms |
-| Authorization tests | To verify granular access control |
+| Authentication tests   | To ensure secure login mechanisms            |
+| Authorization tests    | To verify granular access control            |
 
 ### Running Tests
 
@@ -342,15 +369,16 @@ npm test
 ```
 
 ### CI/CD Pipeline
+
 FinovaBank uses GitHub Actions for continuous integration and deployment:
 
-| Stage | Description |
-| :--- | :--- |
-| Automated testing | On each pull request |
-| Code quality checks | With SonarQube |
-| Security scanning | With Snyk and OWASP Dependency Check |
-| Docker image building | And publishing |
-| Automated deployment | To staging and production environments |s
+| Stage                 | Description                            |
+| :-------------------- | :------------------------------------- | --- |
+| Automated testing     | On each pull request                   |
+| Code quality checks   | With SonarQube                         |
+| Security scanning     | With Snyk and OWASP Dependency Check   |
+| Docker image building | And publishing                         |
+| Automated deployment  | To staging and production environments | s   |
 
 ## Contributing
 

@@ -166,7 +166,7 @@ compliance_requirements:
 
 # Monitoring Configuration
 cloudwatch_region: us-west-2
-log_retention_days: 2555  # 7 years for financial compliance
+log_retention_days: 2555 # 7 years for financial compliance
 ```
 
 ## Security
@@ -322,6 +322,7 @@ The infrastructure complies with:
 ### Common Issues
 
 1. **Terraform Deployment Failures**
+
    ```bash
    # Check AWS credentials
    aws sts get-caller-identity
@@ -334,6 +335,7 @@ The infrastructure complies with:
    ```
 
 2. **Ansible Configuration Failures**
+
    ```bash
    # Test connectivity
    ansible all -i inventory.yml -m ping
@@ -346,6 +348,7 @@ The infrastructure complies with:
    ```
 
 3. **Application Health Issues**
+
    ```bash
    # Check service status
    ansible all -i inventory.yml -m shell -a "docker ps"
@@ -420,6 +423,7 @@ This infrastructure configuration is proprietary to FinovaBank and is subject to
 ## Changelog
 
 ### Version 2.0.0 (2024-01-01)
+
 - Complete infrastructure redesign for financial-grade security
 - Added comprehensive compliance framework
 - Implemented multi-layered monitoring
@@ -427,6 +431,7 @@ This infrastructure configuration is proprietary to FinovaBank and is subject to
 - Added disaster recovery capabilities
 
 ### Version 1.0.0 (2023-01-01)
+
 - Initial infrastructure implementation
 - Basic security controls
 - Simple monitoring setup

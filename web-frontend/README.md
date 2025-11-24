@@ -4,28 +4,28 @@ This is the web frontend for the FinovaBank application, a modern and responsive
 
 ## Features
 
-*   **Dashboard:** View account summaries and recent transactions.
-*   **Accounts:** See detailed information about your accounts.
-*   **Transactions:** Browse your transaction history.
-*   **Loans:** Apply for and manage your loans.
-*   **Savings Goals:** Set and track your savings goals.
-*   **Authentication:** Secure login and registration functionality.
+- **Dashboard:** View account summaries and recent transactions.
+- **Accounts:** See detailed information about your accounts.
+- **Transactions:** Browse your transaction history.
+- **Loans:** Apply for and manage your loans.
+- **Savings Goals:** Set and track your savings goals.
+- **Authentication:** Secure login and registration functionality.
 
 ## Tech Stack
 
-*   **React:** A JavaScript library for building user interfaces.
-*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
-*   **Material-UI (MUI):** A popular React UI framework.
-*   **React Router:** For routing and navigation.
-*   **Axios:** For making HTTP requests to the backend API.
-*   **React Context API:** For state management.
+- **React:** A JavaScript library for building user interfaces.
+- **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
+- **Material-UI (MUI):** A popular React UI framework.
+- **React Router:** For routing and navigation.
+- **Axios:** For making HTTP requests to the backend API.
+- **React Context API:** For state management.
 
 ## Getting Started
 
 ### Prerequisites
 
-*   Node.js (v14 or later)
-*   npm
+- Node.js (v14 or later)
+- npm
 
 ### Installation
 
@@ -52,10 +52,10 @@ This is the web frontend for the FinovaBank application, a modern and responsive
 
 ## Available Scripts
 
-*   `npm start`: Runs the app in development mode.
-*   `npm test`: Launches the test runner in interactive watch mode.
-*   `npm run build`: Builds the app for production.
-*   `npm run eject`: Ejects the app from Create React App.
+- `npm start`: Runs the app in development mode.
+- `npm test`: Launches the test runner in interactive watch mode.
+- `npm run build`: Builds the app for production.
+- `npm run eject`: Ejects the app from Create React App.
 
 ## Project Structure
 

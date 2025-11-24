@@ -1,67 +1,67 @@
 {
-"id": null,
-"title": "Finova Monitoring Dashboard",
-"tags": [],
-"timezone": "browser",
-"schemaVersion": 16,
-"version": 0,
-"refresh": "5s",
-"panels": [
-{
-"type": "graph",
-"title": "CPU Usage",
-"targets": [
-{
-"expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[1m])) by (instance)",
-"interval": "",
-"legendFormat": "{{instance}}",
-"refId": "A"
-}
-],
-"datasource": "Prometheus",
-"id": 1
-},
-{
-"type": "graph",
-"title": "Memory Usage",
-"targets": [
-{
-"expr": "sum(container_memory_usage_bytes{image!=\"\"}) by (instance)",
-"interval": "",
-"legendFormat": "{{instance}}",
-"refId": "B"
-}
-],
-"datasource": "Prometheus",
-"id": 2
-},
-{
-"type": "graph",
-"title": "HTTP Requests Rate",
-"targets": [
-{
-"expr": "sum(rate(http_requests_total[5m])) by (service)",
-"interval": "",
-"legendFormat": "{{service}}",
-"refId": "C"
-}
-],
-"datasource": "Prometheus",
-"id": 3
-},
-{
-"type": "graph",
-"title": "Database Connections",
-"targets": [
-{
-"expr": "pg_stat_activity_count",
-"interval": "",
-"legendFormat": "PostgreSQL Connections",
-"refId": "D"
-}
-],
-"datasource": "Prometheus",
-"id": 4
-}
-]
+  "id": null,
+  "title": "Finova Monitoring Dashboard",
+  "tags": [],
+  "timezone": "browser",
+  "schemaVersion": 16,
+  "version": 0,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "CPU Usage",
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[1m])) by (instance)",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 1
+    },
+    {
+      "type": "graph",
+      "title": "Memory Usage",
+      "targets": [
+        {
+          "expr": "sum(container_memory_usage_bytes{image!=\"\"}) by (instance)",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "B"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 2
+    },
+    {
+      "type": "graph",
+      "title": "HTTP Requests Rate",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total[5m])) by (service)",
+          "interval": "",
+          "legendFormat": "{{service}}",
+          "refId": "C"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 3
+    },
+    {
+      "type": "graph",
+      "title": "Database Connections",
+      "targets": [
+        {
+          "expr": "pg_stat_activity_count",
+          "interval": "",
+          "legendFormat": "PostgreSQL Connections",
+          "refId": "D"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 4
+    }
+  ]
 }

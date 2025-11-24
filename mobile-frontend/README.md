@@ -16,7 +16,7 @@ The android directory contains Android-specific configuration and native code. T
 
 The ios directory houses iOS-specific configuration and native code. This includes the Xcode project, CocoaPods dependencies, and any native modules or customizations needed for the iOS platform. The iOS implementation adheres to Apple's guidelines and supports the latest iOS features while maintaining backward compatibility.
 
-The __tests__ directory contains the application's test suite, including unit tests, component tests, and integration tests. The testing strategy emphasizes comprehensive coverage to ensure application reliability and prevent regressions during development. Jest is used as the primary testing framework, with additional tools for testing React components and asynchronous code.
+The **tests** directory contains the application's test suite, including unit tests, component tests, and integration tests. The testing strategy emphasizes comprehensive coverage to ensure application reliability and prevent regressions during development. Jest is used as the primary testing framework, with additional tools for testing React components and asynchronous code.
 
 ## Key Features
 

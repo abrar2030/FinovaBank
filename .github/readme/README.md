@@ -254,10 +254,10 @@ The backend and frontend workflows use path filtering to only trigger when relev
 ```yaml
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'backend/**'
-      - '.github/workflows/backend-workflow.yml'
+      - "backend/**"
+      - ".github/workflows/backend-workflow.yml"
 ```
 
 This improves efficiency by avoiding unnecessary workflow runs when unrelated files are modified.

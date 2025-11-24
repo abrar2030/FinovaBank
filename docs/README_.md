@@ -7,6 +7,7 @@
 > **Note**: FinovaBank is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
 
 ## Table of Contents
+
 - [Architecture](#architecture)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -22,6 +23,7 @@
 FinovaBank is built using a microservices architecture with services running in Docker containers. Each core banking feature (such as account management, transaction processing, notifications, etc.) has been implemented as an independent microservice.
 
 The following microservices are included:
+
 - **API Gateway**: Handles incoming requests and routes them to the appropriate services.
 - **Account Management**: Manages customer accounts, including balance and account details.
 - **Transaction Service**: Processes financial transactions between accounts.
@@ -53,17 +55,20 @@ The following microservices are included:
 To get started with FinovaBank locally, follow these steps:
 
 1. **Clone the repository**:
+
    ```sh
    git clone https://github.com/abrar2030/FinovaBank.git
    cd FinovaBank
    ```
 
 2. **Build Docker images** for all services:
+
    ```sh
    ./docker-build-and-compose.sh
    ```
 
 3. **Start services using Docker Compose**:
+
    ```sh
    docker-compose up -d
    ```
