@@ -5,9 +5,6 @@
 # This script automates the testing process for all components
 # of the FinovaBank platform, including unit tests, integration
 # tests, and end-to-end tests.
-#
-# Author: Manus AI
-# Date: May 22, 2025
 # =====================================================
 
 set -e

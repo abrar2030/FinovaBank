@@ -4,9 +4,6 @@
 # =====================================================
 # This script automates code linting, formatting, and quality
 # checks across all components of the FinovaBank platform.
-#
-# Author: Manus AI
-# Date: May 22, 2025
 # =====================================================
 
 set -e

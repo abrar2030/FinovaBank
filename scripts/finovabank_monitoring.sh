@@ -5,9 +5,6 @@
 # This script automates the setup and configuration of
 # monitoring tools for the FinovaBank platform, including
 # Prometheus, Grafana, and ELK Stack.
-#
-# Author: Manus AI
-# Date: May 22, 2025
 # =====================================================
 
 set -e

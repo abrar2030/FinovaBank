@@ -5,9 +5,6 @@
 # This script automates database operations including
 # initialization, migration, backup, restore, and
 # seeding test data.
-#
-# Author: Manus AI
-# Date: May 22, 2025
 # =====================================================
 
 set -e

@@ -5,9 +5,6 @@
 # This script automates the complete setup of the FinovaBank
 # development environment, including dependency installation,
 # environment configuration, and initial database setup.
-#
-# Author: Manus AI
-# Date: May 22, 2025
 # =====================================================
 
 set -e

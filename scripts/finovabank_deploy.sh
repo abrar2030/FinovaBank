@@ -5,9 +5,6 @@
 # This script automates the deployment process for the
 # FinovaBank platform to various environments including
 # development, staging, and production.
-#
-# Author: Manus AI
-# Date: May 22, 2025
 # =====================================================
 
 set -e
