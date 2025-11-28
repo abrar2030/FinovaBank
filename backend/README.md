@@ -365,19 +365,6 @@ OPENAI_API_KEY=your-openai-key
 - SpotBugs for bug detection
 - OWASP dependency check for security
 
-## 📞 Support
-
-For technical support or questions:
-
-- Email: support@finovabank.com
-- Documentation: [Internal Wiki]
-- Issue Tracker: [Internal JIRA]
-
 ## 📄 License
 
-Proprietary - FinovaBank Financial Services
-© 2024 FinovaBank. All rights reserved.
-
----
-
-**Note**: This backend solution represents a comprehensive financial technology platform designed to meet enterprise requirements and regulatory compliance standards. The AI capabilities and security features make it suitable for modern financial institutions seeking to leverage cutting-edge technology while maintaining the highest standards of security and compliance.
+## Proprietary - FinovaBank Financial Services © 2024 FinovaBank. All rights reserved.
