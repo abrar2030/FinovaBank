@@ -33,21 +33,39 @@ public class AccountController {
 
   private final AccountService accountService;
 
+  // --- Common Role Definitions for Readability ---
+  private static final String ROLE_EMPLOYEE_MANAGER_ADMIN =
+      "hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')";
+  private static final String ROLE_ALL_USERS =
+      "hasRole('CUSTOMER') or " + ROLE_EMPLOYEE_MANAGER_ADMIN;
+  private static final String ROLE_MANAGER_ADMIN_COMPLIANCE =
+      "hasRole('MANAGER') or hasRole('ADMIN') or hasRole('COMPLIANCE_OFFICER')";
+  private static final String ROLE_MANAGER_ADMIN =
+      "hasRole('MANAGER') or hasRole('ADMIN')";
+
+
+  // ----------------------------------------------------------------------------------
+  // 1. Account Creation
+  // ----------------------------------------------------------------------------------
+
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED) // Use @ResponseStatus for cleaner 201 response
   @Operation(summary = "Create new account", description = "Create a new bank account")
-  @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
-  public ResponseEntity<AccountResponse> createAccount(
-      @Valid @RequestBody AccountCreateRequest request) {
+  @PreAuthorize(ROLE_EMPLOYEE_MANAGER_ADMIN)
+  public AccountResponse createAccount(@Valid @RequestBody AccountCreateRequest request) {
     log.info("Creating account for customer: {}", request.getCustomerId());
     AccountResponse response = accountService.createAccount(request);
     log.info("Account created successfully with ID: {}", response.getId());
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    return response;
   }
+
+  // ----------------------------------------------------------------------------------
+  // 2. Account Retrieval
+  // ----------------------------------------------------------------------------------
 
   @GetMapping("/{id}")
   @Operation(summary = "Get account by ID", description = "Retrieve account details by account ID")
-  @PreAuthorize(
-      "hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_ALL_USERS)
   public ResponseEntity<AccountResponse> getAccountById(@PathVariable Long id) {
     log.debug("Retrieving account with ID: {}", id);
     AccountResponse response = accountService.getAccountById(id);
@@ -58,7 +76,7 @@ public class AccountController {
   @Operation(
       summary = "Get account by account number",
       description = "Retrieve account details by account number")
-  @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_EMPLOYEE_MANAGER_ADMIN)
   public ResponseEntity<AccountResponse> getAccountByNumber(
       @PathVariable @NotBlank String accountNumber) {
     log.debug("Retrieving account with number: {}", accountNumber);
@@ -70,8 +88,7 @@ public class AccountController {
   @Operation(
       summary = "Get accounts by customer ID",
       description = "Retrieve all accounts for a specific customer")
-  @PreAuthorize(
-      "hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_ALL_USERS)
   public ResponseEntity<List<AccountResponse>> getAccountsByCustomerId(
       @PathVariable @NotBlank String customerId) {
     log.debug("Retrieving accounts for customer: {}", customerId);
@@ -81,7 +98,7 @@ public class AccountController {
 
   @GetMapping
   @Operation(summary = "Get all accounts", description = "Retrieve all accounts with pagination")
-  @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_EMPLOYEE_MANAGER_ADMIN)
   public ResponseEntity<Page<AccountResponse>> getAllAccounts(
       @Parameter(description = "Pagination information") Pageable pageable,
       @RequestParam(required = false) Account.AccountType accountType,
@@ -91,9 +108,35 @@ public class AccountController {
     return ResponseEntity.ok(responses);
   }
 
+  // ----------------------------------------------------------------------------------
+  // 3. Balance Retrieval
+  // ----------------------------------------------------------------------------------
+
+  @GetMapping("/{id}/balance")
+  @Operation(summary = "Get account balance", description = "Get current account balance")
+  @PreAuthorize(ROLE_ALL_USERS)
+  public ResponseEntity<BigDecimal> getAccountBalance(@PathVariable Long id) {
+    log.debug("Retrieving balance for account ID: {}", id);
+    BigDecimal balance = accountService.getAccountBalance(id);
+    return ResponseEntity.ok(balance);
+  }
+
+  @GetMapping("/{id}/available-balance")
+  @Operation(summary = "Get available balance", description = "Get available account balance")
+  @PreAuthorize(ROLE_ALL_USERS)
+  public ResponseEntity<BigDecimal> getAvailableBalance(@PathVariable Long id) {
+    log.debug("Retrieving available balance for account ID: {}", id);
+    BigDecimal availableBalance = accountService.getAvailableBalance(id);
+    return ResponseEntity.ok(availableBalance);
+  }
+
+  // ----------------------------------------------------------------------------------
+  // 4. Account Updates (General and Balance)
+  // ----------------------------------------------------------------------------------
+
   @PutMapping("/{id}")
   @Operation(summary = "Update account", description = "Update account details")
-  @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_EMPLOYEE_MANAGER_ADMIN)
   public ResponseEntity<AccountResponse> updateAccount(
       @PathVariable Long id, @Valid @RequestBody AccountUpdateRequest request) {
     log.info("Updating account with ID: {}", id);
@@ -106,7 +149,7 @@ public class AccountController {
   @Operation(
       summary = "Update account balance",
       description = "Update account balance (credit/debit)")
-  @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_EMPLOYEE_MANAGER_ADMIN)
   public ResponseEntity<AccountResponse> updateBalance(
       @PathVariable Long id, @Valid @RequestBody BalanceUpdateRequest request) {
     log.info(
@@ -119,9 +162,13 @@ public class AccountController {
     return ResponseEntity.ok(response);
   }
 
+  // ----------------------------------------------------------------------------------
+  // 5. Account Status Management (Freeze/Unfreeze/Status)
+  // ----------------------------------------------------------------------------------
+
   @PatchMapping("/{id}/freeze")
   @Operation(summary = "Freeze account", description = "Freeze an account")
-  @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN') or hasRole('COMPLIANCE_OFFICER')")
+  @PreAuthorize(ROLE_MANAGER_ADMIN_COMPLIANCE)
   public ResponseEntity<AccountResponse> freezeAccount(
       @PathVariable Long id, @RequestParam @NotBlank String reason) {
     log.warn("Freezing account ID: {} for reason: {}", id, reason);
@@ -132,7 +179,7 @@ public class AccountController {
 
   @PatchMapping("/{id}/unfreeze")
   @Operation(summary = "Unfreeze account", description = "Unfreeze an account")
-  @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN') or hasRole('COMPLIANCE_OFFICER')")
+  @PreAuthorize(ROLE_MANAGER_ADMIN_COMPLIANCE)
   public ResponseEntity<AccountResponse> unfreezeAccount(@PathVariable Long id) {
     log.info("Unfreezing account ID: {}", id);
     AccountResponse response = accountService.unfreezeAccount(id);
@@ -142,7 +189,7 @@ public class AccountController {
 
   @PatchMapping("/{id}/status")
   @Operation(summary = "Update account status", description = "Update account status")
-  @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_MANAGER_ADMIN)
   public ResponseEntity<AccountResponse> updateAccountStatus(
       @PathVariable Long id,
       @RequestParam Account.AccountStatus status,
@@ -153,9 +200,13 @@ public class AccountController {
     return ResponseEntity.ok(response);
   }
 
+  // ----------------------------------------------------------------------------------
+  // 6. Account Closing
+  // ----------------------------------------------------------------------------------
+
   @DeleteMapping("/{id}")
   @Operation(summary = "Close account", description = "Close an account")
-  @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_MANAGER_ADMIN)
   public ResponseEntity<Void> closeAccount(
       @PathVariable Long id, @RequestParam(required = false) String reason) {
     log.warn("Closing account ID: {} for reason: {}", id, reason);
@@ -164,31 +215,15 @@ public class AccountController {
     return ResponseEntity.noContent().build();
   }
 
-  @GetMapping("/{id}/balance")
-  @Operation(summary = "Get account balance", description = "Get current account balance")
-  @PreAuthorize(
-      "hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
-  public ResponseEntity<BigDecimal> getAccountBalance(@PathVariable Long id) {
-    log.debug("Retrieving balance for account ID: {}", id);
-    BigDecimal balance = accountService.getAccountBalance(id);
-    return ResponseEntity.ok(balance);
-  }
-
-  @GetMapping("/{id}/available-balance")
-  @Operation(summary = "Get available balance", description = "Get available account balance")
-  @PreAuthorize(
-      "hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
-  public ResponseEntity<BigDecimal> getAvailableBalance(@PathVariable Long id) {
-    log.debug("Retrieving available balance for account ID: {}", id);
-    BigDecimal availableBalance = accountService.getAvailableBalance(id);
-    return ResponseEntity.ok(availableBalance);
-  }
+  // ----------------------------------------------------------------------------------
+  // 7. Transaction Validation
+  // ----------------------------------------------------------------------------------
 
   @PostMapping("/{id}/validate-transaction")
   @Operation(
       summary = "Validate transaction",
       description = "Validate if a transaction can be performed")
-  @PreAuthorize("hasRole('EMPLOYEE') or hasRole('MANAGER') or hasRole('ADMIN')")
+  @PreAuthorize(ROLE_EMPLOYEE_MANAGER_ADMIN)
   public ResponseEntity<Boolean> validateTransaction(
       @PathVariable Long id,
       @RequestParam BigDecimal amount,
