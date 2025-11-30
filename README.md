@@ -372,13 +372,13 @@ npm test
 
 FinovaBank uses GitHub Actions for continuous integration and deployment:
 
-| Stage                 | Description                            |
-| :-------------------- | :------------------------------------- | --- |
-| Automated testing     | On each pull request                   |
-| Code quality checks   | With SonarQube                         |
-| Security scanning     | With Snyk and OWASP Dependency Check   |
-| Docker image building | And publishing                         |
-| Automated deployment  | To staging and production environments | s   |
+| Stage                 | Description                           |
+| --------------------- | ------------------------------------- |
+| Automated testing     | Runs on each pull request             |
+| Code quality checks   | Performed using SonarQube             |
+| Security scanning     | Using Snyk and OWASP Dependency Check |
+| Docker image building | Building and publishing Docker images |
+| Automated deployment  | Deploys to staging and production     |
 
 ## Contributing
 
