@@ -5,7 +5,7 @@
 # =====================================================
 
 # Exit immediately if a command exits with a non-zero status
-set -e
+set -euo pipefail
 
 # --------------------
 # Color Definitions
@@ -142,12 +142,13 @@ build_all_services() {
 check_service_health() {
     local SERVICE_NAME=$1
     local PORT=$2
-    local MAX_RETRIES=30          # Number of retries
-    local RETRY_INTERVAL=5        # Seconds between retries
+    local MAX_RETRIES=60          # Number of retries (Increased for financial reliability)
+    local RETRY_INTERVAL=2        # Seconds between retries
 
-    info "Checking health for $SERVICE_NAME on port $PORT..."
+    info "Checking health for $SERVICE_NAME on port $PORT (max $MAX_RETRIES attempts)..."
 
     for ((i=1;i<=MAX_RETRIES;i++)); do
+        # Use a more robust check, e.g., a simple HTTP GET if possible, but nc is a good general check
         if nc -z 127.0.0.1 "$PORT"; then
             success "$SERVICE_NAME is up (Port $PORT)."
             return 0
@@ -157,7 +158,7 @@ check_service_health() {
         fi
     done
 
-    error "Failed to start $SERVICE_NAME after $MAX_RETRIES attempts."
+    error "Failed to start $SERVICE_NAME after $MAX_RETRIES attempts. This is a critical failure in a financial system."
     return 1
 }
 

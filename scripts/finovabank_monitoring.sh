@@ -7,7 +7,7 @@
 # Prometheus, Grafana, and ELK Stack.
 # =====================================================
 
-set -e
+set -euo pipefail
 
 # Color codes for better readability
 RED='\033[0;31m'
@@ -17,13 +17,13 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default values
-MONITORING_DIR="./monitoring"
-CONFIG_DIR="./monitoring/config"
-DATA_DIR="./monitoring/data"
-GRAFANA_PORT=3000
-PROMETHEUS_PORT=9090
-KIBANA_PORT=5601
-ELASTICSEARCH_PORT=9200
+MONITORING_DIR="${FINOVABANK_MONITORING_DIR:-./monitoring}"
+CONFIG_DIR="${FINOVABANK_CONFIG_DIR:-./monitoring/config}"
+DATA_DIR="${FINOVABANK_DATA_DIR:-./monitoring/data}"
+GRAFANA_PORT="${FINOVABANK_GRAFANA_PORT:-3000}"
+PROMETHEUS_PORT="${FINOVABANK_PROMETHEUS_PORT:-9090}"
+KIBANA_PORT="${FINOVABANK_KIBANA_PORT:-5601}"
+ELASTICSEARCH_PORT="${FINOVABANK_ELASTICSEARCH_PORT:-9200}"
 SETUP_PROMETHEUS=true
 SETUP_GRAFANA=true
 SETUP_ELK=true
@@ -181,10 +181,11 @@ EOF
     cat > "$CONFIG_DIR/alertmanager/alertmanager.yml" << EOF
 global:
   resolve_timeout: 5m
-  smtp_smarthost: 'smtp.example.com:587'
-  smtp_from: 'alertmanager@finovabank.com'
-  smtp_auth_username: 'alertmanager'
-  smtp_auth_password: 'password'
+  # IMPORTANT: In a financial context, these credentials MUST be managed securely (e.g., Kubernetes Secrets or Vault)
+  smtp_smarthost: '${ALERTMANAGER_SMTP_HOST:-smtp.example.com:587}'
+  smtp_from: '${ALERTMANAGER_SMTP_FROM:-alertmanager@finovabank.com}'
+  smtp_auth_username: '${ALERTMANAGER_SMTP_USER:-alertmanager}'
+  smtp_auth_password: '${ALERTMANAGER_SMTP_PASSWORD:-password}'
 
 route:
   group_by: ['alertname', 'job']

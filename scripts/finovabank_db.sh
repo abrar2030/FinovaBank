@@ -7,7 +7,7 @@
 # seeding test data.
 # =====================================================
 
-set -e
+set -euo pipefail
 
 # Color codes for better readability
 RED='\033[0;31m'
@@ -17,11 +17,11 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default values
-DB_HOST="localhost"
-DB_PORT="5432"
-DB_NAME="finovabank"
-DB_USER="postgres"
-DB_PASSWORD="postgres"
+DB_HOST="${FINOVABANK_DB_HOST:-localhost}"
+DB_PORT="${FINOVABANK_DB_PORT:-5432}"
+DB_NAME="${FINOVABANK_DB_NAME:-finovabank}"
+DB_USER="${FINOVABANK_DB_USER:-postgres}"
+DB_PASSWORD="${FINOVABANK_DB_PASSWORD:-postgres}"
 BACKUP_DIR="./database/backups"
 MIGRATIONS_DIR="./database/migrations"
 SEED_DIR="./database/seed"
@@ -79,8 +79,17 @@ check_db_container() {
     if ! docker-compose ps | grep -q "database.*Up"; then
         warning_msg "Database container is not running. Starting it now..."
         docker-compose up -d database
-        echo "Waiting for database to be ready..."
-        sleep 10
+        # Robust health check for financial industry standard reliability
+        MAX_ATTEMPTS=10
+        ATTEMPT=0
+        echo "Waiting for database to be ready (max $MAX_ATTEMPTS attempts)..."
+        until docker-compose exec -T database pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" > /dev/null 2>&1 || [ $ATTEMPT -eq $MAX_ATTEMPTS ]; do
+            sleep 3
+            ATTEMPT=$((ATTEMPT + 1))
+        done
+        if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
+            error_msg "Database failed to become ready after $MAX_ATTEMPTS attempts."
+        fi
     fi
 }
 
@@ -140,8 +149,9 @@ backup_database() {
 
     check_db_container
 
-    # Create backup directory if it doesn't exist
+    # Create backup directory if it doesn't exist and set secure permissions
     mkdir -p "$BACKUP_DIR"
+    chmod 700 "$BACKUP_DIR"
 
     # Generate backup filename with timestamp
     backup_file="$BACKUP_DIR/${DB_NAME}_$(date +%Y%m%d_%H%M%S).sql"
@@ -149,6 +159,9 @@ backup_database() {
     # Create backup
     echo "Backing up database to $backup_file..."
     docker-compose exec -T database pg_dump -U "$DB_USER" "$DB_NAME" > "$backup_file"
+
+    # Set secure permissions on the backup file
+    chmod 600 "$backup_file"
 
     # Compress backup
     gzip "$backup_file"

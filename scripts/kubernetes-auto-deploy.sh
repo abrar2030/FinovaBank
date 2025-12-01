@@ -1,26 +1,50 @@
 #!/bin/bash
 
+# =====================================================
+# FinovaBank Kubernetes Deployment Script
+# =====================================================
+# This script automates the deployment of FinovaBank services
+# to a Kubernetes cluster (Minikube by default).
+# =====================================================
+
+# Exit immediately if a command exits with a non-zero status
+set -euo pipefail
+
+# Default values (Parameterized for financial industry standard deployment)
+DOCKER_REGISTRY="${FINOVABANK_DOCKER_REGISTRY:-finovabank}"
+VERSION="${FINOVABANK_VERSION:-latest}"
+MINIKUBE_PROFILE="${FINOVABANK_KUBE_PROFILE:-minikube}"
+
 # Check if a service name is provided
 if [ -z "$1" ]; then
-  echo "Usage: ./docker-minikube-deploy.sh [service-name|all]"
+  echo "Usage: $0 [service-name|all]"
   exit 1
 fi
 
 SERVICE_NAME=$1
-MINIKUBE_PROFILE="minikube"
+
+# Check for required tools
+if ! command -v minikube &> /dev/null; then
+    echo "Error: minikube is not installed."
+    exit 1
+fi
+if ! command -v kubectl &> /dev/null; then
+    echo "Error: kubectl is not installed."
+    exit 1
+fi
 
 # Check if Minikube is already running
-if ! minikube status --profile=$MINIKUBE_PROFILE | grep -q "Running"; then
-  echo "Starting Minikube..."
-  minikube start --profile=$MINIKUBE_PROFILE
+if ! minikube status --profile="$MINIKUBE_PROFILE" | grep -q "Running"; then
+  echo "Starting Minikube profile: $MINIKUBE_PROFILE..."
+  minikube start --profile="$MINIKUBE_PROFILE"
 else
-  echo "Minikube is already running. Skipping start."
+  echo "Minikube profile $MINIKUBE_PROFILE is already running. Skipping start."
 fi
 
 echo "Using Minikube's Docker environment..."
 # Configure shell to use Minikube's Docker daemon
 # shellcheck disable=SC2046
-eval $(minikube -p $MINIKUBE_PROFILE docker-env)
+eval "$(minikube -p "$MINIKUBE_PROFILE" docker-env)"
 
 build_java_project() {
   local svc=$1
@@ -44,7 +68,7 @@ deploy_service() {
   build_java_project "$svc"
 
   echo "Building Docker image for $svc..."
-  docker buildx build -t finovabackend-"$svc" -f backend/"$svc"/Dockerfile backend/"$svc"/
+  docker buildx build -t "$DOCKER_REGISTRY/$svc:$VERSION" -f backend/"$svc"/Dockerfile backend/"$svc"/
 
   if [ $? -ne 0 ]; then
     echo "Error building Docker image for $svc."
@@ -96,7 +120,7 @@ case $SERVICE_NAME in
     deploy_service "savings-goals-service"
     ;;
   frontend)
-    deploy_service "frontend"
+    deploy_service "frontend" # Assuming frontend is a service directory
     ;;
   all)
     services=(

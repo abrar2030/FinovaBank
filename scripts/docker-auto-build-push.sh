@@ -18,7 +18,7 @@
 # =====================================================
 
 # Exit immediately if a command exits with a non-zero status
-set -e
+set -euo pipefail
 
 # Function to display usage information
 usage() {
@@ -56,12 +56,17 @@ if [ -z "$DOCKER_USERNAME" ] || [ -z "$DOCKER_PASSWORD" ]; then
 fi
 
 # Log in to Docker Hub, suppressing only the warning message
+# Using --password-stdin is the standard secure way for scripting, but we ensure the variables are set.
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 2>/dev/null
+if [ $? -ne 0 ]; then
+    error "Failed to log in to Docker Hub. Check DOCKER_USERNAME and DOCKER_PASSWORD."
+    exit 1
+fi
 echo "Successfully logged in to Docker Hub."
 
 # Define Docker Hub repositories
-FRONTEND_REPO="$DOCKER_USERNAME/finovafrontend"
-BACKEND_PREFIX="$DOCKER_USERNAME/finovabackend"
+FRONTEND_REPO="${FINOVABANK_FRONTEND_REPO:-$DOCKER_USERNAME/finovafrontend}"
+BACKEND_PREFIX="${FINOVABANK_BACKEND_PREFIX:-$DOCKER_USERNAME/finovabackend}"
 
 # Services to build and push
 BACKEND_SERVICES=("account-management" "api-gateway" "compliance" "eureka-server" "loan-management" "notification-service" "reporting" "risk-assessment" "savings-goals" "transaction-service")

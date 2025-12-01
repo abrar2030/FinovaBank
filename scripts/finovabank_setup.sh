@@ -7,7 +7,7 @@
 # environment configuration, and initial database setup.
 # =====================================================
 
-set -e
+set -euo pipefail
 
 # Color codes for better readability
 RED='\033[0;31m'
@@ -244,9 +244,18 @@ init_database() {
         docker-compose up -d database
     fi
 
-    # Wait for database to be ready
-    echo "Waiting for database to be ready..."
-    sleep 10
+    # Robust health check for financial industry standard reliability
+    MAX_ATTEMPTS=10
+    ATTEMPT=0
+    echo "Waiting for database to be ready (max $MAX_ATTEMPTS attempts)..."
+    until docker-compose exec -T database pg_isready -h localhost -p 5432 -U postgres > /dev/null 2>&1 || [ $ATTEMPT -eq $MAX_ATTEMPTS ]; do
+        sleep 3
+        ATTEMPT=$((ATTEMPT + 1))
+    done
+    if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
+        error_msg "Database failed to become ready after $MAX_ATTEMPTS attempts."
+        exit 1
+    fi
 
     # Run database migrations
     cd backend

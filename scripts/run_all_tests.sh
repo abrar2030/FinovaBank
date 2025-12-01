@@ -3,7 +3,7 @@
 # Script to run all tests for the FinovaBank project
 
 # Exit immediately if a command exits with a non-zero status.
-set -e
+set -euo pipefail
 
 # Define project root directory (assuming the script is run from the project root)
 PROJECT_ROOT=$(pwd)

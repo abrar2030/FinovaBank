@@ -7,7 +7,7 @@
 # development, staging, and production.
 # =====================================================
 
-set -e
+set -euo pipefail
 
 # Color codes for better readability
 RED='\033[0;31m'
@@ -20,8 +20,8 @@ NC='\033[0m' # No Color
 ENVIRONMENT="dev"
 CONFIG_DIR="./deployment/config"
 KUBE_CONFIG=""
-DOCKER_REGISTRY="docker.io/finovabank"
-VERSION=$(git describe --tags --always || echo "latest")
+DOCKER_REGISTRY="${FINOVABANK_DOCKER_REGISTRY:-docker.io/finovabank}"
+VERSION="${FINOVABANK_VERSION:-$(git describe --tags --always || echo "latest")}"
 SKIP_TESTS=false
 SKIP_BUILD=false
 DEPLOY_ALL=true

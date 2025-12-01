@@ -1,10 +1,14 @@
 #!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status
-set -e
+set -euo pipefail
 
 # Define project root
 PROJECT_ROOT=$(pwd)
+
+# Default values for image tagging (Parameterized for financial industry standard deployment)
+DOCKER_REGISTRY="${FINOVABANK_DOCKER_REGISTRY:-finovabank}"
+VERSION="${FINOVABANK_VERSION:-latest}"
 
 # Define backend and frontend directories
 BACKEND_DIR="$PROJECT_ROOT/backend"
@@ -74,7 +78,7 @@ build_docker_images() {
 
         if [ -d "$SERVICE_PATH" ]; then
             cd "$SERVICE_PATH"
-            docker buildx build -t finovabank/$SERVICE:1.0 .
+            docker buildx build -t $DOCKER_REGISTRY/$SERVICE:$VERSION .
             echo "Docker image for $SERVICE built successfully."
             cd "$PROJECT_ROOT"
         else
@@ -90,7 +94,7 @@ build_docker_images() {
 
     if [ -d "$FRONTEND_DIR" ]; then
         cd "$FRONTEND_DIR"
-        docker buildx build -t finovabank/frontend:1.0 .
+        docker buildx build -t $DOCKER_REGISTRY/frontend:$VERSION .
         echo "Docker image for frontend built successfully."
         cd "$PROJECT_ROOT"
     else

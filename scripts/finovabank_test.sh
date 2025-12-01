@@ -7,7 +7,7 @@
 # tests, and end-to-end tests.
 # =====================================================
 
-set -e
+set -euo pipefail
 
 # Color codes for better readability
 RED='\033[0;31m'
@@ -17,9 +17,9 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default values
-TEST_REPORT_DIR="./test-reports"
-COVERAGE_REPORT_DIR="./coverage-reports"
-TEST_TIMEOUT=300 # 5 minutes
+TEST_REPORT_DIR="${FINOVABANK_TEST_REPORT_DIR:-./test-reports}"
+COVERAGE_REPORT_DIR="${FINOVABANK_COVERAGE_REPORT_DIR:-./coverage-reports}"
+TEST_TIMEOUT="${FINOVABANK_TEST_TIMEOUT:-300}" # 5 minutes
 
 # Function to display usage information
 usage() {
