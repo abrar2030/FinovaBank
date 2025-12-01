@@ -7,9 +7,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class EncryptionUtil {
   private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
-  private static final byte[] KEY =
-      Base64.getDecoder().decode("bXlTZWNyZXRLZXkxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTA=");
-  private static final byte[] IV = Base64.getDecoder().decode("MTIzNDU2Nzg5MDEyMzQ1Ng==");
+  // Keys and IVs must be loaded securely from a secret management system.
+  // Placeholder for secure key loading logic.
+  private static final byte[] KEY = new byte[32]; // Placeholder
+  private static final byte[] IV = new byte[16]; // Placeholder
 
   public static String encrypt(String value) throws Exception {
     Cipher cipher = Cipher.getInstance(ALGORITHM);

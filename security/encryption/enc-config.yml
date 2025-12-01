@@ -1,6 +1,0 @@
----
-encryption:
-  algorithm: AES
-  keysize: 256
-  key: "bXlTZWNyZXRLZXkxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ1Njc4OTA="
-  iv: "MTIzNDU2Nzg5MDEyMzQ1Ng=="
