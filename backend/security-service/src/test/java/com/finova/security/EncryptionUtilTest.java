@@ -3,6 +3,8 @@ package com.finovabank.security;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Assuming the utility class exists in the original project at:
 // com.finova.security.encryption.EncryptionUtil
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 // Placeholder for actual EncryptionUtil class
 class MockEncryptionUtil {
+    private static final Logger logger = LoggerFactory.getLogger(exists.class);
+
   private static final String MOCK_KEY =
       "mock-secret-key-1234567890123456"; // Example key (use secure generation in real app)
 
@@ -39,12 +43,12 @@ public class EncryptionUtilTest {
 
     assertNotNull(encryptedData);
     assertNotEquals(originalData, encryptedData);
-    System.out.println("Encrypted: " + encryptedData);
+    logger.info("Encrypted: " + encryptedData);
 
     String decryptedData = MockEncryptionUtil.decrypt(encryptedData);
     assertNotNull(decryptedData);
     assertEquals(originalData, decryptedData);
-    System.out.println("Decrypted: " + decryptedData);
+    logger.info("Decrypted: " + decryptedData);
   }
 
   @Test
