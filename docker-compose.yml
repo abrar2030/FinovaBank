@@ -1,5 +1,5 @@
 ---
-version: '3.8'
+version: "3.8"
 
 services:
   # ----------------------------------------------------------------
@@ -310,8 +310,8 @@ services:
     networks:
       - finova-network
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
     # Prometheus needs to scrape all microservices, so it depends on them.
     depends_on:
       api-gateway:

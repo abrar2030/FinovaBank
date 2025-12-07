@@ -22,7 +22,7 @@
 
     # Monitoring configuration
     cloudwatch_region: "{{ ansible_ec2_placement_region | default('us-west-2') }}"
-    log_retention_days: 2555  # 7 years for financial compliance
+    log_retention_days: 2555 # 7 years for financial compliance
 
     # Compliance configuration
     audit_rules_file: /etc/audit/rules.d/finovabank.rules
@@ -144,7 +144,7 @@
         state: directory
         owner: "{{ app_user }}"
         group: "{{ app_group }}"
-        mode: '0755'
+        mode: "0755"
       loop:
         - "{{ app_home }}"
         - "{{ app_home }}/app"
@@ -189,16 +189,22 @@
         line: "{{ item.line }}"
         backup: yes
       loop:
-        - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin no' }
-        - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication no' }
-        - { regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication yes' }
-        - { regexp: '^#?Protocol', line: 'Protocol 2' }
-        - { regexp: '^#?MaxAuthTries', line: 'MaxAuthTries 3' }
-        - { regexp: '^#?ClientAliveInterval', line: 'ClientAliveInterval 300' }
-        - { regexp: '^#?ClientAliveCountMax', line: 'ClientAliveCountMax 2' }
-        - { regexp: '^#?LogLevel', line: 'LogLevel VERBOSE' }
-        - { regexp: '^#?X11Forwarding', line: 'X11Forwarding no' }
-        - { regexp: '^#?AllowTcpForwarding', line: 'AllowTcpForwarding yes' }
+        - { regexp: "^#?PermitRootLogin", line: "PermitRootLogin no" }
+        - {
+            regexp: "^#?PasswordAuthentication",
+            line: "PasswordAuthentication no",
+          }
+        - {
+            regexp: "^#?PubkeyAuthentication",
+            line: "PubkeyAuthentication yes",
+          }
+        - { regexp: "^#?Protocol", line: "Protocol 2" }
+        - { regexp: "^#?MaxAuthTries", line: "MaxAuthTries 3" }
+        - { regexp: "^#?ClientAliveInterval", line: "ClientAliveInterval 300" }
+        - { regexp: "^#?ClientAliveCountMax", line: "ClientAliveCountMax 2" }
+        - { regexp: "^#?LogLevel", line: "LogLevel VERBOSE" }
+        - { regexp: "^#?X11Forwarding", line: "X11Forwarding no" }
+        - { regexp: "^#?AllowTcpForwarding", line: "AllowTcpForwarding yes" }
       notify: restart sshd
       tags: [ssh, security, hardening]
 
@@ -230,8 +236,8 @@
             direction: "{{ item.direction }}"
             policy: "{{ item.policy }}"
           loop:
-            - { direction: 'incoming', policy: 'deny' }
-            - { direction: 'outgoing', policy: 'allow' }
+            - { direction: "incoming", policy: "deny" }
+            - { direction: "outgoing", policy: "allow" }
 
         - name: Allow SSH
           ufw:
@@ -401,30 +407,30 @@
         reload: yes
       loop:
         # Network security
-        - { name: 'net.ipv4.conf.all.send_redirects', value: '0' }
-        - { name: 'net.ipv4.conf.default.send_redirects', value: '0' }
-        - { name: 'net.ipv4.conf.all.accept_redirects', value: '0' }
-        - { name: 'net.ipv4.conf.default.accept_redirects', value: '0' }
-        - { name: 'net.ipv4.conf.all.accept_source_route', value: '0' }
-        - { name: 'net.ipv4.conf.default.accept_source_route', value: '0' }
-        - { name: 'net.ipv4.conf.all.log_martians', value: '1' }
-        - { name: 'net.ipv4.conf.default.log_martians', value: '1' }
-        - { name: 'net.ipv4.icmp_echo_ignore_broadcasts', value: '1' }
-        - { name: 'net.ipv4.icmp_ignore_bogus_error_responses', value: '1' }
-        - { name: 'net.ipv4.tcp_syncookies', value: '1' }
-        - { name: 'net.ipv4.conf.all.rp_filter', value: '1' }
-        - { name: 'net.ipv4.conf.default.rp_filter', value: '1' }
+        - { name: "net.ipv4.conf.all.send_redirects", value: "0" }
+        - { name: "net.ipv4.conf.default.send_redirects", value: "0" }
+        - { name: "net.ipv4.conf.all.accept_redirects", value: "0" }
+        - { name: "net.ipv4.conf.default.accept_redirects", value: "0" }
+        - { name: "net.ipv4.conf.all.accept_source_route", value: "0" }
+        - { name: "net.ipv4.conf.default.accept_source_route", value: "0" }
+        - { name: "net.ipv4.conf.all.log_martians", value: "1" }
+        - { name: "net.ipv4.conf.default.log_martians", value: "1" }
+        - { name: "net.ipv4.icmp_echo_ignore_broadcasts", value: "1" }
+        - { name: "net.ipv4.icmp_ignore_bogus_error_responses", value: "1" }
+        - { name: "net.ipv4.tcp_syncookies", value: "1" }
+        - { name: "net.ipv4.conf.all.rp_filter", value: "1" }
+        - { name: "net.ipv4.conf.default.rp_filter", value: "1" }
         # Memory management
-        - { name: 'vm.swappiness', value: '10' }
-        - { name: 'vm.dirty_ratio', value: '15' }
-        - { name: 'vm.dirty_background_ratio', value: '5' }
+        - { name: "vm.swappiness", value: "10" }
+        - { name: "vm.dirty_ratio", value: "15" }
+        - { name: "vm.dirty_background_ratio", value: "5" }
         # File system
-        - { name: 'fs.file-max', value: '2097152' }
-        - { name: 'fs.suid_dumpable', value: '0' }
+        - { name: "fs.file-max", value: "2097152" }
+        - { name: "fs.suid_dumpable", value: "0" }
         # Process limits
-        - { name: 'kernel.pid_max', value: '4194304' }
-        - { name: 'kernel.dmesg_restrict', value: '1' }
-        - { name: 'kernel.kptr_restrict', value: '2' }
+        - { name: "kernel.pid_max", value: "4194304" }
+        - { name: "kernel.dmesg_restrict", value: "1" }
+        - { name: "kernel.kptr_restrict", value: "2" }
       tags: [hardening, security, kernel]
 
     - name: Configure system limits
@@ -434,11 +440,11 @@
         limit_item: "{{ item.item }}"
         value: "{{ item.value }}"
       loop:
-        - { type: 'soft', item: 'nofile', value: '65536' }
-        - { type: 'hard', item: 'nofile', value: '65536' }
-        - { type: 'soft', item: 'nproc', value: '32768' }
-        - { type: 'hard', item: 'nproc', value: '32768' }
-        - { type: 'hard', item: 'core', value: '0' }
+        - { type: "soft", item: "nofile", value: "65536" }
+        - { type: "hard", item: "nofile", value: "65536" }
+        - { type: "soft", item: "nproc", value: "32768" }
+        - { type: "hard", item: "nproc", value: "32768" }
+        - { type: "hard", item: "core", value: "0" }
       tags: [limits, hardening]
 
     - name: Set proper file permissions
@@ -448,11 +454,11 @@
         owner: "{{ item.owner | default('root') }}"
         group: "{{ item.group | default('root') }}"
       loop:
-        - { path: '/etc/ssh/sshd_config', mode: '0600' }
-        - { path: '/etc/shadow', mode: '0600' }
-        - { path: '/etc/passwd', mode: '0644' }
-        - { path: '/etc/group', mode: '0644' }
-        - { path: '/root', mode: '0700' }
+        - { path: "/etc/ssh/sshd_config", mode: "0600" }
+        - { path: "/etc/shadow", mode: "0600" }
+        - { path: "/etc/passwd", mode: "0644" }
+        - { path: "/etc/group", mode: "0644" }
+        - { path: "/root", mode: "0700" }
       tags: [permissions, security, hardening]
 
     # ========================================
@@ -503,7 +509,7 @@
           get_url:
             url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-linux-x86_64"
             dest: /usr/local/bin/docker-compose
-            mode: '0755'
+            mode: "0755"
             owner: root
             group: root
       tags: [docker, setup]
@@ -742,7 +748,7 @@
         dest: "{{ app_home }}/docker-compose.yml"
         owner: "{{ app_user }}"
         group: "{{ app_group }}"
-        mode: '0644'
+        mode: "0644"
       tags: [docker, deployment]
 
     - name: Create application configuration files
@@ -783,7 +789,7 @@
         dest: "{{ app_home }}/config/app.env"
         owner: "{{ app_user }}"
         group: "{{ app_group }}"
-        mode: '0600'
+        mode: "0600"
       tags: [configuration, deployment]
 
     # ========================================
@@ -823,7 +829,7 @@
         dest: "{{ app_home }}/scripts/backup.sh"
         owner: "{{ app_user }}"
         group: "{{ app_group }}"
-        mode: '0755'
+        mode: "0755"
       tags: [backup, scripts]
 
     - name: Create monitoring script
@@ -879,7 +885,7 @@
         dest: "{{ app_home }}/scripts/monitor.sh"
         owner: "{{ app_user }}"
         group: "{{ app_group }}"
-        mode: '0755'
+        mode: "0755"
       tags: [monitoring, scripts]
 
     - name: Create health check script
@@ -923,7 +929,7 @@
         dest: "{{ app_home }}/scripts/health-check.sh"
         owner: "{{ app_user }}"
         group: "{{ app_group }}"
-        mode: '0755'
+        mode: "0755"
       tags: [health, scripts]
 
     # ========================================

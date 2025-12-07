@@ -2,17 +2,17 @@
 global:
   scrape_interval: 15s
 scrape_configs:
-  - job_name: 'kubernetes-nodes'
+  - job_name: "kubernetes-nodes"
     kubernetes_sd_configs:
       - role: node
-  - job_name: 'kubernetes-pods'
+  - job_name: "kubernetes-pods"
     kubernetes_sd_configs:
       - role: pod
     relabel_configs:
       - source_labels: [__meta_kubernetes_pod_label_app]
         action: keep
         regex: finova
-  - job_name: 'finova-services'
+  - job_name: "finova-services"
     static_configs:
       - targets:
           - api-gateway:8002

@@ -2,4 +2,3 @@
 encryption:
   algorithm: AES
   keysize: 256
-

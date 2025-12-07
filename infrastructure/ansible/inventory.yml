@@ -6,7 +6,7 @@ all:
     # Global configuration
     ansible_user: ubuntu
     ansible_ssh_private_key_file: ~/.ssh/finovabank-keypair.pem
-    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
     ansible_python_interpreter: /usr/bin/python3
 
     # Environment configuration
@@ -35,12 +35,12 @@ all:
 
     # Monitoring configuration
     cloudwatch_region: us-west-2
-    log_retention_days: 2555  # 7 years for financial compliance
+    log_retention_days: 2555 # 7 years for financial compliance
     metrics_namespace: FinovaBank
 
     # Backup configuration
     backup_retention_days: 2555
-    backup_schedule: "0 1 * * *"  # Daily at 1 AM
+    backup_schedule: "0 1 * * *" # Daily at 1 AM
 
   children:
     # Production environment
@@ -124,8 +124,8 @@ all:
             backup_retention: 30
 
             firewall_rules:
-              - { port: 22, source: "10.0.1.0/24", protocol: tcp }  # Bastion access
-              - { port: 3306, source: "10.0.11.0/24", protocol: tcp }  # App servers
+              - { port: 22, source: "10.0.1.0/24", protocol: tcp } # Bastion access
+              - { port: 3306, source: "10.0.11.0/24", protocol: tcp } # App servers
               - { port: 3306, source: "10.0.12.0/24", protocol: tcp }
               - { port: 3306, source: "10.0.13.0/24", protocol: tcp }
 
@@ -164,9 +164,9 @@ all:
               - TLSv1.3
 
             firewall_rules:
-              - { port: 22, source: "10.0.1.0/24", protocol: tcp }  # Bastion access
-              - { port: 80, source: "0.0.0.0/0", protocol: tcp }    # HTTP
-              - { port: 443, source: "0.0.0.0/0", protocol: tcp }   # HTTPS
+              - { port: 22, source: "10.0.1.0/24", protocol: tcp } # Bastion access
+              - { port: 80, source: "0.0.0.0/0", protocol: tcp } # HTTP
+              - { port: 443, source: "0.0.0.0/0", protocol: tcp } # HTTPS
 
           hosts:
             lb-1:
@@ -200,11 +200,11 @@ all:
             session_logging: true
 
             firewall_rules:
-              - { port: 22, source: "0.0.0.0/0", protocol: tcp }  # SSH from internet
+              - { port: 22, source: "0.0.0.0/0", protocol: tcp } # SSH from internet
 
           hosts:
             bastion-1:
-              ansible_host: 54.123.45.67  # Public IP
+              ansible_host: 54.123.45.67 # Public IP
               private_ip: 10.0.1.5
               availability_zone: us-west-2a
               instance_id: i-bastion1234567890ab

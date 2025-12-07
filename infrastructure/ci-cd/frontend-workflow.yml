@@ -2,15 +2,15 @@ name: Frontend CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend-workflow.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend-workflow.yml"
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend-workflow.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend-workflow.yml"
 
 jobs:
   build-and-test:
@@ -22,8 +22,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Install dependencies
         run: |
@@ -108,7 +108,7 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'latest'
+          version: "latest"
 
       - name: Configure Kubernetes
         run: |

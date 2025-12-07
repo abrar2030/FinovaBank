@@ -45,7 +45,7 @@ access_control:
       history_count: 24
       max_age_days: 90
       lockout_threshold: 3
-      lockout_duration: 30  # minutes
+      lockout_duration: 30 # minutes
 
     session_management:
       timeout_minutes: 30
@@ -198,7 +198,7 @@ network_security:
 
   intrusion_detection:
     enabled: true
-    mode: active  # active or passive
+    mode: active # active or passive
 
     detection_rules:
       - name: sql_injection_attempt
@@ -226,11 +226,11 @@ network_security:
     rate_limiting:
       requests_per_minute: 1000
       burst_size: 100
-      block_duration: 300  # seconds
+      block_duration: 300 # seconds
 
     geo_blocking:
       enabled: true
-      blocked_countries: []  # Define based on business requirements
+      blocked_countries: [] # Define based on business requirements
       allowed_countries: [US, CA, GB, EU]
 
 # Data Protection Policies
@@ -297,14 +297,14 @@ data_protection:
 
   backup_and_recovery:
     backup_frequency: daily
-    retention_period_days: 2555  # 7 years for financial compliance
+    retention_period_days: 2555 # 7 years for financial compliance
 
     backup_encryption: true
     backup_testing_frequency: monthly
 
     recovery_objectives:
-      rpo_hours: 1   # Recovery Point Objective
-      rto_hours: 4   # Recovery Time Objective
+      rpo_hours: 1 # Recovery Point Objective
+      rto_hours: 4 # Recovery Time Objective
 
     disaster_recovery:
       enabled: true
@@ -365,15 +365,15 @@ application_security:
       rate_limits:
         - endpoint: "/api/auth/login"
           limit: 5
-          window: 300  # seconds
+          window: 300 # seconds
 
         - endpoint: "/api/transactions"
           limit: 100
-          window: 60   # seconds
+          window: 60 # seconds
 
         - endpoint: "/api/*"
           limit: 1000
-          window: 60   # seconds
+          window: 60 # seconds
 
   container_security:
     image_scanning: true
@@ -453,8 +453,8 @@ monitoring:
 
     procedures:
       - severity: critical
-        response_time: 15  # minutes
-        escalation_time: 30  # minutes
+        response_time: 15 # minutes
+        escalation_time: 30 # minutes
         steps:
           - "Activate incident response team"
           - "Assess and contain the threat"
@@ -464,8 +464,8 @@ monitoring:
           - "Document incident"
 
       - severity: high
-        response_time: 30  # minutes
-        escalation_time: 60  # minutes
+        response_time: 30 # minutes
+        escalation_time: 60 # minutes
         steps:
           - "Assign incident handler"
           - "Investigate and contain"
@@ -474,8 +474,8 @@ monitoring:
           - "Document findings"
 
       - severity: medium
-        response_time: 60  # minutes
-        escalation_time: 120  # minutes
+        response_time: 60 # minutes
+        escalation_time: 120 # minutes
         steps:
           - "Assign to security analyst"
           - "Investigate incident"
@@ -483,8 +483,8 @@ monitoring:
           - "Monitor for recurrence"
 
       - severity: low
-        response_time: 240  # minutes
-        escalation_time: 480  # minutes
+        response_time: 240 # minutes
+        escalation_time: 480 # minutes
         steps:
           - "Log incident"
           - "Schedule investigation"
@@ -494,7 +494,7 @@ monitoring:
 compliance:
   audit_logging:
     enabled: true
-    retention_period_days: 2555  # 7 years
+    retention_period_days: 2555 # 7 years
 
     events_to_log:
       - user_authentication
@@ -535,19 +535,19 @@ compliance:
 
     severity_levels:
       - level: critical
-        remediation_sla: 24  # hours
+        remediation_sla: 24 # hours
         approval_required: false
 
       - level: high
-        remediation_sla: 72  # hours
+        remediation_sla: 72 # hours
         approval_required: true
 
       - level: medium
-        remediation_sla: 168  # hours (1 week)
+        remediation_sla: 168 # hours (1 week)
         approval_required: true
 
       - level: low
-        remediation_sla: 720  # hours (30 days)
+        remediation_sla: 720 # hours (30 days)
         approval_required: true
 
     patch_management:
@@ -570,12 +570,12 @@ compliance:
 # Business Continuity and Disaster Recovery
 business_continuity:
   disaster_recovery:
-    rpo_hours: 1   # Recovery Point Objective
-    rto_hours: 4   # Recovery Time Objective
+    rpo_hours: 1 # Recovery Point Objective
+    rto_hours: 4 # Recovery Time Objective
 
     backup_strategy:
       frequency: continuous
-      retention: 2555_days  # 7 years
+      retention: 2555_days # 7 years
       testing_frequency: monthly
 
     failover_procedures:
@@ -651,7 +651,7 @@ security_awareness:
     enabled: true
     frequency: monthly
 
-    failure_threshold: 10  # percent
+    failure_threshold: 10 # percent
     remedial_training_required: true
 
   security_communications:

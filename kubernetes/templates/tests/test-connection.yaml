@@ -1,5 +1,4 @@
 ---
-
 apiVersion: v1
 kind: Pod
 metadata:
@@ -10,5 +9,10 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['sh', '-c', 'wget -q --spider http://frontend && echo "Connection successful"']
+      command:
+        [
+          "sh",
+          "-c",
+          'wget -q --spider http://frontend && echo "Connection successful"',
+        ]
   restartPolicy: Never

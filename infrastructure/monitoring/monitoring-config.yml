@@ -10,10 +10,10 @@ global_monitoring:
   monitoring_strategy: "defense in depth"
 
   data_retention:
-    metrics: 2555  # days (7 years for financial compliance)
-    logs: 2555     # days (7 years for financial compliance)
-    traces: 90     # days
-    events: 2555   # days (7 years for financial compliance)
+    metrics: 2555 # days (7 years for financial compliance)
+    logs: 2555 # days (7 years for financial compliance)
+    traces: 90 # days
+    events: 2555 # days (7 years for financial compliance)
 
   monitoring_zones:
     - zone: dmz
@@ -36,7 +36,7 @@ global_monitoring:
 infrastructure_monitoring:
   # System Metrics
   system_metrics:
-    collection_interval: 60  # seconds
+    collection_interval: 60 # seconds
 
     metrics:
       - category: cpu
@@ -106,7 +106,7 @@ infrastructure_monitoring:
       cpu_critical: 85
       memory_warning: 80
       memory_critical: 90
-      restart_threshold: 3  # restarts in 5 minutes
+      restart_threshold: 3 # restarts in 5 minutes
 
   # Database Monitoring
   database_monitoring:
@@ -126,10 +126,10 @@ infrastructure_monitoring:
       thresholds:
         connection_usage_warning: 70
         connection_usage_critical: 85
-        slow_query_warning: 10  # per minute
-        slow_query_critical: 50  # per minute
-        replication_lag_warning: 60  # seconds
-        replication_lag_critical: 300  # seconds
+        slow_query_warning: 10 # per minute
+        slow_query_critical: 50 # per minute
+        replication_lag_warning: 60 # seconds
+        replication_lag_critical: 300 # seconds
 
     redis:
       enabled: true
@@ -146,15 +146,15 @@ infrastructure_monitoring:
       thresholds:
         memory_usage_warning: 80
         memory_usage_critical: 90
-        hit_rate_warning: 90  # percent
-        hit_rate_critical: 80  # percent
+        hit_rate_warning: 90 # percent
+        hit_rate_critical: 80 # percent
 
 # Application Monitoring
 application_monitoring:
   # Application Performance Monitoring (APM)
   apm:
     enabled: true
-    sampling_rate: 100  # percent for financial applications
+    sampling_rate: 100 # percent for financial applications
 
     metrics:
       - response_time_p50
@@ -166,10 +166,10 @@ application_monitoring:
       - apdex_score
 
     thresholds:
-      response_time_warning: 500   # milliseconds
+      response_time_warning: 500 # milliseconds
       response_time_critical: 1000 # milliseconds
-      error_rate_warning: 1        # percent
-      error_rate_critical: 5       # percent
+      error_rate_warning: 1 # percent
+      error_rate_critical: 5 # percent
       apdex_warning: 0.8
       apdex_critical: 0.7
 
@@ -188,8 +188,8 @@ application_monitoring:
       - fraud_detection_rate
 
     thresholds:
-      login_success_rate_warning: 95   # percent
-      login_success_rate_critical: 90  # percent
+      login_success_rate_warning: 95 # percent
+      login_success_rate_critical: 90 # percent
       payment_success_rate_warning: 98 # percent
       payment_success_rate_critical: 95 # percent
 
@@ -200,17 +200,17 @@ application_monitoring:
     endpoints:
       - endpoint: "/api/auth/login"
         method: POST
-        sla_response_time: 200  # milliseconds
-        sla_availability: 99.9  # percent
+        sla_response_time: 200 # milliseconds
+        sla_availability: 99.9 # percent
 
       - endpoint: "/api/accounts"
         method: GET
-        sla_response_time: 300  # milliseconds
-        sla_availability: 99.9  # percent
+        sla_response_time: 300 # milliseconds
+        sla_availability: 99.9 # percent
 
       - endpoint: "/api/transactions"
         method: POST
-        sla_response_time: 500  # milliseconds
+        sla_response_time: 500 # milliseconds
         sla_availability: 99.95 # percent
 
       - endpoint: "/api/payments"
@@ -220,7 +220,7 @@ application_monitoring:
 
     synthetic_monitoring:
       enabled: true
-      frequency: 60  # seconds
+      frequency: 60 # seconds
       locations:
         - us-west-2
         - us-east-1
@@ -272,7 +272,7 @@ security_monitoring:
   # Intrusion Detection System (IDS)
   ids:
     enabled: true
-    mode: active  # active or passive
+    mode: active # active or passive
 
     detection_signatures:
       - signature_id: "SIG-001"
@@ -315,10 +315,10 @@ security_monitoring:
         scope: "all_container_images"
 
     severity_thresholds:
-      critical: 0    # immediate action required
-      high: 72       # hours to remediate
-      medium: 168    # hours to remediate (1 week)
-      low: 720       # hours to remediate (30 days)
+      critical: 0 # immediate action required
+      high: 72 # hours to remediate
+      medium: 168 # hours to remediate (1 week)
+      low: 720 # hours to remediate (30 days)
 
 # Network Monitoring
 network_monitoring:
@@ -335,12 +335,12 @@ network_monitoring:
       - dns_resolution_time
 
     thresholds:
-      bandwidth_warning: 70   # percent
-      bandwidth_critical: 85  # percent
+      bandwidth_warning: 70 # percent
+      bandwidth_critical: 85 # percent
       packet_loss_warning: 0.1 # percent
       packet_loss_critical: 1.0 # percent
-      latency_warning: 100    # milliseconds
-      latency_critical: 200   # milliseconds
+      latency_warning: 100 # milliseconds
+      latency_critical: 200 # milliseconds
 
   # Network Flow Monitoring
   flow_monitoring:
@@ -353,7 +353,7 @@ network_monitoring:
       - anomaly_detection: true
       - geo_location_analysis: true
 
-    retention_period: 90  # days
+    retention_period: 90 # days
 
   # DNS Monitoring
   dns_monitoring:
@@ -366,10 +366,10 @@ network_monitoring:
       - dns_cache_hit_rate
 
     thresholds:
-      response_time_warning: 50   # milliseconds
+      response_time_warning: 50 # milliseconds
       response_time_critical: 100 # milliseconds
-      error_rate_warning: 1       # percent
-      error_rate_critical: 5      # percent
+      error_rate_warning: 1 # percent
+      error_rate_critical: 5 # percent
 
 # Compliance Monitoring
 compliance_monitoring:
@@ -554,7 +554,7 @@ alerting:
       - name: "known_issue"
         condition: "incident_status == acknowledged"
         suppress_alerts: [duplicate_alerts]
-        duration: 3600  # seconds
+        duration: 3600 # seconds
 
 # Dashboards and Visualization
 dashboards:
@@ -626,7 +626,7 @@ tools_integration:
   # Prometheus
   prometheus:
     enabled: true
-    retention: "2555d"  # 7 years
+    retention: "2555d" # 7 years
 
     exporters:
       - node_exporter
@@ -661,7 +661,7 @@ tools_integration:
   elk_stack:
     elasticsearch:
       enabled: true
-      retention_policy: "2555d"  # 7 years
+      retention_policy: "2555d" # 7 years
 
     logstash:
       enabled: true
@@ -730,13 +730,13 @@ automation:
         metric: "cpu_usage"
         threshold: 70
         action: "scale_up"
-        cooldown: 300  # seconds
+        cooldown: 300 # seconds
 
       - policy_name: "scale_down_cpu"
         metric: "cpu_usage"
         threshold: 30
         action: "scale_down"
-        cooldown: 300  # seconds
+        cooldown: 300 # seconds
 
   # Auto-remediation
   auto_remediation:

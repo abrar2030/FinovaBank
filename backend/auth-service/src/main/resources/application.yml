@@ -67,8 +67,8 @@ management:
 app:
   jwt:
     secret: ${JWT_SECRET:myVerySecureSecretKeyForFinovaBankAuthenticationService2024!@#$%^&*()}
-    access-token-expiration: 3600  # 1 hour
-    refresh-token-expiration: 86400  # 24 hours
+    access-token-expiration: 3600 # 1 hour
+    refresh-token-expiration: 86400 # 24 hours
 
 logging:
   level:
