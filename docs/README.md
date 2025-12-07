@@ -1,45 +1,107 @@
-# Documentation Directory
+# FinovaBank - Digital Banking Platform
 
-The docs directory serves as the central knowledge repository for the FinovaBank application, containing comprehensive technical documentation that spans all aspects of the system. This documentation is essential for developers, operators, and other stakeholders to understand the architecture, implementation details, and operational procedures of the banking platform.
+## Overview
 
-## Documentation Overview
+**FinovaBank** is a comprehensive digital banking platform designed to provide core banking services such as account management, transaction processing, and user notifications. This project utilizes a modern tech stack with a microservices architecture, enabling scalability, security, and high availability. The platform aims to meet the needs of users by offering flexible, efficient, and secure banking solutions.
 
-The documentation in this directory provides a holistic view of the FinovaBank system, covering everything from high-level architectural concepts to detailed implementation guidelines and operational procedures. The content is structured to serve different audiences, including new developers joining the project, operations teams responsible for deployment and maintenance, and security personnel ensuring compliance with financial regulations.
+> **Note**: FinovaBank is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
 
-Each document is written with clarity and precision, ensuring that complex technical concepts are accessible while maintaining technical accuracy. The documentation evolves alongside the codebase, with regular updates to reflect changes in architecture, implementation, and operational procedures.
+## Table of Contents
 
-## Key Documentation Components
+- [Architecture](#architecture)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Infrastructure](#infrastructure)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
 
-The architecture.md document provides a comprehensive overview of the FinovaBank system architecture, including the microservices structure, communication patterns, data flow, and integration points. It explains the rationale behind architectural decisions and how different components interact to deliver the complete banking solution. This document serves as the primary reference for understanding the overall system design and how individual components fit into the larger picture.
+## Architecture
 
-The api-doc.md file contains detailed API documentation for all services, following OpenAPI/Swagger standards. It describes endpoints, request/response formats, authentication requirements, and error handling for all public APIs. This documentation is crucial for both internal developers building on top of these APIs and potential external partners integrating with the platform.
+FinovaBank is built using a microservices architecture with services running in Docker containers. Each core banking feature (such as account management, transaction processing, notifications, etc.) has been implemented as an independent microservice.
 
-The deployment.md document outlines the deployment processes and environments, from development to production. It covers environment setup, configuration management, deployment pipelines, and release procedures. This document ensures consistent and reliable deployment across all environments and provides guidance for troubleshooting deployment-related issues.
+The following microservices are included:
 
-The docker-kubernetes.md file provides detailed instructions for containerization and orchestration of the FinovaBank services. It covers Docker image creation, configuration, and Kubernetes deployment specifications. This documentation is essential for understanding how the application is packaged and deployed in containerized environments.
+- **API Gateway**: Handles incoming requests and routes them to the appropriate services.
+- **Account Management**: Manages customer accounts, including balance and account details.
+- **Transaction Service**: Processes financial transactions between accounts.
+- **Notification Service**: Sends notifications to users regarding account activities.
+- **User Profile Service**: Manages user profiles and personal details.
 
-The kubernetes-deployment.md document focuses specifically on Kubernetes deployment strategies, including cluster configuration, service definitions, ingress rules, and scaling policies. It provides guidance on managing the application in Kubernetes environments and optimizing resource utilization and availability.
+## Features
 
-The manage-services.md file details the operational procedures for managing services in production, including monitoring, logging, alerting, and incident response. It provides runbooks for common operational tasks and troubleshooting guides for addressing issues in production environments.
+- **Secure Account Management**: Create and manage user accounts with encrypted data storage.
+- **Transaction Processing**: Fund transfer between accounts with secure authorization.
+- **Notifications**: Alerts for account activity via a dedicated notification service.
+- **Infrastructure as Code**: Automated cloud infrastructure setup using Terraform.
+- **CI/CD Integration**: Automated testing and deployment through GitHub Actions.
+- **Monitoring**: Uses Prometheus and Grafana for metrics and visualization.
 
-The security.md document outlines the security architecture, policies, and procedures implemented in the FinovaBank system. It covers authentication, authorization, encryption, secure coding practices, and compliance with financial regulations. This documentation is crucial for ensuring that the system meets the stringent security requirements of a financial application.
+## Tech Stack
 
-The testing.md file describes the testing strategy and methodologies employed across the FinovaBank platform, including unit testing, integration testing, performance testing, and security testing. It provides guidelines for writing effective tests and integrating testing into the development workflow.
+- **Backend**: Node.js, Express
+- **Cloud Provider**: AWS
+- **Infrastructure as Code**: Terraform
+- **Database**: MongoDB, PostgreSQL
+- **Containerization**: Docker, Kubernetes
+- **CI/CD**: GitHub Actions, Jenkins
+- **Monitoring**: Prometheus, Grafana
+- **Testing**: Jest
 
-## Images and Diagrams
+## Installation
 
-The images directory contains visual assets that support the documentation, including architecture diagrams, sequence diagrams, and other visual representations of system components and processes. These diagrams enhance understanding by providing visual context for complex technical concepts and workflows.
+To get started with FinovaBank locally, follow these steps:
 
-## Documentation Maintenance
+1. **Clone the repository**:
 
-The documentation in this directory follows a rigorous maintenance process to ensure accuracy and relevance. Updates to documentation are treated with the same level of importance as code changes, with reviews and approvals required before changes are merged. This approach ensures that documentation remains a reliable source of information as the system evolves.
+   ```sh
+   git clone https://github.com/abrar2030/FinovaBank.git
+   cd FinovaBank
+   ```
 
-Cross-references between documents are maintained to provide a cohesive documentation experience, allowing readers to navigate between related topics easily. Each document includes version information and last updated timestamps to help readers understand the currency of the information.
+2. **Build Docker images** for all services:
 
-## Using the Documentation
+   ```sh
+   ./docker-build-and-compose.sh
+   ```
 
-Developers and operators are encouraged to refer to these documents as the authoritative source of information about the FinovaBank system. The documentation should be consulted before making significant changes to the system, to ensure alignment with the established architecture and practices.
+3. **Start services using Docker Compose**:
 
-New team members should start with the architecture.md document to gain a high-level understanding of the system, before diving into specific areas relevant to their work. The documentation is designed to support both broad understanding and deep dives into specific technical areas.
+   ```sh
+   docker-compose up -d
+   ```
 
-The documentation in this directory represents the collective knowledge and experience of the FinovaBank development team, captured in a structured and accessible format to support the ongoing development and operation of the platform.
+4. **Access the platform**:
+   The API Gateway will be available at `http://localhost:8002`.
+
+## Usage
+
+- **API Documentation**: For detailed API endpoints and examples, refer to [API_DOCS.md](documentation/api-doc).
+- **Managing Services**: Run `./manage-services.sh` to start, stop, or restart any of the microservices.
+- **Testing**: To run unit tests, execute:
+  ```sh
+  npm test
+  ```
+
+## Infrastructure
+
+The infrastructure of FinovaBank is managed using Terraform scripts, which provision cloud resources on AWS. Kubernetes is used for orchestrating the Docker containers to provide scalability.
+
+- **Deployment**: The Kubernetes manifests are available in the `infrastructure/kubernetes` directory.
+- **Monitoring**: The system metrics can be monitored through Prometheus, with dashboards set up in Grafana (`monitoring/grafana`).
+
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new feature branch (`git checkout -b feature/new-feature`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/new-feature`).
+5. Create a new Pull Request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
