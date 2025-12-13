@@ -573,10 +573,10 @@ INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 mkdir -p "$BACKUP_DIR"
 
 # Backup application configuration
-tar -czf "$BACKUP_DIR/config_${INSTANCE_ID}_${DATE}.tar.gz" -C /opt/finovabank config/
+tar -czf "$BACKUP_DIR/config_$${INSTANCE_ID}_$${DATE}.tar.gz" -C /opt/finovabank config/
 
 # Backup application logs
-tar -czf "$BACKUP_DIR/logs_${INSTANCE_ID}_${DATE}.tar.gz" -C /var/log finovabank/
+tar -czf "$BACKUP_DIR/logs_$${INSTANCE_ID}_$${DATE}.tar.gz" -C /var/log finovabank/
 
 # Clean up old backups (keep last 7 days)
 find "$BACKUP_DIR" -name "*.tar.gz" -mtime +7 -delete
@@ -643,7 +643,7 @@ log "FinovaBank application server configuration completed successfully"
 # Send completion notification to CloudWatch
 aws logs put-log-events \
     --log-group-name "$CLOUDWATCH_LOG_GROUP" \
-    --log-stream-name "${INSTANCE_ID}/user-data" \
+    --log-stream-name "$${INSTANCE_ID}/user-data" \
     --log-events timestamp=$(date +%s000),message="FinovaBank application server configuration completed successfully" \
     --region "$REGION"
 

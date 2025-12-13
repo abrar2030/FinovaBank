@@ -4,365 +4,394 @@
 
 This directory contains the comprehensive infrastructure configuration for FinovaBank, a financial services platform designed to meet the highest standards of security, compliance, and reliability. The infrastructure implements financial-grade security controls and complies with industry regulations including PCI-DSS, GLBA, SOX, and GDPR.
 
-## Architecture
-
-### Infrastructure Components
-
-- **Terraform**: Infrastructure as Code (IaC) for AWS cloud resources
-- **Ansible**: Configuration management and server automation
-- **Security**: Comprehensive security policies and controls
-- **Compliance**: Regulatory compliance frameworks and monitoring
-- **Monitoring**: Multi-layered monitoring and alerting system
-- **Secrets Management**: Secure secret storage and rotation
-
-### Security Features
-
-- **Multi-layered Security**: Defense in depth approach with multiple security controls
-- **Encryption**: End-to-end encryption for data at rest and in transit
-- **Access Controls**: Role-based access control with principle of least privilege
-- **Monitoring**: Real-time security monitoring and incident response
-- **Compliance**: Automated compliance checking and reporting
-
 ## Directory Structure
 
 ```
 infrastructure/
-├── terraform/                 # Infrastructure as Code
+├── README.md                 # This file
+├── terraform/                # Infrastructure as Code
 │   ├── main.tf               # Main Terraform configuration
 │   ├── variables.tf          # Variable definitions
 │   ├── outputs.tf            # Output definitions
+│   ├── terraform.tfvars.example  # Example variables file
+│   ├── backend.tf.example    # Backend configuration example
 │   ├── user_data.sh          # Application server setup script
 │   └── bastion_user_data.sh  # Bastion host setup script
 ├── ansible/                  # Configuration Management
 │   ├── playbook.yml          # Main Ansible playbook
-│   ├── inventory.yml         # Inventory configuration
-│   └── ansible.cfg           # Ansible configuration
+│   ├── inventory.yml         # Inventory configuration (update with actual IPs)
+│   ├── inventory.example.yml # Example inventory
+│   ├── ansible.cfg           # Ansible configuration
+│   └── .vault_pass.example   # Ansible Vault example
+├── kubernetes/               # Kubernetes/Helm Configuration
+│   ├── Chart.yaml            # Helm chart definition
+│   ├── values.yaml           # Default values
+│   ├── templates/            # Kubernetes manifest templates
+│   │   ├── deployment.yaml   # Deployment resources
+│   │   ├── service.yaml      # Service resources
+│   │   ├── secret.example.yaml  # Secret template (DO NOT commit actual secrets)
+│   │   ├── _helpers.tpl      # Template helpers
+│   │   └── tests/            # Helm tests
+│   └── README.md             # Kubernetes deployment guide
+├── ci-cd/                    # CI/CD Pipelines
+│   ├── complete-workflow.yml   # GitHub Actions main workflow
+│   ├── backend-workflow.yml    # Backend deployment
+│   ├── frontend-workflow.yml   # Frontend deployment
+│   ├── scripts/deploy.sh       # Deployment scripts
+│   └── README.md               # CI/CD setup guide
 ├── security/                 # Security Policies
-│   └── security-policies.yml # Comprehensive security policies
 ├── compliance/               # Compliance Framework
-│   └── compliance-framework.yml # Regulatory compliance configuration
 ├── monitoring/               # Monitoring Configuration
-│   └── monitoring-config.yml # Monitoring and alerting setup
-├── secrets/                  # Secrets Management
-│   └── secrets.yml           # Secret management configuration
-└── README.md                 # This file
+├── secrets/                  # Secrets Management Config
+└── validation_logs/          # Validation outputs (generated)
 ```
 
 ## Prerequisites
 
 ### Required Tools
 
-- **Terraform** >= 1.0
-- **Ansible** >= 2.9
-- **AWS CLI** >= 2.0
-- **Docker** >= 20.0
-- **kubectl** >= 1.20 (if using Kubernetes)
+- **Terraform** >= 1.9.0 ([Install](https://www.terraform.io/downloads.html))
+- **Ansible** >= 2.9 ([Install](https://docs.ansible.com/ansible/latest/installation_guide/index.html))
+- **AWS CLI** >= 2.0 ([Install](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html))
+- **kubectl** >= 1.20 ([Install](https://kubernetes.io/docs/tasks/tools/))
+- **Helm** >= 3.0 ([Install](https://helm.sh/docs/intro/install/))
+- **yamllint** ([Install](https://yamllint.readthedocs.io/))
+- **tflint** ([Install](https://github.com/terraform-linters/tflint)) (optional but recommended)
 
-### AWS Permissions
+### AWS Setup
 
-The following AWS permissions are required:
+1. **AWS Credentials**: Configure AWS credentials
 
-- EC2 (full access)
-- VPC (full access)
-- RDS (full access)
-- S3 (full access)
-- IAM (full access)
-- CloudWatch (full access)
-- KMS (full access)
-- Secrets Manager (full access)
+   ```bash
+   aws configure
+   # Or use environment variables:
+   export AWS_ACCESS_KEY_ID="your-access-key"
+   export AWS_SECRET_ACCESS_KEY="your-secret-key"
+   export AWS_DEFAULT_REGION="us-west-2"
+   ```
 
-### Environment Variables
+2. **EC2 Key Pair**: Create an EC2 key pair in AWS Console
 
-```bash
-export AWS_ACCESS_KEY_ID="your-access-key"
-export AWS_SECRET_ACCESS_KEY="your-secret-key"
-export AWS_DEFAULT_REGION="us-west-2"
-```
+   ```bash
+   # Or create via CLI:
+   aws ec2 create-key-pair --key-name finovabank-keypair \
+     --query 'KeyMaterial' --output text > ~/.ssh/finovabank-keypair.pem
+   chmod 400 ~/.ssh/finovabank-keypair.pem
+   ```
+
+3. **Required AWS Permissions**: Ensure your IAM user/role has:
+   - EC2 full access
+   - VPC full access
+   - RDS full access
+   - S3 full access
+   - IAM full access
+   - CloudWatch full access
+   - KMS full access
 
 ## Quick Start
 
-### 1. Infrastructure Deployment
+### 1. Terraform - Infrastructure Deployment
 
 ```bash
 # Navigate to terraform directory
 cd terraform/
 
-# Initialize Terraform
-terraform init
+# Copy and edit variables file
+cp terraform.tfvars.example terraform.tfvars
+# Edit terraform.tfvars with your actual values:
+# - Update admin_cidr_blocks with your IP
+# - Update domain_name with your actual domain
+# - Update notification emails
+nano terraform.tfvars
 
-# Plan the deployment
-terraform plan
+# Initialize Terraform (for local development - no remote backend)
+terraform init -backend=false
 
-# Apply the configuration
-terraform apply
+# Format and validate configuration
+terraform fmt -recursive
+terraform validate
+
+# Plan the deployment (review changes)
+terraform plan -out=plan.out
+
+# Apply the configuration (WARNING: This creates real AWS resources!)
+terraform apply plan.out
+
+# Note the outputs (save these - you'll need them for Ansible)
+terraform output
 ```
 
-### 2. Server Configuration
+### 2. Ansible - Server Configuration
 
 ```bash
 # Navigate to ansible directory
 cd ../ansible/
 
-# Update inventory with actual server IPs
-# Edit inventory.yml with your server details
+# Update inventory with actual server IPs from Terraform output
+cp inventory.example.yml inventory.yml
+# Edit inventory.yml and replace placeholder IPs
+nano inventory.yml
 
-# Run the playbook
+# Test connectivity
+ansible all -i inventory.yml -m ping
+
+# Run the playbook (dry-run first)
+ansible-playbook -i inventory.yml playbook.yml --check
+
+# Apply configuration
 ansible-playbook -i inventory.yml playbook.yml
 ```
 
-### 3. Verify Deployment
+### 3. Kubernetes - Application Deployment
 
 ```bash
-# Check infrastructure status
-terraform output
+# Navigate to kubernetes directory
+cd ../kubernetes/
 
-# Verify services are running
-ansible all -i inventory.yml -m ping
+# Review and customize values
+nano values.yaml
+
+# Install/upgrade with Helm
+helm install finovabank . --namespace finovabank --create-namespace
+
+# Or upgrade existing deployment
+helm upgrade finovabank . --namespace finovabank
+
+# Check deployment status
+kubectl get deployments -n finovabank
+kubectl get pods -n finovabank
+kubectl get services -n finovabank
 ```
 
-## Configuration
+## Validation and Testing
 
-### Terraform Variables
+### Terraform Validation
 
-Key variables that should be customized:
+```bash
+cd terraform/
 
-```hcl
-# Basic Configuration
-aws_region = "us-west-2"
-environment = "production"
-project_name = "FinovaBank"
+# Format check
+terraform fmt -check -recursive
 
-# Network Configuration
-vpc_cidr = "10.0.0.0/16"
-public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
+# Initialize (local backend)
+terraform init -backend=false
 
-# Security Configuration
-enable_deletion_protection = true
-enable_encryption_at_rest = true
-enable_waf = true
+# Validate configuration
+terraform validate
 
-# Compliance Configuration
-compliance_level = "financial-grade"
-regulatory_requirements = ["PCI-DSS", "GLBA", "SOX", "GDPR"]
+# Plan with example variables
+terraform plan -var-file=terraform.tfvars.example
 ```
 
-### Ansible Variables
+### Ansible Validation
 
-Key variables in `inventory.yml`:
+```bash
+cd ansible/
 
-```yaml
-# Application Configuration
-app_version: latest
-deployment_strategy: rolling
+# Syntax check
+ansible-playbook -i inventory.yml playbook.yml --syntax-check
 
-# Security Configuration
-security_level: financial-grade
-compliance_requirements:
-  - PCI-DSS
-  - GLBA
-  - SOX
-  - GDPR
+# Lint playbook
+ansible-lint playbook.yml
 
-# Monitoring Configuration
-cloudwatch_region: us-west-2
-log_retention_days: 2555 # 7 years for financial compliance
+# YAML lint
+yamllint playbook.yml inventory.yml
 ```
 
-## Security
+### Kubernetes Validation
 
-### Security Controls
+```bash
+cd kubernetes/
 
-1. **Network Security**
-   - VPC with private subnets
-   - Security groups with restrictive rules
-   - Web Application Firewall (WAF)
-   - Network Access Control Lists (NACLs)
+# Lint Helm chart
+helm lint .
 
-2. **Data Protection**
-   - Encryption at rest using AWS KMS
-   - Encryption in transit using TLS 1.2+
-   - Data classification and handling
-   - Data loss prevention (DLP)
+# Dry-run deployment
+helm install finovabank . --dry-run --debug
 
-3. **Access Control**
-   - Multi-factor authentication (MFA)
-   - Role-based access control (RBAC)
-   - Principle of least privilege
-   - Regular access reviews
+# Template and validate
+helm template finovabank . | kubectl apply --dry-run=client -f -
 
-4. **Monitoring and Logging**
-   - Comprehensive audit logging
-   - Real-time security monitoring
-   - Intrusion detection and prevention
-   - Security incident response
+# YAML lint
+yamllint values.yaml templates/
+```
 
-### Security Hardening
+### CI/CD Validation
 
-The infrastructure implements security hardening based on:
+```bash
+cd ci-cd/
 
-- CIS Benchmarks
-- NIST Cybersecurity Framework
-- AWS Security Best Practices
-- Financial Services Security Guidelines
+# YAML lint workflows
+yamllint *.yml
 
-## Compliance
+# Test with act (GitHub Actions locally)
+act -n  # Dry run
+```
 
-### Regulatory Frameworks
+## Security Best Practices
 
-The infrastructure complies with:
+### Secret Management
 
-1. **PCI-DSS v4.0**
-   - Cardholder data protection
-   - Network security controls
-   - Access control measures
-   - Regular security testing
+1. **Terraform Secrets**:
+   - NEVER commit `terraform.tfvars` to version control
+   - Use AWS Secrets Manager or Parameter Store for sensitive values
+   - Consider using `terraform.tfvars.json` with `.gitignore`
 
-2. **GLBA (Gramm-Leach-Bliley Act)**
-   - Customer information protection
-   - Privacy notices and controls
-   - Safeguards rule implementation
+2. **Ansible Secrets**:
+   - Use Ansible Vault for encrypting sensitive data
+   - Store vault password securely (not in repo)
+   - Example: `ansible-vault encrypt_string 'secret' --name 'var_name'`
 
-3. **SOX (Sarbanes-Oxley Act)**
-   - IT general controls
-   - Change management
-   - Access controls for financial systems
+3. **Kubernetes Secrets**:
+   - NEVER commit `secret.yaml` files
+   - Use external secret management (AWS Secrets Manager, Vault)
+   - Consider using sealed-secrets or external-secrets operator
 
-4. **GDPR**
-   - Data protection principles
-   - Data subject rights
-   - Privacy by design
+4. **CI/CD Secrets**:
+   - Use GitHub Secrets for sensitive environment variables
+   - Rotate credentials regularly
+   - Mask secrets in logs
 
-### Compliance Monitoring
+### Network Security
 
-- Automated compliance checking
-- Regular compliance assessments
-- Audit trail maintenance
-- Regulatory reporting
+- Bastion host is the only entry point for SSH access
+- Application servers are in private subnets
+- Database is in isolated database subnets
+- Security groups follow principle of least privilege
+- WAF protects public-facing load balancer
 
-## Monitoring
+## Monitoring and Logging
 
-### Monitoring Stack
+### CloudWatch Integration
 
-1. **Infrastructure Monitoring**
-   - System metrics (CPU, memory, disk, network)
-   - Container monitoring
-   - Database performance monitoring
+- All resources send logs to CloudWatch
+- Custom metrics for application monitoring
+- Alarms configured for critical thresholds
+- Log retention: ~7 years (2557 days) for compliance
 
-2. **Application Monitoring**
-   - Application Performance Monitoring (APM)
-   - Business metrics tracking
-   - API monitoring and SLA tracking
+### Access Logs
 
-3. **Security Monitoring**
-   - Security Information and Event Management (SIEM)
-   - Intrusion Detection System (IDS)
-   - Vulnerability monitoring
-
-4. **Compliance Monitoring**
-   - Audit trail monitoring
-   - Data Loss Prevention (DLP)
-   - Regulatory compliance tracking
-
-### Alerting
-
-- Multi-channel alerting (email, SMS, Slack, PagerDuty)
-- Severity-based escalation
-- Alert suppression and correlation
-- Incident management integration
+- ALB access logs → S3
+- VPC Flow Logs → CloudWatch
+- Application logs → CloudWatch
+- Audit logs → CloudWatch (encrypted)
 
 ## Backup and Disaster Recovery
 
-### Backup Strategy
+### Automated Backups
 
-- **Frequency**: Continuous for critical data, daily for others
-- **Retention**: 7 years for financial compliance
-- **Testing**: Monthly backup restoration tests
-- **Encryption**: All backups encrypted with AWS KMS
+- RDS: 30-day backup retention
+- EBS volumes: Daily snapshots via AWS Backup
+- S3 logs: Versioned with lifecycle policies
+- Backup retention: ~7 years (2557 days)
 
 ### Disaster Recovery
 
-- **RTO**: 4 hours (Recovery Time Objective)
-- **RPO**: 1 hour (Recovery Point Objective)
-- **Multi-region**: Primary in us-west-2, DR in us-east-1
-- **Automated failover**: Configured for critical systems
+- Multi-AZ deployment for high availability
+- Read replica for RDS
+- Regular backup testing (monthly)
+- RTO: 4 hours, RPO: 1 hour
 
-## Maintenance
+## Compliance
 
-### Regular Maintenance Tasks
+### Regulatory Requirements
 
-1. **Security Updates**
-   - Automated security patching
-   - Vulnerability scanning and remediation
-   - Security configuration reviews
+- **PCI-DSS v4.0**: Payment card data protection
+- **GLBA**: Customer information protection
+- **SOX**: IT general controls
+- **GDPR**: Data protection principles
 
-2. **Compliance Reviews**
-   - Quarterly compliance assessments
-   - Annual regulatory audits
-   - Policy and procedure updates
+### Audit Trail
 
-3. **Performance Optimization**
-   - Resource utilization reviews
-   - Performance tuning
-   - Capacity planning
-
-4. **Backup Verification**
-   - Monthly backup restoration tests
-   - Backup integrity checks
-   - Disaster recovery drills
-
-### Maintenance Windows
-
-- **Regular Maintenance**: Saturdays 02:00-06:00 UTC
-- **Emergency Maintenance**: As needed with approval
-- **Security Patches**: Within SLA based on severity
+- All administrative actions logged
+- Immutable audit logs
+- 7-year retention period
+- Regular compliance assessments
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Terraform Deployment Failures**
+1. **Terraform State Lock**:
 
    ```bash
-   # Check AWS credentials
-   aws sts get-caller-identity
-
-   # Validate Terraform configuration
-   terraform validate
-
-   # Check resource limits
-   aws service-quotas list-service-quotas --service-code ec2
+   # If using remote backend with DynamoDB locking
+   terraform force-unlock <LOCK_ID>
    ```
 
-2. **Ansible Configuration Failures**
+2. **Ansible Connection Refused**:
 
    ```bash
-   # Test connectivity
-   ansible all -i inventory.yml -m ping
+   # Test SSH connectivity
+   ssh -i ~/.ssh/finovabank-keypair.pem ubuntu@<instance-ip>
 
-   # Check SSH access
-   ssh -i ~/.ssh/finovabank-keypair.pem ubuntu@<server-ip>
-
-   # Verify sudo access
-   ansible all -i inventory.yml -m shell -a "sudo whoami"
+   # Check security groups allow SSH from bastion
    ```
 
-3. **Application Health Issues**
+3. **Kubernetes Pod CrashLoopBackOff**:
 
    ```bash
-   # Check service status
-   ansible all -i inventory.yml -m shell -a "docker ps"
-
    # Check logs
-   ansible all -i inventory.yml -m shell -a "docker logs finovabank-app"
+   kubectl logs <pod-name> -n finovabank
 
-   # Check health endpoints
-   curl http://<server-ip>:8080/health
+   # Describe pod for events
+   kubectl describe pod <pod-name> -n finovabank
    ```
+
+4. **RDS Connection Timeout**:
+   - Verify security groups allow connection from app servers
+   - Check VPC routing tables
+   - Verify RDS is in correct subnet group
 
 ### Log Locations
 
-- **System Logs**: `/var/log/syslog`, `/var/log/messages`
-- **Application Logs**: `/var/log/finovabank/`
-- **Security Logs**: `/var/log/audit/audit.log`
-- **Docker Logs**: `docker logs <container-name>`
+- **Terraform**: `./terraform/.terraform/`
+- **Ansible**: `/var/log/ansible.log` (if writable)
+- **CloudWatch**: AWS Console → CloudWatch → Log Groups
+- **Application**: `/var/log/finovabank/`
+
+## Cost Optimization
+
+### Estimated Monthly Costs (us-west-2)
+
+- VPC, subnets, routing: $0
+- NAT Gateways (3x): ~$100
+- Application Load Balancer: ~$25
+- EC2 instances (3x t3.medium): ~$95
+- RDS MySQL (db.t3.medium): ~$60
+- EBS volumes: ~$20
+- CloudWatch Logs: ~$10
+- S3 storage: ~$5
+- **Total**: ~$315/month (basic setup)
+
+### Cost-Saving Tips
+
+- Use Spot instances for non-critical workloads
+- Right-size EC2 instances based on metrics
+- Clean up old EBS snapshots
+- Use S3 Intelligent-Tiering for logs
+- Consider reserved instances for production
+
+## Cleanup
+
+### Destroy Infrastructure
+
+**WARNING**: This will delete all resources and data!
+
+```bash
+# Terraform destroy
+cd terraform/
+terraform destroy
+
+# Clean up Kubernetes resources
+helm uninstall finovabank -n finovabank
+kubectl delete namespace finovabank
+
+# Clean up S3 buckets (if not emptied automatically)
+aws s3 rm s3://finovabank-logs-<suffix> --recursive
+aws s3 rb s3://finovabank-logs-<suffix>
+```
+
+## License
+
+See LICENSE file in repository root.

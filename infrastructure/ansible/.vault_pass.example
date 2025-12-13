@@ -1,0 +1,15 @@
+# Ansible Vault Password Example
+# 
+# If you need to use Ansible Vault for encrypting sensitive data:
+# 1. Create a secure password and save it to ~/.ansible_vault_pass
+# 2. Protect the file: chmod 600 ~/.ansible_vault_pass
+# 3. Uncomment vault_password_file in ansible.cfg
+# 4. Use: ansible-vault encrypt_string 'secret_value' --name 'variable_name'
+#
+# Example password (CHANGE THIS!):
+# MySecureVaultPassword123!
+#
+# To encrypt a value:
+# ansible-vault encrypt_string 'database_password' --name 'db_password'
+#
+# NEVER commit vault password files to version control!

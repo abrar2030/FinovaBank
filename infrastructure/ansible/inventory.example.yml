@@ -1,0 +1,45 @@
+# FinovaBank Ansible Inventory Example
+# Copy this file to inventory.yml and update with your actual server IPs
+# NEVER commit inventory.yml with real IPs/hostnames to version control
+
+---
+all:
+  vars:
+    # Global configuration
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/finovabank-keypair.pem
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    ansible_python_interpreter: /usr/bin/python3
+
+    # Environment configuration
+    environment: production
+    project_name: FinovaBank
+
+  children:
+    production:
+      vars:
+        environment: production
+        log_level: info
+
+      children:
+        # Application servers - Update with actual IPs from Terraform output
+        app_servers:
+          hosts:
+            app-server-1:
+              ansible_host: 10.0.11.10 # REPLACE with actual private IP
+              availability_zone: us-west-2a
+            app-server-2:
+              ansible_host: 10.0.12.10 # REPLACE with actual private IP
+              availability_zone: us-west-2b
+
+        # Bastion host - Update with actual public IP
+        bastion_hosts:
+          hosts:
+            bastion-1:
+              ansible_host: 54.123.45.67 # REPLACE with actual public IP from Terraform
+              private_ip: 10.0.1.5
+
+# Group for all FinovaBank application servers
+finova_servers:
+  children:
+    - app_servers

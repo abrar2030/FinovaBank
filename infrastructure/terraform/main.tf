@@ -15,15 +15,15 @@ terraform {
     }
   }
 
-  # Backend configuration for state management with encryption
-  backend "s3" {
-    bucket         = "finovabank-terraform-state"
-    key            = "infrastructure/terraform.tfstate"
-    region         = "us-west-2"
-    encrypt        = true
-    dynamodb_table = "terraform-state-lock"
-    versioning     = true
-  }
+#  # Backend configuration for state management with encryption
+#  backend "s3" {
+#    bucket         = "finovabank-terraform-state"
+#    key            = "infrastructure/terraform.tfstate"
+#    region         = "us-west-2"
+#    encrypt        = true
+#    dynamodb_table = "terraform-state-lock"
+#    versioning     = true
+#  }
 }
 
 # Provider configuration with default tags for compliance
@@ -32,16 +32,16 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project             = "FinovaBank"
-      Environment         = var.environment
-      Owner               = "Infrastructure Team"
-      CostCenter          = "IT-Infrastructure"
-      ComplianceLevel     = "Financial-Grade"
-      DataClassification  = "Confidential"
-      BackupRequired      = "true"
-      MonitoringRequired  = "true"
-      CreatedBy           = "Terraform"
-      LastModified        = timestamp()
+      Project            = "FinovaBank"
+      Environment        = var.environment
+      Owner              = "Infrastructure Team"
+      CostCenter         = "IT-Infrastructure"
+      ComplianceLevel    = "Financial-Grade"
+      DataClassification = "Confidential"
+      BackupRequired     = "true"
+      MonitoringRequired = "true"
+      CreatedBy          = "Terraform"
+      LastModified       = timestamp()
     }
   }
 }
@@ -112,9 +112,9 @@ resource "aws_kms_key" "finova_kms" {
   })
 
   tags = {
-    Name        = "FinovaBank-KMS-Key"
-    Purpose     = "Encryption-at-Rest"
-    Compliance  = "GLBA-PCI-DSS"
+    Name       = "FinovaBank-KMS-Key"
+    Purpose    = "Encryption-at-Rest"
+    Compliance = "GLBA-PCI-DSS"
   }
 }
 
@@ -133,10 +133,10 @@ resource "aws_vpc" "finova_vpc" {
   enable_dns_support   = true
 
   tags = {
-    Name                = "FinovaBank-VPC"
-    NetworkTier         = "Production"
-    SecurityLevel       = "High"
-    ComplianceRequired  = "true"
+    Name               = "FinovaBank-VPC"
+    NetworkTier        = "Production"
+    SecurityLevel      = "High"
+    ComplianceRequired = "true"
   }
 }
 
@@ -301,9 +301,9 @@ resource "aws_security_group" "alb_sg" {
   }
 
   tags = {
-    Name        = "FinovaBank-ALB-SG"
-    Purpose     = "Load-Balancer-Security"
-    Compliance  = "PCI-DSS"
+    Name       = "FinovaBank-ALB-SG"
+    Purpose    = "Load-Balancer-Security"
+    Compliance = "PCI-DSS"
   }
 }
 
@@ -337,9 +337,9 @@ resource "aws_security_group" "app_sg" {
   }
 
   tags = {
-    Name        = "FinovaBank-App-SG"
-    Purpose     = "Application-Server-Security"
-    Compliance  = "PCI-DSS"
+    Name       = "FinovaBank-App-SG"
+    Purpose    = "Application-Server-Security"
+    Compliance = "PCI-DSS"
   }
 }
 
@@ -365,9 +365,9 @@ resource "aws_security_group" "database_sg" {
   }
 
   tags = {
-    Name        = "FinovaBank-DB-SG"
-    Purpose     = "Database-Security"
-    Compliance  = "PCI-DSS-GLBA"
+    Name       = "FinovaBank-DB-SG"
+    Purpose    = "Database-Security"
+    Compliance = "PCI-DSS-GLBA"
   }
 }
 
@@ -393,9 +393,9 @@ resource "aws_security_group" "bastion_sg" {
   }
 
   tags = {
-    Name        = "FinovaBank-Bastion-SG"
-    Purpose     = "Bastion-Host-Security"
-    Compliance  = "Administrative-Access"
+    Name       = "FinovaBank-Bastion-SG"
+    Purpose    = "Bastion-Host-Security"
+    Compliance = "Administrative-Access"
   }
 }
 
@@ -405,9 +405,9 @@ resource "aws_db_subnet_group" "finova_db_subnet_group" {
   subnet_ids = aws_subnet.database_subnets[*].id
 
   tags = {
-    Name        = "FinovaBank-DB-Subnet-Group"
-    Purpose     = "Database-Networking"
-    Compliance  = "Data-Isolation"
+    Name       = "FinovaBank-DB-Subnet-Group"
+    Purpose    = "Database-Networking"
+    Compliance = "Data-Isolation"
   }
 }
 
@@ -437,9 +437,9 @@ resource "aws_db_parameter_group" "finova_db_params" {
   }
 
   tags = {
-    Name        = "FinovaBank-DB-Parameters"
-    Purpose     = "Database-Security-Config"
-    Compliance  = "Audit-Logging"
+    Name       = "FinovaBank-DB-Parameters"
+    Purpose    = "Database-Security-Config"
+    Compliance = "Audit-Logging"
   }
 }
 
@@ -454,7 +454,7 @@ resource "aws_db_instance" "finova_primary_db" {
   max_allocated_storage = var.db_max_allocated_storage
   storage_type          = "gp3"
   storage_encrypted     = true
-  kms_key_id           = aws_kms_key.finova_kms.arn
+  kms_key_id            = aws_kms_key.finova_kms.arn
 
   db_name  = var.db_name
   username = var.db_username
@@ -465,8 +465,8 @@ resource "aws_db_instance" "finova_primary_db" {
   parameter_group_name   = aws_db_parameter_group.finova_db_params.name
 
   backup_retention_period = 30
-  backup_window          = "03:00-04:00"
-  maintenance_window     = "sun:04:00-sun:05:00"
+  backup_window           = "03:00-04:00"
+  maintenance_window      = "sun:04:00-sun:05:00"
 
   skip_final_snapshot       = false
   final_snapshot_identifier = "finovabank-primary-db-final-snapshot"
@@ -475,7 +475,7 @@ resource "aws_db_instance" "finova_primary_db" {
   monitoring_interval = 60
   monitoring_role_arn = aws_iam_role.rds_monitoring_role.arn
 
-  enabled_cloudwatch_logs_exports = ["error", "general", "slow_query"]
+  enabled_cloudwatch_logs_exports = ["error", "general", "slowquery"]
 
   deletion_protection = true
 
@@ -490,17 +490,17 @@ resource "aws_db_instance" "finova_primary_db" {
 
 # RDS Read Replica for performance and disaster recovery
 resource "aws_db_instance" "finova_read_replica" {
-  identifier             = "finovabank-read-replica"
-  replicate_source_db    = aws_db_instance.finova_primary_db.identifier
-  instance_class         = var.db_replica_instance_class
+  identifier          = "finovabank-read-replica"
+  replicate_source_db = aws_db_instance.finova_primary_db.identifier
+  instance_class      = var.db_replica_instance_class
 
   monitoring_interval = 60
   monitoring_role_arn = aws_iam_role.rds_monitoring_role.arn
 
   tags = {
-    Name        = "FinovaBank-Read-Replica"
-    Purpose     = "Read-Performance-DR"
-    Compliance  = "High-Availability"
+    Name       = "FinovaBank-Read-Replica"
+    Purpose    = "Read-Performance-DR"
+    Compliance = "High-Availability"
   }
 }
 
@@ -536,7 +536,7 @@ resource "aws_lb" "finova_alb" {
   subnets            = aws_subnet.public_subnets[*].id
 
   enable_deletion_protection = true
-  enable_http2              = true
+  enable_http2               = true
   drop_invalid_header_fields = true
 
   access_logs {
@@ -546,9 +546,9 @@ resource "aws_lb" "finova_alb" {
   }
 
   tags = {
-    Name        = "FinovaBank-ALB"
-    Purpose     = "Load-Balancing"
-    Compliance  = "High-Availability"
+    Name       = "FinovaBank-ALB"
+    Purpose    = "Load-Balancing"
+    Compliance = "High-Availability"
   }
 }
 
@@ -578,9 +578,9 @@ resource "aws_lb_target_group" "finova_app_tg" {
   }
 
   tags = {
-    Name        = "FinovaBank-App-TG"
-    Purpose     = "Application-Target-Group"
-    Compliance  = "Load-Distribution"
+    Name       = "FinovaBank-App-TG"
+    Purpose    = "Application-Target-Group"
+    Compliance = "Load-Distribution"
   }
 }
 
@@ -629,9 +629,9 @@ resource "aws_acm_certificate" "finova_cert" {
   }
 
   tags = {
-    Name        = "FinovaBank-SSL-Certificate"
-    Purpose     = "HTTPS-Encryption"
-    Compliance  = "Data-in-Transit-Protection"
+    Name       = "FinovaBank-SSL-Certificate"
+    Purpose    = "HTTPS-Encryption"
+    Compliance = "Data-in-Transit-Protection"
   }
 }
 
@@ -640,9 +640,9 @@ resource "aws_s3_bucket" "finova_logs" {
   bucket = "finovabank-logs-${random_id.bucket_suffix.hex}"
 
   tags = {
-    Name        = "FinovaBank-Logs-Bucket"
-    Purpose     = "Centralized-Logging"
-    Compliance  = "Audit-Trail"
+    Name       = "FinovaBank-Logs-Bucket"
+    Purpose    = "Centralized-Logging"
+    Compliance = "Audit-Trail"
   }
 }
 
@@ -657,17 +657,15 @@ resource "aws_s3_bucket_versioning" "finova_logs_versioning" {
   }
 }
 
-resource "aws_s3_bucket_encryption" "finova_logs_encryption" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "finova_logs_encryption" {
   bucket = aws_s3_bucket.finova_logs.id
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.finova_kms.arn
-        sse_algorithm     = "aws:kms"
-      }
-      bucket_key_enabled = true
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.finova_kms.arn
+      sse_algorithm     = "aws:kms"
     }
+    bucket_key_enabled = true
   }
 }
 
@@ -687,8 +685,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "finova_logs_lifecycle" {
     id     = "log_retention"
     status = "Enabled"
 
+    filter {
+      prefix = ""
+    }
+
     expiration {
-      days = 2555  # 7 years for financial compliance
+      days = 2557  # ~7 years for financial compliance
     }
 
     noncurrent_version_expiration {
@@ -700,25 +702,25 @@ resource "aws_s3_bucket_lifecycle_configuration" "finova_logs_lifecycle" {
 # CloudWatch Log Groups for centralized logging
 resource "aws_cloudwatch_log_group" "finova_app_logs" {
   name              = "/aws/ec2/finovabank/application"
-  retention_in_days = 2555  # 7 years
+  retention_in_days = 2557  # ~7 years (closest valid value)
   kms_key_id        = aws_kms_key.finova_kms.arn
 
   tags = {
-    Name        = "FinovaBank-Application-Logs"
-    Purpose     = "Application-Logging"
-    Compliance  = "Audit-Trail"
+    Name       = "FinovaBank-Application-Logs"
+    Purpose    = "Application-Logging"
+    Compliance = "Audit-Trail"
   }
 }
 
 resource "aws_cloudwatch_log_group" "finova_security_logs" {
   name              = "/aws/ec2/finovabank/security"
-  retention_in_days = 2555  # 7 years
+  retention_in_days = 2557  # ~7 years (closest valid value)
   kms_key_id        = aws_kms_key.finova_kms.arn
 
   tags = {
-    Name        = "FinovaBank-Security-Logs"
-    Purpose     = "Security-Event-Logging"
-    Compliance  = "Security-Monitoring"
+    Name       = "FinovaBank-Security-Logs"
+    Purpose    = "Security-Event-Logging"
+    Compliance = "Security-Monitoring"
   }
 }
 
@@ -736,7 +738,7 @@ resource "aws_launch_template" "finova_app_lt" {
 
   user_data = base64encode(templatefile("${path.module}/user_data.sh", {
     cloudwatch_log_group = aws_cloudwatch_log_group.finova_app_logs.name
-    region              = var.aws_region
+    region               = var.aws_region
   }))
 
   block_device_mappings {
@@ -745,7 +747,7 @@ resource "aws_launch_template" "finova_app_lt" {
       volume_size           = 20
       volume_type           = "gp3"
       encrypted             = true
-      kms_key_id           = aws_kms_key.finova_kms.arn
+      kms_key_id            = aws_kms_key.finova_kms.arn
       delete_on_termination = true
     }
   }
@@ -757,25 +759,25 @@ resource "aws_launch_template" "finova_app_lt" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name        = "FinovaBank-App-Server"
-      Purpose     = "Application-Server"
-      Compliance  = "PCI-DSS"
+      Name       = "FinovaBank-App-Server"
+      Purpose    = "Application-Server"
+      Compliance = "PCI-DSS"
     }
   }
 
   tags = {
-    Name        = "FinovaBank-App-Launch-Template"
-    Purpose     = "Auto-Scaling-Template"
-    Compliance  = "Standardized-Deployment"
+    Name       = "FinovaBank-App-Launch-Template"
+    Purpose    = "Auto-Scaling-Template"
+    Compliance = "Standardized-Deployment"
   }
 }
 
 # Auto Scaling Group for application servers
 resource "aws_autoscaling_group" "finova_app_asg" {
-  name                = "finovabank-app-asg"
-  vpc_zone_identifier = aws_subnet.private_subnets[*].id
-  target_group_arns   = [aws_lb_target_group.finova_app_tg.arn]
-  health_check_type   = "ELB"
+  name                      = "finovabank-app-asg"
+  vpc_zone_identifier       = aws_subnet.private_subnets[*].id
+  target_group_arns         = [aws_lb_target_group.finova_app_tg.arn]
+  health_check_type         = "ELB"
   health_check_grace_period = 300
 
   min_size         = var.asg_min_size
@@ -885,19 +887,19 @@ resource "aws_instance" "finova_bastion" {
     volume_type           = "gp3"
     volume_size           = 10
     encrypted             = true
-    kms_key_id           = aws_kms_key.finova_kms.arn
+    kms_key_id            = aws_kms_key.finova_kms.arn
     delete_on_termination = true
   }
 
   user_data = base64encode(templatefile("${path.module}/bastion_user_data.sh", {
     cloudwatch_log_group = aws_cloudwatch_log_group.finova_security_logs.name
-    region              = var.aws_region
+    region               = var.aws_region
   }))
 
   tags = {
-    Name        = "FinovaBank-Bastion-Host"
-    Purpose     = "Secure-Administrative-Access"
-    Compliance  = "Administrative-Controls"
+    Name       = "FinovaBank-Bastion-Host"
+    Purpose    = "Secure-Administrative-Access"
+    Compliance = "Administrative-Controls"
   }
 }
 
@@ -919,9 +921,9 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   }
 
   tags = {
-    Name        = "FinovaBank-High-CPU-Alarm"
-    Purpose     = "Performance-Monitoring"
-    Compliance  = "Operational-Monitoring"
+    Name       = "FinovaBank-High-CPU-Alarm"
+    Purpose    = "Performance-Monitoring"
+    Compliance = "Operational-Monitoring"
   }
 }
 
@@ -942,9 +944,9 @@ resource "aws_cloudwatch_metric_alarm" "database_cpu" {
   }
 
   tags = {
-    Name        = "FinovaBank-Database-CPU-Alarm"
-    Purpose     = "Database-Performance-Monitoring"
-    Compliance  = "Database-Monitoring"
+    Name       = "FinovaBank-Database-CPU-Alarm"
+    Purpose    = "Database-Performance-Monitoring"
+    Compliance = "Database-Monitoring"
   }
 }
 
@@ -954,9 +956,9 @@ resource "aws_sns_topic" "finova_alerts" {
   kms_master_key_id = aws_kms_key.finova_kms.id
 
   tags = {
-    Name        = "FinovaBank-Alerts-Topic"
-    Purpose     = "Alert-Notifications"
-    Compliance  = "Incident-Response"
+    Name       = "FinovaBank-Alerts-Topic"
+    Purpose    = "Alert-Notifications"
+    Compliance = "Incident-Response"
   }
 }
 
@@ -1042,9 +1044,9 @@ resource "aws_wafv2_web_acl" "finova_waf" {
   }
 
   tags = {
-    Name        = "FinovaBank-WAF"
-    Purpose     = "Web-Application-Firewall"
-    Compliance  = "Security-Protection"
+    Name       = "FinovaBank-WAF"
+    Purpose    = "Web-Application-Firewall"
+    Compliance = "Security-Protection"
   }
 }
 
@@ -1060,9 +1062,9 @@ resource "aws_backup_vault" "finova_backup_vault" {
   kms_key_arn = aws_kms_key.finova_kms.arn
 
   tags = {
-    Name        = "FinovaBank-Backup-Vault"
-    Purpose     = "Data-Protection"
-    Compliance  = "Business-Continuity"
+    Name       = "FinovaBank-Backup-Vault"
+    Purpose    = "Data-Protection"
+    Compliance = "Business-Continuity"
   }
 }
 
@@ -1073,14 +1075,14 @@ resource "aws_backup_plan" "finova_backup_plan" {
   rule {
     rule_name         = "daily_backup"
     target_vault_name = aws_backup_vault.finova_backup_vault.name
-    schedule          = "cron(0 5 ? * * *)"  # Daily at 5 AM UTC
+    schedule          = "cron(0 5 ? * * *)" # Daily at 5 AM UTC
 
-    start_window      = 480  # 8 hours
-    completion_window = 10080  # 7 days
+    start_window      = 480   # 8 hours
+    completion_window = 10080 # 7 days
 
     lifecycle {
       cold_storage_after = 30
-      delete_after       = 2555  # 7 years
+      delete_after       = 2555 # 7 years
     }
 
     recovery_point_tags = {
@@ -1092,14 +1094,14 @@ resource "aws_backup_plan" "finova_backup_plan" {
   rule {
     rule_name         = "weekly_backup"
     target_vault_name = aws_backup_vault.finova_backup_vault.name
-    schedule          = "cron(0 5 ? * SUN *)"  # Weekly on Sunday at 5 AM UTC
+    schedule          = "cron(0 5 ? * SUN *)" # Weekly on Sunday at 5 AM UTC
 
-    start_window      = 480  # 8 hours
-    completion_window = 10080  # 7 days
+    start_window      = 480   # 8 hours
+    completion_window = 10080 # 7 days
 
     lifecycle {
       cold_storage_after = 30
-      delete_after       = 2555  # 7 years
+      delete_after       = 2555 # 7 years
     }
 
     recovery_point_tags = {
@@ -1109,9 +1111,9 @@ resource "aws_backup_plan" "finova_backup_plan" {
   }
 
   tags = {
-    Name        = "FinovaBank-Backup-Plan"
-    Purpose     = "Data-Protection-Strategy"
-    Compliance  = "Business-Continuity"
+    Name       = "FinovaBank-Backup-Plan"
+    Purpose    = "Data-Protection-Strategy"
+    Compliance = "Business-Continuity"
   }
 }
 

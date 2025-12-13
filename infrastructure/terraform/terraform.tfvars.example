@@ -1,0 +1,96 @@
+# FinovaBank Terraform Variables Example
+# Copy this file to terraform.tfvars and update with your actual values
+# NEVER commit terraform.tfvars to version control
+
+# General Configuration
+aws_region  = "us-west-2"
+environment = "prod"
+project_name = "FinovaBank"
+
+# Network Configuration
+vpc_cidr               = "10.0.0.0/16"
+public_subnet_cidrs    = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnet_cidrs   = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
+database_subnet_cidrs  = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
+
+# IMPORTANT: Restrict admin access to your actual IP ranges
+# Replace with your actual admin CIDR blocks
+admin_cidr_blocks = ["YOUR_IP/32"]  # e.g., ["203.0.113.0/24"]
+
+# Compute Configuration
+app_instance_type     = "t3.medium"
+bastion_instance_type = "t3.micro"
+
+# IMPORTANT: Create this key pair in AWS EC2 console first
+key_pair_name = "finovabank-keypair"  # Update with your actual key pair name
+
+# Auto Scaling Configuration
+asg_min_size         = 2
+asg_max_size         = 10
+asg_desired_capacity = 3
+
+# Database Configuration
+db_instance_class         = "db.t3.medium"
+db_replica_instance_class = "db.t3.small"
+db_allocated_storage      = 100
+db_max_allocated_storage  = 1000
+db_name                   = "finovabank"
+db_username               = "finovadmin"
+db_backup_retention_period = 30
+
+# SSL/TLS Configuration
+# IMPORTANT: Update with your actual domain name
+domain_name = "example.com"  # e.g., "finovabank.com"
+
+# Monitoring Configuration
+enable_detailed_monitoring   = true
+enable_enhanced_monitoring   = true
+cloudwatch_log_retention_days = 2557  # ~7 years for compliance
+
+# Security Configuration
+enable_deletion_protection      = true
+enable_encryption_at_rest       = true
+enable_encryption_in_transit    = true
+enable_waf                      = true
+enable_backup                   = true
+
+# Compliance Configuration
+compliance_level       = "financial-grade"
+data_classification    = "confidential"
+regulatory_requirements = ["PCI-DSS", "GLBA", "SOX", "GDPR"]
+
+# Cost Management
+cost_center             = "IT-Infrastructure"
+budget_alert_threshold  = 80
+
+# Notification Configuration
+# IMPORTANT: Update with your actual email addresses
+notification_email = "infrastructure@example.com"
+emergency_contact  = "emergency@example.com"
+
+# Disaster Recovery Configuration
+enable_multi_region_backup = true
+backup_retention_years     = 7
+dr_region                  = "us-east-1"
+
+# Performance Configuration
+enable_performance_insights              = true
+performance_insights_retention_period    = 7
+
+# Load Balancer Configuration
+enable_cross_zone_load_balancing = true
+enable_http2                     = true
+idle_timeout                     = 60
+
+# Auto Scaling Policies
+scale_up_threshold   = 70
+scale_down_threshold = 30
+
+# Feature Flags
+enable_container_insights = false
+enable_x_ray_tracing      = true
+enable_config_rules       = true
+enable_guardduty          = true
+enable_security_hub       = true
+enable_cloudtrail         = true
+enable_vpc_flow_logs      = true

@@ -8,7 +8,7 @@ variable "aws_region" {
   default     = "us-west-2"
 
   validation {
-    condition = can(regex("^[a-z]{2}-[a-z]+-[0-9]$", var.aws_region))
+    condition     = can(regex("^[a-z]{2}-[a-z]+-[0-9]$", var.aws_region))
     error_message = "AWS region must be in the format: us-west-2, eu-west-1, etc."
   }
 }
@@ -37,7 +37,7 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 
   validation {
-    condition = can(cidrhost(var.vpc_cidr, 0))
+    condition     = can(cidrhost(var.vpc_cidr, 0))
     error_message = "VPC CIDR must be a valid IPv4 CIDR block."
   }
 }
@@ -48,7 +48,7 @@ variable "public_subnet_cidrs" {
   default     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 
   validation {
-    condition = length(var.public_subnet_cidrs) >= 2
+    condition     = length(var.public_subnet_cidrs) >= 2
     error_message = "At least 2 public subnets are required for high availability."
   }
 }
@@ -59,7 +59,7 @@ variable "private_subnet_cidrs" {
   default     = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
 
   validation {
-    condition = length(var.private_subnet_cidrs) >= 2
+    condition     = length(var.private_subnet_cidrs) >= 2
     error_message = "At least 2 private subnets are required for high availability."
   }
 }
@@ -70,7 +70,7 @@ variable "database_subnet_cidrs" {
   default     = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
 
   validation {
-    condition = length(var.database_subnet_cidrs) >= 2
+    condition     = length(var.database_subnet_cidrs) >= 2
     error_message = "At least 2 database subnets are required for RDS Multi-AZ."
   }
 }
@@ -81,7 +81,7 @@ variable "admin_cidr_blocks" {
   default     = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
 
   validation {
-    condition = length(var.admin_cidr_blocks) > 0
+    condition     = length(var.admin_cidr_blocks) > 0
     error_message = "At least one admin CIDR block must be specified."
   }
 }
@@ -93,7 +93,7 @@ variable "app_instance_type" {
   default     = "t3.medium"
 
   validation {
-    condition = can(regex("^[a-z][0-9][a-z]?\\.(nano|micro|small|medium|large|xlarge|[0-9]+xlarge)$", var.app_instance_type))
+    condition     = can(regex("^[a-z][0-9][a-z]?\\.(nano|micro|small|medium|large|xlarge|[0-9]+xlarge)$", var.app_instance_type))
     error_message = "Instance type must be a valid EC2 instance type."
   }
 }
@@ -117,7 +117,7 @@ variable "asg_min_size" {
   default     = 2
 
   validation {
-    condition = var.asg_min_size >= 2
+    condition     = var.asg_min_size >= 2
     error_message = "Minimum ASG size must be at least 2 for high availability."
   }
 }
@@ -128,7 +128,7 @@ variable "asg_max_size" {
   default     = 10
 
   validation {
-    condition = var.asg_max_size >= var.asg_min_size
+    condition     = var.asg_max_size >= var.asg_min_size
     error_message = "Maximum ASG size must be greater than or equal to minimum size."
   }
 }
@@ -139,7 +139,7 @@ variable "asg_desired_capacity" {
   default     = 3
 
   validation {
-    condition = var.asg_desired_capacity >= var.asg_min_size && var.asg_desired_capacity <= var.asg_max_size
+    condition     = var.asg_desired_capacity >= var.asg_min_size && var.asg_desired_capacity <= var.asg_max_size
     error_message = "Desired capacity must be between min and max ASG size."
   }
 }
@@ -151,7 +151,7 @@ variable "db_instance_class" {
   default     = "db.t3.medium"
 
   validation {
-    condition = can(regex("^db\\.[a-z][0-9][a-z]?\\.(nano|micro|small|medium|large|xlarge|[0-9]+xlarge)$", var.db_instance_class))
+    condition     = can(regex("^db\\.[a-z][0-9][a-z]?\\.(nano|micro|small|medium|large|xlarge|[0-9]+xlarge)$", var.db_instance_class))
     error_message = "Database instance class must be a valid RDS instance type."
   }
 }
@@ -168,7 +168,7 @@ variable "db_allocated_storage" {
   default     = 100
 
   validation {
-    condition = var.db_allocated_storage >= 20
+    condition     = var.db_allocated_storage >= 20
     error_message = "Database allocated storage must be at least 20 GB."
   }
 }
@@ -179,7 +179,7 @@ variable "db_max_allocated_storage" {
   default     = 1000
 
   validation {
-    condition = var.db_max_allocated_storage >= var.db_allocated_storage
+    condition     = var.db_max_allocated_storage >= var.db_allocated_storage
     error_message = "Maximum allocated storage must be greater than or equal to initial allocated storage."
   }
 }
@@ -190,7 +190,7 @@ variable "db_name" {
   default     = "finovabank"
 
   validation {
-    condition = can(regex("^[a-zA-Z][a-zA-Z0-9_]*$", var.db_name))
+    condition     = can(regex("^[a-zA-Z][a-zA-Z0-9_]*$", var.db_name))
     error_message = "Database name must start with a letter and contain only alphanumeric characters and underscores."
   }
 }
@@ -201,7 +201,7 @@ variable "db_username" {
   default     = "finovadmin"
 
   validation {
-    condition = can(regex("^[a-zA-Z][a-zA-Z0-9_]*$", var.db_username))
+    condition     = can(regex("^[a-zA-Z][a-zA-Z0-9_]*$", var.db_username))
     error_message = "Database username must start with a letter and contain only alphanumeric characters and underscores."
   }
 }
@@ -212,7 +212,7 @@ variable "db_backup_retention_period" {
   default     = 30
 
   validation {
-    condition = var.db_backup_retention_period >= 7 && var.db_backup_retention_period <= 35
+    condition     = var.db_backup_retention_period >= 7 && var.db_backup_retention_period <= 35
     error_message = "Backup retention period must be between 7 and 35 days."
   }
 }
@@ -224,7 +224,7 @@ variable "domain_name" {
   default     = "finovabank.com"
 
   validation {
-    condition = can(regex("^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.[a-zA-Z]{2,}$", var.domain_name))
+    condition     = can(regex("^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.[a-zA-Z]{2,}$", var.domain_name))
     error_message = "Domain name must be a valid domain format."
   }
 }
@@ -245,10 +245,10 @@ variable "enable_enhanced_monitoring" {
 variable "cloudwatch_log_retention_days" {
   description = "Number of days to retain CloudWatch logs"
   type        = number
-  default     = 2555  # 7 years for financial compliance
+  default     = 2557  # ~7 years for financial compliance
 
   validation {
-    condition = contains([1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2555, 3653], var.cloudwatch_log_retention_days)
+    condition     = contains([1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 2557, 3653], var.cloudwatch_log_retention_days)
     error_message = "CloudWatch log retention must be a valid retention period."
   }
 }
@@ -291,7 +291,7 @@ variable "compliance_level" {
   default     = "financial-grade"
 
   validation {
-    condition = contains(["basic", "enhanced", "financial-grade"], var.compliance_level)
+    condition     = contains(["basic", "enhanced", "financial-grade"], var.compliance_level)
     error_message = "Compliance level must be one of: basic, enhanced, financial-grade."
   }
 }
@@ -302,7 +302,7 @@ variable "data_classification" {
   default     = "confidential"
 
   validation {
-    condition = contains(["public", "internal", "confidential", "restricted"], var.data_classification)
+    condition     = contains(["public", "internal", "confidential", "restricted"], var.data_classification)
     error_message = "Data classification must be one of: public, internal, confidential, restricted."
   }
 }
@@ -326,7 +326,7 @@ variable "budget_alert_threshold" {
   default     = 80
 
   validation {
-    condition = var.budget_alert_threshold > 0 && var.budget_alert_threshold <= 100
+    condition     = var.budget_alert_threshold > 0 && var.budget_alert_threshold <= 100
     error_message = "Budget alert threshold must be between 1 and 100."
   }
 }
@@ -338,7 +338,7 @@ variable "notification_email" {
   default     = "infrastructure@finovabank.com"
 
   validation {
-    condition = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.notification_email))
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.notification_email))
     error_message = "Notification email must be a valid email address."
   }
 }
@@ -362,7 +362,7 @@ variable "backup_retention_years" {
   default     = 7
 
   validation {
-    condition = var.backup_retention_years >= 1 && var.backup_retention_years <= 10
+    condition     = var.backup_retention_years >= 1 && var.backup_retention_years <= 10
     error_message = "Backup retention must be between 1 and 10 years."
   }
 }
@@ -386,7 +386,7 @@ variable "performance_insights_retention_period" {
   default     = 7
 
   validation {
-    condition = contains([7, 731], var.performance_insights_retention_period)
+    condition     = contains([7, 731], var.performance_insights_retention_period)
     error_message = "Performance Insights retention period must be 7 or 731 days."
   }
 }
@@ -410,7 +410,7 @@ variable "idle_timeout" {
   default     = 60
 
   validation {
-    condition = var.idle_timeout >= 1 && var.idle_timeout <= 4000
+    condition     = var.idle_timeout >= 1 && var.idle_timeout <= 4000
     error_message = "Idle timeout must be between 1 and 4000 seconds."
   }
 }
@@ -422,7 +422,7 @@ variable "scale_up_threshold" {
   default     = 70
 
   validation {
-    condition = var.scale_up_threshold > 0 && var.scale_up_threshold <= 100
+    condition     = var.scale_up_threshold > 0 && var.scale_up_threshold <= 100
     error_message = "Scale up threshold must be between 1 and 100."
   }
 }
@@ -433,7 +433,7 @@ variable "scale_down_threshold" {
   default     = 30
 
   validation {
-    condition = var.scale_down_threshold > 0 && var.scale_down_threshold < var.scale_up_threshold
+    condition     = var.scale_down_threshold > 0 && var.scale_down_threshold < var.scale_up_threshold
     error_message = "Scale down threshold must be positive and less than scale up threshold."
   }
 }
@@ -443,14 +443,14 @@ variable "default_tags" {
   description = "Default tags to apply to all resources"
   type        = map(string)
   default = {
-    Project             = "FinovaBank"
-    ManagedBy           = "Terraform"
-    Owner               = "Infrastructure Team"
-    CostCenter          = "IT-Infrastructure"
-    ComplianceLevel     = "Financial-Grade"
-    DataClassification  = "Confidential"
-    BackupRequired      = "true"
-    MonitoringRequired  = "true"
+    Project            = "FinovaBank"
+    ManagedBy          = "Terraform"
+    Owner              = "Infrastructure Team"
+    CostCenter         = "IT-Infrastructure"
+    ComplianceLevel    = "Financial-Grade"
+    DataClassification = "Confidential"
+    BackupRequired     = "true"
+    MonitoringRequired = "true"
   }
 }
 

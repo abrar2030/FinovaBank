@@ -1,0 +1,23 @@
+[WARNING]: Error loading plugin 'amazon.aws.aws_ec2': No module named 'ansible_collections.amazon'
+[WARNING]: Failed to load inventory plugin, skipping aws_ec2
+[WARNING]: Failed to parse inventory with 'constructed' plugin: Incorrect plugin name in file: none found
+
+Failed to parse inventory with 'constructed' plugin.
+
+<<< caused by >>>
+
+Incorrect plugin name in file: none found
+Origin: <inventory plugin 'constructed' with source '/home/user/infrastructure-fixed/ansible/inventory.example.yml'>
+
+[WARNING]: Unable to parse /home/user/infrastructure-fixed/ansible/inventory.example.yml as an inventory source
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+[WARNING]: Error loading plugin 'community.general.ufw': No module named 'ansible_collections.community'
+[ERROR]: couldn't resolve module/action 'ufw'. This often indicates a misspelling, missing collection, or incorrect module path.
+Origin: /home/user/infrastructure-fixed/ansible/playbook.yml:230:11
+
+228             state: present
+229
+230         - name: Reset UFW to defaults
+              ^ column 11
+

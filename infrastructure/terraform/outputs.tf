@@ -311,9 +311,9 @@ output "security_groups_summary" {
 output "encryption_summary" {
   description = "Summary of encryption configurations"
   value = {
-    kms_key_id           = aws_kms_key.finova_kms.key_id
-    database_encrypted   = aws_db_instance.finova_primary_db.storage_encrypted
-    s3_bucket_encrypted  = "AES256-KMS"
+    kms_key_id            = aws_kms_key.finova_kms.key_id
+    database_encrypted    = aws_db_instance.finova_primary_db.storage_encrypted
+    s3_bucket_encrypted   = "AES256-KMS"
     ebs_volumes_encrypted = "true"
   }
 }
@@ -322,13 +322,13 @@ output "encryption_summary" {
 output "compliance_summary" {
   description = "Summary of compliance configurations"
   value = {
-    backup_retention_days    = aws_db_instance.finova_primary_db.backup_retention_period
-    log_retention_days      = aws_cloudwatch_log_group.finova_app_logs.retention_in_days
-    deletion_protection     = aws_db_instance.finova_primary_db.deletion_protection
-    encryption_at_rest      = "enabled"
-    encryption_in_transit   = "enabled"
-    waf_protection         = "enabled"
-    monitoring_enabled     = "enhanced"
+    backup_retention_days = aws_db_instance.finova_primary_db.backup_retention_period
+    log_retention_days    = aws_cloudwatch_log_group.finova_app_logs.retention_in_days
+    deletion_protection   = aws_db_instance.finova_primary_db.deletion_protection
+    encryption_at_rest    = "enabled"
+    encryption_in_transit = "enabled"
+    waf_protection        = "enabled"
+    monitoring_enabled    = "enhanced"
   }
 }
 
@@ -336,13 +336,13 @@ output "compliance_summary" {
 output "estimated_monthly_cost" {
   description = "Estimated monthly cost breakdown (USD)"
   value = {
-    note = "Costs are estimates and may vary based on usage patterns"
-    ec2_instances = "~$50-150/month (depending on usage)"
-    rds_database  = "~$100-300/month (depending on instance size)"
-    load_balancer = "~$20-30/month"
-    data_transfer = "~$10-50/month (depending on traffic)"
-    storage       = "~$10-30/month"
-    monitoring    = "~$5-15/month"
+    note           = "Costs are estimates and may vary based on usage patterns"
+    ec2_instances  = "~$50-150/month (depending on usage)"
+    rds_database   = "~$100-300/month (depending on instance size)"
+    load_balancer  = "~$20-30/month"
+    data_transfer  = "~$10-50/month (depending on traffic)"
+    storage        = "~$10-30/month"
+    monitoring     = "~$5-15/month"
     total_estimate = "~$195-575/month"
   }
 }
@@ -351,11 +351,11 @@ output "estimated_monthly_cost" {
 output "disaster_recovery_summary" {
   description = "Summary of disaster recovery configurations"
   value = {
-    multi_az_database     = "enabled"
-    automated_backups     = "enabled"
-    backup_retention      = "${aws_db_instance.finova_primary_db.backup_retention_period} days"
-    read_replica         = "enabled"
-    cross_region_backup  = "configurable"
+    multi_az_database      = "enabled"
+    automated_backups      = "enabled"
+    backup_retention       = "${aws_db_instance.finova_primary_db.backup_retention_period} days"
+    read_replica           = "enabled"
+    cross_region_backup    = "configurable"
     point_in_time_recovery = "enabled"
   }
 }
@@ -364,13 +364,13 @@ output "disaster_recovery_summary" {
 output "network_security_summary" {
   description = "Summary of network security configurations"
   value = {
-    vpc_isolation        = "enabled"
-    private_subnets      = "enabled"
-    nat_gateways        = "enabled"
-    security_groups     = "restrictive"
-    network_acls        = "default"
-    vpc_flow_logs       = "configurable"
-    waf_protection      = "enabled"
+    vpc_isolation   = "enabled"
+    private_subnets = "enabled"
+    nat_gateways    = "enabled"
+    security_groups = "restrictive"
+    network_acls    = "default"
+    vpc_flow_logs   = "configurable"
+    waf_protection  = "enabled"
   }
 }
 
@@ -378,13 +378,13 @@ output "network_security_summary" {
 output "operational_summary" {
   description = "Summary of operational configurations"
   value = {
-    auto_scaling         = "enabled"
-    health_checks       = "enabled"
-    monitoring          = "enhanced"
-    alerting            = "configured"
-    log_aggregation     = "centralized"
-    backup_automation   = "enabled"
-    patch_management    = "manual"
-    incident_response   = "sns_notifications"
+    auto_scaling      = "enabled"
+    health_checks     = "enabled"
+    monitoring        = "enhanced"
+    alerting          = "configured"
+    log_aggregation   = "centralized"
+    backup_automation = "enabled"
+    patch_management  = "manual"
+    incident_response = "sns_notifications"
   }
 }
