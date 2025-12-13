@@ -15,10 +15,11 @@ jobs:
       BACKEND_DIR: backend
       WEB_FRONTEND_DIR: web-frontend
       MOBILE_FRONTEND_DIR: mobile-frontend
+      INFRASTRUCTURE_DIR: infrastructure
 
     steps:
       # -------------------------------
-      # Checkout
+      # Checkout Repository
       # -------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -70,6 +71,34 @@ jobs:
         run: |
           echo "=== Running Prettier (mobile-frontend) ==="
           ./node_modules/.bin/prettier --check "mobile-frontend/**/*.{js,jsx,ts,tsx,json,html,css,md}"
+
+      # -------------------------------
+      # New: Repository-wide Markdown check (ALL .md files)
+      # -------------------------------
+      - name: Run Prettier Checks (all .md files in repo)
+        working-directory: .
+        run: |
+          echo "=== Running Prettier (all .md files) ==="
+          ./node_modules/.bin/prettier --check "**/*.md" || {
+            echo "Prettier formatting issues detected in markdown files across the repo."
+            exit 1
+          }
+
+      # -------------------------------
+      # New: Infrastructure directory YAML/YML check (infrastructure/*.yml, *.yaml)
+      # -------------------------------
+      - name: Run Prettier Checks (infrastructure YAML/YML files)
+        working-directory: .
+        run: |
+          if [ -n "${{ env.INFRASTRUCTURE_DIR }}" ] && [ -d "${{ env.INFRASTRUCTURE_DIR }}" ]; then
+            echo "=== Running Prettier (infrastructure YAML/YML files) in ${INFRASTRUCTURE_DIR} ==="
+            ./node_modules/.bin/prettier --check "${{ env.INFRASTRUCTURE_DIR }}/**/*.{yml,yaml}" || {
+              echo "Prettier formatting issues detected in ${INFRASTRUCTURE_DIR} YAML/YML files."
+              exit 1
+            }
+          else
+            echo "No infrastructure directory '${{ env.INFRASTRUCTURE_DIR }}' found — skipping infra YAML/YML checks."
+          fi
 
       # -------------------------------
       # Done
