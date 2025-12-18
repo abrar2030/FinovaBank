@@ -1,3 +1,0 @@
-main.tf
-variables.tf
-✗ terraform fmt: Changes needed
