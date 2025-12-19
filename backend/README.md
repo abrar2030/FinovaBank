@@ -333,38 +333,3 @@ JWT_EXPIRATION=86400000
 # AI Service
 OPENAI_API_KEY=your-openai-key
 ```
-
-## 🐛 Troubleshooting
-
-### **Common Issues**
-
-1. **Port conflicts**: Ensure all required ports are available
-2. **Database connection**: Verify PostgreSQL is running and accessible
-3. **Redis connection**: Check Redis server status
-4. **Java version**: Ensure Java 17 is installed and JAVA_HOME is set
-
-### **Logs**
-
-- Application logs: `logs/application.log`
-- Security logs: `logs/security.log`
-- Audit logs: `logs/audit.log`
-
-## 🤝 Contributing
-
-### **Development Guidelines**
-
-- Follow Spring Boot best practices
-- Implement comprehensive unit tests
-- Use proper error handling and logging
-- Follow security guidelines for financial applications
-
-### **Code Quality**
-
-- SonarQube integration for code quality
-- Checkstyle for code formatting
-- SpotBugs for bug detection
-- OWASP dependency check for security
-
-## 📄 License
-
-## Proprietary - FinovaBank Financial Services © 2024 FinovaBank. All rights reserved.
