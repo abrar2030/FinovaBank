@@ -2,6 +2,7 @@ package com.finova.auth.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -29,7 +30,13 @@ public class JwtTokenProvider {
 
   @PostConstruct
   public void init() {
-    this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    // Ensure the secret is long enough for HS512 (minimum 512 bits = 64 bytes)
+    // Pad the secret if necessary to meet the minimum length requirement
+    String paddedSecret = jwtSecret;
+    while (paddedSecret.getBytes(StandardCharsets.UTF_8).length < 64) {
+      paddedSecret = paddedSecret + paddedSecret;
+    }
+    this.key = Keys.hmacShaKeyFor(paddedSecret.getBytes(StandardCharsets.UTF_8));
   }
 
   public String generateAccessToken(Authentication authentication) {

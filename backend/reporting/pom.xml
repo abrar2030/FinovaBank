@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>reporting-service</artifactId>
+    <artifactId>reporting</artifactId>
 
     <dependencies>
         <!-- Spring Boot Starter Web -->

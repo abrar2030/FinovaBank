@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>loan-management-service</artifactId>
+    <artifactId>loan-management</artifactId>
 
     <dependencies>
         <!-- Spring Boot Starter Web -->
