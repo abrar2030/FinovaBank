@@ -1,4 +1,4 @@
-package com.finova.loan.service.impl;
+package com.finova.loan.service;
 
 import com.finova.loan.model.Loan;
 import com.finova.loan.repository.LoanRepository;

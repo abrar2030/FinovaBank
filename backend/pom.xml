@@ -24,12 +24,10 @@
         <module>eureka-server</module>
         <module>api-gateway</module>
         <module>auth-service</module>
-        <!-- Disabled - only has tests, no main class -->
-        <!-- <module>security-service</module> -->
+        <module>security-service</module>
         <module>notification-service</module>
         <module>loan-management</module>
-        <!-- Disabled - has controller/service interface mismatches -->
-        <!-- <module>account-management</module> -->
+        <module>account-management</module>
         <module>transaction-service</module>
         <module>compliance-service</module>
         <module>ai-service</module>

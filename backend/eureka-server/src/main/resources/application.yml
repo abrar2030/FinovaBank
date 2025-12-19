@@ -1,6 +1,7 @@
 ---
 server:
   port: 8001
+
 spring:
   application:
     name: eureka-server
@@ -8,14 +9,15 @@ spring:
   # Basic authentication is recommended for Eureka to prevent unauthorized registration
   security:
     user:
-      name: eureka-user
-      password: eureka-password
+      name: ${EUREKA_USERNAME:eureka-user}
+      password: ${EUREKA_PASSWORD:eureka-password}
       roles: USER
+
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_HOSTNAME:localhost}
   client:
     register-with-eureka: false
     fetch-registry: false
     serviceUrl:
-      defaultZone: http://localhost:8001/eureka/
+      defaultZone: http://${EUREKA_HOSTNAME:localhost}:8001/eureka/

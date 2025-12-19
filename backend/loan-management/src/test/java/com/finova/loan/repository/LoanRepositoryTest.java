@@ -1,4 +1,4 @@
-package com.finovabank.repositories;
+package com.finova.loan.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 

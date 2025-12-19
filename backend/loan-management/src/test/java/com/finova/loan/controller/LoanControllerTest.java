@@ -1,4 +1,4 @@
-package com.finovabank.controllers;
+package com.finova.loan.controller;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;

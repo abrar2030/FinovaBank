@@ -1,4 +1,4 @@
-package com.finova.reporting.service.impl;
+package com.finova.reporting.service;
 
 import com.finova.reporting.model.Report;
 import com.finova.reporting.repository.ReportRepository;

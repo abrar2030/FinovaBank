@@ -6,9 +6,9 @@ spring:
     name: auth-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/finovabank_auth
-    username: finova_user
-    password: finova_password
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/finovabank_auth}
+    username: ${DB_USERNAME:finova_user}
+    password: ${DB_PASSWORD:finova_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20
@@ -31,8 +31,8 @@ spring:
         order_updates: true
 
   redis:
-    host: localhost
-    port: 6379
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
     timeout: 2000ms
     lettuce:
       pool:

@@ -1,0 +1,150 @@
+# -------------------------
+# Java / Build artifacts
+# -------------------------
+# Compiled class files
+*.class
+
+# Package files (usually produced by the build)
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Build folders
+/target/
+/build/
+/out/
+
+# Gradle cache/build (if your project ever uses Gradle)
+/.gradle/
+/build/
+
+# Maven temporary files / backups created by plugins
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Keep mvnw and the wrapper jar committed (do NOT ignore .mvn/wrapper/maven-wrapper.jar)
+# (the wrapper is important to allow reproducible builds for collaborators)
+
+# -------------------------
+# Spring Boot specifics
+# -------------------------
+# Logs produced by apps
+/logs/
+/*.log
+*.out
+
+# Spring Boot restart dir used by devtools (if present)
+/restart/
+spring-boot-devtools.properties
+
+# Local profile / override files that often contain secrets or local config.
+# Note: do NOT ignore application.yml or application.properties by default —
+# only ignore local override files or explicitly sensitive files.
+/application-*.local.yml
+/application-*.local.properties
+/.env
+/.env.*
+
+# H2 / embedded DB files (if used locally)
+*.db
+*.mv.db
+*.h2.db
+
+# Trust stores / certificates (do NOT commit secrets)
+*.jks
+*.keystore
+*.p12
+
+# -------------------------
+# Test / coverage reports
+# -------------------------
+/target/surefire-reports/
+/target/failsafe-reports/
+/coverage/
+/jacoco.exec
+*.lcov
+
+# -------------------------
+# IDEs / Editor / OS
+# -------------------------
+# IntelliJ IDEA
+/.idea/
+/*.iml
+*.iws
+*.ipr
+
+# Eclipse
+.project
+.classpath
+/.settings/
+/.apt_generated/
+/.apt_generated/**
+
+# NetBeans
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Other editors
+*.swp
+*~ 
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# -------------------------
+# Containers / packaging / runtime
+# -------------------------
+# Docker (ignore local env override files; do not ignore Dockerfile or docker-compose.yml)
+/docker-compose.override.yml
+.env.docker
+docker-compose.*.local.yml
+
+# If you keep local image caches or layers
+docker-compose.override.yml
+
+# -------------------------
+# Generated / temporary
+# -------------------------
+/tmp/
+/temp/
+*.tmp
+*.log.*
+
+# Node / frontend (if monorepo contains frontend)
+node_modules/
+dist/
+build/
+
+# -------------------------
+# Misc / security
+# -------------------------
+# Private keys, secrets and credentials — never commit
+secrets.properties
+credentials.yml
+*.pem
+*.key

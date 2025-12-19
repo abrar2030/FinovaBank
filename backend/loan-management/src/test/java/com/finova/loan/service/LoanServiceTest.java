@@ -1,4 +1,4 @@
-package com.finovabank.services;
+package com.finova.loan.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

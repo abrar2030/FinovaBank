@@ -1,4 +1,4 @@
-package com.finovabank.controllers;
+package com.finova.auth.controller;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
