@@ -303,7 +303,6 @@ docker-compose up -d
 
 ### **Additional Resources**
 
-- `FinovaBank_Enhancement_Design.md` - Detailed enhancement design document
 - `API_Documentation.md` - Complete API reference
 - `Deployment_Guide.md` - Production deployment guide
 
