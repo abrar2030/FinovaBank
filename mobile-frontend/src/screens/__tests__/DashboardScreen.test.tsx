@@ -1,30 +1,76 @@
+import 'react-native';
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, fireEvent} from '@testing-library/react-native';
+import DashboardScreen from '../../screens/DashboardScreen';
+import {useNavigation} from '@react-navigation/native';
 
-// Corrected import path based on project structure
-import DashboardScreen from '../../../../../finovabank_project/mobile-frontend/src/screens/DashboardScreen';
+jest.mock('@react-navigation/native');
 
-// Mock necessary context or props if the component requires them
-// Example: Mocking AuthContext if DashboardScreen uses it
-// jest.mock('../../../../../finovabank_project/mobile-frontend/src/context/AuthContext', () => ({
-//   useAuth: () => ({ user: { name: 'Test User' } }),
-// }));
+describe('DashboardScreen', () => {
+  const mockNavigate = jest.fn();
 
-describe('DashboardScreen (Mobile)', () => {
-  test('renders dashboard elements correctly', () => {
-    // Render the actual DashboardScreen component
-    render(<DashboardScreen />);
-
-    // Check for key elements expected in the actual DashboardScreen component
-    // These assertions might need adjustment based on the actual component's output
-    expect(screen.getByText(/dashboard/i)).toBeTruthy();
-
-    // Example assertions (adjust based on actual component content):
-    // expect(screen.getByText(/Account Balance/i)).toBeTruthy();
-    // expect(screen.getByText(/Recent Transactions/i)).toBeTruthy();
-
-    // Add more specific assertions based on the real component's structure and data fetching
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useNavigation as jest.Mock).mockReturnValue({
+      navigate: mockNavigate,
+    });
   });
 
-  // Add tests for loading states, error handling, interactions (e.g., tapping a transaction)
+  it('renders correctly', () => {
+    const {getByText} = render(<DashboardScreen />);
+
+    expect(getByText('Welcome Back!')).toBeTruthy();
+    expect(getByText('Account Summary')).toBeTruthy();
+    expect(getByText('Quick Actions')).toBeTruthy();
+    // The balance is split across multiple Text components, so we check for the number part
+    expect(getByText('5420.50')).toBeTruthy();
+    expect(getByText('Account: **** **** **** 1234')).toBeTruthy();
+  });
+
+  it('renders all quick action buttons', () => {
+    const {getByText} = render(<DashboardScreen />);
+
+    expect(getByText('View Transactions')).toBeTruthy();
+    expect(getByText('Apply for Loan')).toBeTruthy();
+    expect(getByText('Manage Savings')).toBeTruthy();
+    expect(getByText('Account Details')).toBeTruthy();
+  });
+
+  it('navigates to Transactions screen when View Transactions is pressed', () => {
+    const {getByText} = render(<DashboardScreen />);
+    const transactionsButton = getByText('View Transactions');
+
+    fireEvent.press(transactionsButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('Transactions', undefined);
+  });
+
+  it('navigates to Loans screen when Apply for Loan is pressed', () => {
+    const {getByText} = render(<DashboardScreen />);
+    const loansButton = getByText('Apply for Loan');
+
+    fireEvent.press(loansButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('Loans', undefined);
+  });
+
+  it('navigates to SavingsGoals screen when Manage Savings is pressed', () => {
+    const {getByText} = render(<DashboardScreen />);
+    const savingsButton = getByText('Manage Savings');
+
+    fireEvent.press(savingsButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('SavingsGoals', undefined);
+  });
+
+  it('navigates to AccountDetails screen with accountId when Account Details is pressed', () => {
+    const {getByText} = render(<DashboardScreen />);
+    const accountDetailsButton = getByText('Account Details');
+
+    fireEvent.press(accountDetailsButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('AccountDetails', {
+      accountId: '1',
+    });
+  });
 });

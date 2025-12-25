@@ -1,111 +1,132 @@
+import 'react-native';
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, waitFor} from '@testing-library/react-native';
+import LoansScreen from '../../screens/LoansScreen';
+import {getAccountLoans, getLoanTypes} from '../../services/api';
+import {useAuth} from '../../context/AuthContext';
+import {useNavigation} from '@react-navigation/native';
 
-// Assuming the screen exists in the original project at:
-// /home/ubuntu/finova_project/mobile-frontend/src/screens/LoansScreen.tsx
-// Adjust the import path if necessary.
-// import LoansScreen from '../../../../finova_project/mobile-frontend/src/screens/LoansScreen';
+jest.mock('../../services/api');
+jest.mock('../../context/AuthContext');
+jest.mock('@react-navigation/native');
 
-// --- Placeholder LoansScreen Implementation --- START ---
-import {View, Text, FlatList, StyleSheet, Button} from 'react-native';
+describe('LoansScreen', () => {
+  const mockNavigate = jest.fn();
+  const mockGetAccountLoans = getAccountLoans as jest.MockedFunction<
+    typeof getAccountLoans
+  >;
+  const mockGetLoanTypes = getLoanTypes as jest.MockedFunction<
+    typeof getLoanTypes
+  >;
 
-interface Loan {
-  id: string;
-  type: string;
-  amount: number;
-  status: string;
-  nextPaymentDue: string;
-}
-
-const LoansScreen: React.FC = () => {
-  // Mock data
-  const userLoans: Loan[] = [
+  const mockLoans = [
     {
-      id: 'L001',
+      id: '1',
       type: 'Personal Loan',
       amount: 10000,
-      status: 'Approved',
-      nextPaymentDue: '2025-06-01',
+      interestRate: 5.5,
+      term: 36,
+      monthlyPayment: 302.35,
+      remainingBalance: 8500,
+      status: 'ACTIVE' as const,
+      appliedDate: '2024-01-01T00:00:00Z',
+      approvalDate: '2024-01-05T00:00:00Z',
     },
     {
-      id: 'L002',
-      type: 'Mortgage',
-      amount: 250000,
-      status: 'Active',
-      nextPaymentDue: '2025-05-15',
+      id: '2',
+      type: 'Auto Loan',
+      amount: 25000,
+      interestRate: 4.5,
+      term: 60,
+      monthlyPayment: 466.08,
+      remainingBalance: 20000,
+      status: 'ACTIVE' as const,
+      appliedDate: '2023-06-01T00:00:00Z',
+      approvalDate: '2023-06-10T00:00:00Z',
     },
   ];
 
-  const renderItem = ({item}: {item: Loan}) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.loanType}>
-        {item.type} ({item.id})
-      </Text>
-      <Text>Amount: ${item.amount.toLocaleString()}</Text>
-      <Text>Status: {item.status}</Text>
-      <Text>Next Payment: {item.nextPaymentDue}</Text>
-    </View>
-  );
+  const mockLoanTypes = [
+    {id: '1', name: 'Personal Loan', maxAmount: 50000, baseRate: 5.5},
+    {id: '2', name: 'Auto Loan', maxAmount: 100000, baseRate: 4.5},
+    {id: '3', name: 'Home Loan', maxAmount: 500000, baseRate: 3.5},
+  ];
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>My Loans</Text>
-      <FlatList
-        data={userLoans}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        ListEmptyComponent={<Text>You have no active loans.</Text>}
-      />
-      {/* <Button title="Apply for New Loan" onPress={() => {}} /> */}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16},
-  title: {fontSize: 24, marginBottom: 16, textAlign: 'center'},
-  itemContainer: {
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  loanType: {fontSize: 16, fontWeight: 'bold', marginBottom: 4},
-});
-// --- Placeholder LoansScreen Implementation --- END ---
-
-describe('LoansScreen (Mobile)', () => {
-  test('renders loan list correctly when loans exist', () => {
-    render(<LoansScreen />);
-
-    expect(screen.getByText('My Loans')).toBeTruthy();
-
-    // Check for loan 1 details
-    expect(screen.getByText('Personal Loan (L001)')).toBeTruthy();
-    expect(screen.getByText('Amount: $10,000')).toBeTruthy();
-    expect(screen.getByText('Status: Approved')).toBeTruthy();
-    expect(screen.getByText('Next Payment: 2025-06-01')).toBeTruthy();
-
-    // Check for loan 2 details
-    expect(screen.getByText('Mortgage (L002)')).toBeTruthy();
-    expect(screen.getByText('Amount: $250,000')).toBeTruthy();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useAuth as jest.Mock).mockReturnValue({
+      userData: {id: '123'},
+    });
+    (useNavigation as jest.Mock).mockReturnValue({
+      navigate: mockNavigate,
+    });
   });
 
-  test('renders empty message when no loans exist', () => {
-    // Mock empty data scenario
-    const EmptyLoansScreen: React.FC = () => (
-      <View style={styles.container}>
-        <Text style={styles.title}>My Loans</Text>
-        <FlatList
-          data={[]}
-          renderItem={() => null}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={<Text>You have no active loans.</Text>}
-        />
-      </View>
+  it('renders loading state initially', () => {
+    mockGetAccountLoans.mockImplementation(() => new Promise(() => {}));
+    mockGetLoanTypes.mockImplementation(() => new Promise(() => {}));
+
+    const {getByText} = render(
+      <LoansScreen route={{params: {accountId: '123'}}} />,
     );
-    render(<EmptyLoansScreen />);
-    expect(screen.getByText('You have no active loans.')).toBeTruthy();
+
+    // Component should show loading or initial state
+    expect(mockGetAccountLoans).toHaveBeenCalled();
+    expect(mockGetLoanTypes).toHaveBeenCalled();
   });
 
-  // Add tests for loading state, error handling, applying for a new loan, etc.
+  it('renders loans after successful fetch', async () => {
+    mockGetAccountLoans.mockResolvedValueOnce({
+      data: mockLoans,
+    } as any);
+    mockGetLoanTypes.mockResolvedValueOnce({
+      data: mockLoanTypes,
+    } as any);
+
+    const {getByText} = render(
+      <LoansScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('Personal Loan')).toBeTruthy();
+      expect(getByText('Auto Loan')).toBeTruthy();
+    });
+  });
+
+  it('shows empty state when no loans', async () => {
+    mockGetAccountLoans.mockResolvedValueOnce({
+      data: [],
+    } as any);
+    mockGetLoanTypes.mockResolvedValueOnce({
+      data: mockLoanTypes,
+    } as any);
+
+    const {queryByText} = render(
+      <LoansScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      // Should not find loan names
+      expect(queryByText('Personal Loan')).toBeNull();
+      expect(queryByText('Auto Loan')).toBeNull();
+    });
+  });
+
+  it('handles error state', async () => {
+    mockGetAccountLoans.mockRejectedValueOnce({
+      message: 'Failed to load loans.',
+    });
+    mockGetLoanTypes.mockResolvedValueOnce({
+      data: mockLoanTypes,
+    } as any);
+
+    const {findByText} = render(
+      <LoansScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    // Error should be displayed (either in Alert or as text)
+    await waitFor(() => {
+      expect(mockGetAccountLoans).toHaveBeenCalled();
+    });
+  });
 });

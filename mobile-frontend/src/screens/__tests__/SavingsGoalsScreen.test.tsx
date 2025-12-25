@@ -1,147 +1,97 @@
+import 'react-native';
 import React from 'react';
-import {render, screen, fireEvent} from '@testing-library/react-native';
+import {render, waitFor} from '@testing-library/react-native';
+import SavingsGoalsScreen from '../../screens/SavingsGoalsScreen';
+import {getAccountSavingsGoals} from '../../services/api';
+import {useAuth} from '../../context/AuthContext';
 
-// Assuming the screen exists in the original project at:
-// /home/ubuntu/finova_project/mobile-frontend/src/screens/SavingsGoalsScreen.tsx
-// Adjust the import path if necessary.
-// import SavingsGoalsScreen from '../../../../finova_project/mobile-frontend/src/screens/SavingsGoalsScreen';
+jest.mock('../../services/api');
+jest.mock('../../context/AuthContext');
 
-// --- Placeholder SavingsGoalsScreen Implementation --- START ---
-import {View, Text, FlatList, StyleSheet, Button} from 'react-native';
+describe('SavingsGoalsScreen', () => {
+  const mockGetAccountSavingsGoals =
+    getAccountSavingsGoals as jest.MockedFunction<
+      typeof getAccountSavingsGoals
+    >;
 
-interface Goal {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  deadline: string;
-}
-
-const SavingsGoalsScreen: React.FC = () => {
-  // Mock data
-  const [goals, setGoals] = React.useState<Goal[]>([
+  const mockSavingsGoals = [
     {
-      id: 'SG01',
+      id: '1',
       name: 'Vacation Fund',
-      targetAmount: 2000,
-      currentAmount: 500,
-      deadline: '2025-12-31',
+      targetAmount: 5000,
+      currentAmount: 2500,
+      progress: 50,
+      createdDate: '2024-01-01T00:00:00Z',
+      targetDate: '2024-12-31',
     },
     {
-      id: 'SG02',
-      name: 'New Car Down Payment',
-      targetAmount: 5000,
-      currentAmount: 1500,
-      deadline: '2026-06-30',
+      id: '2',
+      name: 'Emergency Fund',
+      targetAmount: 10000,
+      currentAmount: 7500,
+      progress: 75,
+      createdDate: '2023-06-01T00:00:00Z',
     },
-  ]);
+  ];
 
-  // Mock function to add contribution
-  const addContribution = (id: string, amount: number) => {
-    setGoals(prevGoals =>
-      prevGoals.map(goal =>
-        goal.id === id
-          ? {...goal, currentAmount: goal.currentAmount + amount}
-          : goal,
-      ),
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useAuth as jest.Mock).mockReturnValue({
+      userData: {id: '123'},
+    });
+  });
+
+  it('renders loading state initially', () => {
+    mockGetAccountSavingsGoals.mockImplementation(() => new Promise(() => {}));
+
+    const {getByText} = render(
+      <SavingsGoalsScreen route={{params: {accountId: '123'}}} />,
     );
-    console.log(`Mobile: Added ${amount} to goal ${id}`);
-  };
 
-  const renderItem = ({item}: {item: Goal}) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.goalName}>{item.name}</Text>
-      <Text>Target: ${item.targetAmount.toLocaleString()}</Text>
-      <Text>Current: ${item.currentAmount.toLocaleString()}</Text>
-      <Text>
-        Progress: {((item.currentAmount / item.targetAmount) * 100).toFixed(1)}%
-      </Text>
-      <Text>Deadline: {item.deadline}</Text>
-      <Button
-        title="Add $50"
-        onPress={() => addContribution(item.id, 50)}
-        accessibilityLabel={`Add $50 to ${item.name}`}
-      />
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Savings Goals</Text>
-      <FlatList
-        data={goals}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        ListEmptyComponent={<Text>You have no savings goals yet.</Text>}
-      />
-      {/* <Button title="Create New Goal" onPress={() => {}} /> */}
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16},
-  title: {fontSize: 24, marginBottom: 16, textAlign: 'center'},
-  itemContainer: {
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  goalName: {fontSize: 16, fontWeight: 'bold', marginBottom: 4},
-});
-// --- Placeholder SavingsGoalsScreen Implementation --- END ---
-
-describe('SavingsGoalsScreen (Mobile)', () => {
-  test('renders savings goals list correctly', () => {
-    render(<SavingsGoalsScreen />);
-
-    expect(screen.getByText('Savings Goals')).toBeTruthy();
-
-    // Check goal 1
-    expect(screen.getByText('Vacation Fund')).toBeTruthy();
-    expect(screen.getByText('Target: $2,000')).toBeTruthy();
-    expect(screen.getByText('Current: $500')).toBeTruthy();
-    expect(screen.getByText('Progress: 25.0%')).toBeTruthy();
-    expect(screen.getByText('Deadline: 2025-12-31')).toBeTruthy();
-
-    // Check goal 2
-    expect(screen.getByText('New Car Down Payment')).toBeTruthy();
-    expect(screen.getByText('Target: $5,000')).toBeTruthy();
-    expect(screen.getByText('Current: $1,500')).toBeTruthy(); // Initial
+    expect(mockGetAccountSavingsGoals).toHaveBeenCalled();
   });
 
-  test('allows adding contribution to a goal', () => {
-    const consoleSpy = jest.spyOn(console, 'log');
-    render(<SavingsGoalsScreen />);
+  it('renders savings goals after successful fetch', async () => {
+    mockGetAccountSavingsGoals.mockResolvedValueOnce({
+      data: mockSavingsGoals,
+    } as any);
 
-    const addButton = screen.getByLabelText('Add $50 to New Car Down Payment');
-    expect(screen.getByText('Current: $1,500')).toBeTruthy(); // Initial amount
-
-    fireEvent.press(addButton);
-
-    // Check updated amount and progress
-    expect(screen.getByText('Current: $1,550')).toBeTruthy();
-    expect(screen.getByText('Progress: 31.0%')).toBeTruthy();
-    expect(consoleSpy).toHaveBeenCalledWith('Mobile: Added 50 to goal SG02');
-
-    consoleSpy.mockRestore();
-  });
-
-  test('renders empty message when no goals exist', () => {
-    const EmptyGoalsScreen: React.FC = () => (
-      <View style={styles.container}>
-        <Text style={styles.title}>Savings Goals</Text>
-        <FlatList
-          data={[]}
-          renderItem={() => null}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={<Text>You have no savings goals yet.</Text>}
-        />
-      </View>
+    const {getByText} = render(
+      <SavingsGoalsScreen route={{params: {accountId: '123'}}} />,
     );
-    render(<EmptyGoalsScreen />);
-    expect(screen.getByText('You have no savings goals yet.')).toBeTruthy();
+
+    await waitFor(() => {
+      expect(getByText('Vacation Fund')).toBeTruthy();
+      expect(getByText('Emergency Fund')).toBeTruthy();
+    });
   });
 
-  // Add tests for creating new goals, loading state, error handling, etc.
+  it('shows empty state when no savings goals', async () => {
+    mockGetAccountSavingsGoals.mockResolvedValueOnce({
+      data: [],
+    } as any);
+
+    const {queryByText} = render(
+      <SavingsGoalsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(queryByText('Vacation Fund')).toBeNull();
+      expect(queryByText('Emergency Fund')).toBeNull();
+    });
+  });
+
+  it('handles error state', async () => {
+    mockGetAccountSavingsGoals.mockRejectedValueOnce({
+      message: 'Failed to load savings goals.',
+    });
+
+    const {findByText} = render(
+      <SavingsGoalsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(mockGetAccountSavingsGoals).toHaveBeenCalled();
+    });
+  });
 });

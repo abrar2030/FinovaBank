@@ -1,108 +1,114 @@
+import 'react-native';
 import React from 'react';
-import {render, fireEvent, screen} from '@testing-library/react-native';
+import {render, fireEvent, waitFor} from '@testing-library/react-native';
+import LoginScreen from '../../screens/LoginScreen';
+import {useAuth} from '../../context/AuthContext';
+import {useNavigation} from '@react-navigation/native';
 
-// Assuming the screen exists in the original project at:
-// /home/ubuntu/finova_project/mobile-frontend/src/screens/LoginScreen.tsx
-// Adjust the import path if necessary.
-// import LoginScreen from '../../../../finova_project/mobile-frontend/src/screens/LoginScreen';
+// Mock the useAuth hook
+jest.mock('../../context/AuthContext');
+jest.mock('@react-navigation/native');
 
-// --- Placeholder LoginScreen Implementation --- START ---
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+describe('LoginScreen', () => {
+  const mockLogin = jest.fn();
+  const mockNavigate = jest.fn();
 
-const LoginScreen: React.FC<{navigation?: any}> = ({navigation}) => {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-
-  const handleLogin = () => {
-    console.log('Mobile Login:', username, password);
-    // Mock login logic - potentially navigate on success
-    // navigation?.navigate('Dashboard');
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-        accessibilityLabel="Username Input"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        accessibilityLabel="Password Input"
-      />
-      <Button
-        title="Login"
-        onPress={handleLogin}
-        accessibilityLabel="Login Button"
-      />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', padding: 16},
-  title: {fontSize: 24, marginBottom: 16, textAlign: 'center'},
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-  },
-});
-// --- Placeholder LoginScreen Implementation --- END ---
-
-describe('LoginScreen (Mobile)', () => {
-  test('renders login form elements', () => {
-    render(<LoginScreen />);
-
-    expect(screen.getByPlaceholderText('Username')).toBeTruthy();
-    expect(screen.getByPlaceholderText('Password')).toBeTruthy();
-    expect(screen.getByRole('button', {name: /login/i})).toBeTruthy();
-    // Alternative query using accessibilityLabel
-    expect(screen.getByLabelText('Username Input')).toBeTruthy();
-    expect(screen.getByLabelText('Password Input')).toBeTruthy();
-    expect(screen.getByLabelText('Login Button')).toBeTruthy();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useAuth as jest.Mock).mockReturnValue({
+      login: mockLogin,
+      isLoading: false,
+    });
+    (useNavigation as jest.Mock).mockReturnValue({
+      navigate: mockNavigate,
+    });
   });
 
-  test('allows inputting username and password', () => {
-    render(<LoginScreen />);
+  it('renders correctly', () => {
+    const {getByText, getByPlaceholderText} = render(<LoginScreen />);
 
-    const usernameInput = screen.getByLabelText('Username Input');
-    const passwordInput = screen.getByLabelText('Password Input');
-
-    fireEvent.changeText(usernameInput, 'mobileuser');
-    fireEvent.changeText(passwordInput, 'mobilepass');
-
-    expect(usernameInput.props.value).toBe('mobileuser');
-    expect(passwordInput.props.value).toBe('mobilepass');
+    expect(getByText('Welcome Back!')).toBeTruthy();
+    expect(getByText('Login to your FinovaBank account')).toBeTruthy();
+    expect(getByPlaceholderText('Email')).toBeTruthy();
+    expect(getByPlaceholderText('Password')).toBeTruthy();
+    expect(getByText('Login')).toBeTruthy();
   });
 
-  test('calls login handler on button press', () => {
-    const consoleSpy = jest.spyOn(console, 'log');
-    // Mock navigation if needed
-    // const mockNavigation = { navigate: jest.fn() };
-    // render(<LoginScreen navigation={mockNavigation} />);
-    render(<LoginScreen />);
+  it('shows error when fields are empty', async () => {
+    const {getByText} = render(<LoginScreen />);
+    const loginButton = getByText('Login');
 
-    const loginButton = screen.getByLabelText('Login Button');
     fireEvent.press(loginButton);
 
-    expect(consoleSpy).toHaveBeenCalledWith('Mobile Login:', '', ''); // Initial empty values
-    // If input is filled first:
-    // fireEvent.changeText(screen.getByLabelText('Username Input'), 'test');
-    // fireEvent.changeText(screen.getByLabelText('Password Input'), 'pass');
-    // fireEvent.press(loginButton);
-    // expect(consoleSpy).toHaveBeenCalledWith('Mobile Login:', 'test', 'pass');
-    // expect(mockNavigation.navigate).toHaveBeenCalledWith('Dashboard');
+    await waitFor(() => {
+      expect(getByText('Please enter both email and password.')).toBeTruthy();
+    });
 
-    consoleSpy.mockRestore();
+    expect(mockLogin).not.toHaveBeenCalled();
+  });
+
+  it('calls login function with correct credentials', async () => {
+    mockLogin.mockResolvedValueOnce(undefined);
+
+    const {getByPlaceholderText, getByText} = render(<LoginScreen />);
+    const emailInput = getByPlaceholderText('Email');
+    const passwordInput = getByPlaceholderText('Password');
+    const loginButton = getByText('Login');
+
+    fireEvent.changeText(emailInput, 'test@example.com');
+    fireEvent.changeText(passwordInput, 'password123');
+    fireEvent.press(loginButton);
+
+    await waitFor(() => {
+      expect(mockLogin).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123',
+      });
+    });
+  });
+
+  it('shows error message on login failure', async () => {
+    const errorMessage = 'Invalid credentials';
+    mockLogin.mockRejectedValueOnce({
+      response: {data: {error: {message: errorMessage}}},
+    });
+
+    const {getByPlaceholderText, getByText} = render(<LoginScreen />);
+    const emailInput = getByPlaceholderText('Email');
+    const passwordInput = getByPlaceholderText('Password');
+    const loginButton = getByText('Login');
+
+    fireEvent.changeText(emailInput, 'test@example.com');
+    fireEvent.changeText(passwordInput, 'wrongpassword');
+    fireEvent.press(loginButton);
+
+    await waitFor(() => {
+      expect(getByText(errorMessage)).toBeTruthy();
+    });
+  });
+
+  it('navigates to register screen when register button is pressed', () => {
+    const {getByText} = render(<LoginScreen />);
+    const registerButton = getByText("Don't have an account? Register");
+
+    fireEvent.press(registerButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('Register');
+  });
+
+  it('disables inputs and button while loading', () => {
+    (useAuth as jest.Mock).mockReturnValue({
+      login: mockLogin,
+      isLoading: true,
+    });
+
+    const {getByPlaceholderText, getByText} = render(<LoginScreen />);
+    const emailInput = getByPlaceholderText('Email');
+    const passwordInput = getByPlaceholderText('Password');
+    const loginButton = getByText('Login').parent;
+
+    expect(emailInput.props.editable).toBe(false);
+    expect(passwordInput.props.editable).toBe(false);
+    expect(loginButton?.props.accessibilityState?.disabled).toBe(true);
   });
 });

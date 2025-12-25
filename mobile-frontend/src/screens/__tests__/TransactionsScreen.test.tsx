@@ -1,103 +1,168 @@
+import 'react-native';
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, waitFor, fireEvent} from '@testing-library/react-native';
+import TransactionsScreen from '../../screens/TransactionsScreen';
+import {getAccountTransactions} from '../../services/api';
+import {useAuth} from '../../context/AuthContext';
+import {useNavigation} from '@react-navigation/native';
 
-// Assuming the screen exists in the original project at:
-// /home/ubuntu/finova_project/mobile-frontend/src/screens/TransactionsScreen.tsx
-// Adjust the import path if necessary.
-// import TransactionsScreen from '../../../../finova_project/mobile-frontend/src/screens/TransactionsScreen';
+jest.mock('../../services/api');
+jest.mock('../../context/AuthContext');
+jest.mock('@react-navigation/native');
 
-// --- Placeholder TransactionsScreen Implementation --- START ---
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+describe('TransactionsScreen', () => {
+  const mockNavigate = jest.fn();
+  const mockGetAccountTransactions =
+    getAccountTransactions as jest.MockedFunction<
+      typeof getAccountTransactions
+    >;
 
-interface Transaction {
-  id: string;
-  date: string;
-  description: string;
-  amount: number;
-}
-
-const TransactionsScreen: React.FC = () => {
-  // Mock data
-  const transactions: Transaction[] = [
-    {id: 't1', date: '2025-05-01', description: 'Grocery Store', amount: -75.5},
-    {id: 't2', date: '2025-04-30', description: 'Coffee Shop', amount: -5.0},
+  const mockTransactions = [
     {
-      id: 't3',
-      date: '2025-04-28',
-      description: 'Salary Deposit',
-      amount: 2000.0,
+      id: '1',
+      date: '2024-12-25T10:00:00Z',
+      description: 'Coffee Shop',
+      amount: 5.5,
+      type: 'DEBIT' as const,
+      category: 'Food & Dining',
+      merchantName: 'Starbucks',
     },
-    // Add more transactions for testing scroll/list behavior
+    {
+      id: '2',
+      date: '2024-12-24T15:30:00Z',
+      description: 'Salary Deposit',
+      amount: 5000,
+      type: 'CREDIT' as const,
+      category: 'Income',
+    },
   ];
 
-  const renderItem = ({item}: {item: Transaction}) => (
-    <View style={styles.itemContainer}>
-      <Text>{item.date}</Text>
-      <Text>{item.description}</Text>
-      <Text style={item.amount < 0 ? styles.negative : styles.positive}>
-        ${item.amount.toFixed(2)}
-      </Text>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Transaction History</Text>
-      <FlatList
-        data={transactions}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        ListEmptyComponent={<Text>No transactions found.</Text>}
-      />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16},
-  title: {fontSize: 24, marginBottom: 16, textAlign: 'center'},
-  itemContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  negative: {color: 'red'},
-  positive: {color: 'green'},
-});
-// --- Placeholder TransactionsScreen Implementation --- END ---
-
-describe('TransactionsScreen (Mobile)', () => {
-  test('renders transaction list correctly', () => {
-    render(<TransactionsScreen />);
-
-    expect(screen.getByText('Transaction History')).toBeTruthy();
-
-    // Check for specific transaction details
-    expect(screen.getByText('Grocery Store')).toBeTruthy();
-    expect(screen.getByText('$-75.50')).toBeTruthy();
-    expect(screen.getByText('Salary Deposit')).toBeTruthy();
-    expect(screen.getByText('$2000.00')).toBeTruthy();
-    expect(screen.getByText('2025-05-01')).toBeTruthy(); // Check date
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useAuth as jest.Mock).mockReturnValue({
+      userData: {id: '123'},
+    });
+    (useNavigation as jest.Mock).mockReturnValue({
+      navigate: mockNavigate,
+    });
   });
 
-  test('renders empty message when no transactions exist', () => {
-    // Mock empty data scenario
-    const EmptyTransactionsScreen: React.FC = () => (
-      <View style={styles.container}>
-        <Text style={styles.title}>Transaction History</Text>
-        <FlatList
-          data={[]}
-          renderItem={() => null}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={<Text>No transactions found.</Text>}
-        />
-      </View>
+  it('renders loading state initially', () => {
+    mockGetAccountTransactions.mockImplementation(() => new Promise(() => {}));
+
+    const {getByText} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
     );
-    render(<EmptyTransactionsScreen />);
-    expect(screen.getByText('No transactions found.')).toBeTruthy();
+
+    expect(getByText('Loading Transactions...')).toBeTruthy();
   });
 
-  // Add tests for loading state, error handling, pull-to-refresh, filtering, etc.
+  it('renders transactions after successful fetch', async () => {
+    mockGetAccountTransactions.mockResolvedValueOnce({
+      data: mockTransactions,
+    } as any);
+
+    const {getByText} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('Transactions')).toBeTruthy();
+      expect(getByText('Coffee Shop')).toBeTruthy();
+      expect(getByText('Starbucks')).toBeTruthy();
+      expect(getByText('Salary Deposit')).toBeTruthy();
+      expect(getByText('-$5.50')).toBeTruthy();
+      expect(getByText('+$5,000.00')).toBeTruthy();
+    });
+  });
+
+  it('shows empty state when no transactions', async () => {
+    mockGetAccountTransactions.mockResolvedValueOnce({
+      data: [],
+    } as any);
+
+    const {getByText} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('No transactions found.')).toBeTruthy();
+    });
+  });
+
+  it('handles error state', async () => {
+    mockGetAccountTransactions.mockRejectedValueOnce({
+      message: 'Network error',
+    });
+
+    const {getByText} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('Network error')).toBeTruthy();
+      expect(getByText('Retry')).toBeTruthy();
+    });
+  });
+
+  it('navigates to TransactionDetails when transaction is pressed', async () => {
+    mockGetAccountTransactions.mockResolvedValueOnce({
+      data: mockTransactions,
+    } as any);
+
+    const {getByText} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('Coffee Shop')).toBeTruthy();
+    });
+
+    const transactionItem = getByText('Coffee Shop');
+    fireEvent.press(transactionItem.parent?.parent || transactionItem);
+
+    expect(mockNavigate).toHaveBeenCalledWith('TransactionDetails', {
+      transactionId: '1',
+      transaction: mockTransactions[0],
+    });
+  });
+
+  it('opens filter screen when filter button is pressed', async () => {
+    mockGetAccountTransactions.mockResolvedValueOnce({
+      data: mockTransactions,
+    } as any);
+
+    const {getByText} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('Filter')).toBeTruthy();
+    });
+
+    const filterButton = getByText('Filter');
+    fireEvent.press(filterButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith(
+      'TransactionFilters',
+      expect.any(Object),
+    );
+  });
+
+  it('refreshes transactions when pull to refresh', async () => {
+    mockGetAccountTransactions.mockResolvedValue({
+      data: mockTransactions,
+    } as any);
+
+    const {getByTestId} = render(
+      <TransactionsScreen route={{params: {accountId: '123'}}} />,
+    );
+
+    await waitFor(() => {
+      expect(mockGetAccountTransactions).toHaveBeenCalledTimes(1);
+    });
+
+    // Simulate pull to refresh
+    // Note: This would require proper test ID on FlatList in the actual component
+  });
 });

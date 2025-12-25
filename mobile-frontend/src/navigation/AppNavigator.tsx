@@ -8,27 +8,41 @@ import RegisterScreen from '../screens/RegisterScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import AccountDetailsScreen from '../screens/AccountDetailsScreen';
 import TransactionsScreen from '../screens/TransactionsScreen';
+import TransactionDetailsScreen from '../screens/TransactionDetailsScreen';
+import TransactionFiltersScreen from '../screens/TransactionFiltersScreen';
 import LoansScreen from '../screens/LoansScreen';
 import SavingsGoalsScreen from '../screens/SavingsGoalsScreen';
 
-import {useAuth} from '../context/AuthContext'; // Import useAuth hook
-import {commonStyles, colors} from '../styles/commonStyles'; // Import common styles for loading indicator
+import {useAuth} from '../context/AuthContext';
+import {commonStyles, colors} from '../styles/commonStyles';
 
 // Define the type for the stack navigator parameters
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Dashboard: undefined;
-  AccountDetails: {accountId: string}; // Example: Pass accountId as param
-  Transactions: undefined;
-  Loans: undefined;
-  SavingsGoals: undefined;
+  AccountDetails: {accountId?: string};
+  Transactions: {accountId?: string};
+  TransactionDetails: {
+    transactionId: string;
+    transaction?: any;
+  };
+  TransactionFilters: {
+    currentFilter?: {
+      startDate: string;
+      endDate: string;
+      type?: string;
+    };
+    onFilterApply?: (filter: any) => void;
+  };
+  Loans: {accountId?: string};
+  SavingsGoals: {accountId?: string};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
-  const {userToken, isLoading} = useAuth(); // Get auth state and loading status
+  const {userToken, isLoading} = useAuth();
 
   if (isLoading) {
     // Show a loading screen while checking token
@@ -52,12 +66,12 @@ const AppNavigator = () => {
             <Stack.Screen
               name="Login"
               component={LoginScreen}
-              options={{headerShown: false}} // Hide header for Login
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="Register"
               component={RegisterScreen}
-              options={{title: 'Create Account', headerBackTitleVisible: false}} // Customize Register header
+              options={{title: 'Create Account', headerBackTitleVisible: false}}
             />
           </>
         ) : (
@@ -79,6 +93,16 @@ const AppNavigator = () => {
               options={{title: 'Transactions'}}
             />
             <Stack.Screen
+              name="TransactionDetails"
+              component={TransactionDetailsScreen}
+              options={{title: 'Transaction Details'}}
+            />
+            <Stack.Screen
+              name="TransactionFilters"
+              component={TransactionFiltersScreen}
+              options={{title: 'Filter Transactions', presentation: 'modal'}}
+            />
+            <Stack.Screen
               name="Loans"
               component={LoansScreen}
               options={{title: 'Loans'}}
@@ -88,7 +112,6 @@ const AppNavigator = () => {
               component={SavingsGoalsScreen}
               options={{title: 'Savings Goals'}}
             />
-            {/* Add other authenticated screens here */}
           </>
         )}
       </Stack.Navigator>

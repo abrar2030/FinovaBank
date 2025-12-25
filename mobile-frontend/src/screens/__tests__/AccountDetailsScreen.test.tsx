@@ -1,80 +1,183 @@
+import 'react-native';
 import React from 'react';
-import {render, screen} from '@testing-library/react-native';
+import {render, waitFor, fireEvent} from '@testing-library/react-native';
+import AccountDetailsScreen from '../../screens/AccountDetailsScreen';
+import {getAccountDetails} from '../../services/api';
+import {useAuth} from '../../context/AuthContext';
+import {useRoute, useNavigation} from '@react-navigation/native';
+import {Alert} from 'react-native';
 
-// Assuming the screen exists in the original project at:
-// /home/ubuntu/finova_project/mobile-frontend/src/screens/AccountDetailsScreen.tsx
-// Adjust the import path if necessary.
-// import AccountDetailsScreen from '../../../../finova_project/mobile-frontend/src/screens/AccountDetailsScreen';
+jest.mock('../../services/api');
+jest.mock('../../context/AuthContext');
+jest.mock('@react-navigation/native');
+jest.spyOn(Alert, 'alert');
 
-// --- Placeholder AccountDetailsScreen Implementation --- START ---
-import {View, Text, StyleSheet} from 'react-native';
+describe('AccountDetailsScreen', () => {
+  const mockNavigate = jest.fn();
+  const mockGetAccountDetails = getAccountDetails as jest.MockedFunction<
+    typeof getAccountDetails
+  >;
 
-const AccountDetailsScreen: React.FC = () => {
-  // Mock data
-  const account = {
-    id: 'ACC123456',
-    type: 'Checking',
-    balance: 1159.06,
-    holderName: 'John Doe',
-    openedDate: '2023-01-15',
+  const mockAccountData = {
+    accountId: '123',
+    name: 'John Doe',
+    email: 'john@example.com',
+    balance: 5420.5,
+    accountType: 'Checking',
+    accountNumber: '****1234',
+    routingNumber: '123456789',
+    openDate: '2023-01-01T00:00:00Z',
+    status: 'ACTIVE' as const,
+    interestRate: 0.5,
+    lastUpdated: '2024-12-25T00:00:00Z',
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Account Details</Text>
-      <View style={styles.detailRow}>
-        <Text style={styles.label}>Account Number:</Text>
-        <Text style={styles.value}>{account.id}</Text>
-      </View>
-      <View style={styles.detailRow}>
-        <Text style={styles.label}>Account Type:</Text>
-        <Text style={styles.value}>{account.type}</Text>
-      </View>
-      <View style={styles.detailRow}>
-        <Text style={styles.label}>Current Balance:</Text>
-        <Text style={styles.value}>${account.balance.toFixed(2)}</Text>
-      </View>
-      <View style={styles.detailRow}>
-        <Text style={styles.label}>Account Holder:</Text>
-        <Text style={styles.value}>{account.holderName}</Text>
-      </View>
-      <View style={styles.detailRow}>
-        <Text style={styles.label}>Opened Date:</Text>
-        <Text style={styles.value}>{account.openedDate}</Text>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {flex: 1, padding: 16},
-  title: {fontSize: 24, marginBottom: 16, textAlign: 'center'},
-  detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  label: {fontWeight: 'bold'},
-  value: {},
-});
-// --- Placeholder AccountDetailsScreen Implementation --- END ---
-
-describe('AccountDetailsScreen (Mobile)', () => {
-  test('renders account details correctly', () => {
-    render(<AccountDetailsScreen />);
-
-    expect(screen.getByText('Account Details')).toBeTruthy();
-    expect(screen.getByText('Account Number:')).toBeTruthy();
-    expect(screen.getByText('ACC123456')).toBeTruthy();
-    expect(screen.getByText('Account Type:')).toBeTruthy();
-    expect(screen.getByText('Checking')).toBeTruthy();
-    expect(screen.getByText('Current Balance:')).toBeTruthy();
-    expect(screen.getByText('$1159.06')).toBeTruthy();
-    expect(screen.getByText('Account Holder:')).toBeTruthy();
-    expect(screen.getByText('John Doe')).toBeTruthy();
-    expect(screen.getByText('Opened Date:')).toBeTruthy();
-    expect(screen.getByText('2023-01-15')).toBeTruthy();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useAuth as jest.Mock).mockReturnValue({
+      userData: {id: '123', email: 'test@example.com'},
+    });
+    (useRoute as jest.Mock).mockReturnValue({
+      params: {accountId: '123'},
+    });
+    (useNavigation as jest.Mock).mockReturnValue({
+      navigate: mockNavigate,
+    });
   });
 
-  // Add tests for loading state, error handling, etc.
+  it('renders loading state initially', () => {
+    mockGetAccountDetails.mockImplementation(
+      () => new Promise(() => {}), // Never resolves
+    );
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    expect(getByText('Loading Account Details...')).toBeTruthy();
+  });
+
+  it('renders account details after successful fetch', async () => {
+    mockGetAccountDetails.mockResolvedValueOnce({
+      data: mockAccountData,
+    } as any);
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Account Details')).toBeTruthy();
+      expect(getByText('****1234')).toBeTruthy();
+      expect(getByText('123456789')).toBeTruthy();
+      expect(getByText('Checking')).toBeTruthy();
+      expect(getByText('ACTIVE')).toBeTruthy();
+      expect(getByText('0.50%')).toBeTruthy();
+      expect(getByText('$5,420.50')).toBeTruthy();
+      expect(getByText('John Doe')).toBeTruthy();
+      expect(getByText('john@example.com')).toBeTruthy();
+    });
+  });
+
+  it('renders error state when fetch fails', async () => {
+    const errorMessage = 'Failed to load account details.';
+    mockGetAccountDetails.mockRejectedValueOnce({
+      message: errorMessage,
+    });
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText(`Error: ${errorMessage}`)).toBeTruthy();
+      expect(getByText('Return to Dashboard')).toBeTruthy();
+    });
+
+    expect(Alert.alert).toHaveBeenCalledWith('Error', errorMessage);
+  });
+
+  it('navigates to Transactions screen when Transactions button is pressed', async () => {
+    mockGetAccountDetails.mockResolvedValueOnce({
+      data: mockAccountData,
+    } as any);
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Transactions')).toBeTruthy();
+    });
+
+    const transactionsButton = getByText('Transactions');
+    fireEvent.press(transactionsButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('Transactions', {
+      accountId: '123',
+    });
+  });
+
+  it('navigates to SavingsGoals screen when Savings Goals button is pressed', async () => {
+    mockGetAccountDetails.mockResolvedValueOnce({
+      data: mockAccountData,
+    } as any);
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Savings Goals')).toBeTruthy();
+    });
+
+    const savingsButton = getByText('Savings Goals');
+    fireEvent.press(savingsButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('SavingsGoals', {
+      accountId: '123',
+    });
+  });
+
+  it('navigates to Loans screen when Loans button is pressed', async () => {
+    mockGetAccountDetails.mockResolvedValueOnce({
+      data: mockAccountData,
+    } as any);
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Loans')).toBeTruthy();
+    });
+
+    const loansButton = getByText('Loans');
+    fireEvent.press(loansButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('Loans', {accountId: '123'});
+  });
+
+  it('displays correct status color for different statuses', async () => {
+    const inactiveAccountData = {
+      ...mockAccountData,
+      status: 'INACTIVE' as const,
+    };
+    mockGetAccountDetails.mockResolvedValueOnce({
+      data: inactiveAccountData,
+    } as any);
+
+    const {getByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText('INACTIVE')).toBeTruthy();
+    });
+  });
+
+  it('handles missing optional fields gracefully', async () => {
+    const minimalAccountData = {
+      ...mockAccountData,
+      routingNumber: undefined,
+      interestRate: undefined,
+    };
+    mockGetAccountDetails.mockResolvedValueOnce({
+      data: minimalAccountData,
+    } as any);
+
+    const {getByText, queryByText} = render(<AccountDetailsScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Account Details')).toBeTruthy();
+      expect(queryByText('Routing Number:')).toBeNull();
+      expect(queryByText('Interest Rate:')).toBeNull();
+    });
+  });
 });

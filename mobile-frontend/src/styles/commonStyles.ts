@@ -3,15 +3,20 @@ import {StyleSheet, Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 // Define modern color palette
-const colors = {
+export const colors = {
   primary: '#0A7AFF', // Modern Blue
   secondary: '#34C759', // Green
+  success: '#34C759', // Green (for success states)
+  warning: '#FF9500', // Orange (for warning states)
+  error: '#FF3B30', // Red
+  errorLight: '#FFE5E5', // Light Red background
   background: '#FFFFFF', // White
   surface: '#F2F2F7', // Light Gray for cards/surfaces
   textPrimary: '#1C1C1E', // Dark Gray
   textSecondary: '#8E8E93', // Medium Gray
+  textTertiary: '#C7C7CC', // Light Gray
   border: '#E5E5EA', // Subtle Gray
-  error: '#FF3B30', // Red
+  lightGray: '#F2F2F7', // Same as surface, for consistency
 };
 
 // Define common styles and responsive utilities
@@ -100,6 +105,3 @@ export const responsiveWidth = (percentage: number) => {
 export const responsiveHeight = (percentage: number) => {
   return (height * percentage) / 100;
 };
-
-// Export colors for use in specific components if needed
-export {colors};

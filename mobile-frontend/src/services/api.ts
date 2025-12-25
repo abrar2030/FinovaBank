@@ -1,22 +1,29 @@
 import axios from 'axios';
-
-const API_BASE_URL = 'https://api.finovabank.com/api/v1'; // Production URL
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from './config';
 
 // Create a configurable API client
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: Config.API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 seconds timeout
+  timeout: 30000, // 30 seconds timeout
 });
+
+// Storage keys
+const TOKEN_STORAGE_KEY = 'finovabank_user_token';
 
 // Add a request interceptor to include auth tokens
 apiClient.interceptors.request.use(
-  config => {
-    const token = localStorage.getItem('userToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  async config => {
+    try {
+      const token = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error('Failed to get token from storage:', error);
     }
     return config;
   },
@@ -28,15 +35,24 @@ apiClient.interceptors.request.use(
 // Add a response interceptor to handle common errors
 apiClient.interceptors.response.use(
   response => response,
-  error => {
+  async error => {
     // Handle specific error cases
     if (error.response) {
       // Server responded with a status code outside of 2xx range
       if (error.response.status === 401) {
-        // Unauthorized - clear token and redirect to login
-        localStorage.removeItem('userToken');
-        // Navigation would be handled by the component
+        // Unauthorized - clear token
+        try {
+          await AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
+        } catch (e) {
+          console.error('Failed to clear token:', e);
+        }
       }
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error('Network Error:', error.message);
+    } else {
+      // Something else happened
+      console.error('Request Error:', error.message);
     }
     return Promise.reject(error);
   },
@@ -104,7 +120,7 @@ export interface RegisterData {
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 export interface AuthResponse {
