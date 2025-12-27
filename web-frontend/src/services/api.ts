@@ -10,38 +10,54 @@ interface User {
 }
 
 interface Account {
-  id: string;
+  accountId: string;
   type: string;
+  accountType: string;
   balance: number;
   currency: string;
   createdAt: string;
+  name?: string;
+  email?: string;
+  createdDate?: string;
 }
 
 interface Transaction {
-  id: string;
+  transactionId: string;
   type: "DEPOSIT" | "WITHDRAWAL" | "TRANSFER";
+  transactionType: "CREDIT" | "DEBIT";
   amount: number;
   description: string;
   date: string;
   accountId: string;
+  category?: string;
+  status?: string;
 }
 
 interface Loan {
-  id: string;
-  amount: number;
+  id: number;
+  loanAmount: number;
+  loanType: string;
   interestRate: number;
-  term: number;
+  durationInMonths: number;
+  monthlyPayment: number;
+  remainingAmount: number;
   status: "PENDING" | "APPROVED" | "REJECTED" | "PAID";
-  createdAt: string;
+  approvalDate: string;
+  nextPaymentDate: string;
 }
 
 interface SavingsGoal {
   id: number;
+  goalId?: number;
   name: string;
+  goalName: string;
   targetAmount: number;
   currentAmount: number;
   targetDate: string;
   createdAt: string;
+  createdDate?: string;
+  progress?: number;
+  category?: string;
 }
 
 interface CreateAccountData {
@@ -57,19 +73,20 @@ interface CreateTransactionData {
 }
 
 interface CreateLoanData {
-  amount: number;
-  term: number;
+  loanAmount: number;
+  loanType: string;
+  durationInMonths: number;
 }
 
 interface CreateSavingsGoalData {
-  name: string;
+  goalName: string;
   targetAmount: number;
   targetDate: string;
 }
 
 // Create axios instance
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:8080/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -109,7 +126,7 @@ api.interceptors.response.use(
 export const accountAPI = {
   getAccounts: () => api.get<Account[]>("/accounts"),
 
-  getAccountDetails: (accountId: string) =>
+  getAccountDetails: (accountId: string | undefined) =>
     api.get<Account>(`/accounts/${accountId}`),
 
   createAccount: (data: CreateAccountData) =>
@@ -122,6 +139,7 @@ export const transactionAPI = {
     accountId?: string;
     startDate?: string;
     endDate?: string;
+    limit?: number;
   }) => api.get<Transaction[]>("/transactions", { params }),
 
   createTransaction: (data: CreateTransactionData) =>

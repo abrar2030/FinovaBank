@@ -23,6 +23,8 @@ import {
   Google as GoogleIcon,
   Apple as AppleIcon,
   Facebook as FacebookIcon,
+  TrendingUp as TrendingUpIcon,
+  Devices as DevicesIcon,
 } from "@mui/icons-material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";

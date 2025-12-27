@@ -28,6 +28,7 @@ import {
   Receipt as ReceiptIcon,
   ShowChart as ShowChartIcon,
   Notifications as NotificationsIcon,
+  ArrowForward as ArrowForwardIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";

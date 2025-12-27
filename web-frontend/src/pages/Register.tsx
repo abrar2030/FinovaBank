@@ -31,6 +31,7 @@ import {
   Apple as AppleIcon,
   Facebook as FacebookIcon,
   Security as SecurityIcon,
+  Support as SupportIcon,
   Devices as DevicesIcon,
 } from "@mui/icons-material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
