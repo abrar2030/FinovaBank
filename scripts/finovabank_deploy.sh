@@ -166,7 +166,7 @@ build_images() {
         echo "Building backend images..."
 
         # Find all services with Dockerfiles
-        for service_dir in backend/*/; do
+        for service_dir in code/backend/*/; do
             if [ -f "${service_dir}Dockerfile" ]; then
                 service_name=$(basename "$service_dir")
                 echo "Building $service_name service..."

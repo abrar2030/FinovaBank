@@ -25,7 +25,7 @@ BACKEND_MODULES=(
 
 for module in "${BACKEND_MODULES[@]}"; do
     echo "\n--- Running tests for backend module: $module ---"
-    MODULE_DIR="$PROJECT_ROOT/backend/$module"
+    MODULE_DIR="$PROJECT_ROOT/code/backend/$module"
     if [ -d "$MODULE_DIR" ]; then
         cd "$MODULE_DIR"
         if [ -f "pom.xml" ]; then
@@ -37,6 +37,43 @@ for module in "${BACKEND_MODULES[@]}"; do
         cd "$PROJECT_ROOT" # Return to project root
     else
         echo "Skipping $module: Directory not found."
+    fi
+done
+
+# --- ML Services (Python) Tests ---
+echo "\n-------------------------------------"
+echo "--- Running ML Services Tests ---"
+echo "-------------------------------------"
+
+ML_SERVICES=(
+    "ai-service"
+    "compliance-service"
+    "risk-assessment"
+)
+
+for service in "${ML_SERVICES[@]}"; do
+    echo "\n--- Running tests for ML service: $service ---"
+    SERVICE_DIR="$PROJECT_ROOT/code/ml-services/$service"
+    if [ -d "$SERVICE_DIR" ]; then
+        cd "$SERVICE_DIR"
+        if [ -f "requirements-dev.txt" ] || [ -d "tests" ]; then
+            python3 -m venv venv
+            # shellcheck source=/dev/null
+            . venv/bin/activate
+            if [ -f "requirements-dev.txt" ]; then
+                pip install -q -r requirements-dev.txt
+            elif [ -f "requirements.txt" ]; then
+                pip install -q -r requirements.txt pytest
+            fi
+            python -m pytest -q
+            deactivate
+            echo "--- Finished tests for $service ---"
+        else
+            echo "Skipping $service: no tests found."
+        fi
+        cd "$PROJECT_ROOT" # Return to project root
+    else
+        echo "Skipping $service: Directory not found."
     fi
 done
 

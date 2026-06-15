@@ -167,7 +167,7 @@ const AuthNavigator = () => (
       headerStyle: { backgroundColor: colors.backgroundWhite },
       headerTintColor: colors.textPrimary,
       headerShadowVisible: false,
-      headerBackTitleVisible: false,
+      headerBackButtonDisplayMode: "minimal",
     }}
   >
     <AuthStack.Screen
@@ -211,7 +211,7 @@ const RootNavigator = () => {
         headerTintColor: colors.textPrimary,
         headerTitleStyle: { fontWeight: "700", fontSize: 17 },
         headerShadowVisible: false,
-        headerBackTitleVisible: false,
+        headerBackButtonDisplayMode: "minimal",
         contentStyle: { backgroundColor: colors.background },
       }}
     >

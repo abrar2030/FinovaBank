@@ -7,7 +7,7 @@ services:
   # ----------------------------------------------------------------
   eureka-server:
     build:
-      context: ./backend/eureka-server
+      context: ./code/backend/eureka-server
       dockerfile: Dockerfile
     image: finovabank/eureka-server
     container_name: eureka-server
@@ -25,7 +25,7 @@ services:
 
   api-gateway:
     build:
-      context: ./backend/api-gateway
+      context: ./code/backend/api-gateway
       dockerfile: Dockerfile
     image: finovabank/api-gateway
     container_name: api-gateway
@@ -51,7 +51,7 @@ services:
   # ----------------------------------------------------------------
   auth-service:
     build:
-      context: ./backend/auth-service
+      context: ./code/backend/auth-service
       dockerfile: Dockerfile
     image: finovabank/auth-service
     container_name: auth-service
@@ -69,7 +69,7 @@ services:
 
   security-service:
     build:
-      context: ./backend/security-service
+      context: ./code/backend/security-service
       dockerfile: Dockerfile
     image: finovabank/security-service
     container_name: security-service
@@ -87,7 +87,7 @@ services:
 
   account-management:
     build:
-      context: ./backend/account-management
+      context: ./code/backend/account-management
       dockerfile: Dockerfile
     image: finovabank/account-management
     container_name: account-management
@@ -105,7 +105,7 @@ services:
 
   transaction-service:
     build:
-      context: ./backend/transaction-service
+      context: ./code/backend/transaction-service
       dockerfile: Dockerfile
     image: finovabank/transaction-service
     container_name: transaction-service
@@ -125,7 +125,7 @@ services:
 
   notification-service:
     build:
-      context: ./backend/notification-service
+      context: ./code/backend/notification-service
       dockerfile: Dockerfile
     image: finovabank/notification-service
     container_name: notification-service
@@ -143,7 +143,7 @@ services:
 
   loan-management:
     build:
-      context: ./backend/loan-management
+      context: ./code/backend/loan-management
       dockerfile: Dockerfile
     image: finovabank/loan-management
     container_name: loan-management
@@ -161,12 +161,12 @@ services:
 
   compliance-service:
     build:
-      context: ./backend/compliance-service
+      context: ./code/ml-services/compliance-service
       dockerfile: Dockerfile
     image: finovabank/compliance-service
     container_name: compliance-service
     ports:
-      - "8085:8085"
+      - "8013:8013"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -174,12 +174,12 @@ services:
       - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
-      - COMPLIANCE_SERVICE_PORT=8085
+      - COMPLIANCE_SERVICE_PORT=8013
       - SPRING_PROFILES_ACTIVE=docker
 
   reporting:
     build:
-      context: ./backend/reporting
+      context: ./code/backend/reporting
       dockerfile: Dockerfile
     image: finovabank/reporting
     container_name: reporting-service
@@ -197,12 +197,12 @@ services:
 
   risk-assessment:
     build:
-      context: ./backend/risk-assessment
+      context: ./code/ml-services/risk-assessment
       dockerfile: Dockerfile
     image: finovabank/risk-assessment
     container_name: risk-assessment-service
     ports:
-      - "8087:8087"
+      - "8014:8014"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -210,12 +210,12 @@ services:
       - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
-      - RISK_ASSESSMENT_SERVICE_PORT=8087
+      - RISK_ASSESSMENT_SERVICE_PORT=8014
       - SPRING_PROFILES_ACTIVE=docker
 
   savings-goals:
     build:
-      context: ./backend/savings-goals
+      context: ./code/backend/savings-goals
       dockerfile: Dockerfile
     image: finovabank/savings-goals
     container_name: savings-goals-service
@@ -233,12 +233,12 @@ services:
 
   ai-service:
     build:
-      context: ./backend/ai-service
+      context: ./code/ml-services/ai-service
       dockerfile: Dockerfile
     image: finovabank/ai-service
     container_name: ai-service
     ports:
-      - "8090:8090"
+      - "8012:8012"
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -246,7 +246,7 @@ services:
       - finova-network
     environment:
       - EUREKA_SERVER_URL=http://eureka-server:8001/eureka/
-      - AI_SERVICE_PORT=8090
+      - AI_SERVICE_PORT=8012
       - SPRING_PROFILES_ACTIVE=docker
 
   # ----------------------------------------------------------------

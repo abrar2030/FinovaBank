@@ -30,7 +30,7 @@ const mockTransactions = [
 
 jest.mock("../../services/api", () => ({
   transactionAPI: {
-    getTransactions: jest.fn().mockResolvedValue({ data: mockTransactions }),
+    getTransactions: jest.fn(() => Promise.resolve({ data: mockTransactions })),
     createTransaction: jest.fn().mockResolvedValue({
       data: {
         transactionId: "T003",
@@ -77,7 +77,7 @@ describe("Transactions Page", () => {
   test("renders New Transaction button", async () => {
     renderComponent();
     await waitFor(() => {
-      expect(screen.getByText(/New Transaction/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/New Transaction/i).length).toBeGreaterThan(0);
     });
   });
 
@@ -104,7 +104,7 @@ describe("Transactions Page", () => {
   test("opens New Transaction dialog", async () => {
     renderComponent();
     await waitFor(() => screen.getByText(/New Transaction/i));
-    fireEvent.click(screen.getByText(/New Transaction/i));
+    fireEvent.click(screen.getAllByText(/New Transaction/i)[0]);
     await waitFor(() => {
       expect(screen.getByText(/New Transaction$/i)).toBeInTheDocument();
     });

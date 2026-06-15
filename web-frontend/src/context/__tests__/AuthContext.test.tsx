@@ -16,9 +16,9 @@ const mockVerifyToken = jest.fn();
 
 jest.mock("../../services/api", () => ({
   authAPI: {
-    login: mockLogin,
-    register: mockRegister,
-    verifyToken: mockVerifyToken,
+    login: (...a: any[]) => mockLogin(...a),
+    register: (...a: any[]) => mockRegister(...a),
+    verifyToken: (...a: any[]) => mockVerifyToken(...a),
   },
 }));
 

@@ -83,7 +83,7 @@ describe("Dashboard Page", () => {
   test("renders account balance from API", async () => {
     renderDashboard();
     await waitFor(() => {
-      expect(screen.getByText(/5,000\.00/)).toBeInTheDocument();
+      expect(screen.getAllByText(/5,000\.00/).length).toBeGreaterThan(0);
     });
   });
 

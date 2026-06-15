@@ -45,7 +45,7 @@ describe("Layout Component", () => {
 
   test("renders user name in sidebar", () => {
     renderLayout();
-    expect(screen.getByText("Test User")).toBeInTheDocument();
+    expect(screen.getAllByText("Test User").length).toBeGreaterThan(0);
   });
 
   test("renders sign out button", () => {

@@ -42,4 +42,4 @@ all:
 # Group for all FinovaBank application servers
 finova_servers:
   children:
-    - app_servers
+    app_servers:

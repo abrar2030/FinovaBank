@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
+from src.json_provider import NumpyJSONProvider
 from src.models.user import db
 from src.routes.analytics import analytics_bp
 from src.routes.fraud_detection import fraud_bp
@@ -12,6 +13,11 @@ from src.routes.recommendations import recommendations_bp
 from src.routes.risk_assessment import risk_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), "static"))
+
+# Use a JSON provider that can serialize numpy/pandas values returned by the
+# analytics and risk routes. Without this, those endpoints raise HTTP 500 on
+# numpy integer keys/values and pandas Period keys.
+app.json = NumpyJSONProvider(app)
 
 app.config["SECRET_KEY"] = os.environ.get(
     "SECRET_KEY", "FinovaBank-AI-Service-Secret-Key-change-in-production"

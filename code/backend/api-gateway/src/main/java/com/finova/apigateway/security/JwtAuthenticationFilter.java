@@ -21,11 +21,18 @@ public class JwtAuthenticationFilter implements WebFilter {
     ServerHttpRequest request = exchange.getRequest();
 
     String path = request.getPath().value();
+    // Match the public endpoints exactly rather than with contains(). The
+    // previous contains("/login"|"/register"|"/validate") checks exempted any
+    // downstream path that merely contained those substrings (for example
+    // "/api/transactions/validate-batch"), allowing it to bypass JWT checks.
     if (path.startsWith("/actuator")
         || path.equals("/")
-        || path.contains("/login")
-        || path.contains("/register")
-        || path.contains("/validate")) {
+        || path.equals("/api/auth/login")
+        || path.equals("/api/auth/register")
+        || path.equals("/api/auth/validate")
+        || path.startsWith("/v3/api-docs")
+        || path.startsWith("/swagger-ui")
+        || path.startsWith("/webjars")) {
       return chain.filter(exchange);
     }
 

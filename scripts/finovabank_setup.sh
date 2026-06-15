@@ -1,4 +1,5 @@
 #!/bin/bash
+PROJECT_ROOT="$(pwd)"
 # =====================================================
 # FinovaBank Development Environment Setup Script
 # =====================================================
@@ -140,12 +141,12 @@ setup_env_vars() {
 setup_backend() {
     step_msg "Setting up backend services..."
 
-    if [ ! -d "backend" ]; then
+    if [ ! -d "$PROJECT_ROOT/code/backend" ]; then
         error_msg "Backend directory not found"
         exit 1
     fi
 
-    cd backend
+    cd "$PROJECT_ROOT/code/backend"
 
     # Check if Maven wrapper exists, if not, download it
     if [ ! -f "mvnw" ]; then
@@ -159,7 +160,7 @@ setup_backend() {
     # Install dependencies
     ./mvnw clean install -DskipTests
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}Backend services set up successfully!${NC}"
 }
@@ -168,17 +169,17 @@ setup_backend() {
 setup_frontend() {
     step_msg "Setting up web frontend..."
 
-    if [ ! -d "web-frontend" ]; then
+    if [ ! -d "$PROJECT_ROOT/web-frontend" ]; then
         error_msg "Web frontend directory not found"
         exit 1
     fi
 
-    cd web-frontend
+    cd "$PROJECT_ROOT/web-frontend"
 
     # Install dependencies
     npm install
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}Web frontend set up successfully!${NC}"
 }
@@ -187,17 +188,17 @@ setup_frontend() {
 setup_mobile_frontend() {
     step_msg "Setting up mobile frontend..."
 
-    if [ ! -d "mobile-frontend" ]; then
+    if [ ! -d "$PROJECT_ROOT/mobile-frontend" ]; then
         error_msg "Mobile frontend directory not found"
         exit 1
     fi
 
-    cd mobile-frontend
+    cd "$PROJECT_ROOT/mobile-frontend"
 
     # Install dependencies
     npm install
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}Mobile frontend set up successfully!${NC}"
 }
@@ -207,12 +208,12 @@ setup_ai_services() {
     step_msg "Setting up AI services..."
 
     # Check if AI services directory exists
-    if [ ! -d "ai-services" ]; then
-        warning_msg "AI services directory not found, creating it..."
-        mkdir -p ai-services
+    if [ ! -d "$PROJECT_ROOT/code/ml-services/ai-service" ]; then
+        error_msg "AI services directory not found at code/ml-services/ai-service"
+        return 1
     fi
 
-    cd ai-services
+    cd "$PROJECT_ROOT/code/ml-services/ai-service"
 
     # Check if requirements.txt exists
     if [ ! -f "requirements.txt" ]; then
@@ -229,7 +230,7 @@ setup_ai_services() {
         deactivate
     fi
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}AI services set up successfully!${NC}"
 }
@@ -258,9 +259,9 @@ init_database() {
     fi
 
     # Run database migrations
-    cd backend
+    cd "$PROJECT_ROOT/code/backend"
     ./mvnw flyway:migrate
-    cd ..
+    cd "$PROJECT_ROOT"
 
     # Load test data if requested
     if [ "$WITH_TEST_DATA" = true ]; then
@@ -272,7 +273,7 @@ init_database() {
         else
             warning_msg "Test data script not found, skipping"
         fi
-        cd ..
+        cd "$PROJECT_ROOT"
     fi
 
     echo -e "${GREEN}Database initialized successfully!${NC}"

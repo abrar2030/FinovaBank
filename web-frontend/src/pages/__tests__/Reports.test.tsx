@@ -21,7 +21,7 @@ const mockReports = [
 
 jest.mock("../../services/api", () => ({
   reportAPI: {
-    getReports: jest.fn().mockResolvedValue({ data: mockReports }),
+    getReports: jest.fn(() => Promise.resolve({ data: mockReports })),
     createReport: jest.fn().mockResolvedValue({
       data: {
         reportId: "RPT-003",

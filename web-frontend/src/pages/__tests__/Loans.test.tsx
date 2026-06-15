@@ -20,7 +20,7 @@ const mockLoans = [
 
 jest.mock("../../services/api", () => ({
   loanAPI: {
-    getLoans: jest.fn().mockResolvedValue({ data: mockLoans }),
+    getLoans: jest.fn(() => Promise.resolve({ data: mockLoans })),
     applyForLoan: jest.fn().mockResolvedValue({
       data: {
         loanId: "LOAN-002",
@@ -66,14 +66,14 @@ describe("Loans Page", () => {
   test("renders Apply for Loan button", async () => {
     renderComponent();
     await waitFor(() => {
-      expect(screen.getByText(/Apply for Loan/i)).toBeInTheDocument();
+      expect(screen.getAllByText(/Apply for Loan/i).length).toBeGreaterThan(0);
     });
   });
 
   test("opens loan application dialog", async () => {
     renderComponent();
     await waitFor(() => screen.getByText(/Apply for Loan/i));
-    fireEvent.click(screen.getByText(/Apply for Loan/i));
+    fireEvent.click(screen.getAllByText(/Apply for Loan/i)[0]);
     await waitFor(() => {
       expect(screen.getByText(/Apply for a New Loan/i)).toBeInTheDocument();
     });

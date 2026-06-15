@@ -52,15 +52,15 @@ class AuditTrailManager:
             "device_fingerprint": event_data.get("device_fingerprint"),
         }
 
-        # Add regulatory compliance fields
-        audit_event.update(
-            {
-                "sox_relevant": self._is_sox_relevant(audit_event),
-                "pci_relevant": self._is_pci_relevant(audit_event),
-                "gdpr_relevant": self._is_gdpr_relevant(audit_event),
-                "retention_period_years": self._get_retention_period(audit_event),
-            }
-        )
+        # Add regulatory compliance fields. The relevance flags must be written
+        # to audit_event before retention is computed, because
+        # _get_retention_period reads them back off the event. Computing all
+        # four inside a single dict.update() left the flags unset at retention
+        # time, so every event defaulted to 5 years (SOX events should be 7).
+        audit_event["sox_relevant"] = self._is_sox_relevant(audit_event)
+        audit_event["pci_relevant"] = self._is_pci_relevant(audit_event)
+        audit_event["gdpr_relevant"] = self._is_gdpr_relevant(audit_event)
+        audit_event["retention_period_years"] = self._get_retention_period(audit_event)
 
         self.audit_events.append(audit_event)
 
@@ -114,7 +114,7 @@ class AuditTrailManager:
         ]
         return (
             event.get("action") in pci_actions
-            or "payment" in event.get("resource", "").lower()
+            or "payment" in (event.get("resource") or "").lower()
         )
 
     def _is_gdpr_relevant(self, event: Dict) -> bool:
@@ -127,7 +127,7 @@ class AuditTrailManager:
         ]
         return (
             event.get("action") in gdpr_actions
-            or "personal" in event.get("resource", "").lower()
+            or "personal" in (event.get("resource") or "").lower()
         )
 
     def _get_retention_period(self, event: Dict) -> int:
@@ -223,11 +223,11 @@ class AuditTrailManager:
             risk_distribution[risk_level] = risk_distribution.get(risk_level, 0) + 1
 
             # Action distribution
-            action = event.get("action", "UNKNOWN")
+            action = event.get("action") or "UNKNOWN"
             action_distribution[action] = action_distribution.get(action, 0) + 1
 
             # User activity
-            user_id = event.get("user_id", "UNKNOWN")
+            user_id = event.get("user_id") or "UNKNOWN"
             user_activity[user_id] = user_activity.get(user_id, 0) + 1
 
         # Identify anomalies
@@ -415,8 +415,11 @@ def get_audit_statistics():
             risk_level = event.get("risk_level", "UNKNOWN")
             risk_levels[risk_level] = risk_levels.get(risk_level, 0) + 1
 
-            # Service distribution
-            service = event.get("service", "UNKNOWN")
+            # Service distribution. Use `or` rather than a dict default because
+            # log_event always sets a "service" key (possibly None), so a plain
+            # default would not apply and a None key would later break JSON key
+            # sorting.
+            service = event.get("service") or "UNKNOWN"
             services[service] = services.get(service, 0) + 1
 
             # Recent events (last 24 hours)

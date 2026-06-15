@@ -12,7 +12,7 @@ interface AppConfig {
 
 const Config: AppConfig = {
   API_BASE_URL:
-    process.env.EXPO_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api/v1",
+    process.env.EXPO_PUBLIC_API_BASE_URL ?? "http://localhost:8002/api",
   API_TIMEOUT: Number(process.env.EXPO_PUBLIC_API_TIMEOUT ?? 30000),
   // Log in dev builds only
   ENABLE_LOGGING: __DEV__,

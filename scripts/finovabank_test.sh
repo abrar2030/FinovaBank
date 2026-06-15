@@ -17,8 +17,9 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default values
-TEST_REPORT_DIR="${FINOVABANK_TEST_REPORT_DIR:-./test-reports}"
-COVERAGE_REPORT_DIR="${FINOVABANK_COVERAGE_REPORT_DIR:-./coverage-reports}"
+PROJECT_ROOT="$(pwd)"
+TEST_REPORT_DIR="${FINOVABANK_TEST_REPORT_DIR:-$PROJECT_ROOT/test-reports}"
+COVERAGE_REPORT_DIR="${FINOVABANK_COVERAGE_REPORT_DIR:-$PROJECT_ROOT/coverage-reports}"
 TEST_TIMEOUT="${FINOVABANK_TEST_TIMEOUT:-300}" # 5 minutes
 
 # Function to display usage information
@@ -71,14 +72,14 @@ command_exists() {
 run_backend_tests() {
     step_msg "Running backend tests..."
 
-    if [ ! -d "backend" ]; then
+    if [ ! -d "$PROJECT_ROOT/code/backend" ]; then
         error_msg "Backend directory not found"
     fi
 
-    cd backend
+    cd "$PROJECT_ROOT/code/backend"
 
     # Create report directories
-    mkdir -p "../$TEST_REPORT_DIR/backend"
+    mkdir -p "$TEST_REPORT_DIR/backend"
 
     # Determine test types to run
     local test_types=""
@@ -101,8 +102,8 @@ run_backend_tests() {
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
-            coverage_opts="-Djacoco.destFile=../coverage-reports/backend/jacoco.exec"
-            mkdir -p "../$COVERAGE_REPORT_DIR/backend"
+            coverage_opts="-Djacoco.destFile=$COVERAGE_REPORT_DIR/backend/jacoco.exec"
+            mkdir -p "$COVERAGE_REPORT_DIR/backend"
         fi
 
         # Run the tests
@@ -110,7 +111,7 @@ run_backend_tests() {
 
         # Check exit code
         if [ $? -ne 0 ]; then
-            cd ..
+            cd "$PROJECT_ROOT"
             error_msg "Backend $test_type failed"
         fi
     done
@@ -118,10 +119,10 @@ run_backend_tests() {
     # Generate coverage report if requested
     if [ "$GENERATE_COVERAGE" = true ]; then
         echo "Generating backend coverage report..."
-        ./mvnw jacoco:report -Djacoco.dataFile=../coverage-reports/backend/jacoco.exec -Djacoco.outputDirectory=../coverage-reports/backend
+        ./mvnw jacoco:report -Djacoco.dataFile=$COVERAGE_REPORT_DIR/backend/jacoco.exec -Djacoco.outputDirectory=$COVERAGE_REPORT_DIR/backend
     fi
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}Backend tests completed successfully!${NC}"
 }
@@ -134,10 +135,10 @@ run_frontend_tests() {
         error_msg "Web frontend directory not found"
     fi
 
-    cd web-frontend
+    cd "$PROJECT_ROOT/web-frontend"
 
     # Create report directories
-    mkdir -p "../$TEST_REPORT_DIR/web-frontend"
+    mkdir -p "$TEST_REPORT_DIR/web-frontend"
 
     # Install dependencies if node_modules doesn't exist
     if [ ! -d "node_modules" ]; then
@@ -152,8 +153,8 @@ run_frontend_tests() {
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
-            coverage_opts="--coverage --coverageDirectory=../$COVERAGE_REPORT_DIR/web-frontend"
-            mkdir -p "../$COVERAGE_REPORT_DIR/web-frontend"
+            coverage_opts="--coverage --coverageDirectory=$COVERAGE_REPORT_DIR/web-frontend"
+            mkdir -p "$COVERAGE_REPORT_DIR/web-frontend"
         fi
 
         # Run unit tests
@@ -161,7 +162,7 @@ run_frontend_tests() {
 
         # Check exit code
         if [ $? -ne 0 ]; then
-            cd ..
+            cd "$PROJECT_ROOT"
             error_msg "Frontend unit tests failed"
         fi
     fi
@@ -181,12 +182,12 @@ run_frontend_tests() {
 
         # Check exit code
         if [ $? -ne 0 ]; then
-            cd ..
+            cd "$PROJECT_ROOT"
             error_msg "Frontend end-to-end tests failed"
         fi
     fi
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}Web frontend tests completed successfully!${NC}"
 }
@@ -199,10 +200,10 @@ run_mobile_tests() {
         error_msg "Mobile frontend directory not found"
     fi
 
-    cd mobile-frontend
+    cd "$PROJECT_ROOT/mobile-frontend"
 
     # Create report directories
-    mkdir -p "../$TEST_REPORT_DIR/mobile-frontend"
+    mkdir -p "$TEST_REPORT_DIR/mobile-frontend"
 
     # Install dependencies if node_modules doesn't exist
     if [ ! -d "node_modules" ]; then
@@ -217,8 +218,8 @@ run_mobile_tests() {
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
-            coverage_opts="--coverage --coverageDirectory=../$COVERAGE_REPORT_DIR/mobile-frontend"
-            mkdir -p "../$COVERAGE_REPORT_DIR/mobile-frontend"
+            coverage_opts="--coverage --coverageDirectory=$COVERAGE_REPORT_DIR/mobile-frontend"
+            mkdir -p "$COVERAGE_REPORT_DIR/mobile-frontend"
         fi
 
         # Run unit tests
@@ -226,7 +227,7 @@ run_mobile_tests() {
 
         # Check exit code
         if [ $? -ne 0 ]; then
-            cd ..
+            cd "$PROJECT_ROOT"
             error_msg "Mobile unit tests failed"
         fi
     fi
@@ -244,13 +245,13 @@ run_mobile_tests() {
 
             # Check exit code
             if [ $? -ne 0 ]; then
-                cd ..
+                cd "$PROJECT_ROOT"
                 error_msg "Mobile end-to-end tests failed"
             fi
         fi
     fi
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}Mobile frontend tests completed successfully!${NC}"
 }
@@ -259,14 +260,14 @@ run_mobile_tests() {
 run_ai_tests() {
     step_msg "Running AI services tests..."
 
-    if [ ! -d "ai-services" ]; then
+    if [ ! -d "$PROJECT_ROOT/code/ml-services/ai-service" ]; then
         error_msg "AI services directory not found"
     fi
 
-    cd ai-services
+    cd "$PROJECT_ROOT/code/ml-services/ai-service"
 
     # Create report directories
-    mkdir -p "../$TEST_REPORT_DIR/ai-services"
+    mkdir -p "$TEST_REPORT_DIR/ai-services"
 
     # Check if virtual environment exists
     if [ ! -d "venv" ]; then
@@ -291,17 +292,17 @@ run_ai_tests() {
         # Add coverage if requested
         local coverage_opts=""
         if [ "$GENERATE_COVERAGE" = true ]; then
-            coverage_opts="--cov=. --cov-report=xml:../$COVERAGE_REPORT_DIR/ai-services/coverage.xml"
-            mkdir -p "../$COVERAGE_REPORT_DIR/ai-services"
+            coverage_opts="--cov=. --cov-report=xml:$COVERAGE_REPORT_DIR/ai-services/coverage.xml"
+            mkdir -p "$COVERAGE_REPORT_DIR/ai-services"
         fi
 
         # Run tests
-        python -m pytest $coverage_opts --junitxml=../$TEST_REPORT_DIR/ai-services/test-results.xml
+        python -m pytest $coverage_opts --junitxml=$TEST_REPORT_DIR/ai-services/test-results.xml
 
         # Check exit code
         if [ $? -ne 0 ]; then
             deactivate
-            cd ..
+            cd "$PROJECT_ROOT"
             error_msg "AI service tests failed"
         fi
     fi
@@ -309,7 +310,7 @@ run_ai_tests() {
     # Deactivate virtual environment
     deactivate
 
-    cd ..
+    cd "$PROJECT_ROOT"
 
     echo -e "${GREEN}AI services tests completed successfully!${NC}"
 }

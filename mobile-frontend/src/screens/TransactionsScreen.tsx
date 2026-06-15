@@ -268,7 +268,7 @@ const TransactionsScreen = () => {
             onPress={() =>
               navigation.navigate("TransactionDetails", {
                 transactionId: item.id,
-                transaction: item as Record<string, unknown>,
+                transaction: item as unknown as Record<string, unknown>,
               })
             }
             activeOpacity={0.8}

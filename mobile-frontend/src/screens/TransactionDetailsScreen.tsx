@@ -2,7 +2,6 @@ import { type RouteProp, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -55,7 +54,7 @@ const TransactionDetailsScreen = () => {
   const { transactionId, transaction: passedTx } = route.params;
 
   const [tx, setTx] = useState<TransactionData | null>(
-    (passedTx as TransactionData) ?? null,
+    (passedTx as unknown as TransactionData) ?? null,
   );
   const [loading, setLoading] = useState(!passedTx);
   const [error, setError] = useState<string | null>(null);

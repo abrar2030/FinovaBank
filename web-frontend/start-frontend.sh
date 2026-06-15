@@ -109,7 +109,7 @@ fi
 # Set environment variables
 export PORT=$PORT
 export NODE_ENV=$NODE_ENV
-export REACT_APP_API_URL=$API_URL
+export REACT_APP_API_BASE_URL=$API_URL
 
 info "Environment: $NODE_ENV"
 info "Port: $PORT"

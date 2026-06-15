@@ -28,7 +28,7 @@ describe("Login Page", () => {
   test("renders login form", () => {
     renderLogin();
     expect(screen.getByLabelText(/Email Address/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /Sign In/i }),
     ).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe("Login Page", () => {
     fireEvent.change(screen.getByLabelText(/Email Address/i), {
       target: { value: "not-an-email" },
     });
-    fireEvent.change(screen.getByLabelText(/Password/i), {
+    fireEvent.change(screen.getByLabelText("Password"), {
       target: { value: "password123" },
     });
     fireEvent.click(screen.getByRole("button", { name: /Sign In/i }));
@@ -69,7 +69,7 @@ describe("Login Page", () => {
     fireEvent.change(screen.getByLabelText(/Email Address/i), {
       target: { value: "test@example.com" },
     });
-    fireEvent.change(screen.getByLabelText(/Password/i), {
+    fireEvent.change(screen.getByLabelText("Password"), {
       target: { value: "password123" },
     });
     fireEvent.click(screen.getByRole("button", { name: /Sign In/i }));
@@ -84,7 +84,7 @@ describe("Login Page", () => {
     fireEvent.change(screen.getByLabelText(/Email Address/i), {
       target: { value: "test@example.com" },
     });
-    fireEvent.change(screen.getByLabelText(/Password/i), {
+    fireEvent.change(screen.getByLabelText("Password"), {
       target: { value: "wrong-password" },
     });
     fireEvent.click(screen.getByRole("button", { name: /Sign In/i }));

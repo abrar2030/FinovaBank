@@ -120,7 +120,7 @@ run_migrations() {
     check_db_container
 
     # Check if we're using Flyway or custom migrations
-    if [ -d "backend" ] && [ -f "backend/pom.xml" ] && grep -q "flyway" "backend/pom.xml"; then
+    if [ -d "code/backend" ] && [ -f "code/backend/pom.xml" ] && grep -q "flyway" "code/backend/pom.xml"; then
         echo "Using Flyway for migrations..."
         cd backend
         ./mvnw flyway:migrate -Dflyway.url=jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME -Dflyway.user=$DB_USER -Dflyway.password=$DB_PASSWORD
@@ -256,7 +256,7 @@ show_status() {
     check_db_container
 
     # Check if we're using Flyway
-    if [ -d "backend" ] && [ -f "backend/pom.xml" ] && grep -q "flyway" "backend/pom.xml"; then
+    if [ -d "code/backend" ] && [ -f "code/backend/pom.xml" ] && grep -q "flyway" "code/backend/pom.xml"; then
         echo "Using Flyway for migrations..."
         cd backend
         ./mvnw flyway:info -Dflyway.url=jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME -Dflyway.user=$DB_USER -Dflyway.password=$DB_PASSWORD

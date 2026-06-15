@@ -9,6 +9,75 @@ spring:
     web-application-type: reactive
   security:
     enabled: false
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowedOrigins:
+              - ${WEB_ORIGIN:http://localhost:3000}
+              - ${MOBILE_WEB_ORIGIN:http://localhost:19006}
+              - ${EXPO_DEV_ORIGIN:http://localhost:8081}
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+      routes:
+        # Java services are registered with Eureka, so the default URIs use the
+        # load-balanced lb:// scheme. Each can be overridden with a direct
+        # http:// URI (env var) for environments without service discovery.
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URI:lb://auth-service}
+          predicates:
+            - Path=/api/auth/**
+        - id: account-management-service
+          uri: ${ACCOUNT_SERVICE_URI:lb://account-management-service}
+          predicates:
+            - Path=/api/accounts/**
+        - id: transaction-service
+          uri: ${TRANSACTION_SERVICE_URI:lb://transaction-service}
+          predicates:
+            - Path=/api/transactions/**
+        - id: loan-service
+          uri: ${LOAN_SERVICE_URI:lb://loan-service}
+          predicates:
+            - Path=/api/loans/**
+        - id: savings-goals-service
+          uri: ${SAVINGS_SERVICE_URI:lb://savings-goals-service}
+          predicates:
+            - Path=/api/savings-goals/**
+        - id: notification-service
+          uri: ${NOTIFICATION_SERVICE_URI:lb://notification-service}
+          predicates:
+            - Path=/api/notifications/**
+        - id: reporting-service
+          uri: ${REPORTING_SERVICE_URI:lb://reporting-service}
+          predicates:
+            - Path=/api/reports/**
+        - id: security-service
+          uri: ${SECURITY_SERVICE_URI:lb://security-service}
+          predicates:
+            - Path=/api/security/**
+        # Python ML services (Flask) do not register with Eureka, so they are
+        # routed by direct URI (compose service name and Flask port).
+        - id: ai-service
+          uri: ${AI_SERVICE_URI:http://ai-service:8012}
+          predicates:
+            - Path=/api/ai/**
+        - id: compliance-service
+          uri: ${COMPLIANCE_SERVICE_URI:http://compliance-service:8013}
+          predicates:
+            - Path=/api/compliance/**
+        - id: risk-assessment-service
+          uri: ${RISK_SERVICE_URI:http://risk-assessment-service:8014}
+          predicates:
+            - Path=/api/risk/**
 eureka:
   client:
     service-url:

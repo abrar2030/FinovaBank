@@ -1,0 +1,12 @@
+---
+# Ansible collection dependencies for the FinovaBank deployment playbook.
+# Install with: ansible-galaxy collection install -r requirements.yml
+#
+# These were previously undeclared, so a fresh control node running
+# playbook.yml would fail to resolve the ufw, pam_limits, docker_image, and
+# docker_compose modules.
+collections:
+  - name: community.general
+    version: ">=8.0.0"
+  - name: community.docker
+    version: ">=3.4.0"

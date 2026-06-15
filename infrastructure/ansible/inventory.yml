@@ -289,39 +289,39 @@ all:
 # Group variables for specific server types
 finova_servers:
   children:
-    - app_servers
-    - staging_app_servers
-    - dev_app_servers
+    app_servers:
+    staging_app_servers:
+    dev_app_servers:
 
 database_servers_all:
   children:
-    - database_servers
-    - staging_database_servers
-    - dev_database_servers
+    database_servers:
+    staging_database_servers:
+    dev_database_servers:
 
 load_balancers_all:
   children:
-    - load_balancers
+    load_balancers:
 
 bastion_hosts_all:
   children:
-    - bastion_hosts
+    bastion_hosts:
 
 # Security groups
 security_critical:
   children:
-    - database_servers_all
-    - bastion_hosts_all
+    database_servers_all:
+    bastion_hosts_all:
 
 compliance_required:
   children:
-    - app_servers
-    - database_servers_all
-    - load_balancers_all
+    app_servers:
+    database_servers_all:
+    load_balancers_all:
 
 monitoring_required:
   children:
-    - app_servers
-    - database_servers_all
-    - load_balancers_all
-    - bastion_hosts_all
+    app_servers:
+    database_servers_all:
+    load_balancers_all:
+    bastion_hosts_all:

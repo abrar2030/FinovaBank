@@ -774,7 +774,7 @@ EOF
 EOF
     fi
 
-    cat >> "$MONITORING_DIR/README.md" << EOF
+    cat >> "$MONITORING_DIR/README.md" << 'EOF'
 
 ## Getting Started
 
@@ -806,18 +806,18 @@ EOF
 EOF
     fi
 
-    cat >> "$MONITORING_DIR/README.md" << EOF
+    cat >> "$MONITORING_DIR/README.md" << 'EOF'
 
 ## Configuration
 
-- Configuration files are located in the \`config\` directory
-- Data is stored in the \`data\` directory
+- Configuration files are located in the `config` directory
+- Data is stored in the `data` directory
 
 ## Adding Application Metrics
 
 ### Spring Boot Applications
 
-For Spring Boot applications, add the following dependencies to your \`pom.xml\`:
+For Spring Boot applications, add the following dependencies to your `pom.xml`:
 
 ```xml
 <dependency>
@@ -830,7 +830,7 @@ For Spring Boot applications, add the following dependencies to your \`pom.xml\`
 </dependency>
 ```
 
-And add the following to your \`application.properties\` or \`application.yml\`:
+And add the following to your `application.properties` or `application.yml`:
 
 ```properties
 management.endpoints.web.exposure.include=health,info,prometheus
@@ -840,7 +840,7 @@ management.metrics.export.prometheus.enabled=true
 
 ### Node.js Applications
 
-For Node.js applications, use the \`prom-client\` package:
+For Node.js applications, use the `prom-client` package:
 
 ```javascript
 const express = require('express');
@@ -910,11 +910,11 @@ const logger = winston.createLogger({
 
 Alerts are configured in Prometheus and sent via AlertManager. To modify alert rules, edit:
 
-\`config/prometheus/alert_rules.yml\`
+`config/prometheus/alert_rules.yml`
 
 To modify alert receivers and routes, edit:
 
-\`config/alertmanager/alertmanager.yml\`
+`config/alertmanager/alertmanager.yml`
 EOF
 
     echo -e "${GREEN}README file created: $MONITORING_DIR/README.md${NC}"
