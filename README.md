@@ -9,7 +9,7 @@
 FinovaBank is a modern digital banking platform that combines traditional banking services with cutting-edge technologies like artificial intelligence and blockchain to provide secure, efficient, and personalized financial services.
 
 <div align="center">
-  <img src="docs/images/FinovaBank_dashboard.bmp" alt="FinovaBank Dashboard" width="80%">
+  <img src="docs/images/homepage.bmp" alt="FinovaBank HomePage" width="80%">
 </div>
 
 ## Table of Contents
