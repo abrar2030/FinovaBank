@@ -1,27 +1,25 @@
 # FinovaBank
 
-![CI/CD Status](https://img.shields.io/github/actions/workflow/status/quantsingularity/FinovaBank/cicd.yml?branch=main&label=CI/CD&logo=github)
-[![Test Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen)](https://github.com/quantsingularity/FinovaBank/actions)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![CI/CD Status](https://img.shields.io/github/actions/workflow/status/quantsingularity/FinovaBank/cicd.yml?branch=main&label=CI%2FCD&logo=github)
 
 ## Digital Banking Platform
 
-FinovaBank is a modern digital banking platform that combines traditional banking services with cutting-edge technologies like artificial intelligence and blockchain to provide secure, efficient, and personalized financial services.
+FinovaBank is a digital banking platform built as genuine Java microservices: a Eureka service registry, a Spring Cloud Gateway, and ten independent Spring Boot services covering auth, accounts, transactions, loans, savings goals, reporting, notifications, and security. Three Python/Flask AI services (fraud scoring, risk assessment, and compliance) are also genuinely routed through the same gateway under `/api/ai`, `/api/risk`, and `/api/compliance`, so the whole platform is reachable through one unified API surface.
 
 <div align="center">
-  <img src="docs/images/homepage.bmp" alt="FinovaBank HomePage" width="80%">
+  <img src="docs/images/homepage.bmp" alt="FinovaBank HomePage" width="100%">
 </div>
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Project Structure](#project-structure)
-- [Key Features](#key-features)
+- [Feature Status](#feature-status)
 - [Technology Stack](#technology-stack)
-- [Security Measures](#security-measures)
 - [Architecture](#architecture)
 - [Installation and Setup](#installation-and-setup)
-- [Usage](#usage)
+- [Running the Stack](#running-the-stack)
+- [API Surface](#api-surface)
 - [Testing](#testing)
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Documentation](#documentation)
@@ -30,404 +28,229 @@ FinovaBank is a modern digital banking platform that combines traditional bankin
 
 ## Overview
 
-FinovaBank is a comprehensive digital banking platform designed to provide a seamless banking experience for customers while leveraging modern technologies to enhance security, efficiency, and personalization. The platform offers traditional banking services alongside innovative features powered by AI and blockchain technology.
+FinovaBank demonstrates a digital banking workflow across a real, runnable set of Java and Python microservices, with substantial test suites on both sides (dozens of JUnit test files across the ten Java services). There is no blockchain code anywhere in this repository: no Solidity contracts, no Hyperledger or Ethereum client libraries, and nothing in either frontend references web3 or ethers. "Fraud detection" and "risk scoring" are real, deterministic, rule-based scoring engines (weighted feature checks) rather than trained machine learning models.
 
 ## Project Structure
 
-The project is organized into several main components:
-
 ```
 FinovaBank/
-├── backend/                # Core backend logic, services, and shared utilities
-├── docs/                   # Project documentation
-├── infrastructure/         # DevOps, deployment, and infra-related code
-├── mobile-frontend/        # Mobile application
-├── web-frontend/           # Web dashboard
-├── scripts/                # Automation, setup, and utility scripts
-├── LICENSE                 # License information
-└── README.md               # Project overview and instructions
+├── code/
+│   ├── backend/                                # Java microservices (Maven multi-module)
+│   │   ├── eureka-server/                      # Service registry
+│   │   ├── api-gateway/                        # Spring Cloud Gateway, routes to all 13 services
+│   │   ├── auth-service/                       # Registration, login, JWT
+│   │   ├── security-service/                   # Encryption and auth utilities (no REST API of its own)
+│   │   ├── account-management/                 # Account creation and management
+│   │   ├── transaction-service/                # Transfers, transaction history
+│   │   ├── loan-management/                    # Loan applications and management
+│   │   ├── savings-goals/                      # Savings goal tracking
+│   │   ├── reporting/                          # Report generation
+│   │   ├── notification-service/               # Sending notifications
+│   │   └── common (shared config, resources)
+│   └── ml-services/                            # 3 independent Python/Flask services, routed
+│       ├── ai-service/                         # Fraud detection, recommendations, analytics
+│       ├── risk-assessment/                    # Risk scoring
+│       └── compliance-service/                 # Compliance, audit, reporting
+├── web-frontend/                               # React (TypeScript) dashboard
+├── mobile-frontend/                            # React Native (Expo Router, TypeScript) app
+├── infrastructure/                             # Docker, Kubernetes, Terraform, Ansible, monitoring
+├── scripts/                                    # finovabank.sh (build/start/stop/list/frontend)
+│                                               # and other setup, deploy, and test scripts
+├── docs/                                       # Documentation (this directory)
+└── README.md
 ```
 
-## Key Features
+## Feature Status
 
-### Core Banking Services
+### Application tier (wired and tested)
 
-| Feature                | Description                                                             |
-| :--------------------- | :---------------------------------------------------------------------- |
-| **Account Management** | Create and manage various account types (checking, savings, investment) |
-| **Payment Processing** | Domestic and international transfers with real-time tracking            |
-| **Card Management**    | Virtual and physical card issuance and control                          |
-| **Loan Services**      | Application, approval, and management of various loan products          |
-| **Bill Payments**      | Automated and scheduled bill payments with reminders                    |
-
-### AI-Powered Financial Intelligence
-
-| Feature                   | Description                                                   |
-| :------------------------ | :------------------------------------------------------------ |
-| **Personalized Insights** | AI-driven analysis of spending patterns and financial habits  |
-| **Smart Budgeting**       | Automated budget recommendations based on income and expenses |
-| **Fraud Detection**       | Real-time monitoring and alerting for suspicious activities   |
-| **Credit Scoring**        | Alternative credit assessment using machine learning          |
-| **Chatbot Assistant**     | Natural language processing for customer support              |
-
-### Blockchain Integration
-
-| Feature                           | Description                                 |
-| :-------------------------------- | :------------------------------------------ |
-| **Immutable Transaction Records** | Blockchain-backed transaction history       |
-| **Smart Contracts**               | Automated execution of financial agreements |
-| **Digital Identity**              | Secure and portable KYC verification        |
-| **Cross-Border Payments**         | Fast and low-cost international transfers   |
-| **Tokenized Assets**              | Support for digital asset management        |
-
-### Open Banking & Integration
-
-| Feature                   | Description                                         |
-| :------------------------ | :-------------------------------------------------- |
-| **API Ecosystem**         | Developer-friendly APIs for third-party integration |
-| **Partner Marketplace**   | Curated financial services from partners            |
-| **Data Sharing Controls** | Granular permissions for data access                |
-| **Regulatory Compliance** | Built-in compliance with open banking regulations   |
-| **Analytics Dashboard**   | Insights for developers and partners                |
+| Component                          | Details                                                                                                                                                                                                                                                                                       |
+| :--------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Service registry and gateway**   | A real Eureka server, with a Spring Cloud Gateway that routes all 13 services (10 Java, 3 Python) under a single `/api` surface, using Eureka's load balancer for the Java services and direct URIs for the Python ones.                                                                      |
+| **Auth**                           | JWT issuance and validation in `auth-service`. The signing key falls back to a hardcoded default if `JWT_SECRET` is unset; the local development profile uses a value explicitly named for that purpose, but the default profile's fallback is not obviously marked as unsafe for production. |
+| **Core banking services**          | Nine further Java services: accounts, transactions, loans, savings goals, reporting, and notifications, each with its own controller, service layer, and JUnit test suite.                                                                                                                    |
+| **Security service**               | Encryption and authentication-flow utilities with their own tests, registered with Eureka; it has no REST controller of its own, so it isn't reachable as an API in its own right.                                                                                                            |
+| **Fraud detection**                | A deterministic, rule-based scoring engine in `ai-service`: transaction features are extracted and combined into a weighted risk score, not a trained classifier.                                                                                                                             |
+| **Risk assessment and compliance** | Two further Flask services, each genuinely routed through the gateway (`/api/risk`, `/api/compliance`), covering risk scoring, audit logging, and compliance reporting.                                                                                                                       |
+| **Web dashboard**                  | React and TypeScript app (Material-UI, Chart.js and react-chartjs-2, axios) covering the core banking, AI insights, and authentication screens.                                                                                                                                               |
+| **Mobile app**                     | React Native (Expo Router, TypeScript) app covering the same core areas.                                                                                                                                                                                                                      |
 
 ## Technology Stack
 
-### Backend
-
-- **Languages**: Java, Kotlin
-- **Frameworks**: Spring Boot, Quarkus
-- **Database**: PostgreSQL, MongoDB
-- **Message Queue**: Kafka, RabbitMQ
-- **Cache**: Redis
-- **Search**: Elasticsearch
-
-### Frontend
-
-- **Framework**: React with TypeScript
-- **State Management**: Redux Toolkit
-- **Styling**: Material-UI, Styled Components
-- **Data Visualization**: D3.js, Recharts
-- **Mobile**: React Native
-
-### AI & Machine Learning
-
-- **Languages**: Python, R
-- **Frameworks**: TensorFlow, PyTorch, scikit-learn
-- **NLP**: BERT, Transformers
-- **Data Processing**: Pandas, NumPy
-- **Model Serving**: TensorFlow Serving, MLflow
-
-### Blockchain
-
-- **Platforms**: Hyperledger Fabric, Ethereum
-- **Smart Contracts**: Solidity, Chaincode
-- **Integration**: Web3.js, Ethers.js
-- **Identity**: Decentralized Identifiers (DIDs)
-- **Consensus**: Practical Byzantine Fault Tolerance (PBFT)
-
-### DevOps & Infrastructure
-
-- **Containerization**: Docker
-- **Orchestration**: Kubernetes
-- **CI/CD**: GitHub Actions
-- **Monitoring**: Prometheus, Grafana
-- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
-- **Infrastructure as Code**: Terraform, Ansible
-
-## Security Measures
-
-FinovaBank implements multiple layers of security to protect customer data and financial assets:
-
-### Authentication & Authorization
-
-| Feature                         | Description                                |
-| :------------------------------ | :----------------------------------------- |
-| **Multi-Factor Authentication** | Biometric, SMS, and app-based verification |
-| **Role-Based Access Control**   | Granular permissions for system access     |
-| **OAuth 2.0/OpenID Connect**    | Secure authentication protocols            |
-| **JWT Tokens**                  | Secure API access                          |
-
-### Data Protection
-
-| Feature                   | Description               |
-| :------------------------ | :------------------------ |
-| **End-to-End Encryption** | For all data in transit   |
-| **At-Rest Encryption**    | For all stored data       |
-| **Data Masking**          | For sensitive information |
-| **Secure Key Management** | HSM integration           |
-
-### Compliance & Auditing
-
-| Feature                      | Description                         |
-| :--------------------------- | :---------------------------------- |
-| **Regulatory Compliance**    | GDPR, PSD2, CCPA, etc.              |
-| **Audit Logging**            | Comprehensive activity tracking     |
-| **Penetration Testing**      | Regular security assessments        |
-| **Vulnerability Management** | Continuous scanning and remediation |
-
-### Network Security
-
-| Feature                      | Description                                    |
-| :--------------------------- | :--------------------------------------------- |
-| **Web Application Firewall** | Protection against common attacks              |
-| **DDoS Protection**          | Mitigation of denial-of-service attacks        |
-| **API Security**             | Rate limiting and request validation           |
-| **Intrusion Detection**      | Real-time monitoring for suspicious activities |
-
-### DevSecOps
-
-| Feature                 | Description                                    |
-| :---------------------- | :--------------------------------------------- |
-| **Secure SDLC**         | Security integrated into development lifecycle |
-| **Security Automation** | Automated security testing in CI/CD            |
-| **Snyk/SonarQube**      | Security scanning for code and dependencies    |
-| **WAF/DDoS Protection** | Network security measures                      |
+| Area                            | Technology                                                                                                                                                                        |
+| :------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Backend services                | Java 17, Spring Boot 2.7.14, Spring Cloud, Maven (multi-module)                                                                                                                   |
+| Service discovery               | Netflix Eureka                                                                                                                                                                    |
+| API Gateway                     | Spring Cloud Gateway                                                                                                                                                              |
+| Auth                            | JJWT (JSON Web Tokens)                                                                                                                                                            |
+| Data layer                      | PostgreSQL (one database per service in the infrastructure-level compose file; the root compose file builds the services but expects you to supply your own PostgreSQL instances) |
+| AI / risk / compliance services | Python, Flask                                                                                                                                                                     |
+| Web frontend                    | React 18, TypeScript, Material-UI, Chart.js / react-chartjs-2, axios                                                                                                              |
+| Mobile frontend                 | React Native, Expo Router, TypeScript                                                                                                                                             |
+| Infrastructure                  | Docker, Docker Compose, Kubernetes, Terraform, Ansible                                                                                                                            |
+| Monitoring                      | Prometheus, Grafana                                                                                                                                                               |
+| CI/CD                           | GitHub Actions                                                                                                                                                                    |
+| Testing                         | JUnit and Spring Boot Test (Java services), pytest (Python services), Jest (web and mobile)                                                                                       |
 
 ## Architecture
 
-FinovaBank follows a microservices architecture with these key components:
+```
+Clients
+  ├── web-frontend (React, TypeScript)     ── HTTP/JSON ──┐
+  └── mobile-frontend (React Native)      ── HTTP/JSON ──┤
+                                                         ▼
+API Gateway (Spring Cloud Gateway)
+  /api/auth/**            -> auth-service
+  /api/accounts/**        -> account-management
+  /api/transactions/**    -> transaction-service
+  /api/loans/**           -> loan-management
+  /api/savings-goals/**   -> savings-goals
+  /api/reports/**         -> reporting
+  /api/notifications/**   -> notification-service
+  /api/security/**        -> security-service
+  /api/ai/**              -> ai-service (Python/Flask)
+  /api/risk/**            -> risk-assessment (Python/Flask)
+  /api/compliance/**      -> compliance-service (Python/Flask)
 
+Java microservices (Spring Boot, registered with Eureka)
+  auth · account-management · transaction-service · loan-management
+  savings-goals · reporting · notification-service · security-service
+  Data layer: PostgreSQL (one database per service)
+
+Python services (Flask, routed through the same gateway)
+  ai-service (rule-based fraud detection, recommendations, analytics)
+  risk-assessment · compliance-service
 ```
-FinovaBank/
-├── API Gateway
-│   ├── Authentication & Authorization
-│   ├── Request Routing
-│   ├── Rate Limiting
-│   └── API Documentation
-├── Core Banking Services
-│   ├── Account Service
-│   ├── Payment Service
-│   ├── Card Service
-│   ├── Loan Service
-│   └── Customer Service
-├── Blockchain Layer
-│   ├── Transaction Ledger
-│   ├── Smart Contract Engine
-│   ├── Digital Identity Service
-│   └── Asset Tokenization
-├── AI Engine
-│   ├── Fraud Detection
-│   ├── Financial Insights
-│   ├── Credit Scoring
-│   └── Chatbot Service
-├── Data Layer
-│   ├── Relational Database
-│   ├── Document Store
-│   ├── Time Series Database
-│   └── Data Warehouse
-└── Integration Layer
-    ├── Partner APIs
-    ├── Regulatory Reporting
-    ├── Payment Networks
-    └── External Services
-```
+
+See [docs/architecture.md](docs/architecture.md) for detail.
 
 ## Installation and Setup
 
-### Prerequisites
-
-- Java 11+
-- Node.js 14+
-- Python 3.8+
-- Docker and Docker Compose
-- Kubernetes cluster (for production deployment)
-
-### Quick Start with Setup Script
-
-```bash
-# Clone the repository
-git clone https://github.com/quantsingularity/FinovaBank.git
-cd FinovaBank
-
-# Run the setup script
-./finovabank.sh setup
-
-# Start the application
-./finovabank.sh start
-```
-
-### Manual Local Development Setup
-
-1. Clone the repository:
+Prerequisites: Java 17 and Maven, Node.js and npm, Python 3.11+, and Docker.
 
 ```bash
 git clone https://github.com/quantsingularity/FinovaBank.git
 cd FinovaBank
-```
 
-2. Install dependencies:
-
-```bash
-# Backend services
-cd backend
+# Java backend
+cd code/backend
 ./mvnw install
+cd ../..
 
-# API gateway
-cd ../gateway
-npm install
+# Python services (each has its own requirements.txt)
+for svc in code/ml-services/*/; do
+  if [ -f "${svc}requirements.txt" ]; then
+    pip install -r "${svc}requirements.txt"
+  fi
+done
 
-# Frontend
-cd ../web-frontend
-npm install
+# Web frontend
+cd web-frontend && npm install && cd ..
 
-# AI services
-cd ../ai-services
-pip install -r requirements.txt
+# Mobile frontend
+cd mobile-frontend && npm install && cd ..
 ```
 
-3. Set up environment variables:
+Full, environment-specific instructions are in [docs/INSTALLATION.md](docs/INSTALLATION.md).
+
+## Running the Stack
 
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
-```
-
-4. Start the development environment:
-
-```bash
+# Full local stack, building every Java and Python service from source
+# (from repo root, Docker required; you'll need to point each service at
+# your own PostgreSQL instance, since this file doesn't provision one)
 docker-compose up -d
+
+# Or run the Java services individually with the project script
+./scripts/finovabank.sh build
+./scripts/finovabank.sh start          # or: ./scripts/finovabank.sh start transaction-service
+./scripts/finovabank.sh list           # PIDs and status
+./scripts/finovabank.sh frontend       # web and mobile frontends
+
+# Web dashboard directly (from web-frontend)
+npm start
+
+# Mobile app directly (from mobile-frontend)
+npm start
 ```
 
-5. Initialize the database:
+For a production-style stack with per-service PostgreSQL containers and pre-built images, see `infrastructure/docker-compose.yml` and [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
-```bash
-cd backend
-./mvnw flyway:migrate
-```
+See [docs/USAGE.md](docs/USAGE.md) and [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
 
-### Production Deployment
+## API Surface
 
-For production deployment using Kubernetes:
+Through the gateway, base URL `http://localhost:8080/api`.
 
-```bash
-# Deploy to Kubernetes
-./kubernetes-auto-deploy.sh
-```
+| Group                                  | Prefix               | Backing service                   |
+| :------------------------------------- | :------------------- | :-------------------------------- |
+| Auth                                   | `/api/auth`          | auth-service (Java)               |
+| Accounts                               | `/api/accounts`      | account-management (Java)         |
+| Transactions                           | `/api/transactions`  | transaction-service (Java)        |
+| Loans                                  | `/api/loans`         | loan-management (Java)            |
+| Savings goals                          | `/api/savings-goals` | savings-goals (Java)              |
+| Reports                                | `/api/reports`       | reporting (Java)                  |
+| Notifications                          | `/api/notifications` | notification-service (Java)       |
+| Security                               | `/api/security`      | security-service (Java)           |
+| AI (fraud, recommendations, analytics) | `/api/ai`            | ai-service (Python/Flask)         |
+| Risk                                   | `/api/risk`          | risk-assessment (Python/Flask)    |
+| Compliance                             | `/api/compliance`    | compliance-service (Python/Flask) |
+
+Full request and response shapes are in [docs/API.md](docs/API.md).
 
 ## Testing
 
-The project maintains comprehensive test coverage across all components to ensure reliability and security.
-
-### Test Coverage
-
-| Component             | Coverage | Status |
-| --------------------- | -------- | ------ |
-| Core Banking Services | 92%      | ✅     |
-| API Gateway           | 88%      | ✅     |
-| Blockchain Layer      | 85%      | ✅     |
-| AI Engine             | 83%      | ✅     |
-| Frontend Components   | 80%      | ✅     |
-| Mobile App            | 82%      | ✅     |
-| Overall               | 85%      | ✅     |
-
-### Unit Tests
-
-| Component        | Test Type                       |
-| :--------------- | :------------------------------ |
-| Service layer    | Unit tests for business logic   |
-| Repository       | Unit tests for data access      |
-| Controller       | Unit tests for API endpoints    |
-| Utility function | Unit tests for helper functions |
-
-### Integration Tests
-
-| Component            | Test Type                                         |
-| :------------------- | :------------------------------------------------ |
-| API endpoint         | Integration tests for routing and response        |
-| Service interaction  | Integration tests for inter-service communication |
-| Database integration | Integration tests for data persistence            |
-| Message queue        | Integration tests for asynchronous communication  |
-
-### End-to-End Tests
-
-| Component               | Test Type                                       |
-| :---------------------- | :---------------------------------------------- |
-| User journey            | E2E tests for full user workflows               |
-| Cross-service workflows | E2E tests for complex, multi-service operations |
-| Payment processing      | E2E tests for transaction lifecycle             |
-| Account management      | E2E tests for account creation and modification |
-
-### Performance Tests
-
-| Test Type                    | Purpose                                       |
-| :--------------------------- | :-------------------------------------------- |
-| Load testing                 | To assess system behavior under expected load |
-| Stress testing               | To determine system breaking point            |
-| Scalability testing          | To verify horizontal scaling capabilities     |
-| Database performance testing | To optimize data layer efficiency             |
-
-### Security Tests
-
-| Test Type              | Purpose                                      |
-| :--------------------- | :------------------------------------------- |
-| Penetration testing    | To identify and exploit vulnerabilities      |
-| Vulnerability scanning | Continuous scanning of code and dependencies |
-| Authentication tests   | To ensure secure login mechanisms            |
-| Authorization tests    | To verify granular access control            |
-
-### Running Tests
-
 ```bash
-# Run backend tests
-cd backend
+# Java services (from code/backend)
 ./mvnw test
 
-# Run frontend tests
-cd web-frontend
+# A single Python service (from its own directory under code/ml-services)
+pytest
+
+# Web (from web-frontend)
 npm test
 
-# Run mobile app tests
-cd mobile-frontend
+# Mobile (from mobile-frontend)
 npm test
 
-# Run all tests
-./finovabank.sh test
+# Everything, via the project script (from repo root)
+./scripts/finovabank_test.sh
 ```
+
+Every one of the ten Java services has its own JUnit test suite (1 to 5 files each, 39 files in total). Each of the 3 Python services has its own pytest suite. The web dashboard has 18 test files; the mobile app has 1.
 
 ## CI/CD Pipeline
 
-FinovaBank uses GitHub Actions for continuous integration and deployment:
+GitHub Actions (`.github/workflows/cicd.yml`) runs four jobs on push, pull request, and manual dispatch:
 
-| Stage                | Control Area                    | Institutional-Grade Detail                                                              |
-| :------------------- | :------------------------------ | :-------------------------------------------------------------------------------------- |
-| **Formatting Check** | Change Triggers                 | Enforced on all `push` and `pull_request` events to `main` and `develop`                |
-|                      | Manual Oversight                | On-demand execution via controlled `workflow_dispatch`                                  |
-|                      | Source Integrity                | Full repository checkout with complete Git history for auditability                     |
-|                      | Python Runtime Standardization  | Python 3.10 with deterministic dependency caching                                       |
-|                      | Backend Code Hygiene            | `autoflake` to detect unused imports/variables using non-mutating diff-based validation |
-|                      | Backend Style Compliance        | `black --check` to enforce institutional formatting standards                           |
-|                      | Non-Intrusive Validation        | Temporary workspace comparison to prevent unauthorized source modification              |
-|                      | Node.js Runtime Control         | Node.js 18 with locked dependency installation via `npm ci`                             |
-|                      | Web Frontend Formatting Control | Prettier checks for web-facing assets                                                   |
-|                      | Mobile Frontend Formatting      | Prettier enforcement for mobile application codebases                                   |
-|                      | Documentation Governance        | Repository-wide Markdown formatting enforcement                                         |
-|                      | Infrastructure Configuration    | Prettier validation for YAML/YML infrastructure definitions                             |
-|                      | Compliance Gate                 | Any formatting deviation fails the pipeline and blocks merge                            |
+| Job                 | Depends on          | What it does                                                                  |
+| :------------------ | :------------------ | :---------------------------------------------------------------------------- |
+| Code Quality Checks | -                   | Formatter checks across the repository                                        |
+| Backend Build       | Code Quality Checks | Builds all Java services with Maven and uploads the built JARs as an artifact |
+| Backend Tests       | Backend Build       | Runs the JUnit test suites and publishes a test report                        |
+| Web Build           | Code Quality Checks | Builds the web frontend and uploads the build artifact (no test step)         |
+
+There is currently no CI job for the Python services or the mobile app.
 
 ## Documentation
 
-| Document                    | Path                 | Description                                                    |
-| :-------------------------- | :------------------- | :------------------------------------------------------------- |
-| **README**                  | `README.md`          | High-level overview, project scope, and repository entry point |
-| **Installation Guide**      | `INSTALLATION.md`    | Step-by-step installation and environment setup                |
-| **API Reference**           | `API.md`             | Detailed documentation for all API endpoints                   |
-| **CLI Reference**           | `CLI.md`             | Command-line interface usage, commands, and examples           |
-| **User Guide**              | `USAGE.md`           | Comprehensive end-user guide, workflows, and examples          |
-| **Architecture Overview**   | `ARCHITECTURE.md`    | System architecture, components, and design rationale          |
-| **Configuration Guide**     | `CONFIGURATION.md`   | Configuration options, environment variables, and tuning       |
-| **Feature Matrix**          | `FEATURE_MATRIX.md`  | Feature coverage, capabilities, and roadmap alignment          |
-| **Contributing Guidelines** | `CONTRIBUTING.md`    | Contribution workflow, coding standards, and PR requirements   |
-| **Troubleshooting**         | `TROUBLESHOOTING.md` | Common issues, diagnostics, and remediation steps              |
+| Document                                           | Contents                               |
+| :------------------------------------------------- | :------------------------------------- |
+| [docs/README.md](docs/README.md)                   | Documentation index                    |
+| [docs/architecture.md](docs/architecture.md)       | System architecture                    |
+| [docs/API.md](docs/API.md)                         | REST API reference                     |
+| [docs/INSTALLATION.md](docs/INSTALLATION.md)       | Setup for all components               |
+| [docs/CONFIGURATION.md](docs/CONFIGURATION.md)     | Environment variables and config       |
+| [docs/USAGE.md](docs/USAGE.md)                     | Running and using the platform         |
+| [docs/CLI.md](docs/CLI.md)                         | Helper scripts reference               |
+| [docs/FEATURE_MATRIX.md](docs/FEATURE_MATRIX.md)   | Feature status, implemented vs planned |
+| [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common issues and fixes                |
+| [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)       | Contribution guide                     |
+| [docs/examples/](docs/examples/)                   | Worked examples                        |
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
 ## License
 
