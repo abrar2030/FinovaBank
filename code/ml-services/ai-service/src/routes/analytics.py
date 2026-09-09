@@ -171,8 +171,6 @@ class AnalyticsEngine:
             + rfm_df["M_Score"].astype(str)
         )
 
-        # BUG FIX: "At Risk" and "Cannot Lose Them" had identical score sets,
-        # making "Cannot Lose Them" unreachable. Fixed with distinct score sets.
         def categorize_customer(row):
             if row["RFM_Score"] in ["555", "554", "544", "545", "454", "455", "445"]:
                 return "Champions"
@@ -221,8 +219,7 @@ class AnalyticsEngine:
                 "243",
                 "242",
             ]:
-                # BUG FIX: Previously identical to "At Risk" — now uses correct high-value
-                # churning customer scores (high M/F, low R)
+
                 return "Cannot Lose Them"
             else:
                 return "Others"
@@ -341,7 +338,6 @@ class AnalyticsEngine:
 
         df = pd.DataFrame(product_data)
 
-        # BUG FIX: Previously computed but discarded; now properly assigned.
         revenue_by_product = df.groupby("product_type")["revenue"].sum().to_dict()
         customer_count_by_product = (
             df.groupby("product_type")["customer_id"].nunique().to_dict()

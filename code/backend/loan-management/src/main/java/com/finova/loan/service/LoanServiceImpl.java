@@ -20,7 +20,6 @@ public class LoanServiceImpl implements LoanService {
   @Override
   @Transactional(readOnly = true)
   public Loan getLoanById(Long id) {
-    // BUG FIX: orElse(null) caused silent NullPointerExceptions downstream.
     return loanRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Loan not found with ID: " + id));

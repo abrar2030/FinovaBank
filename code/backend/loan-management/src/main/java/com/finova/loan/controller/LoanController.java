@@ -25,8 +25,6 @@ public class LoanController {
   @Operation(summary = "Get loan by ID")
   public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
     log.debug("Fetching loan with ID: {}", id);
-    // BUG FIX: Service now throws RuntimeException on missing entity (handled by
-    // GlobalExceptionHandler), so the old null-check dead-code is removed.
     return ResponseEntity.ok(loanService.getLoanById(id));
   }
 

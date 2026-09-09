@@ -25,8 +25,6 @@ public class SavingsGoalController {
   @Operation(summary = "Get savings goal by ID")
   public ResponseEntity<SavingsGoal> getSavingsGoalById(@PathVariable Long id) {
     log.debug("Fetching savings goal with ID: {}", id);
-    // BUG FIX: Service now throws RuntimeException on missing entity (handled by
-    // GlobalExceptionHandler), so the old null-check dead-code is removed.
     return ResponseEntity.ok(savingsGoalService.getSavingsGoalById(id));
   }
 

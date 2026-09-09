@@ -23,8 +23,6 @@ class FraudDetectionEngine:
     def load_models(self):
         """Load pre-trained models or initialize with default parameters"""
         try:
-            # In a real implementation, you would load pre-trained models
-            # For demo purposes, we'll use rule-based detection with ML-like scoring
             logger.info("Fraud detection models loaded successfully")
         except Exception as e:
             logger.warning(f"Could not load models: {e}. Using rule-based detection.")
@@ -38,9 +36,6 @@ class FraudDetectionEngine:
         features["amount_log"] = np.log1p(features["amount"])
 
         # Time-based features
-        # BUG FIX: datetime.fromisoformat() can return timezone-aware datetimes
-        # (e.g. "2024-01-01T10:00:00+00:00"), which cannot be subtracted from
-        # naive datetime.now(). Strip tzinfo to avoid TypeError at runtime.
         raw_ts = transaction_data.get("timestamp", datetime.now().isoformat())
         transaction_time = datetime.fromisoformat(raw_ts).replace(tzinfo=None)
         features["hour"] = transaction_time.hour

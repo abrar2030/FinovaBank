@@ -20,7 +20,6 @@ public class SavingsGoalServiceImpl implements SavingsGoalService {
   @Override
   @Transactional(readOnly = true)
   public SavingsGoal getSavingsGoalById(Long id) {
-    // BUG FIX: orElse(null) caused silent NullPointerExceptions downstream.
     return savingsGoalRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Savings goal not found with ID: " + id));

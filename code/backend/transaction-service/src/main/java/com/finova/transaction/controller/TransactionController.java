@@ -25,8 +25,6 @@ public class TransactionController {
   @Operation(summary = "Get transaction by ID")
   public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
     log.debug("Fetching transaction with ID: {}", id);
-    // BUG FIX: Service now throws RuntimeException on missing entity (handled by
-    // GlobalExceptionHandler), so the old null-check dead-code is removed.
     return ResponseEntity.ok(transactionService.getTransactionById(id));
   }
 

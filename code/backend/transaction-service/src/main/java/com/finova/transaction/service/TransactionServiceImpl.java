@@ -22,7 +22,6 @@ public class TransactionServiceImpl implements TransactionService {
   @Override
   @Transactional(readOnly = true)
   public Transaction getTransactionById(Long id) {
-    // BUG FIX: orElse(null) caused silent NullPointerExceptions downstream.
     return transactionRepository
         .findById(id)
         .orElseThrow(() -> new RuntimeException("Transaction not found with ID: " + id));

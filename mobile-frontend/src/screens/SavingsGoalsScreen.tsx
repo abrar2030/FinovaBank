@@ -18,7 +18,7 @@ import type { RouteProp } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
 import type { TabParamList } from "../navigation/AppNavigator";
 import {
-  contributeToSavingsGoal, // Bug fix: was "contributeTosavingsGoal"
+  contributeToSavingsGoal,
   createSavingsGoal,
   deleteSavingsGoal,
   getAccountSavingsGoals,
@@ -163,7 +163,6 @@ const SavingsGoalsScreen = () => {
 
     setSubmitting(true);
     try {
-      // Bug fix: was contributeTosavingsGoal
       await contributeToSavingsGoal(selectedGoalId, { amount: amt });
       const goalName =
         goals.find((g) => g.id === selectedGoalId)?.name ?? "goal";

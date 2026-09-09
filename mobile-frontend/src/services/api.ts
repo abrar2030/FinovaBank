@@ -116,7 +116,6 @@ export const updateSavingsGoal = (goalId: string, data: ApiRecord) =>
 export const deleteSavingsGoal = (goalId: string) =>
   apiClient.delete(`/savings/${goalId}`);
 
-// Bug fix: was "contributeTosavingsGoal" — corrected casing
 export const contributeToSavingsGoal = (
   goalId: string,
   data: { amount: number },

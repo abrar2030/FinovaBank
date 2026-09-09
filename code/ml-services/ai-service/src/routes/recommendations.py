@@ -144,7 +144,6 @@ class RecommendationEngine:
         # Basic demographics
         age = customer_data.get("age", 30)
         income = customer_data.get("annual_income", 50000)
-        # BUG FIX: employment_status was retrieved but never assigned or used.
         employment_status = customer_data.get("employment_status", "employed")
 
         # Financial data
@@ -212,8 +211,6 @@ class RecommendationEngine:
 
         recommendations = []
 
-        # BUG FIX: life_stage was retrieved but never used. Now properly referenced
-        # in product filtering logic.
         life_stage = customer_profile.get("life_stage", "early_career")
         risk_tolerance = customer_profile.get("risk_tolerance", "medium")
         financial_health = customer_profile.get("financial_health", {})
