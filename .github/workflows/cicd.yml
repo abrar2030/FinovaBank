@@ -124,12 +124,12 @@ jobs:
           fail_on_failure: true
 
   # ============================================================
-  # Job 4 -- Web Build
+  # Job 4 -- Web Frontend Build
   # ============================================================
-  web_build:
-    name: Web Build
+  web-frontend_build:
+    name: Web-Frontend Build
     runs-on: ubuntu-latest
-    needs: code_quality_checks
+    needs: code_quality
 
     defaults:
       run:
