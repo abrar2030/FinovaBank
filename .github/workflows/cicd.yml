@@ -129,7 +129,7 @@ jobs:
   web-frontend_build:
     name: Web-Frontend Build
     runs-on: ubuntu-latest
-    needs: code_quality
+    needs: code_quality_checks
 
     defaults:
       run:
