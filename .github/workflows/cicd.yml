@@ -11,7 +11,7 @@ jobs:
   # ============================================================
   # Job 1 -- Code Quality Checks
   # ============================================================
-  code_quality_checks:
+  code_quality:
     name: Code Quality Checks
     runs-on: ubuntu-latest
 
@@ -57,7 +57,7 @@ jobs:
   backend_build:
     name: Backend Build
     runs-on: ubuntu-latest
-    needs: code_quality_checks
+    needs: code_quality
 
     env:
       BACKEND_DIR: code/backend
